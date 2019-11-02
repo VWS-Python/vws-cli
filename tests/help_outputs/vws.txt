@@ -1,0 +1,7 @@
+Usage: vws [OPTIONS] COMMAND [ARGS]...
+
+  Manage VWS.
+
+Options:
+  --version   Show the version and exit.
+  -h, --help  Show this message and exit.
