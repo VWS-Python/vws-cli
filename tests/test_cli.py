@@ -2,7 +2,8 @@
 Tests for the VWS CLI.
 """
 
-import click
+from vws_cli import vws
+from click.testing import CliRunner
 
 def test_version():
     """
@@ -16,5 +17,5 @@ def test_version():
     )
 
     assert result.exit_code == 0
-    expected = 'minidcos, version'
-    assert expected in result.output
+    expected = 'vws, version'
+    assert expected in result.stdout
