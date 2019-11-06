@@ -28,6 +28,7 @@ def server_access_key_option(
         '--server-access-key',
         type=str,
         help='XXX',
+        required=True,
     )
     function: Callable[..., None] = click_option_function(command)
     return function
@@ -42,6 +43,7 @@ def server_secret_key_option(
         '--server-secret-key',
         type=str,
         help='XXX',
+        required=True,
     )
     function: Callable[..., None] = click_option_function(command)
     return function
