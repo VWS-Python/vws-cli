@@ -1,5 +1,7 @@
 import click
 from typing import Callable
+from vws import VWS
+
 
 _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -52,6 +54,11 @@ def list_targets(
     server_access_key: str,
     server_secret_key: str,
 ):
-    pass
+    vws_client = VWS(
+        server_access_key=server_access_key,
+        server_secret_key=server_secret_key,
+    )
+    targets = vws_client.list_targets()
+    import pdb; pdb.set_trace()
 
 vws_group.add_command(list_targets)
