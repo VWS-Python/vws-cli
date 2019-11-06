@@ -1,6 +1,6 @@
 Usage: vws list-targets [OPTIONS]
 
 Options:
-  --server-access-key TEXT  XXX
-  --server-secret-key TEXT  XXX
+  --server-access-key TEXT  XXX  [required]
+  --server-secret-key TEXT  XXX  [required]
   -h, --help                Show this message and exit.
