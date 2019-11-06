@@ -21,7 +21,6 @@ def _mock_database() -> Iterator[VuforiaDatabase]:
         mock.add_database(database=database)
         yield database
 
-# TODO list targets empty
 # TODO list targets after adding a target
 # TODO use credentials file?
 # TODO generic auth error test
@@ -37,5 +36,5 @@ def test_list_targets(_mock_database: VuforiaDatabase) -> None:
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
-    expected = 'vws, version'
-    assert expected in result.stdout
+    expected = ''
+    assert result.stdout == expected
