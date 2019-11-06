@@ -50,3 +50,24 @@ def test_get_target_record(
         'width': 1,
     }
     assert result_data == expected_result_data
+
+
+def test_target_does_not_exist(
+    mock_database: VuforiaDatabase,
+    vws_client: VWS,
+) -> None:
+    runner = CliRunner()
+    commands = [
+        'get-target-record',
+        '--target-id',
+        'x',
+        '--server-access-key',
+        mock_database.server_access_key,
+        '--server-secret-key',
+        mock_database.server_secret_key,
+    ]
+    result = runner.invoke(vws_group, commands, catch_exceptions=False, mix_stderr=True)
+    assert result.exit_code == 1
+    expected_stderr = 'Target "x" does not exist.'
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''

@@ -1,6 +1,8 @@
 import click
+import sys
 from typing import Callable
 from vws import VWS
+from vws.exceptions import UnknownTarget
 import yaml
 
 
@@ -105,11 +107,18 @@ def get_target_record(
     server_secret_key: str,
     target_id: str,
 ) -> None:
+    sys.stderr.write('a')
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
     )
-    record = vws_client.get_target_record(target_id=target_id)
+    try:
+        record = vws_client.get_target_record(target_id=target_id)
+    except UnknownTarget:
+        sys.stderr.write('ass')
+        click.echo(f'Target "{target_id}" does not exist.', err=True)
+        sys.exit(1)
+
     yaml_record = yaml.dump(record)
     click.echo(yaml_record)
 
