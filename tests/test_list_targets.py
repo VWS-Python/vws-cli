@@ -4,6 +4,7 @@ XXX
 
 import pytest
 from typing import Iterator
+from textwrap import dedent
 
 from click.testing import CliRunner
 import io
@@ -76,7 +77,9 @@ def test_list_targets(
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
     expected = dedent(
-        f'{target_id_1}',
-        f'{target_id_2}',
+        f"""\
+        {target_id_1}
+        {target_id_2}
+        """
     )
     assert result.stdout == expected

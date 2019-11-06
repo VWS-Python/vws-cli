@@ -59,6 +59,7 @@ def list_targets(
         server_secret_key=server_secret_key,
     )
     targets = vws_client.list_targets()
-    import pdb; pdb.set_trace()
+    for target_id in targets:
+        click.echo(target_id)
 
 vws_group.add_command(list_targets)
