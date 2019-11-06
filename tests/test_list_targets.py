@@ -2,6 +2,12 @@
 XXX
 """
 
+import pytest
+from typing import Iterator
+
+from click.testing import CliRunner
+from vws_cli import vws_group
+
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 
@@ -25,13 +31,11 @@ def test_list_targets(_mock_database: VuforiaDatabase) -> None:
     commands = [
         'list-targets',
         '--client-access-key',
-        client_access_key]
-    result = runner.invoke(
-        vws_group,
-        ['--version'],
-        catch_exceptions=False,
-    )
-
+        _mock_database.client_access_key,
+        '--client-secret-key',
+        _mock_database.client_secret_key,
+    ]
+    result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
     expected = 'vws, version'
     assert expected in result.stdout
