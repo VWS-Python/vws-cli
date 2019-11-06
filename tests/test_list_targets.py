@@ -29,10 +29,10 @@ def test_list_targets(_mock_database: VuforiaDatabase) -> None:
     runner = CliRunner()
     commands = [
         'list-targets',
-        '--client-access-key',
-        _mock_database.client_access_key,
-        '--client-secret-key',
-        _mock_database.client_secret_key,
+        '--server-access-key',
+        _mock_database.server_access_key,
+        '--server-secret-key',
+        _mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0

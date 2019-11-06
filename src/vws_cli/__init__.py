@@ -16,28 +16,28 @@ def vws_group() -> None:
     Manage VWS.
     """
 
-def client_access_key_option(
+def server_access_key_option(
     command: Callable[..., None],
 ) -> Callable[..., None]:
     """
     An option decorator for XXX.
     """
     click_option_function: Callable[[Callable[..., None]], Callable[..., None]] = click.option(
-        '--client-access-key',
+        '--server-access-key',
         type=str,
         help='XXX',
     )
     function: Callable[..., None] = click_option_function(command)
     return function
 
-def client_secret_key_option(
+def server_secret_key_option(
     command: Callable[..., None],
 ) -> Callable[..., None]:
     """
     An option decorator for XXX.
     """
     click_option_function: Callable[[Callable[..., None]], Callable[..., None]] = click.option(
-        '--client-secret-key',
+        '--server-secret-key',
         type=str,
         help='XXX',
     )
@@ -46,11 +46,11 @@ def client_secret_key_option(
 
 
 @click.command(name='list-targets')
-@client_access_key_option
-@client_secret_key_option
+@server_access_key_option
+@server_secret_key_option
 def list_targets(
-    client_access_key: str,
-    client_secret_key: str,
+    server_access_key: str,
+    server_secret_key: str,
 ):
     pass
 
