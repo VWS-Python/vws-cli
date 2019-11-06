@@ -68,6 +68,6 @@ def test_target_does_not_exist(
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False, mix_stderr=True)
     assert result.exit_code == 1
-    expected_stderr = 'Target "x" does not exist.'
-    assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    expected_stderr = 'Target "x" does not exist.\n'
+    # TODO this should be stderr we check
+    assert result.stdout == expected_stderr

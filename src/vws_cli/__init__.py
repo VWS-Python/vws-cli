@@ -107,7 +107,6 @@ def get_target_record(
     server_secret_key: str,
     target_id: str,
 ) -> None:
-    sys.stderr.write('a')
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
@@ -115,7 +114,6 @@ def get_target_record(
     try:
         record = vws_client.get_target_record(target_id=target_id)
     except UnknownTarget:
-        sys.stderr.write('ass')
         click.echo(f'Target "{target_id}" does not exist.', err=True)
         sys.exit(1)
 
