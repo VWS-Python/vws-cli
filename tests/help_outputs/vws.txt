@@ -7,4 +7,5 @@ Options:
   -h, --help  Show this message and exit.
 
 Commands:
+  get-database-summary-report
   list-targets

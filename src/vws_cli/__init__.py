@@ -1,6 +1,7 @@
 import click
 from typing import Callable
 from vws import VWS
+import yaml
 
 
 _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -55,7 +56,7 @@ def server_secret_key_option(
 def list_targets(
     server_access_key: str,
     server_secret_key: str,
-):
+) -> None:
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
@@ -64,4 +65,20 @@ def list_targets(
     for target_id in targets:
         click.echo(target_id)
 
+@click.command(name='get-database-summary-report')
+@server_access_key_option
+@server_secret_key_option
+def get_database_summary_report(
+    server_access_key: str,
+    server_secret_key: str,
+) -> None:
+    vws_client = VWS(
+        server_access_key=server_access_key,
+        server_secret_key=server_secret_key,
+    )
+    report = vws_client.get_database_summary_report()
+    yaml_report = yaml.dump(report)
+    click.echo(yaml_report)
+
 vws_group.add_command(list_targets)
+vws_group.add_command(get_database_summary_report)
