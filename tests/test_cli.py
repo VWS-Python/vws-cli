@@ -7,7 +7,7 @@ from click.testing import CliRunner
 
 def test_version():
     """
-    The CLI version is shown with ``vws--version``.
+    The CLI version is shown with ``vws --version``.
     """
     runner = CliRunner()
     result = runner.invoke(
@@ -19,3 +19,9 @@ def test_version():
     assert result.exit_code == 0
     expected = 'vws, version'
     assert expected in result.stdout
+
+def test_list_targets():
+    """
+    XXX
+    """
+    pass
