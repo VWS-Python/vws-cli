@@ -2,16 +2,16 @@
 Tests for the VWS CLI.
 """
 
-from vws_cli import vws
+from vws_cli import vws_group
 from click.testing import CliRunner
 
 def test_version():
     """
-    The CLI version is shown with ``minidcos --version``.
+    The CLI version is shown with ``vws--version``.
     """
     runner = CliRunner()
     result = runner.invoke(
-        vws,
+        vws_group,
         ['--version'],
         catch_exceptions=False,
     )

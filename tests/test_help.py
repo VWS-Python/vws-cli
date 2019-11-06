@@ -3,14 +3,14 @@ Tests for the VWS CLI help.
 """
 
 import pytest
-from vws_cli import vws
+from vws_cli import vws_group
 from click.testing import CliRunner
 from pathlib import Path
 import os
 
 from typing import List
 
-_SUBCOMMANDS = [[item] for item in vws.commands.keys()]
+_SUBCOMMANDS = [[item] for item in vws_group.commands.keys()]
 _BASE_COMMAND: List[List[str]] = [[]]
 _COMMANDS = _BASE_COMMAND + _SUBCOMMANDS
 
@@ -30,7 +30,7 @@ def test_help(command: List[str]) -> None:
     """
     runner = CliRunner()
     arguments = command + ['--help']
-    result = runner.invoke(vws, arguments, catch_exceptions=False)
+    result = runner.invoke(vws_group, arguments, catch_exceptions=False)
     assert result.exit_code == 0
     help_output_filename = '-'.join(['vws'] + command) + '.txt'
     help_outputs_dir = Path(__file__).parent / 'help_outputs'
