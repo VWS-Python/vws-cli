@@ -15,3 +15,8 @@ def vws_group() -> None:
     Manage VWS.
     """
 
+@click.command(name='list-targets')
+def list_targets():
+    pass
+
+vws_group.add_command(list_targets)
