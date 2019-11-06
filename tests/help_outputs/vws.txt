@@ -8,4 +8,5 @@ Options:
 
 Commands:
   get-database-summary-report
+  get-target-record
   list-targets

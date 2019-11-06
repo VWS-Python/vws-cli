@@ -34,6 +34,22 @@ def server_access_key_option(
     function: Callable[..., None] = click_option_function(command)
     return function
 
+
+def target_id_option(
+    command: Callable[..., None],
+) -> Callable[..., None]:
+    """
+    An option decorator for XXX.
+    """
+    click_option_function: Callable[[Callable[..., None]], Callable[..., None]] = click.option(
+        '--target-id',
+        type=str,
+        help='XXX',
+        required=True,
+    )
+    function: Callable[..., None] = click_option_function(command)
+    return function
+
 def server_secret_key_option(
     command: Callable[..., None],
 ) -> Callable[..., None]:
@@ -80,5 +96,23 @@ def get_database_summary_report(
     yaml_report = yaml.dump(report)
     click.echo(yaml_report)
 
+@click.command(name='get-target-record')
+@server_access_key_option
+@server_secret_key_option
+@target_id_option
+def get_target_record(
+    server_access_key: str,
+    server_secret_key: str,
+    target_id: str,
+) -> None:
+    vws_client = VWS(
+        server_access_key=server_access_key,
+        server_secret_key=server_secret_key,
+    )
+    record = vws_client.get_target_record(target_id=target_id)
+    yaml_record = yaml.dump(record)
+    click.echo(yaml_record)
+
 vws_group.add_command(list_targets)
 vws_group.add_command(get_database_summary_report)
+vws_group.add_command(get_target_record)
