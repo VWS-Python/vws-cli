@@ -5,9 +5,17 @@ XXX
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 
-def test_list_targets():
+@pytest.fixture()
+def _mock_database() -> Iterator[VuforiaDatabase]:
+    """
+    Yield a mock ``VuforiaDatabase``.
+    """
     with MockVWS() as mock:
         database = VuforiaDatabase()
         mock.add_database(database=database)
+        yield database
 
-    pass
+def test_list_targets(_mock_database: VuforiaDatabase) -> None:
+    with MockVWS() as mock:
+        database = VuforiaDatabase()
+        mock.add_database(database=database)
