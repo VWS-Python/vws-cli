@@ -19,9 +19,3 @@ def test_version():
     assert result.exit_code == 0
     expected = 'vws, version'
     assert expected in result.stdout
-
-def test_list_targets():
-    """
-    XXX
-    """
-    pass
