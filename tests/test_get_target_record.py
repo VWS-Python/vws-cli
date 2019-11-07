@@ -12,8 +12,6 @@ from vws import VWS
 from mock_vws.database import VuforiaDatabase
 
 
-# TODO what if target does not exist?
-
 def test_get_target_record(
     mock_database: VuforiaDatabase,
     vws_client: VWS,
