@@ -2,14 +2,13 @@
 XXX
 """
 
-import pytest
+import io
 from typing import Iterator
 
-import io
-
+import pytest
 from mock_vws import MockVWS
-from vws import VWS
 from mock_vws.database import VuforiaDatabase
+from vws import VWS
 
 
 @pytest.fixture()
