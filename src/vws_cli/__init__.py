@@ -5,6 +5,11 @@ from vws import VWS
 from vws.exceptions import UnknownTarget
 import yaml
 
+from .options.credentials import (
+    server_access_key_option,
+    server_secret_key_option,
+)
+
 
 _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -21,24 +26,6 @@ def vws_group() -> None:
     Manage VWS.
     """
 
-
-def server_access_key_option(
-    command: Callable[..., None],
-) -> Callable[..., None]:
-    """
-    An option decorator for XXX.
-    """
-    click_option_function: Callable[
-        [Callable[..., None]],
-        Callable[..., None],
-    ] = click.option(
-        '--server-access-key',
-        type=str,
-        help='XXX',
-        required=True,
-    )
-    function: Callable[..., None] = click_option_function(command)
-    return function
 
 
 def target_id_option(
@@ -60,23 +47,6 @@ def target_id_option(
     return function
 
 
-def server_secret_key_option(
-    command: Callable[..., None],
-) -> Callable[..., None]:
-    """
-    An option decorator for XXX.
-    """
-    click_option_function: Callable[
-        [Callable[..., None]],
-        Callable[..., None],
-    ] = click.option(
-        '--server-secret-key',
-        type=str,
-        help='XXX',
-        required=True,
-    )
-    function: Callable[..., None] = click_option_function(command)
-    return function
 
 
 @click.command(name='list-targets')
