@@ -3,8 +3,9 @@ Setup script for DC/OS End to End tests.
 """
 
 from pathlib import Path
-from setuptools import find_packages, setup
 from typing import List
+
+from setuptools import find_packages, setup
 
 
 def _get_dependencies(requirements_file: Path) -> List[str]:

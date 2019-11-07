@@ -2,8 +2,9 @@
 Tests for the VWS CLI.
 """
 
-from vws_cli import vws_group
 from click.testing import CliRunner
+
+from vws_cli import vws_group
 
 
 def test_version():

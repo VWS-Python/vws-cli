@@ -2,13 +2,14 @@
 Tests for the VWS CLI help.
 """
 
-import pytest
-from vws_cli import vws_group
-from click.testing import CliRunner
-from pathlib import Path
 import os
-
+from pathlib import Path
 from typing import List
+
+import pytest
+from click.testing import CliRunner
+
+from vws_cli import vws_group
 
 _SUBCOMMANDS = [[item] for item in vws_group.commands.keys()]
 _BASE_COMMAND: List[List[str]] = [[]]
