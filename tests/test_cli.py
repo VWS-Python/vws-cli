@@ -7,7 +7,7 @@ from click.testing import CliRunner
 from vws_cli import vws_group
 
 
-def test_version():
+def test_version() -> None:
     """
     The CLI version is shown with ``vws --version``.
     """
