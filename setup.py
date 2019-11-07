@@ -62,6 +62,6 @@ setup(
     dependency_links=[],
     entry_points="""
         [console_scripts]
-        vws=vws_cli:vws
+        vws=vws_cli:vws_group
     """,
 )

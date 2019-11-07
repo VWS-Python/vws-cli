@@ -5,3 +5,8 @@ Usage: vws [OPTIONS] COMMAND [ARGS]...
 Options:
   --version   Show the version and exit.
   -h, --help  Show this message and exit.
+
+Commands:
+  get-database-summary-report
+  get-target-record
+  list-targets
