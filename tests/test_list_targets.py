@@ -12,7 +12,6 @@ from vws import VWS
 from mock_vws.database import VuforiaDatabase
 
 
-# TODO use credentials file?
 # TODO generic auth error test (secret and client keys)
 # TODO generic request time too skewed test
 
