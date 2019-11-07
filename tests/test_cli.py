@@ -5,6 +5,7 @@ Tests for the VWS CLI.
 from vws_cli import vws
 from click.testing import CliRunner
 
+
 def test_version():
     """
     The CLI version is shown with ``minidcos --version``.

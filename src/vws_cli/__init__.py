@@ -8,10 +8,9 @@ _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 # ``pkg_resources`` is not available.
 #
 # Click uses ``pkg_resources`` to determine the version if it is not given.
-#@click.version_option(version=vws_cli.__version__)
+# @click.version_option(version=vws_cli.__version__)
 @click.version_option(version='0')
 def vws() -> None:
     """
     Manage VWS.
     """
-
