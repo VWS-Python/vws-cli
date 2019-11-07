@@ -5,6 +5,7 @@ Tests for the VWS CLI.
 from vws_cli import vws_group
 from click.testing import CliRunner
 
+
 def test_version():
     """
     The CLI version is shown with ``vws --version``.

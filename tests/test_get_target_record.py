@@ -2,16 +2,12 @@
 XXX
 """
 
-import pytest
 import yaml
-from typing import Iterator
-from textwrap import dedent
 
 from click.testing import CliRunner
 import io
 from vws_cli import vws_group
 
-from mock_vws import MockVWS
 from vws import VWS
 from mock_vws.database import VuforiaDatabase
 
@@ -66,7 +62,7 @@ def test_target_does_not_exist(
         '--server-secret-key',
         mock_database.server_secret_key,
     ]
-    result = runner.invoke(vws_group, commands, catch_exceptions=False, mix_stderr=True)
+    result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 1
     expected_stderr = 'Target "x" does not exist.\n'
     # TODO this should be stderr we check

@@ -14,12 +14,13 @@ _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 # ``pkg_resources`` is not available.
 #
 # Click uses ``pkg_resources`` to determine the version if it is not given.
-#@click.version_option(version=vws_cli.__version__)
+# @click.version_option(version=vws_cli.__version__)
 @click.version_option(version='0')
 def vws_group() -> None:
     """
     Manage VWS.
     """
+
 
 def server_access_key_option(
     command: Callable[..., None],
@@ -27,7 +28,10 @@ def server_access_key_option(
     """
     An option decorator for XXX.
     """
-    click_option_function: Callable[[Callable[..., None]], Callable[..., None]] = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         '--server-access-key',
         type=str,
         help='XXX',
@@ -43,7 +47,10 @@ def target_id_option(
     """
     An option decorator for XXX.
     """
-    click_option_function: Callable[[Callable[..., None]], Callable[..., None]] = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         '--target-id',
         type=str,
         help='XXX',
@@ -52,13 +59,17 @@ def target_id_option(
     function: Callable[..., None] = click_option_function(command)
     return function
 
+
 def server_secret_key_option(
     command: Callable[..., None],
 ) -> Callable[..., None]:
     """
     An option decorator for XXX.
     """
-    click_option_function: Callable[[Callable[..., None]], Callable[..., None]] = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         '--server-secret-key',
         type=str,
         help='XXX',
@@ -83,6 +94,7 @@ def list_targets(
     for target_id in targets:
         click.echo(target_id)
 
+
 @click.command(name='get-database-summary-report')
 @server_access_key_option
 @server_secret_key_option
@@ -97,6 +109,7 @@ def get_database_summary_report(
     report = vws_client.get_database_summary_report()
     yaml_report = yaml.dump(report)
     click.echo(yaml_report)
+
 
 @click.command(name='get-target-record')
 @server_access_key_option
@@ -119,6 +132,7 @@ def get_target_record(
 
     yaml_record = yaml.dump(record)
     click.echo(yaml_record)
+
 
 vws_group.add_command(list_targets)
 vws_group.add_command(get_database_summary_report)

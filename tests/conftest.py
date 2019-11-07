@@ -4,11 +4,8 @@ XXX
 
 import pytest
 from typing import Iterator
-from textwrap import dedent
 
-from click.testing import CliRunner
 import io
-from vws_cli import vws_group
 
 from mock_vws import MockVWS
 from vws import VWS
@@ -25,6 +22,7 @@ def mock_database() -> Iterator[VuforiaDatabase]:
         mock.add_database(database=database)
         yield database
 
+
 @pytest.fixture()
 def vws_client(mock_database: VuforiaDatabase) -> Iterator[VWS]:
     """
@@ -34,6 +32,7 @@ def vws_client(mock_database: VuforiaDatabase) -> Iterator[VWS]:
         server_access_key=mock_database.server_access_key,
         server_secret_key=mock_database.server_secret_key,
     )
+
 
 @pytest.fixture()
 def high_quality_image() -> io.BytesIO:

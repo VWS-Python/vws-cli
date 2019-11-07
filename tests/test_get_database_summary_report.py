@@ -2,16 +2,12 @@
 XXX
 """
 
-import pytest
 import yaml
-from typing import Iterator
-from textwrap import dedent
 
 from click.testing import CliRunner
 import io
 from vws_cli import vws_group
 
-from mock_vws import MockVWS
 from vws import VWS
 from mock_vws.database import VuforiaDatabase
 
@@ -26,16 +22,9 @@ def test_get_database_summary_report(
     high_quality_image: io.BytesIO,
 ) -> None:
     runner = CliRunner()
-    target_id_1 = vws_client.add_target(
-        name='x1',
-        width=1,
-        image=high_quality_image,
-    )
-    target_id_2 = vws_client.add_target(
-        name='x2',
-        width=1,
-        image=high_quality_image,
-    )
+    vws_client.add_target(name='x1', width=1, image=high_quality_image)
+    vws_client.add_target(name='x2', width=1, image=high_quality_image)
+
     commands = [
         'get-database-summary-report',
         '--server-access-key',

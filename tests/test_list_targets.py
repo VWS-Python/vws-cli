@@ -2,15 +2,12 @@
 XXX
 """
 
-import pytest
-from typing import Iterator
 from textwrap import dedent
 
 from click.testing import CliRunner
 import io
 from vws_cli import vws_group
 
-from mock_vws import MockVWS
 from vws import VWS
 from mock_vws.database import VuforiaDatabase
 

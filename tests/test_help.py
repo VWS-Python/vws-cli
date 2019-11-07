@@ -45,4 +45,3 @@ def test_help(command: List[str]) -> None:
             expected_help_file.write_text(result.output)
         else:
             raise
-
