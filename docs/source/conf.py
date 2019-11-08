@@ -15,6 +15,7 @@ sys.path.insert(0, os.path.abspath('.'))
 
 extensions = [
     'sphinxcontrib.spelling',
+    'sphinx_click.ext',
 ]
 
 templates_path = ['_templates']

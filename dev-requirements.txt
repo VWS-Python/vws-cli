@@ -8,3 +8,4 @@ isort
 mypy
 sphinx
 sphinxcontrib.spelling==4.3.0
+sphinx-click==2.3.0
