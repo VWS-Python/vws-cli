@@ -10,4 +10,5 @@ Commands:
   delete-target
   get-database-summary-report
   get-target-record
+  get-target-summary-report
   list-targets
