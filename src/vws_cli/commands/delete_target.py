@@ -1,5 +1,6 @@
-import click
 import sys
+
+import click
 from vws import VWS
 from vws.exceptions import UnknownTarget
 
@@ -7,7 +8,6 @@ from vws_cli.options.credentials import (
     server_access_key_option,
     server_secret_key_option,
 )
-
 from vws_cli.options.targets import target_id_option
 
 

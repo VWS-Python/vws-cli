@@ -1,11 +1,11 @@
 import click
 
+from vws_cli.commands.delete_target import delete_target
 from vws_cli.commands.get_database_summary_report import (
     get_database_summary_report,
 )
 from vws_cli.commands.get_target_record import get_target_record
 from vws_cli.commands.list_targets import list_targets
-from vws_cli.commands.delete_target import delete_target
 
 _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 

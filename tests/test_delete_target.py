@@ -4,7 +4,6 @@ XXX
 
 import io
 
-import yaml
 from click.testing import CliRunner
 from mock_vws.database import VuforiaDatabase
 from vws import VWS
@@ -15,11 +14,11 @@ from vws_cli import vws_group
 
 
 def test_delete_target(
-    mock_database: vuforiadatabase,
-    vws_client: vws,
-    high_quality_image: io.bytesio,
-) -> none:
-    runner = clirunner()
+    mock_database: VuforiaDatabase,
+    vws_client: VWS,
+    high_quality_image: io.BytesIO,
+) -> None:
+    runner = CliRunner()
     target_id = vws_client.add_target(
         name='x',
         width=1,
@@ -36,7 +35,7 @@ def test_delete_target(
         mock_database.server_secret_key,
     ]
     vws_client.wait_for_target_processed(target_id=target_id)
-    result = runner.invoke(vws_group, commands, catch_exceptions=false)
+    result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
     assert result.stdout == ''
     assert vws_client.list_targets() == []
@@ -61,4 +60,3 @@ def test_target_does_not_exist(
     expected_stderr = 'Target "x" does not exist.\n'
     assert result.stderr == expected_stderr
     assert result.stdout == ''
-
