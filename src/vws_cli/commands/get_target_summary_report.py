@@ -26,7 +26,9 @@ def get_target_summary_report(
         server_secret_key=server_secret_key,
     )
     try:
-        summary_report = vws_client.get_target_summary_report(target_id=target_id)
+        summary_report = vws_client.get_target_summary_report(
+            target_id=target_id,
+        )
     except UnknownTarget:
         click.echo(f'Target "{target_id}" does not exist.', err=True)
         sys.exit(1)
