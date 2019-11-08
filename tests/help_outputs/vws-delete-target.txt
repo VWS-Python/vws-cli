@@ -1,0 +1,7 @@
+Usage: vws delete-target [OPTIONS]
+
+Options:
+  --server-access-key TEXT  XXX  [required]
+  --server-secret-key TEXT  XXX  [required]
+  --target-id TEXT          XXX  [required]
+  -h, --help                Show this message and exit.

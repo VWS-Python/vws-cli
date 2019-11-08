@@ -5,6 +5,7 @@ from vws_cli.commands.get_database_summary_report import (
 )
 from vws_cli.commands.get_target_record import get_target_record
 from vws_cli.commands.list_targets import list_targets
+from vws_cli.commands.delete_target import delete_target
 
 _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -25,3 +26,4 @@ def vws_group() -> None:
 vws_group.add_command(list_targets)
 vws_group.add_command(get_database_summary_report)
 vws_group.add_command(get_target_record)
+vws_group.add_command(delete_target)
