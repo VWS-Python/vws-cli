@@ -6,3 +6,5 @@ VWS-Python-Mock==2019.9.28.0
 yapf
 isort
 mypy
+sphinx
+sphinxcontrib.spelling==4.3.0
