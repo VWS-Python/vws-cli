@@ -1,5 +1,6 @@
 import click
 
+from vws_cli.commands.add_target import add_target
 from vws_cli.commands.delete_target import delete_target
 from vws_cli.commands.get_database_summary_report import (
     get_database_summary_report,
@@ -27,6 +28,7 @@ def vws_group() -> None:
     """
 
 
+vws_group.add_command(add_target)
 vws_group.add_command(delete_target)
 vws_group.add_command(get_database_summary_report)
 vws_group.add_command(get_duplicate_targets)
