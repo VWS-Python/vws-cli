@@ -67,4 +67,3 @@ def test_target_does_not_exist(
     expected_stderr = 'Target "x" does not exist.\n'
     assert result.stderr == expected_stderr
     assert result.stdout == ''
-

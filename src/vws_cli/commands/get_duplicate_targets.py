@@ -33,4 +33,3 @@ def get_duplicate_targets(
 
     yaml_record = yaml.dump(record)
     click.echo(yaml_record)
-
