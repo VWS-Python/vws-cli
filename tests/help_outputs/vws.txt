@@ -9,6 +9,7 @@ Options:
 Commands:
   delete-target
   get-database-summary-report
+  get-duplicate-targets
   get-target-record
   get-target-summary-report
   list-targets
