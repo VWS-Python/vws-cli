@@ -23,6 +23,8 @@ def test_delete_target(
         name='x',
         width=1,
         image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
     )
     assert vws_client.list_targets() == [target_id]
     commands = [

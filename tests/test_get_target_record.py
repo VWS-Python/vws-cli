@@ -22,6 +22,8 @@ def test_get_target_record(
         name='x',
         width=1,
         image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
     )
     commands = [
         'get-target-record',
@@ -39,7 +41,7 @@ def test_get_target_record(
         'active_flag': True,
         'name': 'x',
         'reco_rating': '',
-        'target_id': result_data['target_id'],
+        'target_id': target_id,
         'tracking_rating': -1,
         'width': 1,
     }

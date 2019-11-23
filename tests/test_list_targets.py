@@ -25,11 +25,15 @@ def test_list_targets(
         name='x1',
         width=1,
         image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
     )
     target_id_2 = vws_client.add_target(
         name='x2',
         width=1,
         image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
     )
     commands = [
         'list-targets',
