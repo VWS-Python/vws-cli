@@ -1,8 +1,16 @@
+"""
+``click`` commands the VWS CLI.
+"""
+
+import sys
+from typing import Any, Callable, Dict, Tuple
+
 import click
+import wrapt
 import yaml
 from vws import VWS
+from vws.exceptions import UnknownTarget
 
-from vws_cli.error_handlers import handle_unknown_target
 from vws_cli.options.credentials import (
     server_access_key_option,
     server_secret_key_option,
@@ -10,11 +18,26 @@ from vws_cli.options.credentials import (
 from vws_cli.options.targets import target_id_option
 
 
+@wrapt.decorator
+def _handle_unknown_target(
+    wrapped: Callable[..., str],
+    instance: Any,
+    args: Tuple,
+    kwargs: Dict,
+) -> None:
+    assert not instance  # This is to satisfy the "vulture" linter.
+    try:
+        wrapped(*args, **kwargs)
+    except UnknownTarget as exc:
+        click.echo(f'Target "{exc.target_id}" does not exist.', err=True)
+        sys.exit(1)
+
+
 @click.command(name='get-target-record')
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_unknown_target
+@_handle_unknown_target
 def get_target_record(
     server_access_key: str,
     server_secret_key: str,
@@ -50,7 +73,7 @@ def list_targets(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_unknown_target
+@_handle_unknown_target
 def get_duplicate_targets(
     server_access_key: str,
     server_secret_key: str,
@@ -86,7 +109,7 @@ def get_database_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_unknown_target
+@_handle_unknown_target
 def get_target_summary_report(
     server_access_key: str,
     server_secret_key: str,
@@ -105,7 +128,7 @@ def get_target_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_unknown_target
+@_handle_unknown_target
 def delete_target(
     server_access_key: str,
     server_secret_key: str,

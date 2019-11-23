@@ -1,3 +1,7 @@
+"""
+A CLI for Vuforia Web Services.
+"""
+
 import click
 
 from vws_cli.commands import (
