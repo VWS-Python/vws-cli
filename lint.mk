@@ -72,3 +72,7 @@ autoflake:
 	    --expand-star-imports \
 	    --exclude _vendor,src/*/_version.py,versioneer.py,release \
 	    .
+
+.PHONY: pydocstyle
+pydocstyle:
+	pydocstyle
