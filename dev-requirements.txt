@@ -17,3 +17,4 @@ sphinx-click==2.3.0
 sphinx==2.2.1
 sphinxcontrib.spelling==4.3.0
 yapf==0.28.0
+vulture==1.2

@@ -3,7 +3,9 @@
 vws-cli
 =======
 
-Coming soon.
+A CLI for Vuforia.
+
+This is a work in progress.
 
 .. |Build Status| image:: https://travis-ci.com/adamtheturtle/vws-cli.svg?branch=master
    :target: https://travis-ci.com/adamtheturtle/vws-cli
