@@ -1,16 +1,26 @@
 SHELL := /bin/bash -euxo pipefail
 
+include lint.mk
+
+# Treat Sphinx warnings as errors
+SPHINXOPTS := -W
+
 .PHONY: lint
-lint:
-	flake8 .
-	isort --recursive --check-only
-	mypy src/ tests/
-	yapf \
-	    --diff \
-	    --recursive \
-	    --exclude versioneer.py \
-	    --exclude src/vws/_version.py \
-	    .
+# TODO Add Pylint and Pydocstyle
+lint: \
+    check-manifest \
+    doc8 \
+    flake8 \
+    isort \
+    linkcheck \
+    mypy \
+    pip-extra-reqs \
+    pip-missing-reqs \
+    pyroma \
+    shellcheck \
+    spelling \
+    vulture \
+    yapf
 
 .PHONY: fix-lint
 fix-lint:

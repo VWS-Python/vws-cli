@@ -11,9 +11,6 @@ from vws import VWS
 
 from vws_cli import vws_group
 
-# TODO generic auth error test (secret and client keys)
-# TODO generic request time too skewed test
-
 
 def test_list_targets(
     mock_database: VuforiaDatabase,
@@ -48,6 +45,6 @@ def test_list_targets(
         f"""\
         {target_id_1}
         {target_id_2}
-        """
+        """,
     )
     assert result.stdout == expected

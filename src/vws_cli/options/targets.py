@@ -3,7 +3,7 @@ from typing import Callable
 import click
 
 
-def target_id_option(command: Callable[..., None], ) -> Callable[..., None]:
+def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
     """
     An option decorator for XXX.
     """

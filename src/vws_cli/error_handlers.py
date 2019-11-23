@@ -13,6 +13,7 @@ def handle_unknown_target(
     args: Tuple,
     kwargs: Dict,
 ) -> None:
+    assert not instance  # This is to satisfy the "vulture" linter.
     try:
         wrapped(*args, **kwargs)
     except UnknownTarget as exc:

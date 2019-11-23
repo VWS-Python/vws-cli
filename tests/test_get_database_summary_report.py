@@ -11,9 +11,6 @@ from vws import VWS
 
 from vws_cli import vws_group
 
-# TODO generic auth error test (secret and client keys)
-# TODO generic request time too skewed test
-
 
 def test_get_database_summary_report(
     mock_database: VuforiaDatabase,
