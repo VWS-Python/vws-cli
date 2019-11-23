@@ -11,7 +11,7 @@ def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
             args = [
                 command_name,
                 '--target-id',
-                'x',
+                'x/1',
                 '--server-access-key',
                 mock_database.server_access_key,
                 '--server-secret-key',
@@ -19,6 +19,6 @@ def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
             ]
             result = runner.invoke(vws_group, args, catch_exceptions=False)
             assert result.exit_code == 1
-            expected_stderr = 'Target "x" does not exist.\n'
+            expected_stderr = 'Target "x/1" does not exist.\n'
             assert result.stderr == expected_stderr
             assert result.stdout == ''
