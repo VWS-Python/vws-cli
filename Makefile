@@ -1,16 +1,23 @@
 SHELL := /bin/bash -euxo pipefail
 
+include lint.mk
+
 .PHONY: lint
-lint:
-	flake8 .
-	isort --recursive --check-only
-	mypy src/ tests/
-	yapf \
-	    --diff \
-	    --recursive \
-	    --exclude versioneer.py \
-	    --exclude src/vws/_version.py \
-	    .
+lint: \
+    check-manifest \
+    doc8 \
+    flake8 \
+    isort \
+    linkcheck \
+    mypy \
+    pip-extra-reqs \
+    pip-missing-reqs \
+    pylint \
+    pyroma \
+    shellcheck \
+    spelling \
+    vulture \
+    yapf
 
 .PHONY: fix-lint
 fix-lint:

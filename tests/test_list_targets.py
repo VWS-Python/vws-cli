@@ -48,6 +48,6 @@ def test_list_targets(
         f"""\
         {target_id_1}
         {target_id_2}
-        """
+        """,
     )
     assert result.stdout == expected
