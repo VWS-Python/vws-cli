@@ -12,7 +12,7 @@ from vws import VWS
 from vws_cli import vws_group
 
 
-def test_get_target_summary_report(
+def test_get_duplicate_targets(
     mock_database: VuforiaDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
