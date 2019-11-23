@@ -213,6 +213,9 @@ def test_delete_target(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    It is possible to delete a target.
+    """
     runner = CliRunner()
     target_id = vws_client.add_target(
         name='x',
@@ -243,6 +246,9 @@ def test_get_duplicate_targets(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    It is possible to get a list of duplicate targets.
+    """
     runner = CliRunner()
     target_id = vws_client.add_target(
         name='x',
