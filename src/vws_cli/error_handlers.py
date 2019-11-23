@@ -13,7 +13,6 @@ def handle_unknown_target(
     args: Tuple,
     kwargs: Dict,
 ) -> None:
-    import pdb; pdb.set_trace()
     try:
         wrapped(*args, **kwargs)
     except UnknownTarget as exc:
