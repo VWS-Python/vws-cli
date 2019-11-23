@@ -1,5 +1,5 @@
 """
-XXX
+``pytest`` fixtures.
 """
 
 import io
@@ -11,8 +11,8 @@ from mock_vws.database import VuforiaDatabase
 from vws import VWS
 
 
-@pytest.fixture()
-def mock_database() -> Iterator[VuforiaDatabase]:
+@pytest.fixture(name='mock_database')
+def fixture_mock_database() -> Iterator[VuforiaDatabase]:
     """
     Yield a mock ``VuforiaDatabase``.
     """
