@@ -1,3 +1,7 @@
+"""
+Tests for VWS CLI commands.
+"""
+
 import io
 from textwrap import dedent
 
@@ -10,6 +14,10 @@ from vws_cli import vws_group
 
 
 def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
+    """
+    Commands which take a target ID show an error if that does not map to a
+    target in the database.
+    """
     runner = CliRunner(mix_stderr=False)
     for command_name, command in vws_group.commands.items():
         if 'target_id' in [option.name for option in command.params]:
@@ -34,6 +42,9 @@ def test_get_database_summary_report(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    It is possible to get a database summary report.
+    """
     runner = CliRunner()
     for name in ('a', 'b'):
         vws_client.add_target(
@@ -78,6 +89,9 @@ def test_list_targets(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    It is possible to get a list of targets in the database.
+    """
     runner = CliRunner()
     target_id_1 = vws_client.add_target(
         name='x1',
@@ -116,6 +130,9 @@ def test_get_target_record(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    It is possible to get a target record.
+    """
     runner = CliRunner()
     target_id = vws_client.add_target(
         name='x',
@@ -152,6 +169,9 @@ def test_get_target_summary_report(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    It is possible to get a target summary report.
+    """
     runner = CliRunner()
     target_id = vws_client.add_target(
         name='x',
