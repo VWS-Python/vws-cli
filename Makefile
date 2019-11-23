@@ -6,6 +6,7 @@ include lint.mk
 SPHINXOPTS := -W
 
 .PHONY: lint
+# TODO Add Pylint and Pydocstyle
 lint: \
     check-manifest \
     doc8 \
@@ -19,9 +20,7 @@ lint: \
     shellcheck \
     spelling \
     vulture \
-    yapf \
-    pylint \
-    pydocstyle
+    yapf
 
 .PHONY: fix-lint
 fix-lint:
