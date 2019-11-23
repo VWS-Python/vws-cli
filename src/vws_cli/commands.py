@@ -47,7 +47,8 @@ def get_target_record(
     Get a target record.
 
     \b
-    See https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Retrieve-a-Target-Record.
+    See
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Retrieve-a-Target-Record.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -70,7 +71,8 @@ def list_targets(
     List targets.
 
     \b
-    See https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Get-a-Target-List-for-a-Cloud-Database.
+    See
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Get-a-Target-List-for-a-Cloud-Database.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -95,7 +97,8 @@ def get_duplicate_targets(
     Get a list of potential duplicate targets.
 
     \b
-    See https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#how-to-check-for-similar-targets.
+    See
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#how-to-check-for-similar-targets.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -118,7 +121,8 @@ def get_database_summary_report(
     Get a database summary report.
 
     \b
-    See https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Get-a-Database-Summary-Report.
+    See
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Get-a-Database-Summary-Report.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -143,7 +147,8 @@ def get_target_summary_report(
     Get a target summary report.
 
     \b
-    See https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Retrieve-a-Target-Summary-Report.
+    See
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Retrieve-a-Target-Summary-Report.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -168,7 +173,8 @@ def delete_target(
     Delete a target.
 
     \b
-    See https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Delete-a-Target.
+    See
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Delete-a-Target.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
