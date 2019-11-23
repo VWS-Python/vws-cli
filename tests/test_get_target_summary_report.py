@@ -22,6 +22,8 @@ def test_get_target_summary_report(
         name='x',
         width=1,
         image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
     )
     commands = [
         'get-target-summary-report',
