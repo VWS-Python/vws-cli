@@ -12,12 +12,13 @@ lint: \
     mypy \
     pip-extra-reqs \
     pip-missing-reqs \
-    pylint \
     pyroma \
     shellcheck \
     spelling \
     vulture \
-    yapf
+    yapf \
+    pylint \
+    pydocstyle
 
 .PHONY: fix-lint
 fix-lint:
