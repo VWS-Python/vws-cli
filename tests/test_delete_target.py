@@ -10,8 +10,6 @@ from vws import VWS
 
 from vws_cli import vws_group
 
-# TODO delete without processing
-
 
 def test_delete_target(
     mock_database: VuforiaDatabase,
