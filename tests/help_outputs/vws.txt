@@ -7,9 +7,9 @@ Options:
   -h, --help  Show this message and exit.
 
 Commands:
-  delete-target
-  get-database-summary-report
-  get-duplicate-targets
-  get-target-record
-  get-target-summary-report
-  list-targets
+  delete-target                Delete a target.
+  get-database-summary-report  Get a database summary report.
+  get-duplicate-targets        Get a list of potential duplicate targets.
+  get-target-record            Get a target record.
+  get-target-summary-report    Get a target summary report.
+  list-targets                 List targets.

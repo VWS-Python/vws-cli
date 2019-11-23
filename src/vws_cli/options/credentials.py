@@ -1,3 +1,7 @@
+"""
+``click`` options regarding credentials.
+"""
+
 from typing import Callable
 
 import click
@@ -6,7 +10,7 @@ import click
 def server_access_key_option(command: Callable[..., None],
                              ) -> Callable[..., None]:
     """
-    An option decorator for XXX.
+    An option decorator for the Vuforia server access key.
     """
     click_option_function: Callable[[Callable[..., None]], Callable[..., None],
                                     ] = click.option(
@@ -22,7 +26,7 @@ def server_access_key_option(command: Callable[..., None],
 def server_secret_key_option(command: Callable[..., None],
                              ) -> Callable[..., None]:
     """
-    An option decorator for XXX.
+    An option decorator for the Vuforia server secret key.
     """
     click_option_function: Callable[[Callable[..., None]], Callable[..., None],
                                     ] = click.option(

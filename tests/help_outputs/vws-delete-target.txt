@@ -1,5 +1,9 @@
 Usage: vws delete-target [OPTIONS]
 
+  Delete a target.
+
+  See https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Delete-a-Target.
+
 Options:
   --server-access-key TEXT  XXX  [required]
   --server-secret-key TEXT  XXX  [required]

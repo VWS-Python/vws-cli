@@ -36,7 +36,8 @@ setup(
     name='TODO',
     author='Adam Dangoor',
     author_email='todo',
-    description='todo.',
+    version='0.1',
+    description='A CLI for Vuforia Web Services',
     long_description=LONG_DESCRIPTION,
     packages=find_packages(where='src'),
     zip_safe=False,
@@ -53,8 +54,8 @@ setup(
     classifiers=[
         'Operating System :: POSIX',
         'Environment :: Web Environment',
-        'Programming Language :: Python :: 3.7',
-        'License :: OSI Approved :: MIT',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3.8',
         'Development Status :: 5 - Production/Stable',
     ],
     # Avoid dependency links because they are not supported by Read The Docs.

@@ -1,0 +1,10 @@
+admin
+changelog
+cli
+linting
+macOS
+pragma
+pytest
+ubuntu
+vuforia
+vws

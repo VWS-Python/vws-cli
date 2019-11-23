@@ -1,16 +1,18 @@
+"""
+A CLI for Vuforia Web Services.
+"""
+
 import click
 
-from vws_cli.commands.add_target import add_target
-from vws_cli.commands.delete_target import delete_target
-from vws_cli.commands.get_database_summary_report import (
+from vws_cli.commands import (
+    add_target,
+    delete_target,
     get_database_summary_report,
-)
-from vws_cli.commands.get_duplicate_targets import get_duplicate_targets
-from vws_cli.commands.get_target_record import get_target_record
-from vws_cli.commands.get_target_summary_report import (
+    get_duplicate_targets,
+    get_target_record,
     get_target_summary_report,
+    list_targets,
 )
-from vws_cli.commands.list_targets import list_targets
 
 _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
