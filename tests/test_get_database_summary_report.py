@@ -21,8 +21,14 @@ def test_get_database_summary_report(
     high_quality_image: io.BytesIO,
 ) -> None:
     runner = CliRunner()
-    vws_client.add_target(name='x1', width=1, image=high_quality_image)
-    vws_client.add_target(name='x2', width=1, image=high_quality_image)
+    for name in ('a', 'b'):
+        vws_client.add_target(
+            name=name,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
 
     commands = [
         'get-database-summary-report',

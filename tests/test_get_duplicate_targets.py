@@ -22,11 +22,15 @@ def test_get_duplicate_targets(
         name='x',
         width=1,
         image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
     )
     target_id_2 = vws_client.add_target(
         name='x2',
         width=1,
         image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
     )
 
     vws_client.wait_for_target_processed(target_id)
