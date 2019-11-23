@@ -3,6 +3,8 @@ changelog
 cli
 linting
 macOS
-ubuntu
-vws
 pragma
+pytest
+ubuntu
+vuforia
+vws

@@ -1,5 +1,5 @@
 """
-XXX
+``pytest`` fixtures.
 """
 
 import io
