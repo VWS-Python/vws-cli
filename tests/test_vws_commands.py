@@ -1,4 +1,3 @@
-
 import io
 from textwrap import dedent
 
@@ -52,6 +51,7 @@ def test_get_database_summary_report(
         'transaction_id': result_data['transaction_id'],
     }
     assert result_data == expected_result_data
+
 
 def test_list_targets(
     mock_database: VuforiaDatabase,
@@ -196,6 +196,7 @@ def test_delete_target(
     assert result.exit_code == 0
     assert result.stdout == ''
     assert vws_client.list_targets() == []
+
 
 def test_get_duplicate_targets(
     mock_database: VuforiaDatabase,
