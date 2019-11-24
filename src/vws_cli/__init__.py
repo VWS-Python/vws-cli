@@ -26,7 +26,7 @@ _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 @click.version_option(version='0')
 def vws_group() -> None:
     """
-    Manage VWS.
+    Manage a Vuforia Web Services cloud database.
     """
 
 

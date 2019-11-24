@@ -184,12 +184,14 @@ def delete_target(
     vws_client.delete_target(target_id=target_id)
 
 
+_SECONDS_BETWEEN_REQUESTS_DEFAULT = 0.2
+
 _SECONDS_BETWEEN_REQUESTS_HELP = (
     'The number of seconds to wait between requests made while polling the '
     'target status. '
-    'We wait 0.2 seconds by default, rather than less, than that to decrease '
-    'the number of calls made to the API, to decrease the likelihood of '
-    'hitting the request quota.'
+    f'We wait {_SECONDS_BETWEEN_REQUESTS_DEFAULT} seconds by default, rather '
+    'than less, than that to decrease the number of calls made to the API, to '
+    'decrease the likelihood of hitting the request quota.'
 )
 
 _TIMEOUT_SECONDS_HELP = (
@@ -201,14 +203,16 @@ _TIMEOUT_SECONDS_HELP = (
 @click.option(
     '--seconds-between-requests',
     type=click.FloatRange(min=0.05),
-    default=0.2,
+    default=_SECONDS_BETWEEN_REQUESTS_DEFAULT,
     help=_SECONDS_BETWEEN_REQUESTS_HELP,
+    show_default=True,
 )
 @click.option(
     '--timeout-seconds',
     type=click.FloatRange(min=0.05),
     default=300,
     help=_TIMEOUT_SECONDS_HELP,
+    show_default=True,
 )
 @server_access_key_option
 @server_secret_key_option

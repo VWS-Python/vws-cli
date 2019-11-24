@@ -9,9 +9,9 @@ Options:
                                   0.2 seconds by default, rather than less, than
                                   that to decrease the number of calls made to
                                   the API, to decrease the likelihood of hitting
-                                  the request quota.
+                                  the request quota.  [default: 0.2]
   --timeout-seconds FLOAT RANGE   The maximum number of seconds to wait for the
-                                  target to be processed.
+                                  target to be processed.  [default: 300]
   --server-access-key TEXT        A Vuforia server access key to use to access
                                   the Vuforia Web Services API.  [required]
   --server-secret-key TEXT        A Vuforia server secret key to use to access
