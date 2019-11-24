@@ -195,7 +195,8 @@ def wait_for_target_processed(
     target_id: str,
 ) -> None:
     """
-    TODO
+    Wait for a target to be "processed".
+    This is done by polling the VWS API.
     """
     vws_client = VWS(
         server_access_key=server_access_key,

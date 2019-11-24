@@ -1,6 +1,6 @@
 Usage: vws wait-for-target-processed [OPTIONS]
 
-  TODO
+  Wait for a target to be "processed". This is done by polling the VWS API.
 
 Options:
   --server-access-key TEXT  XXX  [required]

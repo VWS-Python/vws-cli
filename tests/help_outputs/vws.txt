@@ -13,4 +13,4 @@ Commands:
   get-target-record            Get a target record.
   get-target-summary-report    Get a target summary report.
   list-targets                 List targets.
-  wait-for-target-processed    TODO
+  wait-for-target-processed    Wait for a target to be "processed".
