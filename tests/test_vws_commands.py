@@ -312,3 +312,5 @@ class TestWaitForTargetProcessed:
         assert result.exit_code == 0
         assert result.stdout == ''
         assert result.stderr == ''
+        target_record = vws_client.get_target_record(target_id=target_id)
+        assert target_record['status'] == 'processing'

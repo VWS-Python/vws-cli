@@ -2,7 +2,8 @@ Usage: vws get-database-summary-report [OPTIONS]
 
   Get a database summary report.
 
-  See https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Get-a-Database-Summary-Report.
+  See
+  https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Get-a-Database-Summary-Report.
 
 Options:
   --server-access-key TEXT  XXX  [required]
