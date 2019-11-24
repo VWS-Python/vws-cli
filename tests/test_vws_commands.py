@@ -442,6 +442,33 @@ class TestWaitForTargetProcessed:
             expected_requests = 0
             assert report['request_usage'] == expected_requests
 
+    def test_custom_seconds_between_requests_too_small(
+        self,
+        high_quality_image: io.BytesIO,
+        vws_client: VWS,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        The minimum valid value is 0.05 seconds.
+        """
+        runner = CliRunner(mix_stderr=False)
+        commands = [
+            'wait-for-target-processed',
+            '--target-id',
+            'x',
+            '--seconds-between-requests',
+            0.01,
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code != 0
+        assert result.stdout == ''
+        expected_substring = '0.01 is smaller than the minimum valid value 0.05'
+        assert expected_substring in result.stderr
+
     # def test_custom_timeout(
     #     self,
     #     high_quality_image: io.BytesIO,
