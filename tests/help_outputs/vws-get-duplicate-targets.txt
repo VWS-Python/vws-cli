@@ -7,9 +7,9 @@ Usage: vws get-duplicate-targets [OPTIONS]
 
 Options:
   --server-access-key TEXT  A Vuforia server access key to use to access the
-                            Vuforia Web Services API  [required]
+                            Vuforia Web Services API.  [required]
   --server-secret-key TEXT  A Vuforia server secret key to use to access the
-                            Vuforia Web Services API  [required]
+                            Vuforia Web Services API.  [required]
   --target-id TEXT          The ID of a target in the Vuforia database.
                             [required]
   -h, --help                Show this message and exit.
