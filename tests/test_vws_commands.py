@@ -282,3 +282,43 @@ def test_get_duplicate_targets(
     result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
     expected_result_data = [target_id_2]
     assert result_data == expected_result_data
+
+
+class TestWaitForTargetProcessed:
+    """
+    Tests for the ``wait-for-target-processed``.
+    """
+
+    def test_wait_for_target_processed(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
+        """
+        It is possible to use a command to wait for a target to be processed.
+        """
+        runner = CliRunner()
+        target_id = vws_client.add_target(
+            name='x',
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        commands = [
+            'wait-for-target-processed',
+            '--target-id',
+            target_id,
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        report = vws_client.get_target_summary_report(target_id=target_id)
+        assert report['status'] == 'processing'
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+        assert result.stdout == ''
+        report = vws_client.get_target_summary_report(target_id=target_id)
+        assert report['status'] == 'success'

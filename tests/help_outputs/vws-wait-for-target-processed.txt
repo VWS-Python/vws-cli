@@ -1,9 +1,6 @@
-Usage: vws delete-target [OPTIONS]
+Usage: vws wait-for-target-processed [OPTIONS]
 
-  Delete a target.
-
-  See
-  https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Delete-a-Target.
+  Wait for a target to be "processed". This is done by polling the VWS API.
 
 Options:
   --server-access-key TEXT  XXX  [required]
