@@ -292,6 +292,9 @@ class TestWaitForTargetProcessed:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
     ) -> None:
+        """
+        It is possible to use a command to wait for a target to be processed.
+        """
         runner = CliRunner()
         target_id = vws_client.add_target(
             name='x',
