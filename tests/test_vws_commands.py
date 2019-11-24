@@ -308,9 +308,10 @@ class TestWaitForTargetProcessed:
             '--server-secret-key',
             mock_database.server_secret_key,
         ]
+        report = vws_client.get_target_summary_report(target_id=target_id)
+        assert report['status'] == 'processing'
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
         assert result.stdout == ''
-        assert result.stderr == ''
-        target_record = vws_client.get_target_record(target_id=target_id)
-        assert target_record['status'] == 'processing'
+        report = vws_client.get_target_summary_report(target_id=target_id)
+        assert report['status'] == 'success'

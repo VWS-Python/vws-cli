@@ -182,3 +182,23 @@ def delete_target(
     )
 
     vws_client.delete_target(target_id=target_id)
+
+@click.command(name='wait-for-target-processed')
+@server_access_key_option
+@server_secret_key_option
+@target_id_option
+@_handle_unknown_target
+def wait_for_target_processed(
+    server_access_key: str,
+    server_secret_key: str,
+    target_id: str,
+) -> None:
+    """
+    TODO
+    """
+    vws_client = VWS(
+        server_access_key=server_access_key,
+        server_secret_key=server_secret_key,
+    )
+
+    vws_client.wait_for_target_processed(target_id=target_id)

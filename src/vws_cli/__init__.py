@@ -11,6 +11,7 @@ from vws_cli.commands import (
     get_target_record,
     get_target_summary_report,
     list_targets,
+    wait_for_target_processed,
 )
 
 _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -35,3 +36,4 @@ vws_group.add_command(get_duplicate_targets)
 vws_group.add_command(get_target_record)
 vws_group.add_command(get_target_summary_report)
 vws_group.add_command(list_targets)
+vws_group.add_command(wait_for_target_processed)
