@@ -6,7 +6,6 @@ include lint.mk
 SPHINXOPTS := -W
 
 .PHONY: lint
-# TODO Add pydocstyle
 lint: \
     check-manifest \
     doc8 \
@@ -21,6 +20,7 @@ lint: \
     spelling \
     vulture \
     pylint \
+    pydocstyle \
     yapf
 
 .PHONY: fix-lint
@@ -36,12 +36,7 @@ fix-lint:
 	    --remove-unused-variables \
 	    --exclude src/vws/_version.py,versioneer.py \
 	    .
-	yapf \
-	    --in-place \
-	    --recursive \
-	    --exclude versioneer.py  \
-	    --exclude src/vws/_version.py \
-	    .
+	$(MAKE) fix-yapf
 	isort --recursive --apply
 
 .PHONY: docs

@@ -1,0 +1,2 @@
+include versioneer.py
+include src/vws_cli/_version.py

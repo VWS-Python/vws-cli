@@ -1,6 +1,8 @@
 admin
+api
 changelog
 cli
+linter
 linting
 macOS
 pragma

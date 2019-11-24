@@ -9,7 +9,7 @@ import click
 import wrapt
 import yaml
 from vws import VWS
-from vws.exceptions import UnknownTarget
+from vws.exceptions import TargetProcessingTimeout, UnknownTarget
 
 from vws_cli.options.credentials import (
     server_access_key_option,
@@ -182,3 +182,64 @@ def delete_target(
     )
 
     vws_client.delete_target(target_id=target_id)
+
+
+_SECONDS_BETWEEN_REQUESTS_DEFAULT = 0.2
+
+_SECONDS_BETWEEN_REQUESTS_HELP = (
+    'The number of seconds to wait between requests made while polling the '
+    'target status. '
+    f'We wait {_SECONDS_BETWEEN_REQUESTS_DEFAULT} seconds by default, rather '
+    'than less, than that to decrease the number of calls made to the API, to '
+    'decrease the likelihood of hitting the request quota.'
+)
+
+_TIMEOUT_SECONDS_HELP = (
+    'The maximum number of seconds to wait for the target to be processed.'
+)
+
+
+@click.command(name='wait-for-target-processed')
+@click.option(
+    '--seconds-between-requests',
+    type=click.FloatRange(min=0.05),
+    default=_SECONDS_BETWEEN_REQUESTS_DEFAULT,
+    help=_SECONDS_BETWEEN_REQUESTS_HELP,
+    show_default=True,
+)
+@click.option(
+    '--timeout-seconds',
+    type=click.FloatRange(min=0.05),
+    default=300,
+    help=_TIMEOUT_SECONDS_HELP,
+    show_default=True,
+)
+@server_access_key_option
+@server_secret_key_option
+@target_id_option
+@_handle_unknown_target
+def wait_for_target_processed(
+    server_access_key: str,
+    server_secret_key: str,
+    target_id: str,
+    seconds_between_requests: float,
+    timeout_seconds: float,
+) -> None:
+    """
+    Wait for a target to be "processed".
+    This is done by polling the VWS API.
+    """
+    vws_client = VWS(
+        server_access_key=server_access_key,
+        server_secret_key=server_secret_key,
+    )
+
+    try:
+        vws_client.wait_for_target_processed(
+            target_id=target_id,
+            seconds_between_requests=seconds_between_requests,
+            timeout_seconds=timeout_seconds,
+        )
+    except TargetProcessingTimeout:
+        click.echo(f'Timeout of {timeout_seconds} seconds reached.', err=True)
+        sys.exit(1)
