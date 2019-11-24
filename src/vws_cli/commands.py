@@ -9,7 +9,7 @@ import click
 import wrapt
 import yaml
 from vws import VWS
-from vws.exceptions import UnknownTarget
+from vws.exceptions import TargetProcessingTimeout, UnknownTarget
 
 from vws_cli.options.credentials import (
     server_access_key_option,
@@ -189,6 +189,13 @@ def delete_target(
     '--seconds-between-requests',
     type=click.FloatRange(min=0.05),
     default=0.2,
+    help='xxx',
+)
+@click.option(
+    '--timeout-seconds',
+    type=click.FloatRange(min=0.05),
+    default=300,
+    help='xxx',
 )
 @server_access_key_option
 @server_secret_key_option
@@ -199,6 +206,7 @@ def wait_for_target_processed(
     server_secret_key: str,
     target_id: str,
     seconds_between_requests: float,
+    timeout_seconds: float,
 ) -> None:
     """
     Wait for a target to be "processed".
@@ -209,7 +217,12 @@ def wait_for_target_processed(
         server_secret_key=server_secret_key,
     )
 
-    vws_client.wait_for_target_processed(
-        seconds_between_requests=seconds_between_requests,
-        target_id=target_id,
-    )
+    try:
+        vws_client.wait_for_target_processed(
+            target_id=target_id,
+            seconds_between_requests=seconds_between_requests,
+            timeout_seconds=timeout_seconds,
+        )
+    except TargetProcessingTimeout:
+        click.echo(f'Timeout of {timeout_seconds} seconds reached.', err=True)
+        sys.exit(1)
