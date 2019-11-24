@@ -7,6 +7,8 @@ from typing import List
 
 from setuptools import find_packages, setup
 
+import versioneer
+
 
 def _get_dependencies(requirements_file: Path) -> List[str]:
     """
@@ -36,7 +38,8 @@ setup(
     name='TODO',
     author='Adam Dangoor',
     author_email='todo',
-    version='0.1',
+    version=versioneer.get_version(),  # type: ignore
+    cmdclass=versioneer.get_cmdclass(),  # type: ignore
     description='A CLI for Vuforia Web Services',
     long_description=LONG_DESCRIPTION,
     packages=find_packages(where='src'),
