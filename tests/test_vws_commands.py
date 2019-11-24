@@ -306,6 +306,8 @@ class TestWaitForTargetProcessed:
             active_flag=True,
             application_metadata=None,
         )
+        report = vws_client.get_target_summary_report(target_id=target_id)
+        assert report['status'] == 'processing'
         commands = [
             'wait-for-target-processed',
             '--target-id',
@@ -315,10 +317,141 @@ class TestWaitForTargetProcessed:
             '--server-secret-key',
             mock_database.server_secret_key,
         ]
-        report = vws_client.get_target_summary_report(target_id=target_id)
-        assert report['status'] == 'processing'
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
         assert result.stdout == ''
         report = vws_client.get_target_summary_report(target_id=target_id)
-        assert report['status'] == 'success'
+        assert report['status'] != 'processing'
+
+    def test_default_seconds_between_requests(
+        self,
+        high_quality_image: io.BytesIO,
+    ) -> None:
+        """
+        By default, 0.2 seconds are waited between polling requests.
+        """
+        with MockVWS(processing_time_seconds=0.5) as mock:
+            database = VuforiaDatabase()
+            mock.add_database(database=database)
+            vws_client = VWS(
+                server_access_key=database.server_access_key,
+                server_secret_key=database.server_secret_key,
+            )
+
+            target_id = vws_client.add_target(
+                name='x',
+                width=1,
+                image=high_quality_image,
+                active_flag=True,
+                application_metadata=None,
+            )
+
+            vws_client.wait_for_target_processed(target_id=target_id)
+            report = vws_client.get_database_summary_report()
+            expected_requests = (
+                # Add target request
+                1 +
+                # Database summary request
+                1 +
+                # Initial request
+                1 +
+                # Request after 0.2 seconds - not processed
+                1 +
+                # Request after 0.4 seconds - not processed
+                # This assumes that there is less than 0.1 seconds taken
+                # between the start of the target processing and the start of
+                # waiting for the target to be processed.
+                1 +
+                # Request after 0.6 seconds - processed
+                1
+            )
+            # At the time of writing there is a bug which prevents request
+            # usage from being tracked so we cannot track this.
+            expected_requests = 0
+            assert report['request_usage'] == expected_requests
+
+    def test_custom_seconds_between_requests(
+        self,
+        high_quality_image: io.BytesIO,
+    ) -> None:
+        """
+        It is possible to customize the time waited between polling requests.
+        """
+        with MockVWS(processing_time_seconds=0.5) as mock:
+            database = VuforiaDatabase()
+            mock.add_database(database=database)
+            vws_client = VWS(
+                server_access_key=database.server_access_key,
+                server_secret_key=database.server_secret_key,
+            )
+
+            target_id = vws_client.add_target(
+                name='x',
+                width=1,
+                image=high_quality_image,
+                active_flag=True,
+                application_metadata=None,
+            )
+
+            vws_client.wait_for_target_processed(
+                target_id=target_id,
+                seconds_between_requests=0.3,
+            )
+            report = vws_client.get_database_summary_report()
+            expected_requests = (
+                # Add target request
+                1 +
+                # Database summary request
+                1 +
+                # Initial request
+                1 +
+                # Request after 0.3 seconds - not processed
+                # This assumes that there is less than 0.2 seconds taken
+                # between the start of the target processing and the start of
+                # waiting for the target to be processed.
+                1 +
+                # Request after 0.6 seconds - processed
+                1
+            )
+            # At the time of writing there is a bug which prevents request
+            # usage from being tracked so we cannot track this.
+            expected_requests = 0
+            assert report['request_usage'] == expected_requests
+
+    def test_custom_timeout(
+        self,
+        high_quality_image: io.BytesIO,
+    ) -> None:
+        """
+        It is possible to set a maximum timeout.
+        """
+        with MockVWS(processing_time_seconds=0.5) as mock:
+            database = VuforiaDatabase()
+            mock.add_database(database=database)
+            vws_client = VWS(
+                server_access_key=database.server_access_key,
+                server_secret_key=database.server_secret_key,
+            )
+
+            target_id = vws_client.add_target(
+                name='x',
+                width=1,
+                image=high_quality_image,
+                active_flag=True,
+                application_metadata=None,
+            )
+
+            report = vws_client.get_target_summary_report(target_id=target_id)
+            assert report['status'] == 'processing'
+            with pytest.raises(TargetProcessingTimeout):
+                vws_client.wait_for_target_processed(
+                    target_id=target_id,
+                    timeout_seconds=0.1,
+                )
+
+            vws_client.wait_for_target_processed(
+                target_id=target_id,
+                timeout_seconds=0.5,
+            )
+            report = vws_client.get_target_summary_report(target_id=target_id)
+            assert report['status'] != 'processing'
