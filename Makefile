@@ -36,12 +36,7 @@ fix-lint:
 	    --remove-unused-variables \
 	    --exclude src/vws/_version.py,versioneer.py \
 	    .
-	yapf \
-	    --in-place \
-	    --recursive \
-	    --exclude versioneer.py  \
-	    --exclude src/vws/_version.py \
-	    .
+	$(MAKE) fix-yapf
 	isort --recursive --apply
 
 .PHONY: docs
