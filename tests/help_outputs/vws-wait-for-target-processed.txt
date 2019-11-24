@@ -4,9 +4,18 @@ Usage: vws wait-for-target-processed [OPTIONS]
 
 Options:
   --seconds-between-requests FLOAT RANGE
-                                  xxx
-  --timeout-seconds FLOAT RANGE   xxx
-  --server-access-key TEXT        XXX  [required]
-  --server-secret-key TEXT        XXX  [required]
-  --target-id TEXT                XXX  [required]
+                                  The number of seconds to wait between requests
+                                  made while polling the target status. We wait
+                                  0.2 seconds by default, rather than less, than
+                                  that to decrease the number of calls made to
+                                  the API, to decrease the likelihood of hitting
+                                  the request quota.  [default: 0.2]
+  --timeout-seconds FLOAT RANGE   The maximum number of seconds to wait for the
+                                  target to be processed.  [default: 300]
+  --server-access-key TEXT        A Vuforia server access key to use to access
+                                  the Vuforia Web Services API.  [required]
+  --server-secret-key TEXT        A Vuforia server secret key to use to access
+                                  the Vuforia Web Services API.  [required]
+  --target-id TEXT                The ID of a target in the Vuforia database.
+                                  [required]
   -h, --help                      Show this message and exit.

@@ -12,7 +12,7 @@
 #  * Inspect the diff to check that changes are as expected
 #  * Commit and push
 
-set -ex
+set -euxo pipefail
 
 export FIX_CLI_TESTS=1
 

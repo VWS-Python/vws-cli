@@ -1,6 +1,6 @@
 Usage: vws [OPTIONS] COMMAND [ARGS]...
 
-  Manage VWS.
+  Manage a Vuforia Web Services cloud database.
 
 Options:
   --version   Show the version and exit.
