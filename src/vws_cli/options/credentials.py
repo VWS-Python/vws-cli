@@ -21,7 +21,7 @@ def server_access_key_option(
         type=str,
         help=(
             'A Vuforia server access key to use to access the Vuforia Web '
-            'Services API',
+            'Services API'
         ),
         required=True,
     )
@@ -43,7 +43,7 @@ def server_secret_key_option(
         type=str,
         help=(
             'A Vuforia server secret key to use to access the Vuforia Web '
-            'Services API',
+            'Services API'
         ),
         required=True,
     )

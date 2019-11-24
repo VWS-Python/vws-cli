@@ -1,0 +1,15 @@
+Usage: vws wait-for-target-processed [OPTIONS]
+
+  Wait for a target to be "processed". This is done by polling the VWS API.
+
+Options:
+  --seconds-between-requests FLOAT RANGE
+                                  xxx
+  --timeout-seconds FLOAT RANGE   xxx
+  --server-access-key TEXT        A Vuforia server access key to use to access
+                                  the Vuforia Web Services API  [required]
+  --server-secret-key TEXT        A Vuforia server secret key to use to access
+                                  the Vuforia Web Services API  [required]
+  --target-id TEXT                The ID of a target in the Vuforia database.
+                                  [required]
+  -h, --help                      Show this message and exit.
