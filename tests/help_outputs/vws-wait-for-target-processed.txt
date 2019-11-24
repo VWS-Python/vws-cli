@@ -4,6 +4,8 @@ Usage: vws wait-for-target-processed [OPTIONS]
 
 Options:
   --seconds-between-requests FLOAT RANGE
+                                  xxx
+  --timeout-seconds FLOAT RANGE   xxx
   --server-access-key TEXT        XXX  [required]
   --server-secret-key TEXT        XXX  [required]
   --target-id TEXT                XXX  [required]
