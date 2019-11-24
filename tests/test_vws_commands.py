@@ -285,37 +285,6 @@ def test_get_duplicate_targets(
     assert result_data == expected_result_data
 
 
-<<<<<<< HEAD
-class TestAddTarget:
-    def test_add_target():
-        pass
-
-    def test_custom_metadata():
-        pass
-
-    def test_custom_active_flag():
-        pass
-
-    def test_bad_image():
-        pass
-
-    def test_fail():
-        pass
-
-    def test_metadata_too_large():
-        pass
-
-    def test_image_too_large():
-        pass
-
-    def test_target_name_exist():
-        pass
-
-    def test_project_inactive():
-        pass
-
-    def test_unknown_vws_error():
-        pass
 class TestAddTarget:
     def test_add_target():
         pass
