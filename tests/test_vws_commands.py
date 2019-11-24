@@ -286,6 +286,10 @@ def test_get_duplicate_targets(
 
 
 class TestAddTarget:
+    """
+    Tests for ``vws add-target``.
+    """
+
     def test_add_target():
         pass
 
@@ -319,7 +323,7 @@ class TestAddTarget:
 
 class TestWaitForTargetProcessed:
     """
-    Tests for the ``wait-for-target-processed``.
+    Tests for ``vws wait-for-target-processed``.
     """
 
     def test_wait_for_target_processed(
