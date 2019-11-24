@@ -296,7 +296,22 @@ class TestAddTarget:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
     ) -> None:
-        pass
+        runner = CliRunner()
+        commands = [
+            'add-target',
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+        assert result.stdout == ''
+
+        target_record = vws_client.get_target_record(target_id=target_id)
+        assert target_record['name'] == name
+        assert target_record['width'] == width
+
 
     def test_custom_metadata(
         self,
