@@ -282,3 +282,19 @@ def test_get_duplicate_targets(
     result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
     expected_result_data = [target_id_2]
     assert result_data == expected_result_data
+
+class TestWaitForTargetProcessed:
+
+    def test_wait_for_target_processed(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
+        target_id = vws_client.add_target(
+            name='x',
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
