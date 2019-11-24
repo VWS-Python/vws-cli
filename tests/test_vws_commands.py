@@ -290,34 +290,84 @@ class TestAddTarget:
     Tests for ``vws add-target``.
     """
 
-    def test_add_target():
+    def test_add_target(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
         pass
 
-    def test_custom_metadata():
+    def test_custom_metadata(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
         pass
 
-    def test_custom_active_flag():
+    def test_custom_active_flag(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
         pass
 
-    def test_bad_image():
+    def test_bad_image(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
         pass
 
-    def test_fail():
+    def test_fail(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
         pass
 
-    def test_metadata_too_large():
+    def test_metadata_too_large(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
         pass
 
-    def test_image_too_large():
+    def test_image_too_large(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
         pass
 
-    def test_target_name_exist():
+    def test_target_name_exist(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
         pass
 
-    def test_project_inactive():
+    def test_project_inactive(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
         pass
 
-    def test_unknown_vws_error():
+    def test_unknown_vws_error(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
         pass
 
 
