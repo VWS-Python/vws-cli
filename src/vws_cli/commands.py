@@ -185,6 +185,11 @@ def delete_target(
 
 
 @click.command(name='wait-for-target-processed')
+@click.option(
+    '--seconds-between-requests',
+    type=click.FloatRange(min=0.05),
+    default=0.2,
+)
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
@@ -193,6 +198,7 @@ def wait_for_target_processed(
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
+    seconds_between_requests: float,
 ) -> None:
     """
     Wait for a target to be "processed".
@@ -203,4 +209,7 @@ def wait_for_target_processed(
         server_secret_key=server_secret_key,
     )
 
-    vws_client.wait_for_target_processed(target_id=target_id)
+    vws_client.wait_for_target_processed(
+        seconds_between_requests=seconds_between_requests,
+        target_id=target_id,
+    )
