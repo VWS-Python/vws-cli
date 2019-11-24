@@ -183,6 +183,7 @@ def delete_target(
 
     vws_client.delete_target(target_id=target_id)
 
+
 _SECONDS_BETWEEN_REQUESTS_HELP = (
     'The number of seconds to wait between requests made while polling the '
     'target status. '
@@ -194,6 +195,7 @@ _SECONDS_BETWEEN_REQUESTS_HELP = (
 _TIMEOUT_SECONDS_HELP = (
     'The maximum number of seconds to wait for the target to be processed.'
 )
+
 
 @click.command(name='wait-for-target-processed')
 @click.option(
