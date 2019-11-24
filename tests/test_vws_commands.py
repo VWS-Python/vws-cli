@@ -412,7 +412,7 @@ class TestWaitForTargetProcessed:
                 '--target-id',
                 target_id,
                 '--seconds-between-requests',
-                0.3,
+                '0.3',
                 '--server-access-key',
                 mock_database.server_access_key,
                 '--server-secret-key',
@@ -442,14 +442,13 @@ class TestWaitForTargetProcessed:
             expected_requests = 0
             assert report['request_usage'] == expected_requests
 
-    def test_custom_seconds_between_requests_too_small(
+    def test_custom_seconds_too_small(
         self,
-        high_quality_image: io.BytesIO,
-        vws_client: VWS,
         mock_database: VuforiaDatabase,
     ) -> None:
         """
-        The minimum valid value is 0.05 seconds.
+        The minimum valid value for ``--seconds-between-requests`` is 0.05
+        seconds.
         """
         runner = CliRunner(mix_stderr=False)
         commands = [
@@ -457,7 +456,7 @@ class TestWaitForTargetProcessed:
             '--target-id',
             'x',
             '--seconds-between-requests',
-            0.01,
+            '0.01',
             '--server-access-key',
             mock_database.server_access_key,
             '--server-secret-key',
@@ -466,43 +465,7 @@ class TestWaitForTargetProcessed:
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code != 0
         assert result.stdout == ''
-        expected_substring = '0.01 is smaller than the minimum valid value 0.05'
+        expected_substring = (
+            '0.01 is smaller than the minimum valid value 0.05'
+        )
         assert expected_substring in result.stderr
-
-    # def test_custom_timeout(
-    #     self,
-    #     high_quality_image: io.BytesIO,
-    # ) -> None:
-    #     """
-    #     It is possible to set a maximum timeout.
-    #     """
-    #     with MockVWS(processing_time_seconds=0.5) as mock:
-    #         mock_database = VuforiaDatabase()
-    #         mock.add_database(database=mock_database)
-    #         vws_client = VWS(
-    #             server_access_key=mock_database.server_access_key,
-    #             server_secret_key=mock_database.server_secret_key,
-    #         )
-    #
-    #         target_id = vws_client.add_target(
-    #             name='x',
-    #             width=1,
-    #             image=high_quality_image,
-    #             active_flag=True,
-    #             application_metadata=None,
-    #         )
-    #
-    #         report = vws_client.get_target_summary_report(target_id=target_id)
-    #         assert report['status'] == 'processing'
-    #         with pytest.raises(TargetProcessingTimeout):
-    #             vws_client.wait_for_target_processed(
-    #                 target_id=target_id,
-    #                 timeout_seconds=0.1,
-    #             )
-    #
-    #         vws_client.wait_for_target_processed(
-    #             target_id=target_id,
-    #             timeout_seconds=0.5,
-    #         )
-    #         report = vws_client.get_target_summary_report(target_id=target_id)
-    #         assert report['status'] != 'processing'
