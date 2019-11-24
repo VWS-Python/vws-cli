@@ -283,6 +283,7 @@ def test_get_duplicate_targets(
     expected_result_data = [target_id_2]
     assert result_data == expected_result_data
 
+
 class TestWaitForTargetProcessed:
 
     def test_wait_for_target_processed(

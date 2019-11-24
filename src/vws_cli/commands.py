@@ -183,6 +183,7 @@ def delete_target(
 
     vws_client.delete_target(target_id=target_id)
 
+
 @click.command(name='wait-for-target-processed')
 @server_access_key_option
 @server_secret_key_option
