@@ -3,6 +3,7 @@ Tests for VWS CLI commands.
 """
 
 import io
+from pathlib import Path
 from textwrap import dedent
 
 import yaml
@@ -295,6 +296,7 @@ class TestAddTarget:
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
+        tmp_path: Path,
     ) -> None:
         runner = CliRunner()
         commands = [
