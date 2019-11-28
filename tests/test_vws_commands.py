@@ -336,6 +336,42 @@ class TestAddTarget:
         assert query_result['target_id'] == target_id
         assert query_result['target_data']['application_metadata'] is None
 
+    def test_image_file_does_not_exist(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        cloud_reco_client: CloudRecoService,
+    ):
+        runner = CliRunner(mix_stderr=False)
+        does_not_exist_file = tmp_path / uuid.uuid4().hex
+        commands = [
+            'add-target',
+            '--name',
+            'foo',
+            '--width',
+            '1',
+            '--image',
+            str(does_not_exist_file),
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 2
+        assert result.stdout == ''
+        expected_stderr = dedent(
+            f"""\
+            Usage: vws add-target [OPTIONS]
+            Try "vws add-target -h" for help.
+
+            Error: Invalid value for "--image": File "{does_not_exist_file}" does not exist.
+            """,
+        )
+        assert result.stderr == expected_stderr
+
     def test_custom_metadata(
         self,
         mock_database: VuforiaDatabase,
