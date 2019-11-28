@@ -4,6 +4,7 @@ Tests for VWS CLI commands.
 
 import io
 import uuid
+import random
 from pathlib import Path
 from textwrap import dedent
 
@@ -303,10 +304,16 @@ class TestAddTarget:
     ) -> None:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
+        name = uuid.uuid4().hex
         new_file.write_bytes(data=high_quality_image.read())
+        width = random.uniform(a=0.01, b=50)
         commands = [
             'add-target',
-            'myname',
+            '--name',
+            name,
+            '--width',
+            width,
+            '--image',
             str(new_file),
             '--server-access-key',
             mock_database.server_access_key,

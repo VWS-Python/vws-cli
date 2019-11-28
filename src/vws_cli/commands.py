@@ -190,8 +190,10 @@ def delete_target(
 @click.command(name='add-target')
 @server_access_key_option
 @server_secret_key_option
-@click.argument('name', type=str, required=True)
-@click.argument(
+@click.option('--name', type=str, required=True)
+@click.option('--width', type=float, required=True)
+@click.option(
+    '--image',
     'image_file_path',
     type=click_pathlib.Path(exists=True, file_okay=True, dir_okay=False),
     required=True,
@@ -200,6 +202,7 @@ def add_target(
     server_access_key: str,
     server_secret_key: str,
     name: str,
+    width: float,
     image_file_path: Path,
 ) -> None:
     """
@@ -216,8 +219,8 @@ def add_target(
     image = io.BytesIO(image_file_path.read_bytes())
 
     target_id = vws_client.add_target(
-        name='a',
-        width=1,
+        name=name,
+        width=width,
         image=image,
         active_flag=True,
         application_metadata=None,
