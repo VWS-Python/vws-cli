@@ -292,6 +292,8 @@ class TestAddTarget:
     Tests for ``vws add-target``.
     """
 
+    # TODO test give file does not exist, give dir which does exist, give relative path
+
     def test_add_target(
         self,
         mock_database: VuforiaDatabase,
@@ -304,6 +306,8 @@ class TestAddTarget:
         new_file.write_bytes(data=high_quality_image.read())
         commands = [
             'add-target',
+            'myname',
+            str(new_file),
             '--server-access-key',
             mock_database.server_access_key,
             '--server-secret-key',

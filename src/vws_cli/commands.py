@@ -2,10 +2,13 @@
 ``click`` commands the VWS CLI.
 """
 
+import io
 import sys
+from pathlib import Path
 from typing import Any, Callable, Dict, Tuple
 
 import click
+import click_pathlib
 import wrapt
 import yaml
 from vws import VWS
@@ -187,9 +190,17 @@ def delete_target(
 @click.command(name='add-target')
 @server_access_key_option
 @server_secret_key_option
+@click.argument('name', type=str, required=True)
+@click.argument(
+    'image_file_path',
+    type=click_pathlib.Path(exists=True, file_okay=True, dir_okay=False),
+    required=True,
+)
 def add_target(
     server_access_key: str,
     server_secret_key: str,
+    name: str,
+    image_file_path: Path,
 ) -> None:
     """
     Add a target.
@@ -201,6 +212,18 @@ def add_target(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
     )
+
+    image = io.BytesIO(image_file_path.read_bytes())
+
+    target_id = vws_client.add_target(
+        name='a',
+        width=1,
+        image=image,
+        active_flag=True,
+        application_metadata=None,
+    )
+
+    click.echo(target_id)
 
 
 _SECONDS_BETWEEN_REQUESTS_DEFAULT = 0.2
