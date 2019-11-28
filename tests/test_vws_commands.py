@@ -3,8 +3,8 @@ Tests for VWS CLI commands.
 """
 
 import io
-import uuid
 import random
+import uuid
 from pathlib import Path
 from textwrap import dedent
 
@@ -12,7 +12,7 @@ import yaml
 from click.testing import CliRunner
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
-from vws import VWS
+from vws import VWS, CloudRecoService
 
 from vws_cli import vws_group
 
@@ -301,11 +301,13 @@ class TestAddTarget:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
+        cloud_reco_client: CloudRecoService,
     ) -> None:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         name = uuid.uuid4().hex
-        new_file.write_bytes(data=high_quality_image.read())
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
         width = random.uniform(a=0.01, b=50)
         commands = [
             'add-target',
@@ -328,10 +330,11 @@ class TestAddTarget:
         assert target_record['name'] == name
         assert target_record['width'] == width
         assert target_record['active_flag'] == True
-        # TODO make a query so we can see that the metadata is None
-        # TODO make a query so we can see that the image has been uploaded
-        #   fine.
+        vws_client.wait_for_target_processed(target_id=target_id)
 
+        [query_result] = cloud_reco_client.query(image=high_quality_image)
+        assert query_result['target_id'] == target_id
+        assert query_result['target_data']['application_metadata'] is None
 
     def test_custom_metadata(
         self,
