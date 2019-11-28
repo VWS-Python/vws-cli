@@ -3,6 +3,7 @@ Tests for VWS CLI commands.
 """
 
 import io
+import uuid
 from pathlib import Path
 from textwrap import dedent
 
@@ -299,6 +300,8 @@ class TestAddTarget:
         tmp_path: Path,
     ) -> None:
         runner = CliRunner()
+        new_file = tmp_path / uuid.uuid4().hex
+        new_file.write_bytes(data=high_quality_image.read())
         commands = [
             'add-target',
             '--server-access-key',
@@ -308,8 +311,8 @@ class TestAddTarget:
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
-        assert result.stdout == ''
 
+        target_id = result.stdout.strip()
         target_record = vws_client.get_target_record(target_id=target_id)
         assert target_record['name'] == name
         assert target_record['width'] == width
