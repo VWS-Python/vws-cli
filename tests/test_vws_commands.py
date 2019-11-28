@@ -327,6 +327,10 @@ class TestAddTarget:
         target_record = vws_client.get_target_record(target_id=target_id)
         assert target_record['name'] == name
         assert target_record['width'] == width
+        assert target_record['active_flag'] == True
+        # TODO make a query so we can see that the metadata is None
+        # TODO make a query so we can see that the image has been uploaded
+        #   fine.
 
 
     def test_custom_metadata(
