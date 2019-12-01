@@ -218,6 +218,7 @@ def add_target(
 
     image = io.BytesIO(image_file_path.read_bytes())
 
+    import pdb; pdb.set_trace()
     target_id = vws_client.add_target(
         name=name,
         width=width,

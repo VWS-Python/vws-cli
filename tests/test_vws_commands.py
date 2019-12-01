@@ -407,6 +407,42 @@ class TestAddTarget:
         )
         assert result.stderr == expected_stderr
 
+    def test_relative_path(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        cloud_reco_client: CloudRecoService,
+    ):
+        runner = CliRunner(mix_stderr=False)
+        new_filename = uuid.uuid4().hex
+        original_image_file = tmp_path / 'foo'
+        image_data = high_quality_image.getvalue()
+        original_image_file.write_bytes(image_data)
+        name = uuid.uuid4().hex
+        commands = [
+            'add-target',
+            '--name',
+            name,
+            '--width',
+            '1',
+            '--image',
+            new_filename,
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        with runner.isolated_filesystem():
+            new_file = Path(new_filename)
+            new_file.symlink_to(original_image_file)
+            result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+        target_id = result.stdout.strip()
+        target_record = vws_client.get_target_record(target_id=target_id)
+        assert target_record['name'] == name
+
     def test_custom_metadata(
         self,
         mock_database: VuforiaDatabase,
