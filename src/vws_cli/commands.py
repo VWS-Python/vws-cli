@@ -5,7 +5,7 @@
 import io
 import sys
 from pathlib import Path
-from typing import Any, Callable, Dict, Tuple
+from typing import Any, Callable, Dict, Optional, Tuple
 
 import click
 import click_pathlib
@@ -200,12 +200,18 @@ def delete_target(
     type=click_pathlib.Path(exists=True, file_okay=True, dir_okay=False),
     required=True,
 )
+@click.option(
+    '--application-metadata',
+    type=str,
+    required=False,
+)
 def add_target(
     server_access_key: str,
     server_secret_key: str,
     name: str,
     width: float,
     image_file_path: Path,
+    application_metadata: Optional[str] = None,
 ) -> None:
     """
     Add a target.
@@ -220,13 +226,15 @@ def add_target(
 
     image = io.BytesIO(image_file_path.read_bytes())
 
-    import pdb; pdb.set_trace()
+    if application_metadata is not None:
+        application_metadata = application_metadata.encode('utf-8')
+
     target_id = vws_client.add_target(
         name=name,
         width=width,
         image=image,
         active_flag=True,
-        application_metadata=None,
+        application_metadata=application_metadata,
     )
 
     click.echo(target_id)

@@ -2,6 +2,7 @@
 Tests for VWS CLI commands.
 """
 
+import base64
 import io
 import random
 import uuid
@@ -444,7 +445,9 @@ class TestAddTarget:
     def test_custom_metadata(
         self,
         mock_database: VuforiaDatabase,
+        cloud_reco_client: CloudRecoService,
         vws_client: VWS,
+        tmp_path: Path,
         high_quality_image: io.BytesIO,
     ) -> None:
         runner = CliRunner()
@@ -452,16 +455,17 @@ class TestAddTarget:
         name = uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
-        width = random.uniform(a=0.01, b=50)
+        application_metadata = uuid.uuid4().hex
         commands = [
             'add-target',
             '--name',
             name,
             '--width',
-            width,
+            0.1,
             '--image',
             str(new_file),
-            '--application-metadata',,
+            '--application-metadata',
+            application_metadata,
             '--server-access-key',
             mock_database.server_access_key,
             '--server-secret-key',
@@ -469,17 +473,14 @@ class TestAddTarget:
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
-
         target_id = result.stdout.strip()
-        target_record = vws_client.get_target_record(target_id=target_id)
-        assert target_record['name'] == name
-        assert target_record['width'] == width
-        assert target_record['active_flag'] == True
         vws_client.wait_for_target_processed(target_id=target_id)
-
         [query_result] = cloud_reco_client.query(image=high_quality_image)
         assert query_result['target_id'] == target_id
-        assert query_result['target_data']['application_metadata'] is None
+        query_metadata = query_result['target_data']['application_metadata']
+        decoded_query_metadata_bytes = base64.b64decode(query_metadata)
+        decoded_query_metadata = decoded_query_metadata_bytes.decode('utf-8')
+        assert decoded_query_metadata == application_metadata
 
     def test_custom_active_flag(
         self,
