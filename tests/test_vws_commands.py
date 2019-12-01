@@ -313,7 +313,7 @@ class TestAddTarget:
             '--name',
             name,
             '--width',
-            width,
+            str(width),
             '--image',
             str(new_file),
             '--server-access-key',
@@ -342,7 +342,7 @@ class TestAddTarget:
         high_quality_image: io.BytesIO,
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
-    ):
+    ) -> None:
         runner = CliRunner(mix_stderr=False)
         does_not_exist_file = tmp_path / uuid.uuid4().hex
         commands = [
@@ -378,7 +378,7 @@ class TestAddTarget:
         high_quality_image: io.BytesIO,
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
-    ):
+    ) -> None:
         runner = CliRunner(mix_stderr=False)
         commands = [
             'add-target',
@@ -413,7 +413,7 @@ class TestAddTarget:
         high_quality_image: io.BytesIO,
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
-    ):
+    ) -> None:
         runner = CliRunner(mix_stderr=False)
         new_filename = uuid.uuid4().hex
         original_image_file = tmp_path / 'foo'
@@ -461,7 +461,7 @@ class TestAddTarget:
             '--name',
             name,
             '--width',
-            0.1,
+            '0.1',
             '--image',
             str(new_file),
             '--application-metadata',
