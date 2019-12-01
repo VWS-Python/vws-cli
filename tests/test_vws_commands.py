@@ -293,7 +293,7 @@ class TestAddTarget:
     Tests for ``vws add-target``.
     """
 
-    # TODO test give file does not exist, give dir which does exist, give relative path
+    # TODO test give image as relative path
 
     def test_add_target(
         self,
@@ -368,6 +368,41 @@ class TestAddTarget:
             Try "vws add-target -h" for help.
 
             Error: Invalid value for "--image": File "{does_not_exist_file}" does not exist.
+            """,
+        )
+        assert result.stderr == expected_stderr
+
+    def test_image_file_is_dir(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        cloud_reco_client: CloudRecoService,
+    ):
+        runner = CliRunner(mix_stderr=False)
+        commands = [
+            'add-target',
+            '--name',
+            'foo',
+            '--width',
+            '1',
+            '--image',
+            str(tmp_path),
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 2
+        assert result.stdout == ''
+        expected_stderr = dedent(
+            f"""\
+            Usage: vws add-target [OPTIONS]
+            Try "vws add-target -h" for help.
+
+            Error: Invalid value for "--image": File "{tmp_path}" is a directory.
             """,
         )
         assert result.stderr == expected_stderr
