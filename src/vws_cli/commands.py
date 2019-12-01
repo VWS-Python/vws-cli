@@ -187,6 +187,8 @@ def delete_target(
     vws_client.delete_target(target_id=target_id)
 
 
+# TODO help for these options
+# TODO move to common options to use with update
 @click.command(name='add-target')
 @server_access_key_option
 @server_secret_key_option

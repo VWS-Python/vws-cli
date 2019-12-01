@@ -293,8 +293,6 @@ class TestAddTarget:
     Tests for ``vws add-target``.
     """
 
-    # TODO test give image as relative path
-
     def test_add_target(
         self,
         mock_database: VuforiaDatabase,
@@ -449,7 +447,39 @@ class TestAddTarget:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
     ) -> None:
-        pass
+        runner = CliRunner()
+        new_file = tmp_path / uuid.uuid4().hex
+        name = uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        width = random.uniform(a=0.01, b=50)
+        commands = [
+            'add-target',
+            '--name',
+            name,
+            '--width',
+            width,
+            '--image',
+            str(new_file),
+            '--application-metadata',,
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+
+        target_id = result.stdout.strip()
+        target_record = vws_client.get_target_record(target_id=target_id)
+        assert target_record['name'] == name
+        assert target_record['width'] == width
+        assert target_record['active_flag'] == True
+        vws_client.wait_for_target_processed(target_id=target_id)
+
+        [query_result] = cloud_reco_client.query(image=high_quality_image)
+        assert query_result['target_id'] == target_id
+        assert query_result['target_data']['application_metadata'] is None
 
     def test_custom_active_flag(
         self,
