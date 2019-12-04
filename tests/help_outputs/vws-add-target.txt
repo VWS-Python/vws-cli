@@ -3,6 +3,7 @@ Usage: vws add-target [OPTIONS]
   Add a target.
 
   See
+  https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API#How-To-Add-a-Target
 
 Options:
   --server-access-key TEXT  A Vuforia server access key to use to access the
