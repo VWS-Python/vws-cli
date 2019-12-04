@@ -472,6 +472,9 @@ class TestAddTarget:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         application_metadata = uuid.uuid4().hex
+        metadata_bytes = application_metadata.encode('ascii')
+        base64_encoded_metadata_bytes = base64.b64encode(metadata_bytes)
+        base64_encoded_metadata = base64_encoded_metadata_bytes.decode('ascii')
         commands = [
             'add-target',
             '--name',
@@ -481,7 +484,7 @@ class TestAddTarget:
             '--image',
             str(new_file),
             '--application-metadata',
-            application_metadata,
+            base64_encoded_metadata,
             '--server-access-key',
             mock_database.server_access_key,
             '--server-secret-key',
@@ -494,9 +497,7 @@ class TestAddTarget:
         [query_result] = cloud_reco_client.query(image=high_quality_image)
         assert query_result['target_id'] == target_id
         query_metadata = query_result['target_data']['application_metadata']
-        decoded_query_metadata_bytes = base64.b64decode(query_metadata)
-        decoded_query_metadata = decoded_query_metadata_bytes.decode('utf-8')
-        assert decoded_query_metadata == application_metadata
+        assert query_metadata == base64_encoded_metadata
 
     def test_custom_active_flag(
         self,
