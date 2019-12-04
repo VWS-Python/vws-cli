@@ -287,7 +287,7 @@ def test_get_duplicate_targets(
 
 class TestWaitForTargetProcessed:
     """
-    Tests for the ``wait-for-target-processed``.
+    Tests for ``vws wait-for-target-processed``.
     """
 
     def test_wait_for_target_processed(
