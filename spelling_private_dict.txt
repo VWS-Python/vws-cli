@@ -5,6 +5,8 @@ cli
 linter
 linting
 macOS
+metadata
+noqa
 pragma
 pytest
 ubuntu
