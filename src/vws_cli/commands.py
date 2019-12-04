@@ -189,6 +189,7 @@ def delete_target(
 
 # TODO help for these options
 # TODO move to common options to use with update
+# TODO metadata encoding?
 @click.command(name='add-target')
 @server_access_key_option
 @server_secret_key_option
