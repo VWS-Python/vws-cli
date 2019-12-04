@@ -8,7 +8,7 @@ from typing import Iterator
 import pytest
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
-from vws import VWS
+from vws import VWS, CloudRecoService
 
 
 @pytest.fixture(name='mock_database')
@@ -30,6 +30,19 @@ def vws_client(mock_database: VuforiaDatabase) -> Iterator[VWS]:
     yield VWS(
         server_access_key=mock_database.server_access_key,
         server_secret_key=mock_database.server_secret_key,
+    )
+
+
+@pytest.fixture()
+def cloud_reco_client(
+    mock_database: VuforiaDatabase,
+) -> Iterator[CloudRecoService]:
+    """
+    Yield a ``CloudRecoService`` client which connects to a mock database.
+    """
+    yield CloudRecoService(
+        client_access_key=mock_database.client_access_key,
+        client_secret_key=mock_database.client_secret_key,
     )
 
 

@@ -2,8 +2,10 @@
 ``click`` commands the VWS CLI.
 """
 
+import io
 import sys
-from typing import Any, Callable, Dict, Tuple
+from pathlib import Path
+from typing import Any, Callable, Dict, Optional, Tuple
 
 import click
 import wrapt
@@ -15,7 +17,12 @@ from vws_cli.options.credentials import (
     server_access_key_option,
     server_secret_key_option,
 )
-from vws_cli.options.targets import target_id_option
+from vws_cli.options.targets import (
+    target_id_option,
+    target_image_option,
+    target_name_option,
+    target_width_option,
+)
 
 
 @wrapt.decorator
@@ -182,6 +189,46 @@ def delete_target(
     )
 
     vws_client.delete_target(target_id=target_id)
+
+
+@click.command(name='add-target')
+@server_access_key_option
+@server_secret_key_option
+@target_name_option
+@target_width_option
+@target_image_option
+def add_target(
+    server_access_key: str,
+    server_secret_key: str,
+    name: str,
+    width: float,
+    image_file_path: Path,
+    application_metadata: Optional[str] = None,
+    active_flag_false: bool = False,
+) -> None:
+    """
+    Add a target.
+
+    \b
+    See
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API#How-To-Add-a-Target
+    """
+    vws_client = VWS(
+        server_access_key=server_access_key,
+        server_secret_key=server_secret_key,
+    )
+
+    image = io.BytesIO(image_file_path.read_bytes())
+
+    target_id = vws_client.add_target(
+        name=name,
+        width=width,
+        image=image,
+        active_flag=not active_flag_false,
+        application_metadata=application_metadata,
+    )
+
+    click.echo(target_id)
 
 
 _SECONDS_BETWEEN_REQUESTS_DEFAULT = 0.2

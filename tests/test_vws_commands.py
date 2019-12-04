@@ -3,13 +3,16 @@ Tests for VWS CLI commands.
 """
 
 import io
+import random
+import uuid
+from pathlib import Path
 from textwrap import dedent
 
 import yaml
 from click.testing import CliRunner
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
-from vws import VWS
+from vws import VWS, CloudRecoService
 
 from vws_cli import vws_group
 
@@ -283,6 +286,166 @@ def test_get_duplicate_targets(
     result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
     expected_result_data = [target_id_2]
     assert result_data == expected_result_data
+
+
+class TestAddTarget:
+    """
+    Tests for ``vws add-target``.
+    """
+
+    def test_add_target(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        cloud_reco_client: CloudRecoService,
+    ) -> None:
+        """
+        It is possible to add a target.
+        """
+        runner = CliRunner()
+        new_file = tmp_path / uuid.uuid4().hex
+        name = uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        width = random.uniform(a=0.01, b=50)
+        commands = [
+            'add-target',
+            '--name',
+            name,
+            '--width',
+            str(width),
+            '--image',
+            str(new_file),
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+
+        target_id = result.stdout.strip()
+        target_record = vws_client.get_target_record(target_id=target_id)
+        assert target_record['name'] == name
+        assert target_record['width'] == width
+        assert target_record['active_flag'] is True
+        vws_client.wait_for_target_processed(target_id=target_id)
+
+        [query_result] = cloud_reco_client.query(image=high_quality_image)
+        assert query_result['target_id'] == target_id
+        assert query_result['target_data']['application_metadata'] is None
+
+    def test_image_file_does_not_exist(
+        self,
+        mock_database: VuforiaDatabase,
+        tmp_path: Path,
+    ) -> None:
+        """
+        An appropriate error is given if the given image file does not exist.
+        """
+        runner = CliRunner(mix_stderr=False)
+        does_not_exist_file = tmp_path / uuid.uuid4().hex
+        commands = [
+            'add-target',
+            '--name',
+            'foo',
+            '--width',
+            '1',
+            '--image',
+            str(does_not_exist_file),
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 2
+        assert result.stdout == ''
+        expected_stderr = dedent(
+            f"""\
+            Usage: vws add-target [OPTIONS]
+            Try "vws add-target -h" for help.
+
+            Error: Invalid value for "--image": File "{does_not_exist_file}" does not exist.
+            """,  # noqa: E501
+        )
+        assert result.stderr == expected_stderr
+
+    def test_image_file_is_dir(
+        self,
+        mock_database: VuforiaDatabase,
+        tmp_path: Path,
+    ) -> None:
+        """
+        An appropriate error is given if the given image file path points to a
+        directory.
+        """
+        runner = CliRunner(mix_stderr=False)
+        commands = [
+            'add-target',
+            '--name',
+            'foo',
+            '--width',
+            '1',
+            '--image',
+            str(tmp_path),
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 2
+        assert result.stdout == ''
+        expected_stderr = dedent(
+            f"""\
+            Usage: vws add-target [OPTIONS]
+            Try "vws add-target -h" for help.
+
+            Error: Invalid value for "--image": File "{tmp_path}" is a directory.
+            """,  # noqa: E501
+        )
+        assert result.stderr == expected_stderr
+
+    def test_relative_path(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+    ) -> None:
+        """
+        Image file paths are resolved.
+        """
+        runner = CliRunner(mix_stderr=False)
+        new_filename = uuid.uuid4().hex
+        original_image_file = tmp_path / 'foo'
+        image_data = high_quality_image.getvalue()
+        original_image_file.write_bytes(image_data)
+        name = uuid.uuid4().hex
+        commands = [
+            'add-target',
+            '--name',
+            name,
+            '--width',
+            '1',
+            '--image',
+            new_filename,
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        with runner.isolated_filesystem():
+            new_file = Path(new_filename)
+            new_file.symlink_to(original_image_file)
+            result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+        target_id = result.stdout.strip()
+        target_record = vws_client.get_target_record(target_id=target_id)
+        assert target_record['name'] == name
 
 
 class TestWaitForTargetProcessed:
