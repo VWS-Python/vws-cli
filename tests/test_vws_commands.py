@@ -328,7 +328,7 @@ class TestAddTarget:
         target_record = vws_client.get_target_record(target_id=target_id)
         assert target_record['name'] == name
         assert target_record['width'] == width
-        assert target_record['active_flag'] == True
+        assert target_record['active_flag'] is True
         vws_client.wait_for_target_processed(target_id=target_id)
 
         [query_result] = cloud_reco_client.query(image=high_quality_image)
