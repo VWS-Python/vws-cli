@@ -1,0 +1,17 @@
+Usage: vws add-target [OPTIONS]
+
+  Add a target.
+
+  See
+
+Options:
+  --server-access-key TEXT     A Vuforia server access key to use to access the
+                               Vuforia Web Services API.  [required]
+  --server-secret-key TEXT     A Vuforia server secret key to use to access the
+                               Vuforia Web Services API.  [required]
+  --name TEXT                  [required]
+  --width FLOAT                [required]
+  --image FILE                 [required]
+  --application-metadata TEXT
+  --active-flag-false
+  -h, --help                   Show this message and exit.
