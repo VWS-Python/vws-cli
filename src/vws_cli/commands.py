@@ -211,6 +211,7 @@ def add_target(
 
     \b
     See
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API#How-To-Add-a-Target
     """
     vws_client = VWS(
         server_access_key=server_access_key,
