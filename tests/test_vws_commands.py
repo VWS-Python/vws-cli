@@ -302,6 +302,9 @@ class TestAddTarget:
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
     ) -> None:
+        """
+        It is possible to add a target.
+        """
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         name = uuid.uuid4().hex
@@ -343,6 +346,9 @@ class TestAddTarget:
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
     ) -> None:
+        """
+        An appropriate error is given if the given image file does not exist.
+        """
         runner = CliRunner(mix_stderr=False)
         does_not_exist_file = tmp_path / uuid.uuid4().hex
         commands = [
@@ -379,6 +385,10 @@ class TestAddTarget:
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
     ) -> None:
+        """
+        An appropriate error is given if the given image file path points to a
+        directory.
+        """
         runner = CliRunner(mix_stderr=False)
         commands = [
             'add-target',
@@ -414,6 +424,9 @@ class TestAddTarget:
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
     ) -> None:
+        """
+        Image file paths are resolved.
+        """
         runner = CliRunner(mix_stderr=False)
         new_filename = uuid.uuid4().hex
         original_image_file = tmp_path / 'foo'
@@ -450,6 +463,9 @@ class TestAddTarget:
         tmp_path: Path,
         high_quality_image: io.BytesIO,
     ) -> None:
+        """
+        Custom metadata can be given.
+        """
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         name = uuid.uuid4().hex
@@ -488,6 +504,9 @@ class TestAddTarget:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
     ) -> None:
+        """
+        The Active Flag of the new target can be set to False.
+        """
         pass
 
     def test_bad_image(
