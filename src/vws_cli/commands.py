@@ -228,8 +228,8 @@ def add_target(
     image = io.BytesIO(image_file_path.read_bytes())
 
     metadata: Optional[bytes] = (
-        application_metadata.encode('utf-8') if application_metadata is not
-        None else application_metadata
+        application_metadata.encode('utf-8')
+        if application_metadata is not None else application_metadata
     )
     target_id = vws_client.add_target(
         name=name,

@@ -367,7 +367,7 @@ class TestAddTarget:
             Try "vws add-target -h" for help.
 
             Error: Invalid value for "--image": File "{does_not_exist_file}" does not exist.
-            """,
+            """,  # noqa: E501
         )
         assert result.stderr == expected_stderr
 
@@ -402,7 +402,7 @@ class TestAddTarget:
             Try "vws add-target -h" for help.
 
             Error: Invalid value for "--image": File "{tmp_path}" is a directory.
-            """,
+            """,  # noqa: E501
         )
         assert result.stderr == expected_stderr
 
