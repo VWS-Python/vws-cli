@@ -206,6 +206,10 @@ def delete_target(
     type=str,
     required=False,
 )
+@click.option(
+    '--active-flag-false',
+    is_flag=True,
+)
 def add_target(
     server_access_key: str,
     server_secret_key: str,
@@ -213,6 +217,7 @@ def add_target(
     width: float,
     image_file_path: Path,
     application_metadata: Optional[str] = None,
+    active_flag_false: bool = False,
 ) -> None:
     """
     Add a target.
@@ -231,7 +236,7 @@ def add_target(
         name=name,
         width=width,
         image=image,
-        active_flag=True,
+        active_flag=not active_flag_false,
         application_metadata=application_metadata,
     )
 

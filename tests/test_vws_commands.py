@@ -504,11 +504,35 @@ class TestAddTarget:
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
+        tmp_path: Path,
     ) -> None:
         """
         The Active Flag of the new target can be set to False.
         """
-        pass
+        runner = CliRunner()
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        commands = [
+            'add-target',
+            '--name',
+            'foo',
+            '--width',
+            '0.1',
+            '--image',
+            str(new_file),
+            '--active-flag-false',
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+
+        target_id = result.stdout.strip()
+        target_record = vws_client.get_target_record(target_id=target_id)
+        assert target_record['active_flag'] is False
 
     def test_bad_image(
         self,
