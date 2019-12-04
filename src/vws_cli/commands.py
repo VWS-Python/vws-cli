@@ -18,7 +18,12 @@ from vws_cli.options.credentials import (
     server_access_key_option,
     server_secret_key_option,
 )
-from vws_cli.options.targets import target_id_option
+from vws_cli.options.targets import (
+    target_id_option,
+    target_image_option,
+    target_name_option,
+    target_width_option,
+)
 
 
 @wrapt.decorator
@@ -187,20 +192,12 @@ def delete_target(
     vws_client.delete_target(target_id=target_id)
 
 
-# TODO help for these options
-# TODO move to common options to use with update
-# TODO metadata encoding?
 @click.command(name='add-target')
 @server_access_key_option
 @server_secret_key_option
-@click.option('--name', type=str, required=True)
-@click.option('--width', type=float, required=True)
-@click.option(
-    '--image',
-    'image_file_path',
-    type=click_pathlib.Path(exists=True, file_okay=True, dir_okay=False),
-    required=True,
-)
+@target_name_option
+@target_width_option
+@target_image_option
 @click.option(
     '--application-metadata',
     type=str,
@@ -224,6 +221,7 @@ def add_target(
 
     \b
     See
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API#How-To-Add-a-Target
     """
     vws_client = VWS(
         server_access_key=server_access_key,

@@ -341,10 +341,7 @@ class TestAddTarget:
     def test_image_file_does_not_exist(
         self,
         mock_database: VuforiaDatabase,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
         tmp_path: Path,
-        cloud_reco_client: CloudRecoService,
     ) -> None:
         """
         An appropriate error is given if the given image file does not exist.
@@ -380,10 +377,7 @@ class TestAddTarget:
     def test_image_file_is_dir(
         self,
         mock_database: VuforiaDatabase,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
         tmp_path: Path,
-        cloud_reco_client: CloudRecoService,
     ) -> None:
         """
         An appropriate error is given if the given image file path points to a
@@ -422,7 +416,6 @@ class TestAddTarget:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
-        cloud_reco_client: CloudRecoService,
     ) -> None:
         """
         Image file paths are resolved.
