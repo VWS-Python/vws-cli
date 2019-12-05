@@ -41,6 +41,9 @@ def test_bad_image(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    XXX
+    """
     pass
 
 
@@ -50,6 +53,9 @@ def test_fail(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    XXX
+    """
     pass
 
 
@@ -59,6 +65,9 @@ def test_metadata_too_large(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    XXX
+    """
     pass
 
 
@@ -68,6 +77,9 @@ def test_image_too_large(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    XXX
+    """
     pass
 
 
@@ -77,6 +89,9 @@ def test_target_name_exist(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    XXX
+    """
     pass
 
 
@@ -86,6 +101,9 @@ def test_project_inactive(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    XXX
+    """
     pass
 
 
@@ -95,4 +113,7 @@ def test_unknown_vws_error(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
+    """
+    XXX
+    """
     pass
