@@ -9,6 +9,7 @@ import uuid
 from pathlib import Path
 from textwrap import dedent
 
+import pytest
 import yaml
 from click.testing import CliRunner
 from mock_vws import MockVWS
@@ -492,12 +493,21 @@ class TestAddTarget:
         query_metadata = query_result['target_data']['application_metadata']
         assert query_metadata == base64_encoded_metadata
 
+    @pytest.mark.parametrize(
+        'active_flag_given,active_flag_expected',
+        [
+            ('true', True),
+            ('false', False),
+        ],
+    )
     def test_custom_active_flag(
         self,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
+        active_flag_given: str,
+        active_flag_expected: bool,
     ) -> None:
         """
         The Active Flag of the new target can be set to False.
@@ -514,7 +524,8 @@ class TestAddTarget:
             '0.1',
             '--image',
             str(new_file),
-            '--active-flag-false',
+            '--active-flag',
+            active_flag_given,
             '--server-access-key',
             mock_database.server_access_key,
             '--server-secret-key',
@@ -525,7 +536,7 @@ class TestAddTarget:
 
         target_id = result.stdout.strip()
         target_record = vws_client.get_target_record(target_id=target_id)
-        assert target_record['active_flag'] is False
+        assert target_record['active_flag'] is active_flag_expected
 
     def test_bad_image(
         self,

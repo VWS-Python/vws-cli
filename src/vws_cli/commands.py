@@ -18,6 +18,8 @@ from vws_cli.options.credentials import (
     server_secret_key_option,
 )
 from vws_cli.options.targets import (
+    ActiveFlagChoice,
+    active_flag_option,
     target_id_option,
     target_image_option,
     target_name_option,
@@ -202,18 +204,15 @@ def delete_target(
     type=str,
     required=False,
 )
-@click.option(
-    '--active-flag-false',
-    is_flag=True,
-)
+@active_flag_option
 def add_target(
     server_access_key: str,
     server_secret_key: str,
     name: str,
     width: float,
     image_file_path: Path,
+    active_flag_choice: ActiveFlagChoice,
     application_metadata: Optional[str] = None,
-    active_flag_false: bool = False,
 ) -> None:
     """
     Add a target.
@@ -229,11 +228,16 @@ def add_target(
 
     image = io.BytesIO(image_file_path.read_bytes())
 
+    active_flag = {
+        ActiveFlagChoice.TRUE: True,
+        ActiveFlagChoice.FALSE: False,
+    }[active_flag_choice]
+
     target_id = vws_client.add_target(
         name=name,
         width=width,
         image=image,
-        active_flag=not active_flag_false,
+        active_flag=active_flag,
         application_metadata=application_metadata,
     )
 

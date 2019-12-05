@@ -17,5 +17,6 @@ Options:
   --image FILE                 The path to an image to upload and set as the
                                target image.  [required]
   --application-metadata TEXT
-  --active-flag-false
+  --active-flag [true|false]   Whether or not the target is active for query.
+                               [default: true]
   -h, --help                   Show this message and exit.
