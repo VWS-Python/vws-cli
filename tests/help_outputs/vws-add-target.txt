@@ -16,5 +16,6 @@ Options:
                               [required]
   --image FILE                The path to an image to upload and set as the
                               target image.  [required]
-  --active-flag [true|false]  [default: true]
+  --active-flag [true|false]  Whether or not the target is active for query.
+                              [default: true]
   -h, --help                  Show this message and exit.
