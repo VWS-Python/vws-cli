@@ -91,7 +91,7 @@ def active_flag_option(command: Callable[..., None]) -> Callable[..., None]:
         ..., None]] = click.option(
             '--active-flag',
             'active_flag_choice',
-            type=click.Choice([item.value for item in list(ActiveFlagChoice)]),
+            type=click.Choice([item.value for item in ActiveFlagChoice]),
             default=ActiveFlagChoice.TRUE.value,
             callback=lambda _, __, value: ActiveFlagChoice(value),
             show_default=True,
