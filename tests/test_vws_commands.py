@@ -8,6 +8,7 @@ import uuid
 from pathlib import Path
 from textwrap import dedent
 
+import pytest
 import yaml
 from click.testing import CliRunner
 from mock_vws import MockVWS
@@ -446,6 +447,51 @@ class TestAddTarget:
         target_id = result.stdout.strip()
         target_record = vws_client.get_target_record(target_id=target_id)
         assert target_record['name'] == name
+
+    @pytest.mark.parametrize(
+        'active_flag_given,active_flag_expected',
+        [
+            ('true', True),
+            ('false', False),
+        ],
+    )
+    def test_custom_active_flag(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        active_flag_given: str,
+        active_flag_expected: bool,
+    ) -> None:
+        """
+        The Active Flag of the new target can be chosen.
+        """
+        runner = CliRunner()
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        commands = [
+            'add-target',
+            '--name',
+            'foo',
+            '--width',
+            '0.1',
+            '--image',
+            str(new_file),
+            '--active-flag',
+            active_flag_given,
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+
+        target_id = result.stdout.strip()
+        target_record = vws_client.get_target_record(target_id=target_id)
+        assert target_record['active_flag'] is active_flag_expected
 
 
 class TestWaitForTargetProcessed:
