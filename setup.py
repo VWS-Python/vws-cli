@@ -35,9 +35,9 @@ PACKAGING_REQUIRES = _get_dependencies(
 LONG_DESCRIPTION = Path('README.rst').read_text()
 
 setup(
-    name='TODO',
+    name='VWS CLI',
     author='Adam Dangoor',
-    author_email='todo',
+    author_email='adamdangoor@gmail.com',
     version=versioneer.get_version(),  # type: ignore
     cmdclass=versioneer.get_cmdclass(),  # type: ignore
     description='A CLI for Vuforia Web Services',
@@ -47,8 +47,8 @@ setup(
     package_dir={'': 'src'},
     install_requires=INSTALL_REQUIRES,
     include_package_data=True,
-    license='TODO',
-    keywords='todo',
+    license='MIT License',
+    keywords='vuforia vws cli',
     url='https://github.com/adamtheturtle/vws-cli',
     extras_require={
         'dev': DEV_REQUIRES,
