@@ -3,12 +3,14 @@ Tests for how errors from VWS are handled by the CLI.
 """
 
 import io
+from pathlib import Path
 
 from click.testing import CliRunner
 from mock_vws.database import VuforiaDatabase
 from vws import VWS
 
 from vws_cli import vws_group
+import uuid
 
 
 def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
@@ -43,7 +45,6 @@ def test_bad_image(
     """
     XXX
     """
-    pass
 
 
 def test_fail(
@@ -54,7 +55,6 @@ def test_fail(
     """
     XXX
     """
-    pass
 
 
 def test_metadata_too_large(
@@ -65,7 +65,6 @@ def test_metadata_too_large(
     """
     XXX
     """
-    pass
 
 
 def test_image_too_large(
@@ -73,6 +72,7 @@ def test_image_too_large(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
     png_too_large: io.BytesIO,
+    tmp_path: Path,
 ) -> None:
     """
     XXX
@@ -106,7 +106,6 @@ def test_target_name_exist(
     """
     XXX
     """
-    pass
 
 
 def test_project_inactive(
@@ -117,7 +116,6 @@ def test_project_inactive(
     """
     XXX
     """
-    pass
 
 
 def test_unknown_vws_error(
@@ -128,4 +126,3 @@ def test_unknown_vws_error(
     """
     XXX
     """
-    pass

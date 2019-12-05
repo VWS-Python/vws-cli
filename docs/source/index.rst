@@ -1,5 +1,5 @@
-VWS CLI
-=======
+|project|
+=========
 
 Installation
 ------------
