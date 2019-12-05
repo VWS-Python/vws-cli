@@ -99,3 +99,23 @@ def active_flag_option(command: Callable[..., None]) -> Callable[..., None]:
         )
     function: Callable[..., None] = click_option_function(command)
     return function
+
+
+def application_metadata_option(
+    command: Callable[..., None],
+) -> Callable[..., None]:
+    """
+    An option decorator for setting application metadata.
+    """
+    click_option_function: Callable[[Callable[..., None]], Callable[
+        ..., None]] = click.option(
+            '--application-metadata',
+            type=str,
+            required=False,
+            help=(
+                'The base64 encoded application metadata associated with the '
+                'target.'
+            ),
+        )
+    function: Callable[..., None] = click_option_function(command)
+    return function
