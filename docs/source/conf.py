@@ -90,3 +90,7 @@ linkcheck_ignore = [
 spelling_word_list_filename = '../../spelling_private_dict.txt'
 
 autodoc_member_order = 'bysource'
+
+rst_prolog = f"""
+.. |project| replace:: {project}
+"""

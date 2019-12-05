@@ -1,5 +1,5 @@
-Contributing to VWS CLI
-=======================
+Contributing to |project|
+=========================
 
 .. contents::
 
