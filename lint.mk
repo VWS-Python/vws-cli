@@ -8,7 +8,7 @@ yapf:
 	    --diff \
 	    --recursive \
 	    --exclude versioneer.py  \
-	    --exclude src/vws/_version.py \
+	    --exclude src/*/_version.py \
 	    .
 
 .PHONY: fix-yapf
@@ -17,7 +17,7 @@ fix-yapf:
 	    --in-place \
 	    --recursive \
 	    --exclude versioneer.py  \
-	    --exclude src/vws/_version.py \
+	    --exclude src/*/_version.py \
 	    .
 
 .PHONY: mypy
@@ -70,7 +70,7 @@ spelling:
 
 .PHONY: shellcheck
 shellcheck:
-	shellcheck --exclude SC2164,SC1091 admin/*.sh
+	shellcheck --exclude SC2164,SC1091 */*.sh
 
 .PHONY: autoflake
 autoflake:

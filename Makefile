@@ -29,13 +29,7 @@ fix-lint:
 	# See https://github.com/myint/autoflake/issues/8.
 	# Then later we put them back.
 	isort --force-single-line --recursive --apply
-	autoflake \
-	    --in-place \
-	    --recursive \
-	    --remove-all-unused-imports \
-	    --remove-unused-variables \
-	    --exclude src/vws/_version.py,versioneer.py \
-	    .
+	$(MAKE) autoflake
 	$(MAKE) fix-yapf
 	isort --recursive --apply
 
