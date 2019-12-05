@@ -510,7 +510,7 @@ class TestAddTarget:
         active_flag_expected: bool,
     ) -> None:
         """
-        The Active Flag of the new target can be set to False.
+        The Active Flag of the new target can be chosen.
         """
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
