@@ -20,6 +20,7 @@ from vws_cli.options.credentials import (
 from vws_cli.options.targets import (
     ActiveFlagChoice,
     active_flag_option,
+    application_metadata_option,
     target_id_option,
     target_image_option,
     target_name_option,
@@ -199,6 +200,7 @@ def delete_target(
 @target_name_option
 @target_width_option
 @target_image_option
+@application_metadata_option
 @active_flag_option
 def add_target(
     server_access_key: str,
