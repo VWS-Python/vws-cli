@@ -8,7 +8,6 @@ from pathlib import Path
 from typing import Any, Callable, Dict, Optional, Tuple
 
 import click
-import click_pathlib
 import wrapt
 import yaml
 from vws import VWS
