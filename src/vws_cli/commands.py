@@ -199,6 +199,11 @@ def delete_target(
 @target_name_option
 @target_width_option
 @target_image_option
+@click.option(
+    '--application-metadata',
+    type=str,
+    required=False,
+)
 @active_flag_option
 def add_target(
     server_access_key: str,

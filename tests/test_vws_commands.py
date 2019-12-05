@@ -2,6 +2,7 @@
 Tests for VWS CLI commands.
 """
 
+import base64
 import io
 import random
 import uuid
@@ -447,6 +448,50 @@ class TestAddTarget:
         target_id = result.stdout.strip()
         target_record = vws_client.get_target_record(target_id=target_id)
         assert target_record['name'] == name
+
+    def test_custom_metadata(
+        self,
+        mock_database: VuforiaDatabase,
+        cloud_reco_client: CloudRecoService,
+        vws_client: VWS,
+        tmp_path: Path,
+        high_quality_image: io.BytesIO,
+    ) -> None:
+        """
+        Custom metadata can be given.
+        """
+        runner = CliRunner()
+        new_file = tmp_path / uuid.uuid4().hex
+        name = uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        application_metadata = uuid.uuid4().hex
+        metadata_bytes = application_metadata.encode('ascii')
+        base64_encoded_metadata_bytes = base64.b64encode(metadata_bytes)
+        base64_encoded_metadata = base64_encoded_metadata_bytes.decode('ascii')
+        commands = [
+            'add-target',
+            '--name',
+            name,
+            '--width',
+            '0.1',
+            '--image',
+            str(new_file),
+            '--application-metadata',
+            base64_encoded_metadata,
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+        target_id = result.stdout.strip()
+        vws_client.wait_for_target_processed(target_id=target_id)
+        [query_result] = cloud_reco_client.query(image=high_quality_image)
+        assert query_result['target_id'] == target_id
+        query_metadata = query_result['target_data']['application_metadata']
+        assert query_metadata == base64_encoded_metadata
 
     @pytest.mark.parametrize(
         'active_flag_given,active_flag_expected',
