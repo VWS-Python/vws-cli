@@ -70,7 +70,7 @@ spelling:
 
 .PHONY: shellcheck
 shellcheck:
-	shellcheck --exclude SC2164,SC1091 admin/*.sh
+	shellcheck --exclude SC2164,SC1091 */*.sh
 
 .PHONY: autoflake
 autoflake:
