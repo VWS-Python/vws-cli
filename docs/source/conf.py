@@ -14,12 +14,6 @@ from pathlib import Path
 
 import pkg_resources
 
-import vws_cli
-
-sys.path.insert(0, os.path.abspath('.'))
-
-key_package = vws_cli
-
 extensions = [
     'sphinxcontrib.spelling',
     'sphinx_click.ext',
@@ -51,7 +45,7 @@ copyright = f'{year}, {author}'  # pylint: disable=redefined-builtin
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-version = key_package.__version__
+version = distribution.version
 release = version.split('+')[0]
 
 language = None
