@@ -7,17 +7,11 @@ Configuration for Sphinx.
 # pylint: disable=invalid-name
 
 import datetime
-import os
-import sys
 from email import message_from_string
+from pathlib import Path
+from typing import List, Tuple
 
 import pkg_resources
-
-import vws_cli
-
-sys.path.insert(0, os.path.abspath('.'))
-
-key_package = vws_cli
 
 extensions = [
     'sphinxcontrib.spelling',
@@ -28,11 +22,15 @@ templates_path = ['_templates']
 source_suffix = '.rst'
 master_doc = 'index'
 
-package_name = key_package.__name__
-# Normalize as per https://www.python.org/dev/peps/pep-0440/.
-normalized_package_name = package_name.replace('_', '-').lower()
+docs_source_dir = Path(__file__).parent
+docs_dir = docs_source_dir.parent
+repo_dir = docs_dir.parent
+src_dir = repo_dir / 'src'
 distributions = {v.key: v for v in set(pkg_resources.working_set)}
-distribution = distributions[normalized_package_name]
+(distribution, ) = {
+    dist
+    for dist in distributions.values() if dist.location == str(src_dir)
+}
 project_name = distribution.project_name
 
 pkg_info = distribution.get_metadata('PKG-INFO')
@@ -46,7 +44,7 @@ copyright = f'{year}, {author}'  # pylint: disable=redefined-builtin
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-version = key_package.__version__
+version = distribution.version
 release = version.split('+')[0]
 
 language = None
@@ -75,7 +73,7 @@ intersphinx_mapping = {
 }
 nitpicky = True
 warning_is_error = True
-nitpick_ignore = []
+nitpick_ignore: List[Tuple[str, str]] = []
 
 html_show_copyright = False
 html_show_sphinx = False
