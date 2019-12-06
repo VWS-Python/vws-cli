@@ -10,6 +10,7 @@ import datetime
 import os
 import sys
 from email import message_from_string
+from pathlib import Path
 
 import pkg_resources
 
@@ -28,11 +29,15 @@ templates_path = ['_templates']
 source_suffix = '.rst'
 master_doc = 'index'
 
-package_name = key_package.__name__
-# Normalize as per https://www.python.org/dev/peps/pep-0440/.
-normalized_package_name = package_name.replace('_', '-').lower()
+docs_source_dir = Path(__file__).parent
+docs_dir = docs_source_dir.parent
+repo_dir = docs_dir.parent
+src_dir = repo_dir / 'src'
 distributions = {v.key: v for v in set(pkg_resources.working_set)}
-distribution = distributions[normalized_package_name]
+(distribution, ) = {
+    dist
+    for dist in distributions.values() if dist.location == str(src_dir)
+}
 project_name = distribution.project_name
 
 pkg_info = distribution.get_metadata('PKG-INFO')
