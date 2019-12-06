@@ -6,12 +6,18 @@ Configuration for Sphinx.
 
 # pylint: disable=invalid-name
 
+import datetime
 import os
 import sys
+from email import message_from_string
 
-import vws
+import pkg_resources
+
+import vws_cli
 
 sys.path.insert(0, os.path.abspath('.'))
+
+key_package = vws_cli
 
 extensions = [
     'sphinxcontrib.spelling',
@@ -22,14 +28,25 @@ templates_path = ['_templates']
 source_suffix = '.rst'
 master_doc = 'index'
 
-project = 'VWS CLI'
-copyright = '2019, Adam Dangoor'  # pylint: disable=redefined-builtin
-author = 'Adam Dangoor'
+package_name = key_package.__name__
+# Normalize as per https://www.python.org/dev/peps/pep-0440/.
+normalized_package_name = package_name.replace('_', '-').lower()
+distributions = {v.key: v for v in set(pkg_resources.working_set)}
+distribution = distributions[normalized_package_name]
+project_name = distribution.project_name
+
+pkg_info = distribution.get_metadata('PKG-INFO')
+pkg_info_as_message = message_from_string(pkg_info)
+
+project = pkg_info_as_message['Name']
+author = pkg_info_as_message['Author']
+year = datetime.datetime.now().year
+copyright = f'{year}, {author}'  # pylint: disable=redefined-builtin
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-version = vws.__version__
+version = key_package.__version__
 release = version.split('+')[0]
 
 language = None
@@ -90,3 +107,7 @@ linkcheck_ignore = [
 spelling_word_list_filename = '../../spelling_private_dict.txt'
 
 autodoc_member_order = 'bysource'
+
+rst_prolog = f"""
+.. |project| replace:: {project}
+"""
