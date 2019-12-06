@@ -7,8 +7,6 @@ Configuration for Sphinx.
 # pylint: disable=invalid-name
 
 import datetime
-import os
-import sys
 from email import message_from_string
 from pathlib import Path
 
