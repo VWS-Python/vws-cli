@@ -9,6 +9,7 @@ Configuration for Sphinx.
 import datetime
 from email import message_from_string
 from pathlib import Path
+from typing import List, Tuple
 
 import pkg_resources
 
@@ -72,7 +73,7 @@ intersphinx_mapping = {
 }
 nitpicky = True
 warning_is_error = True
-nitpick_ignore = []
+nitpick_ignore: List[Tuple[str, str]] = []
 
 html_show_copyright = False
 html_show_sphinx = False
