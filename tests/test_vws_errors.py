@@ -3,6 +3,7 @@ Tests for how errors from VWS are handled by the CLI.
 """
 
 import io
+import uuid
 from pathlib import Path
 
 from click.testing import CliRunner
@@ -10,7 +11,6 @@ from mock_vws.database import VuforiaDatabase
 from vws import VWS
 
 from vws_cli import vws_group
-import uuid
 
 
 def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
