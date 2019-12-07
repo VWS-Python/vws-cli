@@ -36,6 +36,9 @@ setup(
     version=versioneer.get_version(),  # type: ignore
     cmdclass=versioneer.get_cmdclass(),  # type: ignore
     install_requires=INSTALL_REQUIRES,
-    extras_require={'dev': DEV_REQUIRES, 'packaging': PACKAGING_REQUIRES},
+    extras_require={
+        'dev': DEV_REQUIRES,
+        'packaging': PACKAGING_REQUIRES,
+    },
     entry_points={'console_scripts': 'vws=vws_cli:vws_group'},
 )
