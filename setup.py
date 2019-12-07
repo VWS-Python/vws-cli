@@ -40,5 +40,4 @@ setup(
         'dev': DEV_REQUIRES,
         'packaging': PACKAGING_REQUIRES,
     },
-    entry_points={'console_scripts': 'vws=vws_cli:vws_group'},
 )
