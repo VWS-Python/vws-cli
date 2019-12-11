@@ -33,7 +33,6 @@ PACKAGING_REQUIRES = _get_dependencies(
 )
 
 setup(
-    version=versioneer.get_version(),  # type: ignore
     cmdclass=versioneer.get_cmdclass(),  # type: ignore
     install_requires=INSTALL_REQUIRES,
     extras_require={
