@@ -4,6 +4,7 @@ changelog
 cli
 linter
 linting
+login
 macOS
 metadata
 noqa
