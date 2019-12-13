@@ -62,8 +62,8 @@ def test_bad_image(
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, args, catch_exceptions=False)
-    assert result.exit_code == 2
-    expected_stderr = 'Target "x/1" does not exist.\n'
+    assert result.exit_code == 1
+    expected_stderr = 'Image corrupted or format not supported.\n'
     assert result.stderr == expected_stderr
     assert result.stdout == ''
 
