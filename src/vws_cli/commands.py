@@ -48,7 +48,7 @@ def _handle_vws_exceptions(
     except Fail as exc:
         if exc.response.status_code == codes.BAD_REQUEST:
             error_message = (
-                'The request was invalid and could not be processed. Check '
+                'TODOCHANGE The request was invalid and could not be processed. Check '
                 'the request headers and fields.'
             )
             click.echo(error_message, err=True)
