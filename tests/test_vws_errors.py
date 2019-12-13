@@ -40,12 +40,13 @@ def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
 def test_bad_image(
     mock_database: VuforiaDatabase,
     vws_client: VWS,
-    bad_image_file: io.BytesIO,
     tmp_path: Path,
 ) -> None:
     """
     XXX
     """
+    new_file = tmp_path / uuid.uuid4().hex
+    new_file.write_bytes(data=b'Not an image')
     runner = CliRunner(mix_stderr=False)
     args = [
         'add-target',
