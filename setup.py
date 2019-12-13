@@ -1,5 +1,5 @@
 """
-Setup script for DC/OS End to End tests.
+Setup script for VWS CLI.
 """
 
 from pathlib import Path
