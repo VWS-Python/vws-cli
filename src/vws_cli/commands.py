@@ -11,7 +11,7 @@ import click
 import wrapt
 import yaml
 from vws import VWS
-from vws.exceptions import TargetProcessingTimeout, UnknownTarget
+from vws.exceptions import BadImage, TargetProcessingTimeout, UnknownTarget
 
 from vws_cli.options.credentials import (
     server_access_key_option,
@@ -29,7 +29,7 @@ from vws_cli.options.targets import (
 
 
 @wrapt.decorator
-def _handle_unknown_target(
+def _handle_vws_exceptions(
     wrapped: Callable[..., str],
     instance: Any,
     args: Tuple,
@@ -41,13 +41,16 @@ def _handle_unknown_target(
     except UnknownTarget as exc:
         click.echo(f'Target "{exc.target_id}" does not exist.', err=True)
         sys.exit(1)
+    except BadImage:
+        click.echo('Image corrupted or format not supported.', err=True)
+        sys.exit(1)
 
 
 @click.command(name='get-target-record')
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@_handle_unknown_target
+@_handle_vws_exceptions
 def get_target_record(
     server_access_key: str,
     server_secret_key: str,
@@ -97,7 +100,7 @@ def list_targets(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@_handle_unknown_target
+@_handle_vws_exceptions
 def get_duplicate_targets(
     server_access_key: str,
     server_secret_key: str,
@@ -147,7 +150,7 @@ def get_database_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@_handle_unknown_target
+@_handle_vws_exceptions
 def get_target_summary_report(
     server_access_key: str,
     server_secret_key: str,
@@ -173,7 +176,7 @@ def get_target_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@_handle_unknown_target
+@_handle_vws_exceptions
 def delete_target(
     server_access_key: str,
     server_secret_key: str,
@@ -202,6 +205,7 @@ def delete_target(
 @target_image_option
 @application_metadata_option
 @active_flag_option
+@_handle_vws_exceptions
 def add_target(
     server_access_key: str,
     server_secret_key: str,
@@ -274,7 +278,7 @@ _TIMEOUT_SECONDS_HELP = (
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@_handle_unknown_target
+@_handle_vws_exceptions
 def wait_for_target_processed(
     server_access_key: str,
     server_secret_key: str,
