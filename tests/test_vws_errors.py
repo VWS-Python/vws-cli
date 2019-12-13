@@ -7,7 +7,6 @@ from pathlib import Path
 
 from click.testing import CliRunner
 from mock_vws.database import VuforiaDatabase
-from vws import VWS
 
 from vws_cli import vws_group
 
@@ -38,7 +37,6 @@ def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
 
 def test_bad_image(
     mock_database: VuforiaDatabase,
-    vws_client: VWS,
     tmp_path: Path,
 ) -> None:
     """
