@@ -2,7 +2,6 @@
 Tests for how errors from VWS are handled by the CLI.
 """
 
-import io
 import uuid
 from pathlib import Path
 
