@@ -46,7 +46,7 @@ def test_bad_image(
     when a corrupt image is uploaded.
     """
     new_file = tmp_path / uuid.uuid4().hex
-    new_file.write_bytes(data=b'not an image')
+    new_file.write_bytes(data=b'Not an image')
     runner = CliRunner(mix_stderr=False)
     args = [
         'add-target',
@@ -68,14 +68,14 @@ def test_bad_image(
     assert result.stdout == ''
 
 
-def test_fail(
+def test_fail_bad_request(
     mock_database: VuforiaDatabase,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
 ) -> None:
     """
-    An error is given when Vuforia returns a ``Fail`` error. For example,
-    when the given server access key does not exist.
+    An error is given when Vuforia returns a ``Fail`` error with a ``400``
+    error code. For example, when the given server access key does not exist.
     """
     new_file = tmp_path / uuid.uuid4().hex
     new_file.write_bytes(data=high_quality_image.getvalue())
