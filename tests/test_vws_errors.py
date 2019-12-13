@@ -2,7 +2,6 @@
 Tests for how errors from VWS are handled by the CLI.
 """
 
-import io
 import uuid
 from pathlib import Path
 
@@ -39,7 +38,6 @@ def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
 
 def test_bad_image(
     mock_database: VuforiaDatabase,
-    vws_client: VWS,
     tmp_path: Path,
 ) -> None:
     """
