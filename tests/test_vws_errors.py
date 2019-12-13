@@ -43,7 +43,7 @@ def test_bad_image(
     tmp_path: Path,
 ) -> None:
     """
-    XXX
+    An error is given when a corrupt image is uploaded.
     """
     new_file = tmp_path / uuid.uuid4().hex
     new_file.write_bytes(data=b'Not an image')
