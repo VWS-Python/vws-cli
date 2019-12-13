@@ -2,6 +2,7 @@
 Tests for how errors from VWS are handled by the CLI.
 """
 
+import io
 import uuid
 from pathlib import Path
 
@@ -41,10 +42,11 @@ def test_bad_image(
     tmp_path: Path,
 ) -> None:
     """
-    An error is given when a corrupt image is uploaded.
+    An error is given when Vuforia returns a ``BadImage`` error. For example,
+    when a corrupt image is uploaded.
     """
     new_file = tmp_path / uuid.uuid4().hex
-    new_file.write_bytes(data=b'Not an image')
+    new_file.write_bytes(data=b'not an image')
     runner = CliRunner(mix_stderr=False)
     args = [
         'add-target',
@@ -68,12 +70,37 @@ def test_bad_image(
 
 def test_fail(
     mock_database: VuforiaDatabase,
-    vws_client: VWS,
     high_quality_image: io.BytesIO,
+    tmp_path: Path,
 ) -> None:
     """
-    XXX
+    An error is given when Vuforia returns a ``Fail`` error. For example,
+    when the given server access key does not exist.
     """
+    new_file = tmp_path / uuid.uuid4().hex
+    new_file.write_bytes(data=high_quality_image.getvalue())
+    runner = CliRunner(mix_stderr=False)
+    args = [
+        'add-target',
+        '--name',
+        'x',
+        '--width',
+        '0.1',
+        '--image',
+        str(new_file),
+        '--server-access-key',
+        'does_not_exist_key',
+        '--server-secret-key',
+        mock_database.server_secret_key,
+    ]
+    result = runner.invoke(vws_group, args, catch_exceptions=False)
+    assert result.exit_code == 1
+    expected_stderr = (
+        'The request was invalid and could not be processed. Check the '
+        'request headers and fields.\n'
+    )
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
 
 
 def test_metadata_too_large(
