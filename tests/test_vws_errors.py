@@ -41,10 +41,30 @@ def test_bad_image(
     mock_database: VuforiaDatabase,
     vws_client: VWS,
     bad_image_file: io.BytesIO,
+    tmp_path: Path,
 ) -> None:
     """
     XXX
     """
+    runner = CliRunner(mix_stderr=False)
+    args = [
+        'add-target',
+        '--name',
+        'x',
+        '--width',
+        '0.1',
+        '--image',
+        str(new_file),
+        '--server-access-key',
+        mock_database.server_access_key,
+        '--server-secret-key',
+        mock_database.server_secret_key,
+    ]
+    result = runner.invoke(vws_group, args, catch_exceptions=False)
+    assert result.exit_code == 2
+    expected_stderr = 'Target "x/1" does not exist.\n'
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
 
 
 def test_fail(
