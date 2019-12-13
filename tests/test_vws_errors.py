@@ -40,7 +40,7 @@ def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
 def test_bad_image(
     mock_database: VuforiaDatabase,
     vws_client: VWS,
-    high_quality_image: io.BytesIO,
+    bad_image_file: io.BytesIO,
 ) -> None:
     """
     XXX
