@@ -2,7 +2,6 @@
 ``pytest`` fixtures.
 """
 
-import io
 from typing import Iterator
 
 import pytest
