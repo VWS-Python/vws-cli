@@ -17,6 +17,7 @@ from vws.exceptions import (
     Fail,
     ImageTooLarge,
     MetadataTooLarge,
+    TargetNameExist,
     TargetProcessingTimeout,
     UnknownTarget,
 )
@@ -72,6 +73,12 @@ def _handle_vws_exceptions(
         sys.exit(1)
     except ImageTooLarge:
         error_message = 'Error: The given image is too large.'
+        click.echo(error_message, err=True)
+        sys.exit(1)
+    except TargetNameExist as exc:
+        error_message = (
+            f'Error: There is already a target named "{exc.target_name}".'
+        )
         click.echo(error_message, err=True)
         sys.exit(1)
 

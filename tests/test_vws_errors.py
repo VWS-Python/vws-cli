@@ -185,7 +185,7 @@ def test_target_name_exist(
     """
     XXX
     """
-    name = uuid.uuid4().hex
+    name = 'foobar'
     vws_client.add_target(
         name=name,
         width=1,
@@ -213,7 +213,7 @@ def test_target_name_exist(
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 1
-    expected_stderr = 'Error: The given image is too large.\n'
+    expected_stderr = 'Error: There is already a target named "foobar".\n'
     assert result.stderr == expected_stderr
     assert result.stdout == ''
 
