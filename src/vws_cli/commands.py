@@ -15,6 +15,7 @@ from vws import VWS
 from vws.exceptions import (
     BadImage,
     Fail,
+    MetadataTooLarge,
     TargetProcessingTimeout,
     UnknownTarget,
 )
@@ -45,17 +46,27 @@ def _handle_vws_exceptions(
     try:
         wrapped(*args, **kwargs)
     except UnknownTarget as exc:
-        click.echo(f'Target "{exc.target_id}" does not exist.', err=True)
+        error_message = f'Error: Target "{exc.target_id}" does not exist.'
+        click.echo(error_message, err=True)
         sys.exit(1)
     except BadImage:
-        click.echo('Image corrupted or format not supported.', err=True)
+        error_message = (
+            'Error: The given image is corrupted or the format is not '
+            'supported.'
+        )
+        click.echo(error_message, err=True)
         sys.exit(1)
     except Fail as exc:
         assert exc.response.status_code == codes.BAD_REQUEST
         error_message = (
-            'The request was invalid and could not be processed. Check '
-            'the request headers and fields.'
+            'Error: The request made to Vuforia was invalid and could not be '
+            'processed. '
+            'Check the given parameters.'
         )
+        click.echo(error_message, err=True)
+        sys.exit(1)
+    except MetadataTooLarge:
+        error_message = 'Error: The given metadata is too large.'
         click.echo(error_message, err=True)
         sys.exit(1)
 

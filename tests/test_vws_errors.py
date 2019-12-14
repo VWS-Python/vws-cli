@@ -32,7 +32,7 @@ def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
             ]
             result = runner.invoke(vws_group, args, catch_exceptions=False)
             assert result.exit_code == 1
-            expected_stderr = 'Target "x/1" does not exist.\n'
+            expected_stderr = 'Error: Target "x/1" does not exist.\n'
             assert result.stderr == expected_stderr
             assert result.stdout == ''
 
@@ -63,7 +63,9 @@ def test_bad_image(
     ]
     result = runner.invoke(vws_group, args, catch_exceptions=False)
     assert result.exit_code == 1
-    expected_stderr = 'Image corrupted or format not supported.\n'
+    expected_stderr = (
+        'Error: The given image is corrupted or the format is not supported.\n'
+    )
     assert result.stderr == expected_stderr
     assert result.stdout == ''
 
@@ -99,8 +101,9 @@ def test_fail_bad_request(
     result = runner.invoke(vws_group, args, catch_exceptions=False)
     assert result.exit_code == 1
     expected_stderr = (
-        'The request was invalid and could not be processed. Check the '
-        'request headers and fields.\n'
+        'Error: The request made to Vuforia was invalid and could not be '
+        'processed. '
+        'Check the given parameters.\n'
     )
     assert result.stderr == expected_stderr
     assert result.stdout == ''
@@ -110,10 +113,34 @@ def test_metadata_too_large(
     mock_database: VuforiaDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
+    tmp_path: Path,
 ) -> None:
     """
-    XXX
+    An error is given when the given metadata is too large.
     """
+    new_file = tmp_path / uuid.uuid4().hex
+    new_file.write_bytes(data=high_quality_image.getvalue())
+    runner = CliRunner(mix_stderr=False)
+    args = [
+        'add-target',
+        '--name',
+        'x',
+        '--width',
+        '0.1',
+        '--image',
+        str(new_file),
+        '--application-metadata',
+        'a' * 1024 * 1024 * 10,
+        '--server-access-key',
+        mock_database.server_access_key,
+        '--server-secret-key',
+        mock_database.server_secret_key,
+    ]
+    result = runner.invoke(vws_group, args, catch_exceptions=False)
+    assert result.exit_code == 1
+    expected_stderr = 'Error: The given metadata is too large.\n'
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
 
 
 def test_image_too_large(
