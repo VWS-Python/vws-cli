@@ -17,6 +17,7 @@ from vws.exceptions import (
     Fail,
     ImageTooLarge,
     MetadataTooLarge,
+    ProjectInactive,
     TargetNameExist,
     TargetProcessingTimeout,
     UnknownTarget,
@@ -78,6 +79,12 @@ def _handle_vws_exceptions(
     except TargetNameExist as exc:
         error_message = (
             f'Error: There is already a target named "{exc.target_name}".'
+        )
+        click.echo(error_message, err=True)
+        sys.exit(1)
+    except ProjectInactive:
+        error_message = (
+            'Error: The project associated with the given keys is inactive.'
         )
         click.echo(error_message, err=True)
         sys.exit(1)
