@@ -259,12 +259,34 @@ def test_project_inactive(
 
 def test_unknown_vws_error(
     mock_database: VuforiaDatabase,
-    vws_client: VWS,
     high_quality_image: io.BytesIO,
+    tmp_path: Path,
 ) -> None:
     """
     XXX
     """
+    runner = CliRunner(mix_stderr=False)
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    new_file.write_bytes(data=image_data)
+    commands = [
+        'add-target',
+        '--name',
+        'foo',
+        '--width',
+        '0.1',
+        '--image',
+        str(new_file),
+        '--server-access-key',
+        mock_database.server_access_key,
+        '--server-secret-key',
+        mock_database.server_secret_key,
+    ]
+    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    assert result.exit_code == 1
+    expected_stderr = 'Error: The given image is too large.\n'
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
 
 def test_target_status_not_success(
     mock_database: VuforiaDatabase,
