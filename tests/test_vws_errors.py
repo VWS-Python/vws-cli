@@ -102,6 +102,70 @@ def test_fail_bad_request(
     assert result.stderr == expected_stderr
     assert result.stdout == ''
 
+def test_fail_unprocessable(
+    mock_database: VuforiaDatabase,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+) -> None:
+    """
+    An error is given when Vuforia returns a ``Fail`` error with a ``422`` TODO
+    """
+    new_file = tmp_path / uuid.uuid4().hex
+    new_file.write_bytes(data=high_quality_image.getvalue())
+    runner = CliRunner(mix_stderr=False)
+    args = [
+        'add-target',
+        '--name',
+        'x',
+        '--width',
+        '0.1',
+        '--image',
+        str(new_file),
+        '--server-access-key',
+        'does_not_exist_key',
+        '--server-secret-key',
+        mock_database.server_secret_key,
+    ]
+    result = runner.invoke(vws_group, args, catch_exceptions=False)
+    assert result.exit_code == 1
+    expected_stderr = (
+        'TODOCHANGE '
+    )
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
+
+
+def test_fail_server_error(
+    mock_database: VuforiaDatabase,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+) -> None:
+    """
+    An error is given when Vuforia returns a ``Fail`` error with a ``422`` TODO
+    """
+    new_file = tmp_path / uuid.uuid4().hex
+    new_file.write_bytes(data=high_quality_image.getvalue())
+    runner = CliRunner(mix_stderr=False)
+    args = [
+        'add-target',
+        '--name',
+        'x',
+        '--width',
+        '0.1',
+        '--image',
+        str(new_file),
+        '--server-access-key',
+        'does_not_exist_key',
+        '--server-secret-key',
+        mock_database.server_secret_key,
+    ]
+    result = runner.invoke(vws_group, args, catch_exceptions=False)
+    assert result.exit_code == 1
+    expected_stderr = (
+        'TODOCHANGE '
+    )
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
 
 def test_metadata_too_large(
     mock_database: VuforiaDatabase,
