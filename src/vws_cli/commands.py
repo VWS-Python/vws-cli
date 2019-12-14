@@ -12,7 +12,12 @@ import wrapt
 import yaml
 from requests import codes
 from vws import VWS
-from vws.exceptions import BadImage, Fail, TargetProcessingTimeout, UnknownTarget
+from vws.exceptions import (
+    BadImage,
+    Fail,
+    TargetProcessingTimeout,
+    UnknownTarget,
+)
 
 from vws_cli.options.credentials import (
     server_access_key_option,
