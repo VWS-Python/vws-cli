@@ -183,7 +183,7 @@ def test_target_name_exist(
     tmp_path: Path,
 ) -> None:
     """
-    XXX
+    An error is given when there is already a target with the given name.
     """
     name = 'foobar'
     vws_client.add_target(
