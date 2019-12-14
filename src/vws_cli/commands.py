@@ -15,6 +15,7 @@ from vws import VWS
 from vws.exceptions import (
     BadImage,
     Fail,
+    ImageTooLarge,
     MetadataTooLarge,
     TargetProcessingTimeout,
     UnknownTarget,
@@ -67,6 +68,10 @@ def _handle_vws_exceptions(
         sys.exit(1)
     except MetadataTooLarge:
         error_message = 'Error: The given metadata is too large.'
+        click.echo(error_message, err=True)
+        sys.exit(1)
+    except ImageTooLarge:
+        error_message = 'Error: The given image is too large.'
         click.echo(error_message, err=True)
         sys.exit(1)
 
