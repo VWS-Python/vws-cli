@@ -99,7 +99,7 @@ def test_fail_bad_request(
     result = runner.invoke(vws_group, args, catch_exceptions=False)
     assert result.exit_code == 1
     expected_stderr = (
-        'TODOCHANGE The request was invalid and could not be processed. Check the '
+        'The request was invalid and could not be processed. Check the '
         'request headers and fields.\n'
     )
     assert result.stderr == expected_stderr

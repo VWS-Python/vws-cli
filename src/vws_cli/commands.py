@@ -46,15 +46,12 @@ def _handle_vws_exceptions(
         click.echo('Image corrupted or format not supported.', err=True)
         sys.exit(1)
     except Fail as exc:
-        import pdb; pdb.set_trace()
-        if exc.response.status_code == codes.BAD_REQUEST:
-            error_message = (
-                'TODOCHANGE The request was invalid and could not be processed. Check '
-                'the request headers and fields.'
-            )
-            click.echo(error_message, err=True)
-        else:
-            assert True
+        assert exc.response.status_code == codes.BAD_REQUEST
+        error_message = (
+            'The request was invalid and could not be processed. Check '
+            'the request headers and fields.'
+        )
+        click.echo(error_message, err=True)
         sys.exit(1)
 
 
@@ -240,7 +237,6 @@ def add_target(
     )
 
     image_bytes = image_file_path.read_bytes()
-    import pdb; pdb.set_trace()
     image = io.BytesIO(image_bytes)
 
     active_flag = {
