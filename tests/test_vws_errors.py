@@ -8,7 +8,6 @@ from pathlib import Path
 
 from click.testing import CliRunner
 from mock_vws.database import VuforiaDatabase
-from vws import VWS
 
 from vws_cli import vws_group
 
