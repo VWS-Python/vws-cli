@@ -7,6 +7,8 @@ import uuid
 from pathlib import Path
 
 from click.testing import CliRunner
+from mock_vws import MockVWS
+from mock_vws.states import States
 from mock_vws.database import VuforiaDatabase
 from vws import VWS
 
@@ -111,10 +113,6 @@ def test_fail_bad_request(
 
 def test_metadata_too_large(
     mock_database: VuforiaDatabase,
-<<<<<<< HEAD
-    vws_client: VWS,
-=======
->>>>>>> origin/master
     high_quality_image: io.BytesIO,
     tmp_path: Path,
 ) -> None:
@@ -148,10 +146,6 @@ def test_metadata_too_large(
 
 def test_image_too_large(
     mock_database: VuforiaDatabase,
-<<<<<<< HEAD
-    vws_client: VWS,
-=======
->>>>>>> origin/master
     png_too_large: io.BytesIO,
     tmp_path: Path,
 ) -> None:
@@ -225,13 +219,40 @@ def test_target_name_exist(
 
 
 def test_project_inactive(
-    mock_database: VuforiaDatabase,
-    vws_client: VWS,
     high_quality_image: io.BytesIO,
+    tmp_path: Path,
 ) -> None:
     """
     XXX
     """
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    new_file.write_bytes(data=image_data)
+    database = VuforiaDatabase(state=States.PROJECT_INACTIVE)
+    with MockVWS() as mock:
+        mock.add_database(database=database)
+        runner = CliRunner(mix_stderr=False)
+        commands = [
+            'add-target',
+            '--name',
+            'foo',
+            '--width',
+            '0.1',
+            '--image',
+            str(new_file),
+            '--server-access-key',
+            database.server_access_key,
+            '--server-secret-key',
+            database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 1
+        expected_stderr = (
+            'Error: The project associated with the given keys is inactive.\n'
+        )
+        assert result.stderr == expected_stderr
+        assert result.stdout == ''
+
 
 
 def test_unknown_vws_error(
