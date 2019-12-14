@@ -146,16 +146,15 @@ def test_metadata_too_large(
 def test_image_too_large(
     mock_database: VuforiaDatabase,
     vws_client: VWS,
-    high_quality_image: io.BytesIO,
     png_too_large: io.BytesIO,
     tmp_path: Path,
 ) -> None:
     """
-    XXX
+    An error is given when the given image is too large.
     """
     runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
-    image_data = high_quality_image.getvalue()
+    image_data = png_too_large.getvalue()
     new_file.write_bytes(data=image_data)
     commands = [
         'add-target',
@@ -171,7 +170,10 @@ def test_image_too_large(
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
-    assert result.exit_code == 0
+    assert result.exit_code == 1
+    expected_stderr = 'Error: The given image is too large.\n'
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
 
 
 def test_target_name_exist(
