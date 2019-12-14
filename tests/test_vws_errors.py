@@ -223,7 +223,8 @@ def test_project_inactive(
     tmp_path: Path,
 ) -> None:
     """
-    XXX
+    An error is given if the project is inactive and the desired action cannot
+    be taken because of this.
     """
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
@@ -246,12 +247,13 @@ def test_project_inactive(
             database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
-        assert result.exit_code == 1
-        expected_stderr = (
-            'Error: The project associated with the given keys is inactive.\n'
-        )
-        assert result.stderr == expected_stderr
-        assert result.stdout == ''
+
+    assert result.exit_code == 1
+    expected_stderr = (
+        'Error: The project associated with the given keys is inactive.\n'
+    )
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
 
 
 
