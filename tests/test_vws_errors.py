@@ -111,7 +111,6 @@ def test_fail_bad_request(
 
 def test_metadata_too_large(
     mock_database: VuforiaDatabase,
-    vws_client: VWS,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
 ) -> None:
@@ -145,7 +144,6 @@ def test_metadata_too_large(
 
 def test_image_too_large(
     mock_database: VuforiaDatabase,
-    vws_client: VWS,
     png_too_large: io.BytesIO,
     tmp_path: Path,
 ) -> None:
