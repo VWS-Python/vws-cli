@@ -104,7 +104,6 @@ def test_fail_bad_request(
     )
     assert result.stderr == expected_stderr
     assert result.stdout == ''
-<<<<<<< HEAD
 
 
 def test_metadata_too_large(
@@ -176,5 +175,3 @@ def test_unknown_vws_error(
     """
     XXX
     """
-=======
->>>>>>> origin/master
