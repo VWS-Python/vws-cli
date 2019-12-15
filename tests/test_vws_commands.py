@@ -812,6 +812,14 @@ class TestUpdateTarget:
         vws_client.wait_for_target_processed(target_id=target_id)
         report = vws_client.get_target_summary_report(target_id=target_id)
         assert report['status'] == 'success'
+        # TODO update target
+        vws_client.wait_for_target_processed(target_id=target_id)
+        target_details = vws_client.get_target_record(target_id=target_id)
+        assert target_details['name'] == 'x2'
+        assert target_details['width'] == 2
+        assert not target_details['active_flag']
+        report = vws_client.get_target_summary_report(target_id=target_id)
+        assert report['status'] == 'failed'
 
 
     def test_no_fields_given(
