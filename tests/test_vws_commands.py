@@ -894,6 +894,7 @@ class TestUpdateTarget:
             active_flag=True,
             application_metadata=None,
         )
+        vws_client.wait_for_target_processed(target_id=target_id)
 
         commands = [
             'update-target',
