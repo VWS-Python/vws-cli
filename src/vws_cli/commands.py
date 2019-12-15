@@ -254,7 +254,7 @@ def delete_target(
 @server_secret_key_option
 @target_name_option
 @target_width_option
-@target_image_option
+@target_image_option(required=True)
 @application_metadata_option
 @active_flag_option
 @_handle_vws_exceptions
