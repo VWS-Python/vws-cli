@@ -857,7 +857,6 @@ class TestUpdateTarget:
         assert result.exit_code == 0
         assert result.stdout == ''
 
-
     def test_no_fields_given(
         self,
         mock_database: VuforiaDatabase,
