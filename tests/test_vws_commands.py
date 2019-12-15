@@ -918,7 +918,16 @@ class TestUpdateTarget:
         """
         An appropriate error is given if the given image file does not exist.
         """
-        pass
+        target_id = vws_client.add_target(
+            name='x',
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        runner = CliRunner(mix_stderr=False)
+        does_not_exist_file = tmp_path / uuid.uuid4().hex
 
     def test_image_file_is_dir(
         self,
@@ -932,7 +941,15 @@ class TestUpdateTarget:
         An appropriate error is given if the given image file path points to a
         directory.
         """
-        pass
+        target_id = vws_client.add_target(
+            name='x',
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        runner = CliRunner(mix_stderr=False)
 
     def test_relative_path(
         self,
@@ -945,4 +962,16 @@ class TestUpdateTarget:
         """
         Image file paths are resolved.
         """
-        pass
+        target_id = vws_client.add_target(
+            name='x',
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+
+        with runner.isolated_filesystem():
+            new_file = Path(new_filename)
+            new_file.symlink_to(original_image_file)
+            result = runner.invoke(vws_group, commands, catch_exceptions=False)
