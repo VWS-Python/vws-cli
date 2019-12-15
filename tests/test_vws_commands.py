@@ -802,6 +802,7 @@ class TestUpdateTarget:
         """
         It is possible to update a target.
         """
+        runner = CliRunner(mix_stderr=False)
         target_id = vws_client.add_target(
             name='x',
             width=1,
