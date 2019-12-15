@@ -813,12 +813,6 @@ class TestUpdateTarget:
             application_metadata=None,
         )
         vws_client.wait_for_target_processed(target_id=target_id)
-        [matching_target] = cloud_reco_client.query(image=high_quality_image)
-        assert matching_target['target_id'] == target_id
-        query_target_data = matching_target['target_data']
-        query_metadata = query_target_data['application_metadata']
-        assert query_metadata is None
-
         new_application_metadata = base64.b64encode(b'a').decode('ascii')
         new_name = uuid.uuid4().hex
         new_width = random.uniform(a=0.01, b=50)
@@ -900,19 +894,11 @@ class TestUpdateTarget:
             active_flag=True,
             application_metadata=None,
         )
-        vws_client.wait_for_target_processed(target_id=target_id)
-        [matching_target] = cloud_reco_client.query(image=high_quality_image)
-        assert matching_target['target_id'] == target_id
-        query_target_data = matching_target['target_data']
-        query_metadata = query_target_data['application_metadata']
-        assert query_metadata is None
 
         commands = [
             'update-target',
             '--target-id',
             target_id,
-            '--application-metadata',
-            new_application_metadata,
             '--server-access-key',
             mock_database.server_access_key,
             '--server-secret-key',
