@@ -803,9 +803,11 @@ class TestUpdateTarget:
         It is possible to update a target.
         """
         runner = CliRunner(mix_stderr=False)
+        old_name = uuid.uuid4().hex
+        old_width = random.uniform(a=0.01, b=49)
         target_id = vws_client.add_target(
-            name='x',
-            width=1,
+            name=name,
+            width=old_width,
             image=high_quality_image,
             active_flag=True,
             application_metadata=None,
@@ -813,11 +815,26 @@ class TestUpdateTarget:
         vws_client.wait_for_target_processed(target_id=target_id)
         report = vws_client.get_target_summary_report(target_id=target_id)
         assert report['status'] == 'success'
-        # TODO update target
+        new_image_file = tmp_path / uuid.uuid4().hex
+        image_data = image_file_failed_state.getvalue()
+        new_file.write_bytes(data=image_data)
+        commands = [
+            'update-target',
+            '--name',
+            new_name,
+            '--width',
+            str(new_width),
+            '--image',
+            str(new_image_file),
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
         vws_client.wait_for_target_processed(target_id=target_id)
         target_details = vws_client.get_target_record(target_id=target_id)
-        assert target_details['name'] == 'x2'
-        assert target_details['width'] == 2
+        assert target_details['name'] == new_name
+        assert target_details['width'] == new_width
         assert not target_details['active_flag']
         report = vws_client.get_target_summary_report(target_id=target_id)
         assert report['status'] == 'failed'
