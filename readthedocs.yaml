@@ -5,7 +5,7 @@ python:
      - method: pip
        path: .
        extra_requirements:
-	   - dev
+           - dev
   version: 3.7
 
 sphinx:
