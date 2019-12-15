@@ -298,6 +298,25 @@ def add_target(
     click.echo(target_id)
 
 
+@click.command(name='update-target')
+@server_access_key_option
+@server_secret_key_option
+@target_id_option
+@_handle_vws_exceptions
+def update_target(
+    server_access_key: str,
+    server_secret_key: str,
+    target_id: str,
+) -> None:
+    """
+    Update a target.
+
+    \b
+    See
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API#How-To-Update-a-Target
+    """
+
+
 _SECONDS_BETWEEN_REQUESTS_DEFAULT = 0.2
 
 _SECONDS_BETWEEN_REQUESTS_HELP = (
