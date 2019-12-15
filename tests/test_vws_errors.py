@@ -7,7 +7,9 @@ import uuid
 from pathlib import Path
 
 from click.testing import CliRunner
+from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
+from mock_vws.states import States
 from vws import VWS
 
 from vws_cli import vws_group
@@ -212,5 +214,82 @@ def test_target_name_exist(
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 1
     expected_stderr = 'Error: There is already a target named "foobar".\n'
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
+
+
+def test_project_inactive(
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+) -> None:
+    """
+    An error is given if the project is inactive and the desired action cannot
+    be taken because of this.
+    """
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    new_file.write_bytes(data=image_data)
+    database = VuforiaDatabase(state=States.PROJECT_INACTIVE)
+    with MockVWS() as mock:
+        mock.add_database(database=database)
+        runner = CliRunner(mix_stderr=False)
+        commands = [
+            'add-target',
+            '--name',
+            'foo',
+            '--width',
+            '0.1',
+            '--image',
+            str(new_file),
+            '--server-access-key',
+            database.server_access_key,
+            '--server-secret-key',
+            database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+
+    assert result.exit_code == 1
+    expected_stderr = (
+        'Error: The project associated with the given keys is inactive.\n'
+    )
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
+
+
+def test_unknown_vws_error(
+    mock_database: VuforiaDatabase,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+) -> None:
+    """
+    When an unknown VWS error is given, e.g. what is given when some bad names
+    are given, an error is given.
+    """
+    runner = CliRunner(mix_stderr=False)
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    new_file.write_bytes(data=image_data)
+    max_char_value = 65535
+    bad_name = chr(max_char_value + 1)
+
+    commands = [
+        'add-target',
+        '--name',
+        bad_name,
+        '--width',
+        '0.1',
+        '--image',
+        str(new_file),
+        '--server-access-key',
+        mock_database.server_access_key,
+        '--server-secret-key',
+        mock_database.server_secret_key,
+    ]
+    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    assert result.exit_code == 1
+    expected_stderr = (
+        'Error: There was an unknown error from Vuforia. '
+        'This may be because there is a problem with the given name.\n'
+    )
     assert result.stderr == expected_stderr
     assert result.stdout == ''
