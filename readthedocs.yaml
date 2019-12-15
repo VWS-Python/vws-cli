@@ -5,10 +5,10 @@ build:
 
 python:
   install: true
-    - method: pip
-      path: .
-      extra_requirements:
-        - dev
+     - method: pip
+       path: .
+       extra_requirements:
+	   - dev
   version: 3.7
 
 sphinx:
