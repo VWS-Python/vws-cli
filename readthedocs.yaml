@@ -8,10 +8,8 @@ python:
     - method: pip
       path: .
       extra_requirements:
-        - docs
+        - dev
   version: 3.7
-  extra_requirements:
-    - dev
 
 sphinx:
   builder: html
