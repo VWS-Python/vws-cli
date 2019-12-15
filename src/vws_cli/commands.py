@@ -320,7 +320,8 @@ def update_target(
         server_secret_key=server_secret_key,
     )
 
-    target_id = vws_client.update_target(target_id=target_id)
+    vws_client.update_target(target_id=target_id)
+
 
 _SECONDS_BETWEEN_REQUESTS_DEFAULT = 0.2
 

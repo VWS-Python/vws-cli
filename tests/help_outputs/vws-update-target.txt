@@ -1,0 +1,15 @@
+Usage: vws update-target [OPTIONS]
+
+  Update a target.
+
+  See
+  https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API#How-To-Update-a-Target
+
+Options:
+  --server-access-key TEXT  A Vuforia server access key to use to access the
+                            Vuforia Web Services API.  [required]
+  --server-secret-key TEXT  A Vuforia server secret key to use to access the
+                            Vuforia Web Services API.  [required]
+  --target-id TEXT          The ID of a target in the Vuforia database.
+                            [required]
+  -h, --help                Show this message and exit.
