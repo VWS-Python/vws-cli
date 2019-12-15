@@ -2,13 +2,13 @@
 ``click`` options regarding credentials.
 """
 
-from typing import Callable
+from typing import Callable, Optional
 
 import click
 
 
 def server_access_key_option(
-    command: Callable[..., None],
+    command: Optional[Callable[..., None]] = None,
 ) -> Callable[..., None]:
     """
     An option decorator for the Vuforia server access key.
@@ -23,12 +23,13 @@ def server_access_key_option(
             ),
             required=True,
         )
+    assert command is not None
     function: Callable[..., None] = click_option_function(command)
     return function
 
 
 def server_secret_key_option(
-    command: Callable[..., None],
+    command: Optional[Callable[..., None]] = None,
 ) -> Callable[..., None]:
     """
     An option decorator for the Vuforia server secret key.
@@ -43,5 +44,6 @@ def server_secret_key_option(
             ),
             required=True,
         )
+    assert command is not None
     function: Callable[..., None] = click_option_function(command)
     return function
