@@ -871,3 +871,133 @@ class TestUpdateTarget:
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
         assert result.stdout == ''
+
+    def test_image_file_does_not_exist(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+    ) -> None:
+        """
+        An appropriate error is given if the given image file does not exist.
+        """
+        target_id = vws_client.add_target(
+            name='x',
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        runner = CliRunner(mix_stderr=False)
+        does_not_exist_file = tmp_path / uuid.uuid4().hex
+        commands = [
+            'update-target',
+            '--target-id',
+            target_id,
+            '--image',
+            str(does_not_exist_file),
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 2
+        assert result.stdout == ''
+        expected_stderr = dedent(
+            f"""\
+            Usage: vws update-target [OPTIONS]
+            Try "vws update-target -h" for help.
+
+            Error: Invalid value for "--image": File "{does_not_exist_file}" does not exist.
+            """,  # noqa: E501
+        )
+        assert result.stderr == expected_stderr
+
+    def test_image_file_is_dir(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+    ) -> None:
+        """
+        An appropriate error is given if the given image file path points to a
+        directory.
+        """
+        target_id = vws_client.add_target(
+            name='x',
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        runner = CliRunner(mix_stderr=False)
+        commands = [
+            'update-target',
+            '--target-id',
+            target_id,
+            '--image',
+            str(tmp_path),
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 2
+        assert result.stdout == ''
+        expected_stderr = dedent(
+            f"""\
+            Usage: vws update-target [OPTIONS]
+            Try "vws update-target -h" for help.
+
+            Error: Invalid value for "--image": File "{tmp_path}" is a directory.
+            """,  # noqa: E501
+        )
+        assert result.stderr == expected_stderr
+
+    def test_relative_path(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+    ) -> None:
+        """
+        Image file paths are resolved.
+        """
+        runner = CliRunner(mix_stderr=False)
+        target_id = vws_client.add_target(
+            name='x',
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        new_filename = uuid.uuid4().hex
+        original_image_file = tmp_path / 'foo'
+        image_data = high_quality_image.getvalue()
+        original_image_file.write_bytes(image_data)
+        commands = [
+            'update-target',
+            '--target-id',
+            target_id,
+            '--image',
+            new_filename,
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+
+        with runner.isolated_filesystem():
+            new_file = Path(new_filename)
+            new_file.symlink_to(original_image_file)
+            result = runner.invoke(vws_group, commands, catch_exceptions=False)
+
+        assert result.exit_code == 0
