@@ -263,16 +263,20 @@ def test_unknown_vws_error(
     tmp_path: Path,
 ) -> None:
     """
-    XXX
+    When an unknown VWS error is given, e.g. what is given when some bad names
+    are given, an error is given.
     """
     runner = CliRunner(mix_stderr=False)
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
+    max_char_value = 65535
+    bad_name = chr(max_char_value + 1)
+
     commands = [
         'add-target',
         '--name',
-        'foo',
+        bad_name,
         '--width',
         '0.1',
         '--image',
@@ -284,7 +288,10 @@ def test_unknown_vws_error(
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 1
-    expected_stderr = 'Error: The given image is too large.\n'
+    expected_stderr = (
+        'Error: There was an unknown error from Vuforia. '
+        'This may be because there is a problem with the given name.\n'
+    )
     assert result.stderr == expected_stderr
     assert result.stdout == ''
 
