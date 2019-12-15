@@ -783,3 +783,9 @@ class TestWaitForTargetProcessed:
             '0.01 is smaller than the minimum valid value 0.05'
         )
         assert expected_substring in result.stderr
+
+
+class TestUpdateTarget:
+    """
+    Tests for ``vws update-target``.
+    """
