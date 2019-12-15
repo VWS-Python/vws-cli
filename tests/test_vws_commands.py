@@ -866,7 +866,6 @@ class TestUpdateTarget:
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
         assert result.stdout == ''
-
         target_details = vws_client.get_target_record(target_id=target_id)
         assert target_details['name'] == new_name
         assert target_details['width'] == new_width

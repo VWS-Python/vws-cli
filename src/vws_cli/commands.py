@@ -302,6 +302,7 @@ def add_target(
 @server_access_key_option
 @server_secret_key_option
 @target_image_option(required=False)
+@application_metadata_option
 @target_id_option
 @_handle_vws_exceptions
 def update_target(
@@ -309,6 +310,7 @@ def update_target(
     server_secret_key: str,
     target_id: str,
     image_file_path: Optional[Path],
+    application_metadata: Optional[str] = None,
 ) -> None:
     """
     Update a target.
@@ -328,7 +330,11 @@ def update_target(
         image_bytes = image_file_path.read_bytes()
         image = io.BytesIO(image_bytes)
 
-    vws_client.update_target(target_id=target_id, image=image)
+    vws_client.update_target(
+        target_id=target_id,
+        image=image,
+        application_metadata=application_metadata,
+    )
 
 
 _SECONDS_BETWEEN_REQUESTS_DEFAULT = 0.2
