@@ -789,3 +789,53 @@ class TestUpdateTarget:
     """
     Tests for ``vws update-target``.
     """
+
+    def test_update_target(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        cloud_reco_client: CloudRecoService,
+    ) -> None:
+        pass
+
+    def test_no_fields_given(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        cloud_reco_client: CloudRecoService,
+    ) -> None:
+        pass
+
+    def test_image_file_does_not_exist(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        cloud_reco_client: CloudRecoService,
+    ) -> None:
+        pass
+
+    def test_image_file_is_dir(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        cloud_reco_client: CloudRecoService,
+    ) -> None:
+        pass
+
+    def test_relative_path(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        cloud_reco_client: CloudRecoService,
+    ) -> None:
+        pass
