@@ -8,14 +8,12 @@ from typing import Callable, Optional
 
 import click
 import click_pathlib
-import wrapt
 
 
-def target_id_option(command) -> Callable[..., None]:
+def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
     """
     An option decorator for choosing a target ID.
     """
-    # import pdb; pdb.set_trace()
     click_option_function: Callable[[Callable[..., None]], Callable[
         ..., None]] = click.option(
             '--target-id',
@@ -23,14 +21,8 @@ def target_id_option(command) -> Callable[..., None]:
             help='The ID of a target in the Vuforia database.',
             required=True,
         )
-
-    @wrapt.decorator
-    def wrapper(wrapped, instance, args, kwargs):
-        return wrapped(*args, **kwargs)
-
-    return click_option_function(wrapper(command))
-    # function: Callable[..., None] = click_option_function(command)
-    # return function
+    function: Callable[..., None] = click_option_function(command)
+    return function
 
 
 def target_name_option(command: Callable[..., None]) -> Callable[..., None]:
@@ -48,7 +40,9 @@ def target_name_option(command: Callable[..., None]) -> Callable[..., None]:
     return function
 
 
-def target_width_option(command: Callable[..., None]) -> Callable[..., None]:
+def target_width_option(
+    command: Optional[Callable[..., None]] = None,
+) -> Callable[..., None]:
     """
     An option decorator for choosing a target width.
     """
@@ -59,6 +53,7 @@ def target_width_option(command: Callable[..., None]) -> Callable[..., None]:
             help='The width of the target in the Vuforia database.',
             required=True,
         )
+    assert command is not None
     function: Callable[..., None] = click_option_function(command)
     return function
 
@@ -71,7 +66,11 @@ def target_image_option(
     An option decorator for choosing a target image.
     """
     if not command:
-        return functools.partial(target_image_option, required=required)
+        # Ignore type error as per https://github.com/python/mypy/issues/1484.
+        return functools.partial(  # type: ignore
+            target_image_option,
+            required=required,
+        )
 
     click_option_function = click.option(
         '--image',
