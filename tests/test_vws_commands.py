@@ -795,8 +795,6 @@ class TestUpdateTarget:
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
-        tmp_path: Path,
-        cloud_reco_client: CloudRecoService,
     ) -> None:
         """
         It is possible to give no update fields.
