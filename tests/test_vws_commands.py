@@ -797,7 +797,7 @@ class TestUpdateTarget:
         high_quality_image: io.BytesIO,
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
-        image_file_failed_state: io.BytesIO,
+        different_high_quality_image: io.BytesIO,
     ) -> None:
         """
         It is possible to update a target.
@@ -813,13 +813,19 @@ class TestUpdateTarget:
             application_metadata=None,
         )
         vws_client.wait_for_target_processed(target_id=target_id)
-        report = vws_client.get_target_summary_report(target_id=target_id)
-        assert report['status'] == 'success'
+        [matching_target] = cloud_reco_client.query(image=high_quality_image)
+        assert matching_target['target_id'] == target_id
+        query_target_data = matching_target['target_data']
+        query_metadata = query_target_data['application_metadata']
+        assert query_metadata is None
+
+        new_application_metadata = base64.b64encode(b'a').decode('ascii')
         new_name = uuid.uuid4().hex
         new_width = random.uniform(a=0.01, b=50)
         new_image_file = tmp_path / uuid.uuid4().hex
-        image_data = image_file_failed_state.getvalue()
-        new_image_file.write_bytes(data=image_data)
+        new_image_data = different_high_quality_image.getvalue()
+        new_image_file.write_bytes(data=new_image_data)
+
         commands = [
             'update-target',
             '--name',
