@@ -293,13 +293,3 @@ def test_unknown_vws_error(
     )
     assert result.stderr == expected_stderr
     assert result.stdout == ''
-
-
-def test_target_status_not_success(
-    mock_database: VuforiaDatabase,
-    vws_client: VWS,
-    high_quality_image: io.BytesIO,
-) -> None:
-    """
-    XXX
-    """
