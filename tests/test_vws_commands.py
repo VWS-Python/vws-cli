@@ -797,7 +797,7 @@ class TestUpdateTarget:
         high_quality_image: io.BytesIO,
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
-        image_file_failed_status: io.BytesIO,
+        image_file_failed_state: io.BytesIO,
     ) -> None:
         """
         It is possible to update a target.
