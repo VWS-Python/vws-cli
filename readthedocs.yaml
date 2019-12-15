@@ -1,8 +1,5 @@
 version: 2
 
-build:
-  image: latest
-
 python:
   install: true
      - method: pip
