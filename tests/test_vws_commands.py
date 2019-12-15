@@ -857,7 +857,6 @@ class TestUpdateTarget:
         assert result.exit_code == 0
         assert result.stdout == ''
 
-        target_details = vws_client.get_target_record(target_id=target_id)
 
     def test_no_fields_given(
         self,
