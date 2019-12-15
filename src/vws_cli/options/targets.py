@@ -7,12 +7,14 @@ from typing import Callable
 
 import click
 import click_pathlib
+import wrapt
 
 
-def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
+def target_id_option(command) -> Callable[..., None]:
     """
     An option decorator for choosing a target ID.
     """
+    # import pdb; pdb.set_trace()
     click_option_function: Callable[[Callable[..., None]], Callable[
         ..., None]] = click.option(
             '--target-id',
@@ -20,8 +22,13 @@ def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
             help='The ID of a target in the Vuforia database.',
             required=True,
         )
-    function: Callable[..., None] = click_option_function(command)
-    return function
+
+    @wrapt.decorator
+    def wrapper(wrapped, instance, args, kwargs):
+        return wrapped(*args, **kwargs)
+    return click_option_function(wrapper(command))
+    # function: Callable[..., None] = click_option_function(command)
+    # return function
 
 
 def target_name_option(command: Callable[..., None]) -> Callable[..., None]:
