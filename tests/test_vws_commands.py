@@ -837,7 +837,7 @@ class TestUpdateTarget:
             '--image',
             str(new_image_file),
             '--active-flag',
-            True,
+            'true',
             '--application-metadata',
             new_application_metadata,
             '--server-access-key',
@@ -890,7 +890,37 @@ class TestUpdateTarget:
         """
         It is possible to give no update fields.
         """
-        pass
+        runner = CliRunner(mix_stderr=False)
+        old_name = uuid.uuid4().hex
+        old_width = random.uniform(a=0.01, b=50)
+        target_id = vws_client.add_target(
+            name=old_name,
+            width=old_width,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        [matching_target] = cloud_reco_client.query(image=high_quality_image)
+        assert matching_target['target_id'] == target_id
+        query_target_data = matching_target['target_data']
+        query_metadata = query_target_data['application_metadata']
+        assert query_metadata is None
+
+        commands = [
+            'update-target',
+            '--target-id',
+            target_id,
+            '--application-metadata',
+            new_application_metadata,
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+        assert result.stdout == ''
 
     def test_image_file_does_not_exist(
         self,
