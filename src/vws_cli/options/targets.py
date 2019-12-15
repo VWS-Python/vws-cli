@@ -25,16 +25,25 @@ def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
     return function
 
 
-def target_name_option(command: Callable[..., None]) -> Callable[..., None]:
+def target_name_option(
+    command: Optional[Callable[..., None]] = None,
+    required: bool = True,
+) -> Callable[..., None]:
     """
     An option decorator for choosing a target name.
     """
+    if not command:
+        # Ignore type error as per https://github.com/python/mypy/issues/1484.
+        return functools.partial(  # type: ignore
+            target_name_option,
+            required=required,
+        )
     click_option_function: Callable[[Callable[..., None]], Callable[
         ..., None]] = click.option(
             '--name',
             type=str,
             help='The name of the target in the Vuforia database.',
-            required=True,
+            required=required,
         )
     function: Callable[..., None] = click_option_function(command)
     return function
