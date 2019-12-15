@@ -315,6 +315,12 @@ def update_target(
     See
     https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API#How-To-Update-a-Target
     """
+    vws_client = VWS(
+        server_access_key=server_access_key,
+        server_secret_key=server_secret_key,
+    )
+
+    target_id = vws_client.update_target(target_id=target_id)
 
 
 _SECONDS_BETWEEN_REQUESTS_DEFAULT = 0.2
