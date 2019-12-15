@@ -814,6 +814,7 @@ class TestUpdateTarget:
         )
         vws_client.wait_for_target_processed(target_id=target_id)
         new_application_metadata = base64.b64encode(b'a').decode('ascii')
+        new_name = uuid.uuid4().hex
         new_image_file = tmp_path / uuid.uuid4().hex
         new_image_data = different_high_quality_image.getvalue()
         new_image_file.write_bytes(data=new_image_data)
@@ -822,6 +823,8 @@ class TestUpdateTarget:
             'update-target',
             '--target-id',
             target_id,
+            '--name',
+            new_name,
             '--image',
             str(new_image_file),
             '--application-metadata',
@@ -856,6 +859,8 @@ class TestUpdateTarget:
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
         assert result.stdout == ''
+        target_details = vws_client.get_target_record(target_id=target_id)
+        assert target_details['name'] == new_name
 
     def test_no_fields_given(
         self,
