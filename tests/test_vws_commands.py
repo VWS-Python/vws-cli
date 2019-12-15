@@ -797,8 +797,22 @@ class TestUpdateTarget:
         high_quality_image: io.BytesIO,
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
+        image_file_failed_status: io.BytesIO,
     ) -> None:
-        pass
+        """
+        It is possible to update a target.
+        """
+        target_id = vws_client.add_target(
+            name='x',
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        report = vws_client.get_target_summary_report(target_id=target_id)
+        assert report['status'] == 'success'
+
 
     def test_no_fields_given(
         self,
@@ -808,6 +822,9 @@ class TestUpdateTarget:
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
     ) -> None:
+        """
+        It is possible to give no update fields.
+        """
         pass
 
     def test_image_file_does_not_exist(
@@ -818,6 +835,9 @@ class TestUpdateTarget:
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
     ) -> None:
+        """
+        An appropriate error is given if the given image file does not exist.
+        """
         pass
 
     def test_image_file_is_dir(
@@ -828,6 +848,10 @@ class TestUpdateTarget:
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
     ) -> None:
+        """
+        An appropriate error is given if the given image file path points to a
+        directory.
+        """
         pass
 
     def test_relative_path(
@@ -838,4 +862,7 @@ class TestUpdateTarget:
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
     ) -> None:
+        """
+        Image file paths are resolved.
+        """
         pass
