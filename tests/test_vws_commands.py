@@ -813,6 +813,7 @@ class TestUpdateTarget:
             application_metadata=None,
         )
         vws_client.wait_for_target_processed(target_id=target_id)
+        new_application_metadata = base64.b64encode(b'a').decode('ascii')
         new_image_file = tmp_path / uuid.uuid4().hex
         new_image_data = different_high_quality_image.getvalue()
         new_image_file.write_bytes(data=new_image_data)
@@ -823,6 +824,8 @@ class TestUpdateTarget:
             target_id,
             '--image',
             str(new_image_file),
+            '--application-metadata',
+            new_application_metadata,
             '--server-access-key',
             mock_database.server_access_key,
             '--server-secret-key',
@@ -837,6 +840,22 @@ class TestUpdateTarget:
             matching_target,
         ] = cloud_reco_client.query(image=different_high_quality_image)
         assert matching_target['target_id'] == target_id
+        query_target_data = matching_target['target_data']
+        query_metadata = query_target_data['application_metadata']
+        assert query_metadata == new_application_metadata
+
+        commands = [
+            'update-target',
+            '--target-id',
+            target_id,
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+        assert result.stdout == ''
 
     def test_no_fields_given(
         self,
