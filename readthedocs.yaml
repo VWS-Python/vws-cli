@@ -4,10 +4,14 @@ build:
   image: latest
 
 python:
-   pip_install: true
-   version: 3.7
-   extra_requirements:
-       - dev
+  install: true
+    - method: pip
+      path: .
+      extra_requirements:
+        - docs
+  version: 3.7
+  extra_requirements:
+    - dev
 
 sphinx:
   builder: html
