@@ -60,25 +60,28 @@ def target_width_option(command: Callable[..., None]) -> Callable[..., None]:
     function: Callable[..., None] = click_option_function(command)
     return function
 
+import wrapt
 
-def target_image_option(command: Callable[..., None]) -> Callable[..., None]:
+def target_image_option(required) -> Callable[..., None]:
     """
     An option decorator for choosing a target image.
     """
-    click_option_function: Callable[[Callable[..., None]], Callable[
-        ..., None]] = click.option(
-            '--image',
-            'image_file_path',
-            type=click_pathlib.Path(
-                exists=True,
-                file_okay=True,
-                dir_okay=False,
-            ),
-            help='The path to an image to upload and set as the target image.',
-            required=True,
-        )
-    function: Callable[..., None] = click_option_function(command)
-    return function
+    click_option_function = click.option(
+        '--image',
+        'image_file_path',
+        type=click_pathlib.Path(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+        ),
+        help='The path to an image to upload and set as the target image.',
+        required=True,
+    )
+
+    @wrapt.decorator
+    def wrapper(wrapped, instance, args, kwargs):
+        return wrapped(*args, **kwargs)
+    return click_option_function(wrapper(required))
 
 
 class ActiveFlagChoice(Enum):
