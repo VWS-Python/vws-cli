@@ -783,3 +783,43 @@ class TestWaitForTargetProcessed:
             '0.01 is smaller than the minimum valid value 0.05'
         )
         assert expected_substring in result.stderr
+
+
+class TestUpdateTarget:
+    """
+    Tests for ``vws update-target``.
+    """
+
+    def test_no_fields_given(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+    ) -> None:
+        """
+        It is possible to give no update fields.
+        """
+        runner = CliRunner(mix_stderr=False)
+        old_name = uuid.uuid4().hex
+        old_width = random.uniform(a=0.01, b=50)
+        target_id = vws_client.add_target(
+            name=old_name,
+            width=old_width,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+
+        commands = [
+            'update-target',
+            '--target-id',
+            target_id,
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+        assert result.stdout == ''
