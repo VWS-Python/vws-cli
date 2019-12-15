@@ -8,8 +8,8 @@ from pathlib import Path
 
 from click.testing import CliRunner
 from mock_vws import MockVWS
-from mock_vws.states import States
 from mock_vws.database import VuforiaDatabase
+from mock_vws.states import States
 from vws import VWS
 
 from vws_cli import vws_group
@@ -256,7 +256,6 @@ def test_project_inactive(
     assert result.stdout == ''
 
 
-
 def test_unknown_vws_error(
     mock_database: VuforiaDatabase,
     high_quality_image: io.BytesIO,
@@ -294,6 +293,7 @@ def test_unknown_vws_error(
     )
     assert result.stderr == expected_stderr
     assert result.stdout == ''
+
 
 def test_target_status_not_success(
     mock_database: VuforiaDatabase,
