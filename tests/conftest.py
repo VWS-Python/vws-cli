@@ -43,4 +43,3 @@ def cloud_reco_client(
         client_access_key=mock_database.client_access_key,
         client_secret_key=mock_database.client_secret_key,
     )
-
