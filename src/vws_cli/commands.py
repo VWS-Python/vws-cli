@@ -301,6 +301,7 @@ def add_target(
 @click.command(name='update-target')
 @server_access_key_option
 @server_secret_key_option
+@target_name_option(required=False)
 @target_image_option(required=False)
 @application_metadata_option
 @target_id_option
@@ -310,6 +311,7 @@ def update_target(
     server_secret_key: str,
     target_id: str,
     image_file_path: Optional[Path],
+    name: Optional[str] = None,
     application_metadata: Optional[str] = None,
 ) -> None:
     """
@@ -331,6 +333,7 @@ def update_target(
         image = io.BytesIO(image_bytes)
 
     vws_client.update_target(
+        name=name,
         target_id=target_id,
         image=image,
         application_metadata=application_metadata,
