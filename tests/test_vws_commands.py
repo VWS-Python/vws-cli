@@ -804,9 +804,9 @@ class TestUpdateTarget:
         """
         runner = CliRunner(mix_stderr=False)
         old_name = uuid.uuid4().hex
-        old_width = random.uniform(a=0.01, b=49)
+        old_width = random.uniform(a=0.01, b=50)
         target_id = vws_client.add_target(
-            name=name,
+            name=old_name,
             width=old_width,
             image=high_quality_image,
             active_flag=True,
@@ -815,9 +815,11 @@ class TestUpdateTarget:
         vws_client.wait_for_target_processed(target_id=target_id)
         report = vws_client.get_target_summary_report(target_id=target_id)
         assert report['status'] == 'success'
+        new_name = uuid.uuid4().hex
+        new_width = random.uniform(a=0.01, b=50)
         new_image_file = tmp_path / uuid.uuid4().hex
         image_data = image_file_failed_state.getvalue()
-        new_file.write_bytes(data=image_data)
+        new_image_file.write_bytes(data=image_data)
         commands = [
             'update-target',
             '--name',
@@ -831,6 +833,9 @@ class TestUpdateTarget:
             '--server-secret-key',
             mock_database.server_secret_key,
         ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+        assert result.stdout == ''
         vws_client.wait_for_target_processed(target_id=target_id)
         target_details = vws_client.get_target_record(target_id=target_id)
         assert target_details['name'] == new_name
