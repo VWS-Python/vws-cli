@@ -2,8 +2,9 @@
 ``click`` options regarding targets.
 """
 
+import functools
 from enum import Enum
-from typing import Callable
+from typing import Callable, Optional
 
 import click
 import click_pathlib
@@ -39,7 +40,9 @@ def target_name_option(command: Callable[..., None]) -> Callable[..., None]:
     return function
 
 
-def target_width_option(command: Callable[..., None]) -> Callable[..., None]:
+def target_width_option(
+    command: Optional[Callable[..., None]] = None,
+) -> Callable[..., None]:
     """
     An option decorator for choosing a target width.
     """
@@ -50,28 +53,38 @@ def target_width_option(command: Callable[..., None]) -> Callable[..., None]:
             help='The width of the target in the Vuforia database.',
             required=True,
         )
+    assert command is not None
     function: Callable[..., None] = click_option_function(command)
     return function
 
 
-def target_image_option(command: Callable[..., None]) -> Callable[..., None]:
+def target_image_option(
+    command: Optional[Callable[..., None]] = None,
+    required: bool = True,
+) -> Callable[..., None]:
     """
     An option decorator for choosing a target image.
     """
-    click_option_function: Callable[[Callable[..., None]], Callable[
-        ..., None]] = click.option(
-            '--image',
-            'image_file_path',
-            type=click_pathlib.Path(
-                exists=True,
-                file_okay=True,
-                dir_okay=False,
-            ),
-            help='The path to an image to upload and set as the target image.',
-            required=True,
+    if not command:
+        # Ignore type error as per https://github.com/python/mypy/issues/1484.
+        return functools.partial(  # type: ignore
+            target_image_option,
+            required=required,
         )
-    function: Callable[..., None] = click_option_function(command)
-    return function
+
+    click_option_function = click.option(
+        '--image',
+        'image_file_path',
+        type=click_pathlib.Path(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+        ),
+        help='The path to an image to upload and set as the target image.',
+        required=required,
+    )
+
+    return click_option_function(command)
 
 
 class ActiveFlagChoice(Enum):
