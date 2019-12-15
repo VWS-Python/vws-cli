@@ -16,5 +16,5 @@ This is a work in progress.
 .. |Documentation Status| image:: https://readthedocs.org/projects/vws-cli/badge/?version=latest
    :target: https://vws-cli.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status
-.. |PyPI| image:: https://badge.fury.io/py/VWS-Python.svg
-   :target: https://badge.fury.io/py/VWS-Python
+.. |PyPI| image:: https://badge.fury.io/py/VWS-CLI.svg
+   :target: https://badge.fury.io/py/VWS-CLI
