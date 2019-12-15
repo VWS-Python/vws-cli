@@ -790,6 +790,54 @@ class TestUpdateTarget:
     Tests for ``vws update-target``.
     """
 
+    def test_update_target(
+        self,
+        mock_database: VuforiaDatabase,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        cloud_reco_client: CloudRecoService,
+        different_high_quality_image: io.BytesIO,
+    ) -> None:
+        """
+        It is possible to update a target.
+        """
+        runner = CliRunner(mix_stderr=False)
+        old_name = uuid.uuid4().hex
+        old_width = random.uniform(a=0.01, b=50)
+        target_id = vws_client.add_target(
+            name=old_name,
+            width=old_width,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        new_image_file = tmp_path / uuid.uuid4().hex
+        new_image_data = different_high_quality_image.getvalue()
+        new_image_file.write_bytes(data=new_image_data)
+
+        commands = [
+            'update-target',
+            '--target-id',
+            target_id,
+            '--image',
+            str(new_image_file),
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        assert result.exit_code == 0
+        assert result.stdout == ''
+
+        vws_client.wait_for_target_processed(target_id=target_id)
+        [
+            matching_target,
+        ] = cloud_reco_client.query(image=different_high_quality_image)
+        assert matching_target['target_id'] == target_id
+
     def test_no_fields_given(
         self,
         mock_database: VuforiaDatabase,

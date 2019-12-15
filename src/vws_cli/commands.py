@@ -301,12 +301,14 @@ def add_target(
 @click.command(name='update-target')
 @server_access_key_option
 @server_secret_key_option
+@target_image_option(required=False)
 @target_id_option
 @_handle_vws_exceptions
 def update_target(
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
+    image_file_path: Optional[Path],
 ) -> None:
     """
     Update a target.
@@ -320,7 +322,13 @@ def update_target(
         server_secret_key=server_secret_key,
     )
 
-    vws_client.update_target(target_id=target_id)
+    if image_file_path is None:
+        image = None
+    else:
+        image_bytes = image_file_path.read_bytes()
+        image = io.BytesIO(image_bytes)
+
+    vws_client.update_target(target_id=target_id, image=image)
 
 
 _SECONDS_BETWEEN_REQUESTS_DEFAULT = 0.2
