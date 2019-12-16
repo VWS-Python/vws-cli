@@ -4,7 +4,7 @@
 
 import functools
 from enum import Enum
-from typing import Callable, Optional
+from typing import Callable, Optional, Union
 
 import click
 import click_pathlib
@@ -105,19 +105,46 @@ class ActiveFlagChoice(Enum):
     FALSE = 'false'
 
 
-def active_flag_option(command: Callable[..., None]) -> Callable[..., None]:
+def _active_flag_choice_callback(
+    ctx: click.core.Context,
+    param: Union[click.core.Option, click.core.Parameter],
+    value: Optional[str],
+) -> Optional[ActiveFlagChoice]:
+    if value is None:
+        return None
+
+    return ActiveFlagChoice(value)
+
+def active_flag_option(
+    command: Optional[Callable[..., None]] = None,
+    allow_none: bool = False,
+) -> Callable[..., None]:
     """
     An option decorator for setting a target's active flag.
     """
+    if not command:
+        # Ignore type error as per https://github.com/python/mypy/issues/1484.
+        return functools.partial(  # type: ignore
+            active_flag_option,
+            allow_none=allow_none,
+        )
+
+    if allow_none:
+        default = None
+        show_default = False
+    else:
+        default = ActiveFlagChoice.TRUE.value
+        show_default = True
+
     click_option_function: Callable[[Callable[..., None]], Callable[
         ..., None]] = click.option(
             '--active-flag',
             'active_flag_choice',
             help='Whether or not the target is active for query.',
             type=click.Choice([item.value for item in ActiveFlagChoice]),
-            default=ActiveFlagChoice.TRUE.value,
-            callback=lambda _, __, value: ActiveFlagChoice(value),
-            show_default=True,
+            default=default,
+            callback=_active_flag_choice_callback,
+            show_default=show_default,
         )
     function: Callable[..., None] = click_option_function(command)
     return function
