@@ -144,8 +144,8 @@ def list_targets(
         server_secret_key=server_secret_key,
     )
     targets = vws_client.list_targets()
-    for target_id in targets:
-        click.echo(target_id)
+    yaml_list = yaml.dump(targets)
+    click.echo(yaml_list)
 
 
 @click.command(name='get-duplicate-targets')
