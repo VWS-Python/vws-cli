@@ -159,7 +159,7 @@ def active_flag_option(
 
 
 def application_metadata_option(
-    command: Callable[..., None],
+    command: Optional[Callable[..., None]] = None,
 ) -> Callable[..., None]:
     """
     An option decorator for setting application metadata.
@@ -174,5 +174,6 @@ def application_metadata_option(
                 'target.'
             ),
         )
+    assert command is not None
     function: Callable[..., None] = click_option_function(command)
     return function
