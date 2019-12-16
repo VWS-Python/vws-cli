@@ -304,6 +304,7 @@ def add_target(
 @target_name_option(required=False)
 @target_image_option(required=False)
 @application_metadata_option
+@active_flag_option(allow_none=True)
 @target_id_option
 @_handle_vws_exceptions
 def update_target(
@@ -313,6 +314,7 @@ def update_target(
     image_file_path: Optional[Path],
     name: Optional[str] = None,
     application_metadata: Optional[str] = None,
+    active_flag_choice: Optional[ActiveFlagChoice] = None,
 ) -> None:
     """
     Update a target.
@@ -332,11 +334,18 @@ def update_target(
         image_bytes = image_file_path.read_bytes()
         image = io.BytesIO(image_bytes)
 
+    active_flag = {
+        ActiveFlagChoice.TRUE: True,
+        ActiveFlagChoice.FALSE: False,
+        None: None,
+    }[active_flag_choice]
+
     vws_client.update_target(
         name=name,
         target_id=target_id,
         image=image,
         application_metadata=application_metadata,
+        active_flag=active_flag,
     )
 
 
