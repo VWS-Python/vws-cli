@@ -19,5 +19,6 @@ pytest==5.3.2
 sphinx-click==2.3.1
 sphinx==2.3.0
 sphinxcontrib.spelling==4.3.0
+twine==3.1.1
 vulture==1.2
 yapf==0.29.0
