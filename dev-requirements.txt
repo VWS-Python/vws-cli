@@ -3,6 +3,7 @@ VWS-Test-Fixtures==2019.12.13.1
 check-manifest==0.40
 codecov==2.0.15 # Upload coverage data
 doc8==0.8.0
+dulwich==0.19.14
 flake8-commas==2.0.0
 flake8-quotes==2.1.1
 flake8==3.7.9
@@ -10,6 +11,7 @@ isort==4.3.21
 mypy==0.750
 pip_check_reqs==2.0.3
 pydocstyle==5.0.1
+pygithub==1.44.1
 pylint==2.4.4
 pyroma==2.6
 pytest-cov==2.8.1  # Measure code coverage
