@@ -98,13 +98,9 @@ def test_list_targets(
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
-    expected = dedent(
-        f"""\
-        {target_id_1}
-        {target_id_2}
-        """,
-    )
-    assert result.stdout == expected
+    result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
+    expected_result_data = [target_id_1, target_id_2]
+    assert result_data == expected_result_data
 
 
 def test_get_target_record(
