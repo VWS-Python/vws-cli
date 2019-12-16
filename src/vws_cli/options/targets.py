@@ -4,7 +4,7 @@
 
 import functools
 from enum import Enum
-from typing import Callable, Optional
+from typing import Callable, Optional, Union
 
 import click
 import click_pathlib
@@ -51,16 +51,23 @@ def target_name_option(
 
 def target_width_option(
     command: Optional[Callable[..., None]] = None,
+    required: bool = True,
 ) -> Callable[..., None]:
     """
     An option decorator for choosing a target width.
     """
+    if not command:
+        # Ignore type error as per https://github.com/python/mypy/issues/1484.
+        return functools.partial(  # type: ignore
+            target_width_option,
+            required=required,
+        )
     click_option_function: Callable[[Callable[..., None]], Callable[
         ..., None]] = click.option(
             '--width',
             type=float,
             help='The width of the target in the Vuforia database.',
-            required=True,
+            required=required,
         )
     assert command is not None
     function: Callable[..., None] = click_option_function(command)
@@ -105,26 +112,61 @@ class ActiveFlagChoice(Enum):
     FALSE = 'false'
 
 
-def active_flag_option(command: Callable[..., None]) -> Callable[..., None]:
+def _active_flag_choice_callback(
+    ctx: click.core.Context,
+    param: Union[click.core.Option, click.core.Parameter],
+    value: Optional[str],
+) -> Optional[ActiveFlagChoice]:
+    """
+    Use as a callback for active flag options.
+    """
+    # This is to satisfy the "vulture" linter.
+    assert ctx
+    assert param
+
+    if value is None:
+        return None
+
+    return ActiveFlagChoice(value)
+
+
+def active_flag_option(
+    command: Optional[Callable[..., None]] = None,
+    allow_none: bool = False,
+) -> Callable[..., None]:
     """
     An option decorator for setting a target's active flag.
     """
+    if not command:
+        # Ignore type error as per https://github.com/python/mypy/issues/1484.
+        return functools.partial(  # type: ignore
+            active_flag_option,
+            allow_none=allow_none,
+        )
+
+    if allow_none:
+        default = None
+        show_default = False
+    else:
+        default = ActiveFlagChoice.TRUE.value
+        show_default = True
+
     click_option_function: Callable[[Callable[..., None]], Callable[
         ..., None]] = click.option(
             '--active-flag',
             'active_flag_choice',
             help='Whether or not the target is active for query.',
             type=click.Choice([item.value for item in ActiveFlagChoice]),
-            default=ActiveFlagChoice.TRUE.value,
-            callback=lambda _, __, value: ActiveFlagChoice(value),
-            show_default=True,
+            default=default,
+            callback=_active_flag_choice_callback,
+            show_default=show_default,
         )
     function: Callable[..., None] = click_option_function(command)
     return function
 
 
 def application_metadata_option(
-    command: Callable[..., None],
+    command: Optional[Callable[..., None]] = None,
 ) -> Callable[..., None]:
     """
     An option decorator for setting application metadata.
@@ -139,5 +181,6 @@ def application_metadata_option(
                 'target.'
             ),
         )
+    assert command is not None
     function: Callable[..., None] = click_option_function(command)
     return function
