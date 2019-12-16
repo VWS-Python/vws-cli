@@ -303,6 +303,7 @@ def add_target(
 @server_secret_key_option
 @target_name_option(required=False)
 @target_image_option(required=False)
+@target_width_option(required=False)
 @application_metadata_option
 @active_flag_option(allow_none=True)
 @target_id_option
@@ -315,6 +316,7 @@ def update_target(
     name: Optional[str] = None,
     application_metadata: Optional[str] = None,
     active_flag_choice: Optional[ActiveFlagChoice] = None,
+    width: Optional[float] = None,
 ) -> None:
     """
     Update a target.
@@ -346,6 +348,7 @@ def update_target(
         image=image,
         application_metadata=application_metadata,
         active_flag=active_flag,
+        width=width,
     )
 
 
