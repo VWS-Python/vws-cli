@@ -117,6 +117,13 @@ def _active_flag_choice_callback(
     param: Union[click.core.Option, click.core.Parameter],
     value: Optional[str],
 ) -> Optional[ActiveFlagChoice]:
+    """
+    Use as a callback for active flag options.
+    """
+    # This is to satisfy the "vulture" linter.
+    assert ctx
+    assert param
+
     if value is None:
         return None
 
