@@ -327,7 +327,7 @@ def test_target_status_processing(
     assert result.exit_code == 1
     expected_stderr = (
         f'Error: The target "{target_id}" cannot be deleted as it is in the '
-        'processing state.'
+        'processing state.\n'
     )
     assert result.stderr == expected_stderr
     assert result.stdout == ''

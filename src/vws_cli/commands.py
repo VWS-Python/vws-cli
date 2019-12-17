@@ -100,7 +100,7 @@ def _handle_vws_exceptions(
     except TargetStatusProcessing as exc:
         error_message = (
             f'Error: The target "{exc.target_id}" cannot be deleted as it is '
-            'in processing state.'
+            'in the processing state.'
         )
         click.echo(error_message, err=True)
         sys.exit(1)
