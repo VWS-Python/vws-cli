@@ -331,3 +331,41 @@ def test_target_status_processing(
     )
     assert result.stderr == expected_stderr
     assert result.stdout == ''
+
+
+def test_target_status_not_success(
+    vws_client: VWS,
+    high_quality_image: io.BytesIO,
+    mock_database: VuforiaDatabase,
+) -> None:
+    """
+    An error is given when updating a target which has a status
+    which is not "Success".
+    """
+    runner = CliRunner(mix_stderr=False)
+    target_id = vws_client.add_target(
+        name='x',
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+
+    commands = [
+        'update-target',
+        '--target-id',
+        target_id,
+        '--server-access-key',
+        mock_database.server_access_key,
+        '--server-secret-key',
+        mock_database.server_secret_key,
+    ]
+
+    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    assert result.exit_code == 1
+    expected_stderr = (
+        f'Error: The target "{target_id}" cannot be updated as it is in the '
+        'processing state.\n'
+    )
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''

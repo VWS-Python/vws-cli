@@ -20,6 +20,7 @@ from vws.exceptions import (
     ProjectInactive,
     TargetNameExist,
     TargetProcessingTimeout,
+    TargetStatusNotSuccess,
     TargetStatusProcessing,
     UnknownTarget,
     UnknownVWSErrorPossiblyBadName,
@@ -84,6 +85,11 @@ def _handle_vws_exceptions(
     except TargetStatusProcessing as exc:
         error_message = (
             f'Error: The target "{exc.target_id}" cannot be deleted as it is '
+            'in the processing state.'
+        )
+    except TargetStatusNotSuccess as exc:
+        error_message = (
+            f'Error: The target "{exc.target_id}" cannot be updated as it is '
             'in the processing state.'
         )
     else:
