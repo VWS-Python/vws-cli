@@ -20,6 +20,7 @@ from vws.exceptions import (
     ProjectInactive,
     TargetNameExist,
     TargetProcessingTimeout,
+    TargetStatusProcessing,
     UnknownTarget,
     UnknownVWSErrorPossiblyBadName,
 )
@@ -93,6 +94,13 @@ def _handle_vws_exceptions(
         error_message = (
             'Error: There was an unknown error from Vuforia. '
             'This may be because there is a problem with the given name.'
+        )
+        click.echo(error_message, err=True)
+        sys.exit(1)
+    except TargetStatusProcessing as exc:
+        error_message = (
+            f'Error: The target "{exc.target_id}" cannot be deleted as it is '
+            'in the processing state.'
         )
         click.echo(error_message, err=True)
         sys.exit(1)
