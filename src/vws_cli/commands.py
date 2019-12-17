@@ -19,8 +19,8 @@ from vws.exceptions import (
     MetadataTooLarge,
     ProjectInactive,
     TargetNameExist,
-    TargetStatusProcessing,
     TargetProcessingTimeout,
+    TargetStatusProcessing,
     UnknownTarget,
     UnknownVWSErrorPossiblyBadName,
 )
