@@ -332,6 +332,7 @@ def test_target_status_processing(
     assert result.stderr == expected_stderr
     assert result.stdout == ''
 
+
 def test_target_status_not_success(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
