@@ -325,7 +325,8 @@ def test_target_status_processing(
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 1
     expected_stderr = (
-        'Error: The target "{target_id}"... is processing...'
+        f'Error: The target "{target_id}" cannot be deleted as it is in the '
+        'processing state.'
     )
     assert result.stderr == expected_stderr
     assert result.stdout == ''
