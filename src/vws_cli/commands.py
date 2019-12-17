@@ -20,6 +20,7 @@ from vws.exceptions import (
     ProjectInactive,
     TargetNameExist,
     TargetProcessingTimeout,
+    TargetStatusNotSuccess,
     TargetStatusProcessing,
     UnknownTarget,
     UnknownVWSErrorPossiblyBadName,
@@ -102,6 +103,10 @@ def _handle_vws_exceptions(
             f'Error: The target "{exc.target_id}" cannot be deleted as it is '
             'in the processing state.'
         )
+        click.echo(error_message, err=True)
+        sys.exit(1)
+    except TargetStatusNotSuccess:
+        error_message = 'Error:'
         click.echo(error_message, err=True)
         sys.exit(1)
 
