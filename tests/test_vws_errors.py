@@ -298,6 +298,7 @@ def test_unknown_vws_error(
 def test_target_status_processing(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
+    mock_database: VuforiaDatabase,
 ) -> None:
     """
     An error is given when trying to delete a target which is processing.
