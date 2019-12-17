@@ -53,15 +53,11 @@ def _handle_vws_exceptions(
         wrapped(*args, **kwargs)
     except UnknownTarget as exc:
         error_message = f'Error: Target "{exc.target_id}" does not exist.'
-        click.echo(error_message, err=True)
-        sys.exit(1)
     except BadImage:
         error_message = (
             'Error: The given image is corrupted or the format is not '
             'supported.'
         )
-        click.echo(error_message, err=True)
-        sys.exit(1)
     except Fail as exc:
         assert exc.response.status_code == codes.BAD_REQUEST
         error_message = (
@@ -69,49 +65,38 @@ def _handle_vws_exceptions(
             'processed. '
             'Check the given parameters.'
         )
-        click.echo(error_message, err=True)
-        sys.exit(1)
     except MetadataTooLarge:
         error_message = 'Error: The given metadata is too large.'
-        click.echo(error_message, err=True)
-        sys.exit(1)
     except ImageTooLarge:
         error_message = 'Error: The given image is too large.'
-        click.echo(error_message, err=True)
-        sys.exit(1)
     except TargetNameExist as exc:
         error_message = (
             f'Error: There is already a target named "{exc.target_name}".'
         )
-        click.echo(error_message, err=True)
-        sys.exit(1)
     except ProjectInactive:
         error_message = (
             'Error: The project associated with the given keys is inactive.'
         )
-        click.echo(error_message, err=True)
-        sys.exit(1)
     except UnknownVWSErrorPossiblyBadName:
         error_message = (
             'Error: There was an unknown error from Vuforia. '
             'This may be because there is a problem with the given name.'
         )
-        click.echo(error_message, err=True)
-        sys.exit(1)
     except TargetStatusProcessing as exc:
         error_message = (
             f'Error: The target "{exc.target_id}" cannot be deleted as it is '
             'in the processing state.'
         )
-        click.echo(error_message, err=True)
-        sys.exit(1)
     except TargetStatusNotSuccess as exc:
         error_message = (
             f'Error: The target "{exc.target_id}" cannot be updated as it is '
             'in the processing state.'
         )
-        click.echo(error_message, err=True)
-        sys.exit(1)
+    else:
+        return
+
+    click.echo(error_message, err=True)
+    sys.exit(1)
 
 
 @click.command(name='get-target-record')
