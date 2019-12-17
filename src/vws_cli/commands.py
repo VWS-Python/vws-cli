@@ -105,8 +105,11 @@ def _handle_vws_exceptions(
         )
         click.echo(error_message, err=True)
         sys.exit(1)
-    except TargetStatusNotSuccess:
-        error_message = 'Error:'
+    except TargetStatusNotSuccess as exc:
+        error_message = (
+            f'Error: The target "{exc.target_id}" cannot be updated as it is '
+            'in the processing state.'
+        )
         click.echo(error_message, err=True)
         sys.exit(1)
 
