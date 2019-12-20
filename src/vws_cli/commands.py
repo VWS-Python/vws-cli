@@ -93,11 +93,6 @@ def _handle_vws_exceptions(
             f'Error: The target "{exc.target_id}" cannot be updated as it is '
             'in the processing state.'
         )
-    except TargetStatusNotSuccess as exc:
-        error_message = (
-            f'Error: The target "{exc.target_id}" cannot be updated as it is '
-            'in the processing state.'
-        )
     except AuthenticationFailure:
         error_message = 'The given secret key was incorrect.'
     else:
