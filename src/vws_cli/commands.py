@@ -13,6 +13,7 @@ import yaml
 from requests import codes
 from vws import VWS
 from vws.exceptions import (
+    AuthenticationFailure,
     BadImage,
     Fail,
     ImageTooLarge,
@@ -92,6 +93,13 @@ def _handle_vws_exceptions(
             f'Error: The target "{exc.target_id}" cannot be updated as it is '
             'in the processing state.'
         )
+    except TargetStatusNotSuccess as exc:
+        error_message = (
+            f'Error: The target "{exc.target_id}" cannot be updated as it is '
+            'in the processing state.'
+        )
+    except AuthenticationFailure:
+        error_message = 'The given secret key was incorrect.'
     else:
         return
 
@@ -129,6 +137,7 @@ def get_target_record(
 @click.command(name='list-targets')
 @server_access_key_option
 @server_secret_key_option
+@_handle_vws_exceptions
 def list_targets(
     server_access_key: str,
     server_secret_key: str,
@@ -179,6 +188,7 @@ def get_duplicate_targets(
 @click.command(name='get-database-summary-report')
 @server_access_key_option
 @server_secret_key_option
+@_handle_vws_exceptions
 def get_database_summary_report(
     server_access_key: str,
     server_secret_key: str,

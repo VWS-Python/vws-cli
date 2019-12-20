@@ -369,3 +369,22 @@ def test_target_status_not_success(
     )
     assert result.stderr == expected_stderr
     assert result.stdout == ''
+
+def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
+    """
+    An error is given when the secret key is incorrect.
+    """
+    runner = CliRunner(mix_stderr=False)
+    commands = [
+        'list-targets',
+        '--server-access-key',
+        mock_database.server_access_key,
+        '--server-secret-key',
+        'wrong_key',
+    ]
+
+    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    assert result.exit_code == 1
+    expected_stderr = 'The given secret key was incorrect.\n'
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
