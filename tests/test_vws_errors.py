@@ -370,6 +370,7 @@ def test_target_status_not_success(
     assert result.stderr == expected_stderr
     assert result.stdout == ''
 
+
 def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
     """
     An error is given when the secret key is incorrect.
