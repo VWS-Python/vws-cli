@@ -19,6 +19,7 @@ from vws.exceptions import (
     ImageTooLarge,
     MetadataTooLarge,
     ProjectInactive,
+    RequestTimeTooSkewed,
     TargetNameExist,
     TargetProcessingTimeout,
     TargetStatusNotSuccess,
@@ -95,6 +96,12 @@ def _handle_vws_exceptions(
         )
     except AuthenticationFailure:
         error_message = 'The given secret key was incorrect.'
+    except RequestTimeTooSkewed:
+        error_message = (
+            'Error: Vuforia reported that the time given with this request '
+            'was outside the expected range. '
+            'This may be because the system clock is out of sync.'
+        )
     else:
         return
 

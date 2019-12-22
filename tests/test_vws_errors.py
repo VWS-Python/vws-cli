@@ -413,3 +413,10 @@ def test_request_time_too_skewed(mock_database: VuforiaDatabase) -> None:
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
 
+    expected_stderr = (
+        'Error: Vuforia reported that the time given with this request was '
+        'outside the expected range. '
+        'This may be because the system clock is out of sync.\n'
+    )
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
