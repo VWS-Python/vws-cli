@@ -391,7 +391,12 @@ def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
     assert result.stderr == expected_stderr
     assert result.stdout == ''
 
+
 def test_request_time_too_skewed(mock_database: VuforiaDatabase) -> None:
+    """
+    An error is given when the request time is more than 5 minutes different
+    from the server time.
+    """
     runner = CliRunner(mix_stderr=False)
     vws_max_time_skew = 60 * 5
     leeway = 10
