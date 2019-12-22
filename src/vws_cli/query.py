@@ -1,5 +1,5 @@
 """
-XXX
+A CLI for the Vuforia Cloud Recognition Service API.
 """
 
 from pathlib import Path
@@ -47,7 +47,7 @@ def vuforia_cloud_reco(
     image: Path, client_access_key: str, client_secret_key: str
 ) -> None:
     """
-    XXX
+    Make a request to the Vuforia Cloud Recognition Service API.
     """
     client = CloudRecoService(
         client_access_key=client_access_key,
