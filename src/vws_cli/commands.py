@@ -15,13 +15,18 @@ from vws import VWS
 from vws.exceptions import (
     AuthenticationFailure,
     BadImage,
+    DateRangeError
     Fail,
     ImageTooLarge,
     MetadataTooLarge,
+    ProjectHasNoAPIAccess
     ProjectInactive,
+    ProjectSuspended
+    RequestQuotaReached
     RequestTimeTooSkewed,
     TargetNameExist,
     TargetProcessingTimeout,
+    TargetQuotaReached
     TargetStatusNotSuccess,
     TargetStatusProcessing,
     UnknownTarget,
@@ -101,6 +106,26 @@ def _handle_vws_exceptions(
             'Error: Vuforia reported that the time given with this request '
             'was outside the expected range. '
             'This may be because the system clock is out of sync.'
+        )
+    except RequestQuotaReached:
+        error_message = (
+            ''
+        )
+    except DateRangeError:
+        error_message = (
+            ''
+        )
+    except TargetQuotaReached:
+        error_message = (
+            ''
+        )
+    except ProjectSuspended:
+        error_message = (
+            ''
+        )
+    except ProjectHasNoAPIAccess:
+        error_message = (
+            ''
         )
     else:
         return
