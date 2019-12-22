@@ -27,8 +27,7 @@ def test_vws_command_help(command: List[str]) -> None:
     Expected help text is shown for ``vws`` commands.
 
     This help text is defined in files.
-    To update these files, run the command
-    ``bash admin/update_cli_tests.sh``.
+    To update these files, run the command ``bash admin/update_cli_tests.sh``.
     """
     runner = CliRunner()
     arguments = command + ['--help']
@@ -51,12 +50,17 @@ def test_vws_command_help(command: List[str]) -> None:
 
 def test_query_help() -> None:
     """
-    XXX
+    Expected help text is shown for the ``vuforia-cloud-reco`` command.
+
+    This help text is defined in files.
+    To update these files, run the command ``bash admin/update_cli_tests.sh``.
     """
     runner = CliRunner()
     arguments = ['--help']
     result = runner.invoke(
-        vuforia_cloud_reco, arguments, catch_exceptions=False
+        vuforia_cloud_reco,
+        arguments,
+        catch_exceptions=False,
     )
     assert result.exit_code == 0
     help_output_filename = 'vuforia_cloud_reco.txt'
