@@ -3,6 +3,7 @@ Test for the Cloud Reco Service commands.
 """
 
 import io
+import yaml
 import uuid
 from pathlib import Path
 
@@ -28,7 +29,13 @@ class TestQuery:
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
-        commands = [str(new_file)]
+        commands = [
+            str(new_file),
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--server-access-key',
+            mock_database.server_access_key,
+        ]
         result = runner.invoke(
             vuforia_cloud_reco,
             commands,
@@ -37,13 +44,13 @@ class TestQuery:
         assert result.exit_code == 0
         assert result.stdout == ''
 
-    def test_image_file_is_dir():
+    def test_image_file_is_dir(self):
         pass
 
-    def test_relative_path():
+    def test_relative_path(self):
         pass
 
-    def test_matches():
+    def test_matches(self, tmp_path: Path, high_quality_image: io.BytesIO):
         runner = CliRunner(mix_stderr=False)
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()

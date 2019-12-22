@@ -8,6 +8,7 @@ import click_pathlib
 import click
 
 from vws_cli import __version__
+from vws import CloudRecoService
 
 def image_argument(
     command: Optional[Callable[..., None]] = None,
@@ -38,3 +39,4 @@ def vuforia_cloud_reco(image: Path) -> None:
     """
     XXX
     """
+    client = CloudRecoService()
