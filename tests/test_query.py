@@ -12,6 +12,7 @@ from mock_vws.database import VuforiaDatabase
 from typing import List
 
 from click.testing import CliRunner
+from mock_vws.database import VuforiaDatabase
 
 from vws_cli.query import vuforia_cloud_reco
 
@@ -34,7 +35,7 @@ class TestQuery:
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
-        commands = [
+        commands: List[str] = [
             str(new_file),
             '--client-access-key',
             mock_database.client_access_key,
