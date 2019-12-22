@@ -33,8 +33,8 @@ class TestQuery:
             str(new_file),
             '--client-access-key',
             mock_database.client_access_key,
-            '--server-access-key',
-            mock_database.server_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
         ]
         result = runner.invoke(
             vuforia_cloud_reco,
