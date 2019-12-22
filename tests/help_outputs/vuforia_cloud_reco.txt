@@ -1,0 +1,6 @@
+Usage: vuforia-cloud-reco [OPTIONS]
+
+  Make a request to the Vuforia Cloud Recognition Service API.
+
+Options:
+  --help  Show this message and exit.
