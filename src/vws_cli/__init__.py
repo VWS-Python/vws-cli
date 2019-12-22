@@ -35,6 +35,7 @@ def vws_group() -> None:
     """
 
 
+
 vws_group.add_command(add_target)
 vws_group.add_command(delete_target)
 vws_group.add_command(get_database_summary_report)
