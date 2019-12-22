@@ -30,7 +30,9 @@ class TestQuery:
         new_file.write_bytes(data=image_data)
         commands = [str(new_file)]
         result = runner.invoke(
-            vuforia_cloud_reco, commands, catch_exceptions=False
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
         )
         assert result.exit_code == 0
         assert result.stdout == '.'
