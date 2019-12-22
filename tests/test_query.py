@@ -3,11 +3,12 @@ Test for the Cloud Reco Service commands.
 """
 
 import io
-import yaml
 import uuid
 from pathlib import Path
 
+import yaml
 from click.testing import CliRunner
+from mock_vws.database import VuforiaDatabase
 
 from vws_cli.query import vuforia_cloud_reco
 
@@ -21,6 +22,7 @@ class TestQuery:
         self,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
+        mock_database: VuforiaDatabase,
     ) -> None:
         """
         An empty list is returned if there are no matches.
@@ -50,7 +52,11 @@ class TestQuery:
     def test_relative_path(self):
         pass
 
-    def test_matches(self, tmp_path: Path, high_quality_image: io.BytesIO):
+    def test_matches(
+        self,
+        tmp_path: Path,
+        high_quality_image: io.BytesIO
+    ) -> None:
         runner = CliRunner(mix_stderr=False)
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()

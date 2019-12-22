@@ -2,13 +2,19 @@
 XXX
 """
 
-from typing import Callable, Optional
 from pathlib import Path
-import click_pathlib
+from typing import Callable, Optional
+
 import click
+import click_pathlib
+from vws import CloudRecoService
 
 from vws_cli import __version__
-from vws import CloudRecoService
+from vws_cli.options.credentials import (
+    client_access_key_option,
+    client_secret_key_option,
+)
+
 
 def image_argument(
     command: Optional[Callable[..., None]] = None,
@@ -34,9 +40,16 @@ def image_argument(
 #
 # Click uses ``pkg_resources`` to determine the version if it is not given.
 @image_argument
+@client_access_key_option
+@client_secret_key_option
 @click.version_option(version=__version__)
-def vuforia_cloud_reco(image: Path) -> None:
+def vuforia_cloud_reco(
+    image: Path, client_access_key: str, client_secret_key: str
+) -> None:
     """
     XXX
     """
-    client = CloudRecoService()
+    client = CloudRecoService(
+        client_access_key=client_access_key,
+        client_secret_key=client_secret_key
+    )
