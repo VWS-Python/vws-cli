@@ -1,4 +1,4 @@
-Usage: vuforia-cloud-reco [OPTIONS]
+Usage: vuforia-cloud-reco [OPTIONS] IMAGE
 
   XXX
 
