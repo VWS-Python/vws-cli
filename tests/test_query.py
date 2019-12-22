@@ -36,3 +36,12 @@ class TestQuery:
         )
         assert result.exit_code == 0
         assert result.stdout == ''
+
+    def test_image_file_is_dir():
+        pass
+
+    def test_relative_path():
+        pass
+
+    def test_matches():
+        pass
