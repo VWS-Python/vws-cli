@@ -1,0 +1,7 @@
+Usage: vuforia-cloud-reco [OPTIONS]
+
+  XXX
+
+Options:
+  --version  Show the version and exit.
+  --help     Show this message and exit.

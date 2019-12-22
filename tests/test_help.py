@@ -53,10 +53,10 @@ def test_query_help() -> None:
     XXX
     """
     runner = CliRunner()
-    arguments = command + ['--help']
-    result = runner.invoke(vws_group, arguments, catch_exceptions=False)
+    arguments = ['--help']
+    result = runner.invoke(vuforia_cloud_reco, arguments, catch_exceptions=False)
     assert result.exit_code == 0
-    help_output_filename = '-'.join(['vws'] + command) + '.txt'
+    help_output_filename = 'vuforia_cloud_reco.txt'
     help_outputs_dir = Path(__file__).parent / 'help_outputs'
     expected_help_file = help_outputs_dir / help_output_filename
     try:
