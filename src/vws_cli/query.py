@@ -1,5 +1,7 @@
 import click
 
+from vws_cli import __version__
+
 @click.command(name='vuforia-cloud-reco')
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
