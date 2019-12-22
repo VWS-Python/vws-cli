@@ -47,3 +47,45 @@ def server_secret_key_option(
     assert command is not None
     function: Callable[..., None] = click_option_function(command)
     return function
+
+
+def client_access_key_option(
+    command: Optional[Callable[..., None]] = None,
+) -> Callable[..., None]:
+    """
+    An option decorator for the Vuforia client access key.
+    """
+    click_option_function: Callable[[Callable[..., None]], Callable[
+        ..., None]] = click.option(
+            '--client-access-key',
+            type=str,
+            help=(
+                'A Vuforia client access key to use to access the Vuforia '
+                'Cloud Recognition API.'
+            ),
+            required=True,
+        )
+    assert command is not None
+    function: Callable[..., None] = click_option_function(command)
+    return function
+
+
+def client_secret_key_option(
+    command: Optional[Callable[..., None]] = None,
+) -> Callable[..., None]:
+    """
+    An option decorator for the Vuforia client secret key.
+    """
+    click_option_function: Callable[[Callable[..., None]], Callable[
+        ..., None]] = click.option(
+            '--client-secret-key',
+            type=str,
+            help=(
+                'A Vuforia client secret key to use to access the Vuforia '
+                'Cloud Recognition API.'
+            ),
+            required=True,
+        )
+    assert command is not None
+    function: Callable[..., None] = click_option_function(command)
+    return function

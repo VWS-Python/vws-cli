@@ -3,4 +3,8 @@ Usage: vuforia-cloud-reco [OPTIONS]
   Make a request to the Vuforia Cloud Recognition Service API.
 
 Options:
-  --help  Show this message and exit.
+  --client-access-key TEXT  A Vuforia client access key to use to access the
+                            Vuforia Cloud Recognition API.  [required]
+  --client-secret-key TEXT  A Vuforia client secret key to use to access the
+                            Vuforia Cloud Recognition API.  [required]
+  --help                    Show this message and exit.
