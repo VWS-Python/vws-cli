@@ -44,4 +44,17 @@ class TestQuery:
         pass
 
     def test_matches():
-        pass
+        runner = CliRunner(mix_stderr=False)
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        commands = [str(new_file)]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 0
+        result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        expected_result_data = {}
+        assert result_data == expected_result_data
