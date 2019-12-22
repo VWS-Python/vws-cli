@@ -5,6 +5,7 @@ Test for the Cloud Reco Service commands.
 from typing import List
 
 from click.testing import CliRunner
+from mock_vws.database import VuforiaDatabase
 
 from vws_cli.query import vuforia_cloud_reco
 
@@ -14,12 +15,17 @@ class TestQuery:
     Tests for making image queries.
     """
 
-    def test_no_matches(self) -> None:
+    def test_no_matches(self, mock_database: VuforiaDatabase) -> None:
         """
         The cloud recognition command exists.
         """
         runner = CliRunner(mix_stderr=False)
-        commands: List[str] = []
+        commands: List[str] = [
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
         result = runner.invoke(
             vuforia_cloud_reco,
             commands,
