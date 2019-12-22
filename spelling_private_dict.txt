@@ -10,6 +10,7 @@ metadata
 noqa
 pragma
 pytest
+reco
 ubuntu
 vuforia
 vws
