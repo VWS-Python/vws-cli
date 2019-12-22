@@ -107,27 +107,32 @@ def _handle_vws_exceptions(
             'was outside the expected range. '
             'This may be because the system clock is out of sync.'
         )
-    except RequestQuotaReached:
+    # This exception is not available from the mock.
+    except RequestQuotaReached:  # pragma: no cover
         error_message = (
             'Error: The maximum number of API calls for this database has '
             'been reached.'
         )
-    except DateRangeError:
+    # This exception is not available from the mock.
+    except DateRangeError:  # pragma: no cover
         error_message = (
             'Error: There was a problem with the date details given in the '
             'request.'
         )
-    except TargetQuotaReached:
+    # This exception is not available from the mock.
+    except TargetQuotaReached:  # pragma: no cover
         error_message = (
             'Error: The maximum number of targets for this database has been '
             'reached.'
         )
-    except ProjectSuspended:
+    # This exception is not available from the mock.
+    except ProjectSuspended:  # pragma: no cover
         error_message = (
             'Error: The request could not be completed because this database '
             'has been suspended.'
         )
-    except ProjectHasNoAPIAccess:
+    # This exception is not available from the mock.
+    except ProjectHasNoAPIAccess:  # pragma: no cover
         error_message = (
             'Error: The request could not be completed because this database '
             'is not allowed to make API requests.'
