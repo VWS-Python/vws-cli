@@ -35,4 +35,4 @@ class TestQuery:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        assert result.stdout == '.'
+        assert result.stdout == ''
