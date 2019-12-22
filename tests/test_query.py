@@ -1,8 +1,15 @@
+"""
+Test for the Cloud Reco Service commands.
+"""
+
+import io
 import uuid
 from pathlib import Path
-import io
+
 from click.testing import CliRunner
+
 from vws_cli.query import vuforia_cloud_reco
+
 
 class TestQuery:
     """
@@ -22,6 +29,8 @@ class TestQuery:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         commands = [str(new_file)]
-        result = runner.invoke(vuforia_cloud_reco, commands, catch_exceptions=False)
+        result = runner.invoke(
+            vuforia_cloud_reco, commands, catch_exceptions=False
+        )
         assert result.exit_code == 0
         assert result.stdout == '.'

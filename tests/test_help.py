@@ -48,13 +48,16 @@ def test_vws_command_help(command: List[str]) -> None:
         else:
             raise
 
+
 def test_query_help() -> None:
     """
     XXX
     """
     runner = CliRunner()
     arguments = ['--help']
-    result = runner.invoke(vuforia_cloud_reco, arguments, catch_exceptions=False)
+    result = runner.invoke(
+        vuforia_cloud_reco, arguments, catch_exceptions=False
+    )
     assert result.exit_code == 0
     help_output_filename = 'vuforia_cloud_reco.txt'
     help_outputs_dir = Path(__file__).parent / 'help_outputs'
