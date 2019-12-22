@@ -7,6 +7,7 @@ import uuid
 from pathlib import Path
 
 from click.testing import CliRunner
+from freezegun import freeze_time
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 from mock_vws.states import States
@@ -389,3 +390,26 @@ def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
     expected_stderr = 'The given secret key was incorrect.\n'
     assert result.stderr == expected_stderr
     assert result.stdout == ''
+
+def test_request_time_too_skewed(mock_database: VuforiaDatabase) -> None:
+    runner = CliRunner(mix_stderr=False)
+    vws_max_time_skew = 60 * 5
+    leeway = 10
+    time_difference_from_now = vws_max_time_skew + leeway
+
+    # We use a custom tick because we expect the following:
+    #
+    # * At least one time check when creating the request
+    # * At least one time check when processing the request
+    #
+    # >= 1 ticks are acceptable.
+    with freeze_time(auto_tick_seconds=time_difference_from_now):
+        commands = [
+            'list-targets',
+            '--server-access-key',
+            mock_database.server_access_key,
+            '--server-secret-key',
+            mock_database.server_secret_key,
+        ]
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+
