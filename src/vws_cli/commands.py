@@ -109,23 +109,28 @@ def _handle_vws_exceptions(
         )
     except RequestQuotaReached:
         error_message = (
-            ''
+            'Error: The maximum number of API calls for this database has '
+            'been reached.'
         )
     except DateRangeError:
         error_message = (
-            ''
+            'Error: There was a problem with the date details given in the '
+            'request.'
         )
     except TargetQuotaReached:
         error_message = (
-            ''
+            'Error: The maximum number of targets for this database has been '
+            'reached.'
         )
     except ProjectSuspended:
         error_message = (
-            ''
+            'Error: The request could not be completed because this database '
+            'has been suspended.'
         )
     except ProjectHasNoAPIAccess:
         error_message = (
-            ''
+            'Error: The request could not be completed because this database '
+            'is not allowed to make API requests.'
         )
     else:
         return
