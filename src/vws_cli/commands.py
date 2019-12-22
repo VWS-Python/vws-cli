@@ -15,18 +15,18 @@ from vws import VWS
 from vws.exceptions import (
     AuthenticationFailure,
     BadImage,
-    DateRangeError
+    DateRangeError,
     Fail,
     ImageTooLarge,
     MetadataTooLarge,
-    ProjectHasNoAPIAccess
+    ProjectHasNoAPIAccess,
     ProjectInactive,
-    ProjectSuspended
-    RequestQuotaReached
+    ProjectSuspended,
+    RequestQuotaReached,
     RequestTimeTooSkewed,
     TargetNameExist,
     TargetProcessingTimeout,
-    TargetQuotaReached
+    TargetQuotaReached,
     TargetStatusNotSuccess,
     TargetStatusProcessing,
     UnknownTarget,
