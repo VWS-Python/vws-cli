@@ -5,12 +5,9 @@ Test for the Cloud Reco Service commands.
 import io
 import uuid
 from pathlib import Path
-
-import yaml
-from click.testing import CliRunner
-from mock_vws.database import VuforiaDatabase
 from typing import List
 
+import yaml
 from click.testing import CliRunner
 from mock_vws.database import VuforiaDatabase
 
@@ -59,13 +56,20 @@ class TestQuery:
     def test_matches(
         self,
         tmp_path: Path,
-        high_quality_image: io.BytesIO
+        high_quality_image: io.BytesIO,
+        mock_database: VuforiaDatabase,
     ) -> None:
         runner = CliRunner(mix_stderr=False)
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
-        commands = [str(new_file)]
+        commands = [
+            str(new_file),
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
         result = runner.invoke(
             vuforia_cloud_reco,
             commands,
