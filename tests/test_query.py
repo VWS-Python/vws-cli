@@ -26,10 +26,10 @@ class TestQuery:
         The cloud recognition command exists.
         """
         runner = CliRunner(mix_stderr=False)
-        file_path = tmp_path / uuid.uuid4().hex
-        file_path.touch()
+        new_file = tmp_path / uuid.uuid4().hex
+        new_file.touch()
         commands: List[str] = [
-            str(file_path),
+            str(new_file),
             '--client-access-key',
             mock_database.client_access_key,
             '--client-secret-key',
