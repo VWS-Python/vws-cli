@@ -42,3 +42,18 @@ class TestQuery:
         )
         assert result.exit_code == 0
         assert result.stdout == ''
+
+
+def test_version():
+    """
+    ``vuforia-cloud-reco --version`` shows the version.
+    """
+    runner = CliRunner(mix_stderr=False)
+    commands = ['--version']
+    result = runner.invoke(
+        vuforia_cloud_reco,
+        commands,
+        catch_exceptions=False,
+    )
+    assert result.exit_code == 0
+    assert result.stdout.startswith('vuforia-cloud-reco, version ')
