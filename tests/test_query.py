@@ -57,6 +57,9 @@ class TestQuery:
         vws_client: VWS,
         mock_database: VuforiaDatabase,
     ) -> None:
+        """
+        Details of matching targets are shown.
+        """
         name = uuid.uuid4().hex
         target_id = vws_client.add_target(
             name=name,
