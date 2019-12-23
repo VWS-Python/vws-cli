@@ -21,8 +21,8 @@ class TestQuery:
 
     def test_no_matches(
         self,
-        tmp_path: Path,
         mock_database: VuforiaDatabase,
+        tmp_path: Path,
         high_quality_image: io.BytesIO,
     ) -> None:
         """
