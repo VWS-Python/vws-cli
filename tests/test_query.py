@@ -216,3 +216,37 @@ def test_version() -> None:
     )
     assert result.exit_code == 0
     assert result.stdout.startswith('vuforia-cloud-reco, version ')
+
+
+class TestMaxNumResults:
+    """
+    Tests for the ``--max-num-results`` option.
+    """
+
+    def test_default(
+        self,
+        vws_client: VWS,
+        cloud_reco_client: CloudRecoService,
+        high_quality_image: io.BytesIO,
+    ) -> None:
+        """
+        By default the maximum number of results is 1.
+        """
+        target_id = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        target_id_2 = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        vws_client.wait_for_target_processed(target_id=target_id_2)
+        matches = cloud_reco_client.query(image=high_quality_image)
+        assert len(matches) == 1
