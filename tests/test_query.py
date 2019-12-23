@@ -47,7 +47,8 @@ class TestQuery:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        assert result.stdout == ''
+        result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        assert result_data == []
 
 
     def test_matches(
@@ -162,7 +163,8 @@ class TestQuery:
             )
 
         assert result.exit_code == 0
-        assert result.stdout == ''
+        result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        assert result_data == []
 
     def test_image_file_does_not_exist(
         self,
