@@ -2,6 +2,8 @@
 Test for the Cloud Reco Service commands.
 """
 
+import uuid
+from pathlib import Path
 from typing import List
 
 from click.testing import CliRunner
@@ -15,12 +17,19 @@ class TestQuery:
     Tests for making image queries.
     """
 
-    def test_no_matches(self, mock_database: VuforiaDatabase) -> None:
+    def test_no_matches(
+        self,
+        mock_database: VuforiaDatabase,
+        tmp_path: Path,
+    ) -> None:
         """
         The cloud recognition command exists.
         """
         runner = CliRunner(mix_stderr=False)
+        file_path = tmp_path / uuid.uuid4().hex
+        file_path.touch()
         commands: List[str] = [
+            str(file_path),
             '--client-access-key',
             mock_database.client_access_key,
             '--client-secret-key',

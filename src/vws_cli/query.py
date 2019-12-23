@@ -2,7 +2,11 @@
 A CLI for the Vuforia Cloud Recognition Service API.
 """
 
+from pathlib import Path
+from typing import Callable
+
 import click
+import click_pathlib
 
 from vws_cli.options.credentials import (
     client_access_key_option,
@@ -10,12 +14,34 @@ from vws_cli.options.credentials import (
 )
 
 
+def image_argument(command: Callable[..., None]) -> Callable[..., None]:
+    """
+    An argument decorator for choosing a query image.
+    """
+    click_option_function = click.argument(
+        'image',
+        type=click_pathlib.Path(
+            exists=True,
+            file_okay=True,
+            dir_okay=False,
+        ),
+    )
+
+    return click_option_function(command)
+
+
 @click.command(name='vuforia-cloud-reco')
+@image_argument
 @client_access_key_option
 @client_secret_key_option
-def vuforia_cloud_reco(client_access_key: str, client_secret_key: str) -> None:
+def vuforia_cloud_reco(
+    image: Path,
+    client_access_key: str,
+    client_secret_key: str,
+) -> None:
     """
     Make a request to the Vuforia Cloud Recognition Service API.
     """
     assert client_access_key
     assert client_secret_key
+    assert image
