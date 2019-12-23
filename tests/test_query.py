@@ -93,7 +93,6 @@ class TestQuery:
         original_image_file = tmp_path / 'foo'
         image_data = high_quality_image.getvalue()
         original_image_file.write_bytes(image_data)
-        uuid.uuid4().hex
         commands: List[str] = [
             str(new_filename),
             '--client-access-key',
@@ -116,7 +115,6 @@ class TestQuery:
     def test_image_file_does_not_exist(
         self,
         mock_database: VuforiaDatabase,
-        high_quality_image: io.BytesIO,
         tmp_path: Path,
     ) -> None:
         """
