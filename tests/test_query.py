@@ -4,6 +4,7 @@ Test for the Cloud Reco Service commands.
 
 import uuid
 from pathlib import Path
+from textwrap import dedent
 from typing import List
 
 from click.testing import CliRunner
@@ -42,6 +43,43 @@ class TestQuery:
         )
         assert result.exit_code == 0
         assert result.stdout == ''
+
+    def test_image_file_is_dir(
+        self,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        runner = CliRunner(mix_stderr=False)
+        commands: List[str] = [
+            str(tmp_path),
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 2
+        assert result.stdout == ''
+        expected_stderr = dedent(
+            f"""\
+            Usage: vws add-target [OPTIONS]
+            Try "vws add-target -h" for help.
+
+            Error: Invalid value for "--image": File "{tmp_path}" is a directory.
+            """,  # noqa: E501
+        )
+        assert result.stderr == expected_stderr
+
+    def test_relative_path(
+        self,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        pass
 
 
 def test_version() -> None:
