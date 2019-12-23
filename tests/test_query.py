@@ -44,7 +44,7 @@ class TestQuery:
         assert result.stdout == ''
 
 
-def test_version():
+def test_version() -> None:
     """
     ``vuforia-cloud-reco --version`` shows the version.
     """
