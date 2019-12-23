@@ -8,8 +8,10 @@ from pathlib import Path
 from textwrap import dedent
 from typing import List
 
+import yaml
 from click.testing import CliRunner
 from mock_vws.database import VuforiaDatabase
+from vws import VWS
 
 from vws_cli.query import vuforia_cloud_reco
 
@@ -23,13 +25,15 @@ class TestQuery:
         self,
         mock_database: VuforiaDatabase,
         tmp_path: Path,
+        high_quality_image: io.BytesIO,
     ) -> None:
         """
-        The cloud recognition command exists.
+        An empty list is returned if there are no matches.
         """
         runner = CliRunner(mix_stderr=False)
         new_file = tmp_path / uuid.uuid4().hex
-        new_file.touch()
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
         commands: List[str] = [
             str(new_file),
             '--client-access-key',
@@ -43,7 +47,58 @@ class TestQuery:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        assert result.stdout == ''
+        result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        assert result_data == []
+
+    def test_matches(
+        self,
+        tmp_path: Path,
+        high_quality_image: io.BytesIO,
+        vws_client: VWS,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        Details of matching targets are shown.
+        """
+        name = uuid.uuid4().hex
+        target_id = vws_client.add_target(
+            name=name,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+
+        runner = CliRunner(mix_stderr=False)
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        commands = [
+            str(new_file),
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 0
+        result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        [matching_target] = result_data
+        target_timestamp = matching_target['target_data']['target_timestamp']
+        expected_result_data = {
+            'target_data': {
+                'application_metadata': None,
+                'name': name,
+                'target_timestamp': target_timestamp,
+            },
+            'target_id': target_id,
+        }
+        assert matching_target == expected_result_data
 
     def test_image_file_is_dir(
         self,
@@ -110,7 +165,8 @@ class TestQuery:
             )
 
         assert result.exit_code == 0
-        assert result.stdout == ''
+        result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        assert result_data == []
 
     def test_image_file_does_not_exist(
         self,
