@@ -226,12 +226,14 @@ class TestMaxNumResults:
     def test_default(
         self,
         vws_client: VWS,
-        cloud_reco_client: CloudRecoService,
         high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
     ) -> None:
         """
         By default the maximum number of results is 1.
         """
+        runner = CliRunner(mix_stderr=False)
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
             width=1,
@@ -248,5 +250,22 @@ class TestMaxNumResults:
         )
         vws_client.wait_for_target_processed(target_id=target_id)
         vws_client.wait_for_target_processed(target_id=target_id_2)
-        matches = cloud_reco_client.query(image=high_quality_image)
-        assert len(matches) == 1
+
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        commands = [
+            str(new_file),
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 0
+        result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        assert len(result_data) == 1
