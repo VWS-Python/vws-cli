@@ -50,7 +50,6 @@ class TestQuery:
         result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
         assert result_data == []
 
-
     def test_matches(
         self,
         tmp_path: Path,
