@@ -79,3 +79,17 @@ class TestQuery:
         result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
         expected_result_data = {}
         assert result_data == expected_result_data
+
+def test_version() -> None:
+    """
+    ``vuforia-cloud-reco --version`` shows the version.
+    """
+    runner = CliRunner(mix_stderr=False)
+    commands = ['--version']
+    result = runner.invoke(
+        vuforia_cloud_reco,
+        commands,
+        catch_exceptions=False,
+    )
+    assert result.exit_code == 0
+    assert result.stdout.startswith('vuforia-cloud-reco, version ')
