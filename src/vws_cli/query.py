@@ -53,7 +53,7 @@ def vuforia_cloud_reco(
     """
     client = CloudRecoService(
         client_access_key=client_access_key,
-        client_secret_key=client_secret_key
+        client_secret_key=client_secret_key,
     )
     query_result = client.query(image=io.BytesIO(image.read_bytes()))
     yaml_list = yaml.dump(query_result)
