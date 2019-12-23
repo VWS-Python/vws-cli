@@ -21,9 +21,9 @@ class TestQuery:
 
     def test_no_matches(
         self,
-        high_quality_image: io.BytesIO,
         tmp_path: Path,
         mock_database: VuforiaDatabase,
+        high_quality_image: io.BytesIO,
     ) -> None:
         """
         An empty list is returned if there are no matches.
