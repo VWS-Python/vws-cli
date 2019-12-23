@@ -2,11 +2,13 @@
 A CLI for the Vuforia Cloud Recognition Service API.
 """
 
+import io
 from pathlib import Path
 from typing import Callable
 
 import click
 import click_pathlib
+import yaml
 from vws import CloudRecoService
 
 from vws_cli import __version__
@@ -53,3 +55,6 @@ def vuforia_cloud_reco(
         client_access_key=client_access_key,
         client_secret_key=client_secret_key
     )
+    query_result = client.query(image=io.BytesIO(image.read_bytes()))
+    yaml_list = yaml.dump(query_result)
+    click.echo(yaml_list)

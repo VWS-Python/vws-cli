@@ -11,6 +11,7 @@ from typing import List
 import yaml
 from click.testing import CliRunner
 from mock_vws.database import VuforiaDatabase
+from vws import VWS
 
 from vws_cli.query import vuforia_cloud_reco
 
@@ -53,8 +54,19 @@ class TestQuery:
         self,
         tmp_path: Path,
         high_quality_image: io.BytesIO,
+        vws_client: VWS,
         mock_database: VuforiaDatabase,
     ) -> None:
+        name = uuid.uuid4().hex
+        target_id = vws_client.add_target(
+            name=name,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+
         runner = CliRunner(mix_stderr=False)
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
@@ -73,8 +85,17 @@ class TestQuery:
         )
         assert result.exit_code == 0
         result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
-        expected_result_data = {}
-        assert result_data == expected_result_data
+        [matching_target] = result_data
+        target_timestamp = matching_target['target_data']['target_timestamp']
+        expected_result_data = {
+            'target_data': {
+                'application_metadata': None,
+                'name': name,
+                'target_timestamp': target_timestamp,
+            },
+            'target_id': target_id,
+        }
+        assert matching_target == expected_result_data
 
     def test_image_file_is_dir(
         self,
