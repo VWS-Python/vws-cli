@@ -269,3 +269,15 @@ class TestMaxNumResults:
         assert result.exit_code == 0
         result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
         assert len(result_data) == 1
+
+    def test_custom(
+        self,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        It is possible to set a custom ``--max-num-results``.
+        """
+
