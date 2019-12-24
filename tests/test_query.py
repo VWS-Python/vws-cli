@@ -367,3 +367,57 @@ class TestIncludeTargetData:
     Tests for the ``--include-target-data`` option.
     """
 
+    def test_default(
+        self,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        By default, target data is only returned in the top match.
+        """
+
+    def test_top(
+        self,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        XXX
+        """
+
+    def test_none(
+        self,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        XXX
+        """
+
+    def test_all(
+        self,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        XXX
+        """
+
+    def test_other(
+        self,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        XXX
+        """
