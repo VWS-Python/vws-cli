@@ -1,5 +1,5 @@
 """
-XXX
+Tests for how errors from the Cloud Reco Service are handled by the CLI.
 """
 
 import io

@@ -1,5 +1,5 @@
 """
-XXX
+Tools for handling errors from VWS and the Cloud Reco Service.
 """
 
 import sys
