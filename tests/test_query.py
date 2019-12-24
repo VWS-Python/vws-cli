@@ -378,6 +378,38 @@ class TestIncludeTargetData:
         By default, target data is only returned in the top match.
         """
         runner = CliRunner(mix_stderr=False)
+        target_id = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        target_id_2 = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        vws_client.wait_for_target_processed(target_id=target_id_2)
+        commands = [
+            str(new_file),
+            '--max-num-results',
+            str(2),
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 0
+
 
     def test_top(
         self,
@@ -390,6 +422,39 @@ class TestIncludeTargetData:
         When 'top' is given, target data is only returned in the top match.
         """
         runner = CliRunner(mix_stderr=False)
+        target_id = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        target_id_2 = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        vws_client.wait_for_target_processed(target_id=target_id_2)
+        commands = [
+            str(new_file),
+            '--max-num-results',
+            str(2),
+            '--include-target-data',
+            'top',
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 0
 
     def test_none(
         self,
@@ -402,6 +467,39 @@ class TestIncludeTargetData:
         When 'none' is given, target data is not returned in any match.
         """
         runner = CliRunner(mix_stderr=False)
+        target_id = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        target_id_2 = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        vws_client.wait_for_target_processed(target_id=target_id_2)
+        commands = [
+            str(new_file),
+            '--max-num-results',
+            str(2),
+            '--include-target-data',
+            'none',
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 0
 
     def test_all(
         self,
@@ -414,6 +512,40 @@ class TestIncludeTargetData:
         When 'all' is given, target data is returned in all matches.
         """
         runner = CliRunner(mix_stderr=False)
+        target_id = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        target_id_2 = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        vws_client.wait_for_target_processed(target_id=target_id_2)
+
+        commands = [
+            str(new_file),
+            '--max-num-results',
+            str(2),
+            '--include-target-data',
+            'all',
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 0
 
     def test_other(
         self,
@@ -427,3 +559,22 @@ class TestIncludeTargetData:
         shown.
         """
         runner = CliRunner(mix_stderr=False)
+        commands = [
+            str(new_file),
+            '--max-num-results',
+            str(2),
+            '--include-target-data',
+            'other',
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 1
+        expected_stderr = ''
+        assert result.stderr == expected_stderr
