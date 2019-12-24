@@ -22,6 +22,8 @@ def server_access_key_option(
                 'Services API.'
             ),
             required=True,
+            envvar='VUFORIA_SERVER_ACCESS_KEY',
+            show_envvar=True,
         )
     assert command is not None
     function: Callable[..., None] = click_option_function(command)
@@ -43,6 +45,8 @@ def server_secret_key_option(
                 'Services API.'
             ),
             required=True,
+            envvar='VUFORIA_SERVER_SECRET_KEY',
+            show_envvar=True,
         )
     assert command is not None
     function: Callable[..., None] = click_option_function(command)
@@ -64,6 +68,8 @@ def client_access_key_option(
                 'Cloud Recognition API.'
             ),
             required=True,
+            envvar='VUFORIA_CLIENT_ACCESS_KEY',
+            show_envvar=True,
         )
     assert command is not None
     function: Callable[..., None] = click_option_function(command)
@@ -85,6 +91,8 @@ def client_secret_key_option(
                 'Cloud Recognition API.'
             ),
             required=True,
+            envvar='VUFORIA_CLIENT_SECRET_KEY',
+            show_envvar=True,
         )
     assert command is not None
     function: Callable[..., None] = click_option_function(command)

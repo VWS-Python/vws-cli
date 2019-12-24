@@ -7,9 +7,11 @@ Usage: vws update-target [OPTIONS]
 
 Options:
   --server-access-key TEXT     A Vuforia server access key to use to access the
-                               Vuforia Web Services API.  [required]
+                               Vuforia Web Services API.  [env var:
+                               VUFORIA_SERVER_ACCESS_KEY; required]
   --server-secret-key TEXT     A Vuforia server secret key to use to access the
-                               Vuforia Web Services API.  [required]
+                               Vuforia Web Services API.  [env var:
+                               VUFORIA_SERVER_SECRET_KEY; required]
   --name TEXT                  The name of the target in the Vuforia database.
   --image FILE                 The path to an image to upload and set as the
                                target image.

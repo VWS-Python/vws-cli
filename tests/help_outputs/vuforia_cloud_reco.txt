@@ -4,9 +4,11 @@ Usage: vuforia-cloud-reco [OPTIONS] IMAGE
 
 Options:
   --client-access-key TEXT        A Vuforia client access key to use to access
-                                  the Vuforia Cloud Recognition API.  [required]
+                                  the Vuforia Cloud Recognition API.  [env var:
+                                  VUFORIA_CLIENT_ACCESS_KEY; required]
   --client-secret-key TEXT        A Vuforia client secret key to use to access
-                                  the Vuforia Cloud Recognition API.  [required]
+                                  the Vuforia Cloud Recognition API.  [env var:
+                                  VUFORIA_CLIENT_SECRET_KEY; required]
   --include-target-data [top|none|all]
                                   Whether target_data records shall be returned
                                   for the matched targets. Accepted values are
