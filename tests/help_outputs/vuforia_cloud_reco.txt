@@ -8,6 +8,14 @@ Options:
   --client-secret-key TEXT        A Vuforia client secret key to use to access
                                   the Vuforia Cloud Recognition API.  [required]
   --include-target-data [top|none|all]
+                                  Whether target_data records shall be returned
+                                  for the matched targets. Accepted values are
+                                  top (default value, only return target_data
+                                  for top ranked match), none (return no
+                                  target_data), all (for all matched targets).
+                                  [default: top]
   --max-num-results INTEGER RANGE
+                                  The maximum number of matching targets to be
+                                  returned. Must be <= 50.  [default: 1]
   --version                       Show the version and exit.
   --help                          Show this message and exit.

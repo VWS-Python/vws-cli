@@ -41,10 +41,16 @@ def max_num_results_option(
     """
     An option decorator for choosing the maximum number of query results.
     """
+    maximum = 50
     click_option_function = click.option(
         '--max-num-results',
-        type=click.IntRange(min=1, max=50),
+        type=click.IntRange(min=1, max=maximum),
         default=1,
+        help=(
+            'The maximum number of matching targets to be returned. '
+            f'Must be <= {maximum}.'
+        ),
+        show_default=True,
     )
 
     return click_option_function(command)
@@ -80,6 +86,13 @@ def include_target_data_option(
         type=click.Choice(['top', 'none', 'all'], case_sensitive=True),
         default='top',
         callback=include_target_data_callback,
+        help=(
+            'Whether target_data records shall be returned for the matched '
+            'targets. Accepted values are top (default value, only return '
+            'target_data for top ranked match), none (return no target_data), '
+            'all (for all matched targets).'
+        ),
+        show_default=True,
     )
 
     return click_option_function(command)
