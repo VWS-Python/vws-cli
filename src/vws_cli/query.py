@@ -99,7 +99,7 @@ def include_target_data_option(
     return click_option_function(command)
 
 
-def base_vwq_url_option(command: Callable[..., None], ) -> Callable[..., None]:
+def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
     """
     An option decorator for choosing the maximum number of query results.
     """
