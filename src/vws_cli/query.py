@@ -49,10 +49,26 @@ def max_num_results_option(
     return click_option_function(command)
 
 
+def include_target_data_option(
+    command: Callable[..., None],
+) -> Callable[..., None]:
+    """
+    An option decorator for choosing whether to include target data.
+    """
+    click_option_function = click.option(
+        '--include-target-data',
+        type=click.Choice(['top', 'none', 'all'], case_sensitive=True),
+        default='top',
+    )
+
+    return click_option_function(command)
+
+
 @click.command(name='vuforia-cloud-reco')
 @image_argument
 @client_access_key_option
 @client_secret_key_option
+@include_target_data_option
 @max_num_results_option
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
@@ -64,6 +80,7 @@ def vuforia_cloud_reco(
     client_access_key: str,
     client_secret_key: str,
     max_num_results: int,
+    include_target_data: str,
 ) -> None:
     """
     Make a request to the Vuforia Cloud Recognition Service API.

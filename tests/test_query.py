@@ -606,6 +606,9 @@ class TestIncludeTargetData:
             commands,
             catch_exceptions=False,
         )
-        assert result.exit_code == 1
-        expected_stderr = 'foo'
-        assert result.stderr == expected_stderr
+        assert result.exit_code == 2
+        expected_stderr = (
+            '"--include-target-data": invalid choice: other. (choose from '
+            'top, none, all)'
+        )
+        assert expected_stderr in result.stderr
