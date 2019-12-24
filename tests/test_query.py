@@ -386,7 +386,7 @@ class TestIncludeTargetData:
         mock_database: VuforiaDatabase,
     ) -> None:
         """
-        XXX
+        When 'top' is given, target data is only returned in the top match.
         """
 
     def test_none(
@@ -397,7 +397,7 @@ class TestIncludeTargetData:
         mock_database: VuforiaDatabase,
     ) -> None:
         """
-        XXX
+        When 'none' is given, target data is not returned in any match.
         """
 
     def test_all(
@@ -408,7 +408,7 @@ class TestIncludeTargetData:
         mock_database: VuforiaDatabase,
     ) -> None:
         """
-        XXX
+        When 'all' is given, target data is returned in all matches.
         """
 
     def test_other(
@@ -419,5 +419,6 @@ class TestIncludeTargetData:
         mock_database: VuforiaDatabase,
     ) -> None:
         """
-        XXX
+        When a string other than 'top', 'all', or 'none' is given, an error is
+        shown.
         """
