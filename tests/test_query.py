@@ -576,7 +576,6 @@ class TestIncludeTargetData:
 
     def test_other(
         self,
-        vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
         mock_database: VuforiaDatabase,
