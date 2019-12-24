@@ -659,3 +659,28 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
 
     [match] = yaml.load(result.stdout, Loader=yaml.FullLoader)
     assert match['target_id'] == target_id
+
+
+def test_env_var_credentials(
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+    mock_database: VuforiaDatabase,
+) -> None:
+    """
+    It is possible to use environment variables to set the credentials.
+    """
+    runner = CliRunner(mix_stderr=False)
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    new_file.write_bytes(data=image_data)
+    commands = [str(new_file)]
+    result = runner.invoke(
+        vuforia_cloud_reco,
+        commands,
+        catch_exceptions=False,
+        env={
+            'VUFORIA_CLIENT_ACCESS_KEY': mock_database.client_access_key,
+            'VUFORIA_CLIENT_SECRET_KEY': mock_database.client_secret_key,
+        }
+    )
+    assert result.exit_code == 0
