@@ -360,3 +360,10 @@ class TestMaxNumResults:
             'valid range of 1 to 50.'
         )
         assert expected_stderr_substring in result.stderr
+
+
+class TestIncludeTargetData:
+    """
+    Tests for the ``--include-target-data`` option.
+    """
+
