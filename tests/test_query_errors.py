@@ -14,7 +14,8 @@ from vws_cli.query import vuforia_cloud_reco
 
 
 def test_authentication_failure(
-    mock_database: VuforiaDatabase, tmp_path: Path,
+    mock_database: VuforiaDatabase,
+    tmp_path: Path,
     high_quality_image: io.BytesIO,
 ) -> None:
     """
