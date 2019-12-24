@@ -4,12 +4,13 @@ A CLI for the Vuforia Cloud Recognition Service API.
 
 import io
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Union
 
 import click
 import click_pathlib
 import yaml
 from vws import CloudRecoService
+from vws.include_target_data import CloudRecoIncludeTargetData
 
 from vws_cli import __version__
 from vws_cli.options.credentials import (
@@ -49,6 +50,25 @@ def max_num_results_option(
     return click_option_function(command)
 
 
+def include_target_data_callback(
+    ctx: click.core.Context,
+    param: Union[click.core.Option, click.core.Parameter],
+    value: str,
+) -> CloudRecoIncludeTargetData:
+    """
+    Use as a callback for active flag options.
+    """
+    # This is to satisfy the "vulture" linter.
+    assert ctx
+    assert param
+
+    return {
+        'top': CloudRecoIncludeTargetData.TOP,
+        'none': CloudRecoIncludeTargetData.NONE,
+        'all': CloudRecoIncludeTargetData.ALL,
+    }[value]
+
+
 def include_target_data_option(
     command: Callable[..., None],
 ) -> Callable[..., None]:
@@ -59,6 +79,7 @@ def include_target_data_option(
         '--include-target-data',
         type=click.Choice(['top', 'none', 'all'], case_sensitive=True),
         default='top',
+        callback=include_target_data_callback,
     )
 
     return click_option_function(command)
@@ -80,7 +101,7 @@ def vuforia_cloud_reco(
     client_access_key: str,
     client_secret_key: str,
     max_num_results: int,
-    include_target_data: str,
+    include_target_data: CloudRecoIncludeTargetData,
 ) -> None:
     """
     Make a request to the Vuforia Cloud Recognition Service API.
@@ -92,6 +113,7 @@ def vuforia_cloud_reco(
     query_result = client.query(
         image=io.BytesIO(image.read_bytes()),
         max_num_results=max_num_results,
+        include_target_data=include_target_data,
     )
     yaml_list = yaml.dump(query_result)
     click.echo(yaml_list)

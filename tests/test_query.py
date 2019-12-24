@@ -417,7 +417,6 @@ class TestIncludeTargetData:
         assert 'target_data' in top_match
         assert 'target_data' not in second_match
 
-
     def test_top(
         self,
         vws_client: VWS,
