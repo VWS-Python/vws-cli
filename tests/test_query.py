@@ -394,6 +394,9 @@ class TestIncludeTargetData:
         )
         vws_client.wait_for_target_processed(target_id=target_id)
         vws_client.wait_for_target_processed(target_id=target_id_2)
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
         commands = [
             str(new_file),
             '--max-num-results',
@@ -438,6 +441,9 @@ class TestIncludeTargetData:
         )
         vws_client.wait_for_target_processed(target_id=target_id)
         vws_client.wait_for_target_processed(target_id=target_id_2)
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
         commands = [
             str(new_file),
             '--max-num-results',
@@ -483,6 +489,9 @@ class TestIncludeTargetData:
         )
         vws_client.wait_for_target_processed(target_id=target_id)
         vws_client.wait_for_target_processed(target_id=target_id_2)
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
         commands = [
             str(new_file),
             '--max-num-results',
@@ -528,6 +537,9 @@ class TestIncludeTargetData:
         )
         vws_client.wait_for_target_processed(target_id=target_id)
         vws_client.wait_for_target_processed(target_id=target_id_2)
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
 
         commands = [
             str(new_file),
@@ -559,6 +571,9 @@ class TestIncludeTargetData:
         shown.
         """
         runner = CliRunner(mix_stderr=False)
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
         commands = [
             str(new_file),
             '--max-num-results',
