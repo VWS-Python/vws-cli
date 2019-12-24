@@ -15,6 +15,7 @@ from vws.exceptions import (
     DateRangeError,
     Fail,
     ImageTooLarge,
+    MatchProcessing,
     MetadataTooLarge,
     ProjectHasNoAPIAccess,
     ProjectInactive,
@@ -124,7 +125,13 @@ def handle_vws_exceptions(
             'is not allowed to make API requests.'
         )
     except ConnectionErrorPossiblyImageTooLarge:
-        error_message = 'The given image is too large.'
+        error_message = 'Error: The given image is too large.'
+    except MatchProcessing:
+        error_message = (
+            'Error: The given image matches a target which was recently '
+            'added, updated or deleted and Vuforia returns an error in this '
+            'case.'
+        )
     else:
         return
 
