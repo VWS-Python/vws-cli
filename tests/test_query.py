@@ -681,6 +681,6 @@ def test_env_var_credentials(
         env={
             'VUFORIA_CLIENT_ACCESS_KEY': mock_database.client_access_key,
             'VUFORIA_CLIENT_SECRET_KEY': mock_database.client_secret_key,
-        }
+        },
     )
     assert result.exit_code == 0
