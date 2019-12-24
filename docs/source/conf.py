@@ -87,6 +87,7 @@ linkcheck_ignore = [
     r'https://developer.vuforia.com/targetmanager',
     # Only used for API calls
     r'https://cloudreco.vuforia.com',
+    r'https://vws.vuforia.com',
 ]
 
 spelling_word_list_filename = '../../spelling_private_dict.txt'

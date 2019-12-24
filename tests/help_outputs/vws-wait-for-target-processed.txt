@@ -18,4 +18,6 @@ Options:
                                   the Vuforia Web Services API.  [required]
   --target-id TEXT                The ID of a target in the Vuforia database.
                                   [required]
+  --base-vws-url TEXT             The base URL for the VWS API.  [default:
+                                  https://vws.vuforia.com]
   -h, --help                      Show this message and exit.

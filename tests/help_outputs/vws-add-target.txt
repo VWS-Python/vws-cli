@@ -20,4 +20,6 @@ Options:
                                associated with the target.
   --active-flag [true|false]   Whether or not the target is active for query.
                                [default: true]
+  --base-vws-url TEXT          The base URL for the VWS API.  [default:
+                               https://vws.vuforia.com]
   -h, --help                   Show this message and exit.

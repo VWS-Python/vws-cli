@@ -101,7 +101,7 @@ def include_target_data_option(
 
 def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
     """
-    An option decorator for choosing the maximum number of query results.
+    An option decorator for choosing the base VWQ URL.
     """
     click_option_function = click.option(
         '--base-vwq-url',
