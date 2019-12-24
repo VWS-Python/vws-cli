@@ -412,3 +412,7 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
+        matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        top_match, second_match = matches
+        assert 'target_data' in top_match
+        assert 'target_data' not in second_match
