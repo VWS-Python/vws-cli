@@ -5,7 +5,7 @@
 import io
 import sys
 from pathlib import Path
-from typing import Optional
+from typing import Callable, Optional
 
 import click
 import yaml
@@ -28,15 +28,32 @@ from vws_cli.options.targets import (
 )
 
 
+def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
+    """
+    An option decorator for choosing the base VWS URL.
+    """
+    click_option_function = click.option(
+        '--base-vws-url',
+        type=click.STRING,
+        default='https://vws.vuforia.com',
+        help='The base URL for the VWS API.',
+        show_default=True,
+    )
+
+    return click_option_function(command)
+
+
 @click.command(name='get-target-record')
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
 @handle_vws_exceptions
+@base_vws_url_option
 def get_target_record(
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
+    base_vws_url: str,
 ) -> None:
     """
     Get a target record.
@@ -48,6 +65,7 @@ def get_target_record(
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
+        base_vws_url=base_vws_url,
     )
     record = vws_client.get_target_record(target_id=target_id)
 
@@ -59,9 +77,11 @@ def get_target_record(
 @server_access_key_option
 @server_secret_key_option
 @handle_vws_exceptions
+@base_vws_url_option
 def list_targets(
     server_access_key: str,
     server_secret_key: str,
+    base_vws_url: str,
 ) -> None:
     """
     List targets.
@@ -73,6 +93,7 @@ def list_targets(
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
+        base_vws_url=base_vws_url,
     )
     targets = vws_client.list_targets()
     yaml_list = yaml.dump(targets)
@@ -84,10 +105,12 @@ def list_targets(
 @server_secret_key_option
 @target_id_option
 @handle_vws_exceptions
+@base_vws_url_option
 def get_duplicate_targets(
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
+    base_vws_url: str,
 ) -> None:
     """
     Get a list of potential duplicate targets.
@@ -99,6 +122,7 @@ def get_duplicate_targets(
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
+        base_vws_url=base_vws_url,
     )
     record = vws_client.get_duplicate_targets(target_id=target_id)
 
@@ -110,9 +134,11 @@ def get_duplicate_targets(
 @server_access_key_option
 @server_secret_key_option
 @handle_vws_exceptions
+@base_vws_url_option
 def get_database_summary_report(
     server_access_key: str,
     server_secret_key: str,
+    base_vws_url: str,
 ) -> None:
     """
     Get a database summary report.
@@ -124,6 +150,7 @@ def get_database_summary_report(
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
+        base_vws_url=base_vws_url,
     )
     report = vws_client.get_database_summary_report()
     yaml_report = yaml.dump(report)
@@ -135,10 +162,12 @@ def get_database_summary_report(
 @server_secret_key_option
 @target_id_option
 @handle_vws_exceptions
+@base_vws_url_option
 def get_target_summary_report(
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
+    base_vws_url: str,
 ) -> None:
     """
     Get a target summary report.
@@ -150,6 +179,7 @@ def get_target_summary_report(
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
+        base_vws_url=base_vws_url,
     )
     report = vws_client.get_target_summary_report(target_id=target_id)
     yaml_summary_report = yaml.dump(report)
@@ -161,10 +191,12 @@ def get_target_summary_report(
 @server_secret_key_option
 @target_id_option
 @handle_vws_exceptions
+@base_vws_url_option
 def delete_target(
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
+    base_vws_url: str,
 ) -> None:
     """
     Delete a target.
@@ -176,6 +208,7 @@ def delete_target(
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
+        base_vws_url=base_vws_url,
     )
 
     vws_client.delete_target(target_id=target_id)
@@ -190,6 +223,7 @@ def delete_target(
 @application_metadata_option
 @active_flag_option
 @handle_vws_exceptions
+@base_vws_url_option
 def add_target(
     server_access_key: str,
     server_secret_key: str,
@@ -197,6 +231,7 @@ def add_target(
     width: float,
     image_file_path: Path,
     active_flag_choice: ActiveFlagChoice,
+    base_vws_url: str,
     application_metadata: Optional[str] = None,
 ) -> None:
     """
@@ -209,6 +244,7 @@ def add_target(
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
+        base_vws_url=base_vws_url,
     )
 
     image_bytes = image_file_path.read_bytes()
@@ -240,11 +276,13 @@ def add_target(
 @active_flag_option(allow_none=True)
 @target_id_option
 @handle_vws_exceptions
+@base_vws_url_option
 def update_target(
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
     image_file_path: Optional[Path],
+    base_vws_url: str,
     name: Optional[str] = None,
     application_metadata: Optional[str] = None,
     active_flag_choice: Optional[ActiveFlagChoice] = None,
@@ -260,6 +298,7 @@ def update_target(
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
+        base_vws_url=base_vws_url,
     )
 
     if image_file_path is None:
@@ -318,20 +357,22 @@ _TIMEOUT_SECONDS_HELP = (
 @server_secret_key_option
 @target_id_option
 @handle_vws_exceptions
+@base_vws_url_option
 def wait_for_target_processed(
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
     seconds_between_requests: float,
+    base_vws_url: str,
     timeout_seconds: float,
 ) -> None:
     """
-    Wait for a target to be "processed".
-    This is done by polling the VWS API.
+    Wait for a target to be "processed". This is done by polling the VWS API.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
+        base_vws_url=base_vws_url,
     )
 
     try:
