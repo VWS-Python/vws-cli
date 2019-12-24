@@ -13,6 +13,7 @@ from vws import CloudRecoService
 from vws.include_target_data import CloudRecoIncludeTargetData
 
 from vws_cli import __version__
+from vws_cli.error_handlers import handle_vws_exceptions
 from vws_cli.options.credentials import (
     client_access_key_option,
     client_secret_key_option,
@@ -104,6 +105,7 @@ def include_target_data_option(
 @client_secret_key_option
 @include_target_data_option
 @max_num_results_option
+@handle_vws_exceptions
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
 #
