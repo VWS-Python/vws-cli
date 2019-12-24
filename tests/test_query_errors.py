@@ -15,7 +15,7 @@ from vws_cli.query import vuforia_cloud_reco
 
 def test_authentication_failure(
     mock_database: VuforiaDatabase, tmp_path: Path,
-    high_quality_image: io.BytesIO
+    high_quality_image: io.BytesIO,
 ) -> None:
     """
     An error is given when the secret key is incorrect.
