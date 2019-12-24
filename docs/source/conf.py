@@ -85,6 +85,8 @@ linkcheck_retries = 5
 linkcheck_ignore = [
     # Requires login.
     r'https://developer.vuforia.com/targetmanager',
+    # Only used for API calls
+    r'https://cloudreco.vuforia.com',
 ]
 
 spelling_word_list_filename = '../../spelling_private_dict.txt'

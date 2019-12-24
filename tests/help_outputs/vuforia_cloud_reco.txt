@@ -17,5 +17,7 @@ Options:
   --max-num-results INTEGER RANGE
                                   The maximum number of matching targets to be
                                   returned. Must be <= 50.  [default: 1]
+  --base-vwq-url TEXT             The base URL for the VWQ API.  [default:
+                                  https://cloudreco.vuforia.com]
   --version                       Show the version and exit.
   --help                          Show this message and exit.

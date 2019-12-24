@@ -99,12 +99,28 @@ def include_target_data_option(
     return click_option_function(command)
 
 
+def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
+    """
+    An option decorator for choosing the maximum number of query results.
+    """
+    click_option_function = click.option(
+        '--base-vwq-url',
+        type=click.STRING,
+        default='https://cloudreco.vuforia.com',
+        help='The base URL for the VWQ API.',
+        show_default=True,
+    )
+
+    return click_option_function(command)
+
+
 @click.command(name='vuforia-cloud-reco')
 @image_argument
 @client_access_key_option
 @client_secret_key_option
 @include_target_data_option
 @max_num_results_option
+@base_vwq_url_option
 @handle_vws_exceptions
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
@@ -117,6 +133,7 @@ def vuforia_cloud_reco(
     client_secret_key: str,
     max_num_results: int,
     include_target_data: CloudRecoIncludeTargetData,
+    base_vwq_url: str,
 ) -> None:
     """
     Make a request to the Vuforia Cloud Recognition Service API.
@@ -124,6 +141,7 @@ def vuforia_cloud_reco(
     client = CloudRecoService(
         client_access_key=client_access_key,
         client_secret_key=client_secret_key,
+        base_vwq_url=base_vwq_url,
     )
     query_result = client.query(
         image=io.BytesIO(image.read_bytes()),
