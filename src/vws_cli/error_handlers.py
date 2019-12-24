@@ -36,6 +36,10 @@ def handle_vws_exceptions(
     args: Tuple,
     kwargs: Dict,
 ) -> None:
+    """
+    Show error messages and catch exceptions for errors from the ``VWS-Python``
+    library.
+    """
     assert not instance  # This is to satisfy the "vulture" linter.
     try:
         wrapped(*args, **kwargs)
