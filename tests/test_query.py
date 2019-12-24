@@ -416,3 +416,197 @@ class TestIncludeTargetData:
         top_match, second_match = matches
         assert 'target_data' in top_match
         assert 'target_data' not in second_match
+
+    def test_top(
+        self,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        When 'top' is given, target data is only returned in the top match.
+        """
+        runner = CliRunner(mix_stderr=False)
+        target_id = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        target_id_2 = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        vws_client.wait_for_target_processed(target_id=target_id_2)
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        commands = [
+            str(new_file),
+            '--max-num-results',
+            str(2),
+            '--include-target-data',
+            'top',
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 0
+        matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        top_match, second_match = matches
+        assert 'target_data' in top_match
+        assert 'target_data' not in second_match
+
+    def test_none(
+        self,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        When 'none' is given, target data is not returned in any match.
+        """
+        runner = CliRunner(mix_stderr=False)
+        target_id = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        target_id_2 = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        vws_client.wait_for_target_processed(target_id=target_id_2)
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        commands = [
+            str(new_file),
+            '--max-num-results',
+            str(2),
+            '--include-target-data',
+            'none',
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 0
+        matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        top_match, second_match = matches
+        assert 'target_data' not in top_match
+        assert 'target_data' not in second_match
+
+    def test_all(
+        self,
+        vws_client: VWS,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        When 'all' is given, target data is returned in all matches.
+        """
+        runner = CliRunner(mix_stderr=False)
+        target_id = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        target_id_2 = vws_client.add_target(
+            name=uuid.uuid4().hex,
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        vws_client.wait_for_target_processed(target_id=target_id)
+        vws_client.wait_for_target_processed(target_id=target_id_2)
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+
+        commands = [
+            str(new_file),
+            '--max-num-results',
+            str(2),
+            '--include-target-data',
+            'all',
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 0
+        matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        top_match, second_match = matches
+        assert 'target_data' in top_match
+        assert 'target_data' in second_match
+
+    def test_other(
+        self,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        When a string other than 'top', 'all', or 'none' is given, an error is
+        shown.
+        """
+        runner = CliRunner(mix_stderr=False)
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        commands = [
+            str(new_file),
+            '--max-num-results',
+            str(2),
+            '--include-target-data',
+            'other',
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 2
+        expected_stderr = (
+            '"--include-target-data": invalid choice: other. (choose from '
+            'top, none, all)'
+        )
+        assert expected_stderr in result.stderr
