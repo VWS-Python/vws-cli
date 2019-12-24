@@ -11,6 +11,7 @@ from requests import codes
 from vws.exceptions import (
     AuthenticationFailure,
     BadImage,
+    ConnectionErrorPossiblyImageTooLarge,
     DateRangeError,
     Fail,
     ImageTooLarge,
@@ -122,6 +123,8 @@ def handle_vws_exceptions(
             'Error: The request could not be completed because this database '
             'is not allowed to make API requests.'
         )
+    except ConnectionErrorPossiblyImageTooLarge:
+        error_message = 'The given image is too large.'
     else:
         return
 

@@ -40,3 +40,32 @@ def test_authentication_failure(
     expected_stderr = 'The given secret key was incorrect.\n'
     assert result.stderr == expected_stderr
     assert result.stdout == ''
+
+
+def test_image_too_large(
+    mock_database: VuforiaDatabase,
+    tmp_path: Path,
+    png_too_large: io.BytesIO,
+) -> None:
+    """
+    An error is given when the image is too large.
+    """
+    runner = CliRunner(mix_stderr=False)
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = png_too_large.getvalue()
+    new_file.write_bytes(data=image_data)
+    commands: List[str] = [
+        str(new_file),
+        '--client-access-key',
+        mock_database.client_access_key,
+        '--client-secret-key',
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        vuforia_cloud_reco,
+        commands,
+        catch_exceptions=False,
+    )
+    expected_stderr = 'The given image is too large.\n'
+    assert result.stderr == expected_stderr
+    assert result.stdout == ''
