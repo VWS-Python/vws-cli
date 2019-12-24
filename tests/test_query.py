@@ -377,6 +377,7 @@ class TestIncludeTargetData:
         """
         By default, target data is only returned in the top match.
         """
+        runner = CliRunner(mix_stderr=False)
 
     def test_top(
         self,
@@ -388,6 +389,7 @@ class TestIncludeTargetData:
         """
         When 'top' is given, target data is only returned in the top match.
         """
+        runner = CliRunner(mix_stderr=False)
 
     def test_none(
         self,
@@ -399,6 +401,7 @@ class TestIncludeTargetData:
         """
         When 'none' is given, target data is not returned in any match.
         """
+        runner = CliRunner(mix_stderr=False)
 
     def test_all(
         self,
@@ -410,6 +413,7 @@ class TestIncludeTargetData:
         """
         When 'all' is given, target data is returned in all matches.
         """
+        runner = CliRunner(mix_stderr=False)
 
     def test_other(
         self,
@@ -422,3 +426,4 @@ class TestIncludeTargetData:
         When a string other than 'top', 'all', or 'none' is given, an error is
         shown.
         """
+        runner = CliRunner(mix_stderr=False)
