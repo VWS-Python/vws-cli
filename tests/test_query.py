@@ -465,6 +465,10 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
+        matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        top_match, second_match = matches
+        assert 'target_data' in top_match
+        assert 'target_data' not in second_match
 
     def test_none(
         self,
@@ -513,6 +517,10 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
+        matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        top_match, second_match = matches
+        assert 'target_data' not in top_match
+        assert 'target_data' not in second_match
 
     def test_all(
         self,
@@ -562,6 +570,10 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
+        matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        top_match, second_match = matches
+        assert 'target_data' in top_match
+        assert 'target_data' in second_match
 
     def test_other(
         self,
@@ -595,5 +607,5 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 1
-        expected_stderr = ''
+        expected_stderr = 'foo'
         assert result.stderr == expected_stderr
