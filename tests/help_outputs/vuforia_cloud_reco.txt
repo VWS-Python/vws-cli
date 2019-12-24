@@ -7,6 +7,7 @@ Options:
                                   the Vuforia Cloud Recognition API.  [required]
   --client-secret-key TEXT        A Vuforia client secret key to use to access
                                   the Vuforia Cloud Recognition API.  [required]
+  --include-target-data [top|none|all]
   --max-num-results INTEGER RANGE
   --version                       Show the version and exit.
   --help                          Show this message and exit.
