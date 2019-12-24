@@ -17,7 +17,6 @@ Requires Python 3.8+.
 
    pip install VWS-CLI
 
-
 Usage example
 -------------
 
