@@ -48,6 +48,7 @@ def max_num_results_option(
 
     return click_option_function(command)
 
+
 @click.command(name='vuforia-cloud-reco')
 @image_argument
 @client_access_key_option

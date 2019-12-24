@@ -312,7 +312,7 @@ class TestMaxNumResults:
         commands = [
             str(new_file),
             '--max-num-results',
-            2,
+            str(2),
             '--client-access-key',
             mock_database.client_access_key,
             '--client-secret-key',
@@ -326,3 +326,37 @@ class TestMaxNumResults:
         assert result.exit_code == 0
         result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
         assert len(result_data) == 2
+
+    def test_out_of_range(
+        self,
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        mock_database: VuforiaDatabase,
+    ) -> None:
+        """
+        ``--max-num-results`` must be between 1 and 50.
+        """
+        runner = CliRunner(mix_stderr=False)
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        commands = [
+            str(new_file),
+            '--max-num-results',
+            str(0),
+            '--client-access-key',
+            mock_database.client_access_key,
+            '--client-secret-key',
+            mock_database.client_secret_key,
+        ]
+        result = runner.invoke(
+            vuforia_cloud_reco,
+            commands,
+            catch_exceptions=False,
+        )
+        assert result.exit_code == 2
+        expected_stderr_substring = (
+            'Error: Invalid value for "--max-num-results": 0 is not in the '
+            'valid range of 1 to 50.'
+        )
+        assert expected_stderr_substring in result.stderr
