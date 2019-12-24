@@ -1031,3 +1031,27 @@ class TestUpdateTarget:
             result = runner.invoke(vws_group, commands, catch_exceptions=False)
 
         assert result.exit_code == 0
+
+
+def test_custom_base_url() -> None:
+    """
+    It is possible to use the API to connect to a database under a custom VWS
+    URL.
+    """
+    runner = CliRunner(mix_stderr=False)
+    base_vws_url = 'http://example.com'
+    mock_database = VuforiaDatabase()
+    commands = [
+        'list-targets',
+        '--server-access-key',
+        mock_database.server_access_key,
+        '--server-secret-key',
+        mock_database.server_secret_key,
+        '--base-vws-url',
+        base_vws_url,
+    ]
+    with MockVWS(base_vws_url=base_vws_url) as mock:
+        mock.add_database(database=mock_database)
+        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+
+    assert result.exit_code == 0
