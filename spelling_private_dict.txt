@@ -2,6 +2,7 @@ admin
 api
 changelog
 cli
+homebrew
 linter
 linting
 login
