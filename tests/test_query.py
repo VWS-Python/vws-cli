@@ -415,8 +415,8 @@ class TestIncludeTargetData:
         assert result.exit_code == 0
         matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
         top_match, second_match = matches
-        assert 'target_data' in top_match
-        assert 'target_data' not in second_match
+        assert top_match['target_data'] is not None
+        assert second_match['target_data'] is None
 
     def test_top(
         self,
@@ -467,8 +467,8 @@ class TestIncludeTargetData:
         assert result.exit_code == 0
         matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
         top_match, second_match = matches
-        assert 'target_data' in top_match
-        assert 'target_data' not in second_match
+        assert top_match['target_data'] is not None
+        assert second_match['target_data'] is None
 
     def test_none(
         self,
@@ -519,8 +519,8 @@ class TestIncludeTargetData:
         assert result.exit_code == 0
         matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
         top_match, second_match = matches
-        assert 'target_data' not in top_match
-        assert 'target_data' not in second_match
+        assert top_match['target_data'] is None
+        assert second_match['target_data'] is None
 
     def test_all(
         self,
@@ -572,8 +572,8 @@ class TestIncludeTargetData:
         assert result.exit_code == 0
         matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
         top_match, second_match = matches
-        assert 'target_data' in top_match
-        assert 'target_data' in second_match
+        assert top_match['target_data'] is not None
+        assert second_match['target_data'] is not None
 
     def test_other(
         self,

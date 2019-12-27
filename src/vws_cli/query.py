@@ -2,6 +2,7 @@
 A CLI for the Vuforia Cloud Recognition Service API.
 """
 
+import dataclasses
 import io
 from pathlib import Path
 from typing import Callable, Union
@@ -148,5 +149,6 @@ def vuforia_cloud_reco(
         max_num_results=max_num_results,
         include_target_data=include_target_data,
     )
-    yaml_list = yaml.dump(query_result)
+    query_result_dict_list = [dataclasses.asdict(res) for res in query_result]
+    yaml_list = yaml.dump(query_result_dict_list)
     click.echo(yaml_list)
