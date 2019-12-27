@@ -42,8 +42,6 @@ def test_create_local_brewfile(tmp_path: Path) -> None:
     """
     Show that it is at least possible to write some brew file, whether that
     actually installs or not.
-
-    We do this because installing is too slow for CI.
     """
     local_repository = Repo('.')
     archive_file = _create_archive(directory=tmp_path)
@@ -73,7 +71,6 @@ def test_brew(tmp_path: Path) -> None:
     Linuxbrew.
 
     This requires ``pip install docker`` and for Docker to be running.
-    This is not run on CI because it is slow.
     """
     local_repository = Repo('.')
     archive_file = _create_archive(directory=tmp_path)
