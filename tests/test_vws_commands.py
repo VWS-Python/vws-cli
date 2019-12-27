@@ -12,6 +12,7 @@ from textwrap import dedent
 import pytest
 import yaml
 from click.testing import CliRunner
+from freezegun import freeze_time
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 from vws import VWS, CloudRecoService
@@ -59,10 +60,8 @@ def test_get_database_summary_report(
         'reco_threshold': 1000,
         'request_quota': 100000,
         'request_usage': 0,
-        'result_code': 'Success',
         'target_quota': 1000,
         'total_recos': 0,
-        'transaction_id': result_data['transaction_id'],
     }
     assert result_data == expected_result_data
 
@@ -152,13 +151,16 @@ def test_get_target_summary_report(
     It is possible to get a target summary report.
     """
     runner = CliRunner()
-    target_id = vws_client.add_target(
-        name='x',
-        width=1,
-        image=high_quality_image,
-        active_flag=True,
-        application_metadata=None,
-    )
+    upload_date = '2015-04-29'
+    with freeze_time(upload_date):
+        target_id = vws_client.add_target(
+            name='x',
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+
     commands = [
         'get-target-summary-report',
         '--target-id',
@@ -176,13 +178,11 @@ def test_get_target_summary_report(
         'current_month_recos': 0,
         'database_name': mock_database.database_name,
         'previous_month_recos': 0,
-        'result_code': 'Success',
-        'status': TargetStatuses.PROCESSING,
+        'status': 'success',
         'target_name': 'x',
         'total_recos': 0,
-        'tracking_rating': -1,
-        'transaction_id': result_data['transaction_id'],
-        'upload_date': result_data['upload_date'],
+        'tracking_rating': result_data['tracking_rating'],
+        'upload_date': upload_date,
     }
     assert result_data == expected_result_data
 
