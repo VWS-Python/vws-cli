@@ -6,10 +6,13 @@ import datetime
 import os
 import subprocess
 from pathlib import Path
+from typing import List
 
 from dulwich.porcelain import add, commit, push, tag_list
 from dulwich.repo import Repo
 from github import Github, Repository, UnknownObjectException
+
+from homebrew import get_homebrew_formula
 
 
 def get_version() -> str:
@@ -32,11 +35,10 @@ def get_version() -> str:
     return '{date}.{micro}'.format(date=date_str, micro=micro)
 
 
-def update_changelog(version: str) -> None:
+def update_changelog(version: str, changelog: Path) -> None:
     """
     Add a version title to the changelog.
     """
-    changelog = Path('CHANGELOG.rst')
     changelog_contents = changelog.read_text()
     new_changelog_contents = changelog_contents.replace(
         'Next\n----',
@@ -52,9 +54,7 @@ def create_github_release(
     """
     Create a tag and release on GitHub.
     """
-    changelog_url = (
-        'https://vws-cli.readthedocs.io/en/latest/changelog.html'
-    )
+    changelog_url = ('https://vws-cli.readthedocs.io/en/latest/changelog.html')
     repository.create_git_tag_and_release(
         tag=version,
         tag_message='Release ' + version,
@@ -65,13 +65,37 @@ def create_github_release(
     )
 
 
-def commit_and_push(version: str, repository: Repository) -> None:
+def update_homebrew(
+    homebrew_file: Path,
+    version_str: str,
+    repository: Repository,
+) -> None:
+    """
+    Update the Homebrew file.
+    """
+    archive_url = repository.get_archive_link(
+        archive_format='tarball',
+        ref=version_str,
+    )
+
+    homebrew_formula_contents = get_homebrew_formula(
+        archive_url=archive_url,
+        head_url=repository.clone_url,
+        homebrew_recipe_filename=homebrew_file.name,
+    )
+    homebrew_file.write_text(homebrew_formula_contents)
+
+
+def commit_and_push(
+    version: str,
+    repository: Repository,
+    paths: List[Path],
+) -> None:
     """
     Commit and push all changes.
     """
     local_repository = Repo('.')
-    paths = ['CHANGELOG.rst']
-    _, ignored = add(paths=paths)
+    _, ignored = add(paths=[str(path) for path in paths])
     assert not ignored
     message = b'Update for release ' + version.encode('utf-8')
     commit(message=message)
@@ -96,7 +120,7 @@ def get_repo(github_token: str, github_owner: str) -> Repository:
     return github_user_or_org.get_repo('vws-cli')
 
 
-def build() -> None:
+def upload_to_pypi() -> None:
     """
     Build source and binary distributions.
     """
@@ -117,13 +141,16 @@ def main() -> None:
     github_owner = os.environ['GITHUB_OWNER']
     repository = get_repo(github_token=github_token, github_owner=github_owner)
     version_str = get_version()
-    update_changelog(version=version_str)
-    commit_and_push(version=version_str, repository=repository)
+    homebrew_file = Path('vws.rb')
+    changelog = Path('CHANGELOG.rst')
+    update_changelog(version=version_str, changelog=changelog)
+    paths = [homebrew_file, changelog]
+    commit_and_push(version=version_str, repository=repository, paths=paths)
     create_github_release(
         repository=repository,
         version=version_str,
     )
-    build()
+    upload_to_pypi()
 
 
 if __name__ == '__main__':
