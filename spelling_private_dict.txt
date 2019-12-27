@@ -2,6 +2,8 @@ admin
 api
 changelog
 cli
+dulwich
+gzip
 homebrew
 linter
 linting
@@ -15,6 +17,7 @@ pragma
 pytest
 reco
 ubuntu
+versioned
 vuforia
 vwq
 vws
