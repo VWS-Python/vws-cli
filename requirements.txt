@@ -1,5 +1,5 @@
 PyYAML==5.2
-VWS-Python==2019.12.27.0
+VWS-Python==2019.12.27.1
 click-pathlib==2019.6.13.1
 click==7.0.0
 requests==2.22.0

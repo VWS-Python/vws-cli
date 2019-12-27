@@ -1,4 +1,4 @@
-VWS-Python-Mock==2019.12.17.0
+VWS-Python-Mock==2019.12.27.0
 VWS-Test-Fixtures==2019.12.13.1
 check-manifest==0.40
 codecov==2.0.15 # Upload coverage data
