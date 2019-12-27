@@ -1,7 +1,8 @@
 language: python
-python: 3.7
+python: 3.8
 dist: xenial
-sudo: true
+services:
+  - docker
 addons:
   apt:
     packages:
@@ -13,6 +14,6 @@ install:
 cache: pip
 script:
 - make lint
-- pytest -vvv --exitfirst tests/ --cov-fail-under 100 --cov src --cov tests
+- pytest -vvv --exitfirst tests/ --cov-fail-under 100 --cov src --cov tests --cov admin/homebrew
 after_success:
 - codecov
