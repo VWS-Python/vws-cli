@@ -15,6 +15,7 @@ from click.testing import CliRunner
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 from vws import VWS, CloudRecoService
+from vws.reports import TargetStatuses
 
 from vws_cli import vws_group
 
@@ -176,7 +177,7 @@ def test_get_target_summary_report(
         'database_name': mock_database.database_name,
         'previous_month_recos': 0,
         'result_code': 'Success',
-        'status': 'processing',
+        'status': TargetStatuses.PROCESSING,
         'target_name': 'x',
         'total_recos': 0,
         'tracking_rating': -1,
@@ -302,14 +303,16 @@ class TestAddTarget:
 
         target_id = result.stdout.strip()
         target_record = vws_client.get_target_record(target_id=target_id)
-        assert target_record['name'] == name
-        assert target_record['width'] == width
-        assert target_record['active_flag'] is True
+        assert target_record.name == name
+        assert target_record.width == width
+        assert target_record.active_flag is True
         vws_client.wait_for_target_processed(target_id=target_id)
 
         [query_result] = cloud_reco_client.query(image=high_quality_image)
-        assert query_result['target_id'] == target_id
-        assert query_result['target_data']['application_metadata'] is None
+        assert query_result.target_id == target_id
+        target_data = query_result.target_data
+        assert target_data is not None
+        assert target_data.application_metadata is None
 
     def test_image_file_does_not_exist(
         self,
@@ -419,7 +422,7 @@ class TestAddTarget:
         assert result.exit_code == 0
         target_id = result.stdout.strip()
         target_record = vws_client.get_target_record(target_id=target_id)
-        assert target_record['name'] == name
+        assert target_record.name == name
 
     def test_custom_metadata(
         self,
@@ -461,9 +464,10 @@ class TestAddTarget:
         target_id = result.stdout.strip()
         vws_client.wait_for_target_processed(target_id=target_id)
         [query_result] = cloud_reco_client.query(image=high_quality_image)
-        assert query_result['target_id'] == target_id
-        query_metadata = query_result['target_data']['application_metadata']
-        assert query_metadata == base64_encoded_metadata
+        assert query_result.target_id == target_id
+        target_data = query_result.target_data
+        assert target_data is not None
+        assert target_data.application_metadata == base64_encoded_metadata
 
     @pytest.mark.parametrize(
         'active_flag_given,active_flag_expected',
@@ -508,7 +512,7 @@ class TestAddTarget:
 
         target_id = result.stdout.strip()
         target_record = vws_client.get_target_record(target_id=target_id)
-        assert target_record['active_flag'] is active_flag_expected
+        assert target_record.active_flag is active_flag_expected
 
 
 class TestWaitForTargetProcessed:
@@ -534,7 +538,7 @@ class TestWaitForTargetProcessed:
             application_metadata=None,
         )
         report = vws_client.get_target_summary_report(target_id=target_id)
-        assert report['status'] == 'processing'
+        assert report.status == TargetStatuses.PROCESSING
         commands = [
             'wait-for-target-processed',
             '--target-id',
@@ -548,7 +552,7 @@ class TestWaitForTargetProcessed:
         assert result.exit_code == 0
         assert result.stdout == ''
         report = vws_client.get_target_summary_report(target_id=target_id)
-        assert report['status'] != 'processing'
+        assert report.status != TargetStatuses.PROCESSING
 
     def test_default_seconds_between_requests(
         self,
@@ -607,7 +611,7 @@ class TestWaitForTargetProcessed:
             # At the time of writing there is a bug which prevents request
             # usage from being tracked so we cannot track this.
             expected_requests = 0
-            assert report['request_usage'] == expected_requests
+            assert report.request_usage == expected_requests
 
     def test_custom_seconds_between_requests(
         self,
@@ -666,7 +670,7 @@ class TestWaitForTargetProcessed:
             # At the time of writing there is a bug which prevents request
             # usage from being tracked so we cannot track this.
             expected_requests = 0
-            assert report['request_usage'] == expected_requests
+            assert report.request_usage == expected_requests
 
     def test_custom_seconds_too_small(
         self,
@@ -721,7 +725,7 @@ class TestWaitForTargetProcessed:
             )
 
             report = vws_client.get_target_summary_report(target_id=target_id)
-            assert report['status'] == 'processing'
+            assert report.status == TargetStatuses.PROCESSING
 
             commands = [
                 'wait-for-target-processed',
@@ -752,7 +756,7 @@ class TestWaitForTargetProcessed:
             result = runner.invoke(vws_group, commands, catch_exceptions=False)
             assert result.exit_code == 0
             report = vws_client.get_target_summary_report(target_id=target_id)
-            assert report['status'] != 'processing'
+            assert report.status != TargetStatuses.PROCESSING
 
     def test_custom_timeout_too_small(
         self,
@@ -843,9 +847,10 @@ class TestUpdateTarget:
         [
             matching_target,
         ] = cloud_reco_client.query(image=different_high_quality_image)
-        assert matching_target['target_id'] == target_id
-        query_target_data = matching_target['target_data']
-        query_metadata = query_target_data['application_metadata']
+        assert matching_target.target_id == target_id
+        query_target_data = matching_target.target_data
+        assert query_target_data is not None
+        query_metadata = query_target_data.application_metadata
         assert query_metadata == new_application_metadata
 
         commands = [
@@ -863,10 +868,10 @@ class TestUpdateTarget:
         assert result.exit_code == 0
         assert result.stdout == ''
         target_details = vws_client.get_target_record(target_id=target_id)
-        assert not target_details['active_flag']
-        assert target_details['name'] == new_name
-        assert target_details['width'] == new_width
-        assert not target_details['active_flag']
+        assert not target_details.active_flag
+        assert target_details.name == new_name
+        assert target_details.width == new_width
+        assert not target_details.active_flag
 
     def test_no_fields_given(
         self,
