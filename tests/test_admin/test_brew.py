@@ -15,16 +15,11 @@ from admin.homebrew import get_homebrew_formula
 LOGGER = logging.getLogger(__name__)
 
 
-def test_brew(tmp_path: Path) -> None:
-    """
-    It is possible to create a Homebrew formula and to install this with
-    Linuxbrew.
-    """
+def _create_archive(directory: Path) -> Path:
     # Homebrew requires the archive name to look like a valid version.
     version = '1'
     archive_name = '{version}.tar.gz'.format(version=version)
-    local_repository = Repo('.')
-    archive_file = tmp_path / archive_name
+    archive_file = directory / archive_name
     archive_file.touch()
     # We do not use ``dulwich.porcelain.archive`` because it has no option to
     # use a gzip format.
@@ -40,11 +35,53 @@ def test_brew(tmp_path: Path) -> None:
         'HEAD',
     ]
     subprocess.run(args=args, check=True)
+    return archive_file
+
+
+def test_create_local_brewfile(tmp_path: Path) -> None:
+    """
+    Show that it is at least possible to write some brew file, whether that
+    actually installs or not.
+
+    We do this because installing is too slow for CI.
+    """
+    local_repository = Repo('.')
+    archive_file = _create_archive(directory=tmp_path)
+    # The path needs to look like a versioned artifact to Homebrew/Linuxbrew.
+    local_archive_url = 'file://' + str(archive_file)
+    head_url = 'file://' + str(Path(local_repository.path).absolute())
+    homebrew_filename = 'vws.rb'
+
+    homebrew_formula_contents = get_homebrew_formula(
+        archive_url=local_archive_url,
+        head_url=head_url,
+        homebrew_recipe_filename=homebrew_filename,
+    )
+
+    homebrew_file = tmp_path / homebrew_filename
+    homebrew_file.write_text(homebrew_formula_contents)
+    # For local testing:
+    # import pyperclip; pyperclip.copy(str(homebrew_file))
+    #
+    # Then:
+    # $ brew install --debug <PASTE>
+
+
+def test_brew(tmp_path: Path) -> None:
+    """
+    It is possible to create a Homebrew formula and to install this with
+    Linuxbrew.
+
+    This requires ``pip install docker`` and for Docker to be running.
+    This is not run on CI because it is slow.
+    """
+    local_repository = Repo('.')
+    archive_file = _create_archive(directory=tmp_path)
 
     client = docker.from_env(version='auto')
     linuxbrew_image = 'linuxbrew/linuxbrew'
     # The path needs to look like a versioned artifact to Linuxbrew.
-    container_archive_path = '/' + archive_name
+    container_archive_path = '/' + archive_file.stem
     container_archive_url = 'file://' + container_archive_path
     head_url = 'file://' + str(Path(local_repository.path).absolute())
     homebrew_filename = 'vws.rb'
