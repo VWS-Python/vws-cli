@@ -53,9 +53,6 @@ def test_brew(tmp_path: Path) -> None:
         archive_url=archive_url,
         head_url=head_url,
         homebrew_recipe_filename=homebrew_filename,
-        # description='Some description',
-        # homepage='https://vws-cli.readthedocs.io',
-        # package_name='VWS-CLI',
     )
 
     homebrew_file = tmp_path / homebrew_filename
