@@ -2,6 +2,7 @@
 ``click`` commands the VWS CLI.
 """
 
+import dataclasses
 import io
 import sys
 from pathlib import Path
@@ -69,7 +70,7 @@ def get_target_record(
     )
     record = vws_client.get_target_record(target_id=target_id)
 
-    yaml_record = yaml.dump(record)
+    yaml_record = yaml.dump(dataclasses.asdict(record))
     click.echo(yaml_record)
 
 
@@ -153,7 +154,7 @@ def get_database_summary_report(
         base_vws_url=base_vws_url,
     )
     report = vws_client.get_database_summary_report()
-    yaml_report = yaml.dump(report)
+    yaml_report = yaml.dump(dataclasses.asdict(report))
     click.echo(yaml_report)
 
 
@@ -182,7 +183,10 @@ def get_target_summary_report(
         base_vws_url=base_vws_url,
     )
     report = vws_client.get_target_summary_report(target_id=target_id)
-    yaml_summary_report = yaml.dump(report)
+    report_dict = dataclasses.asdict(report)
+    report_dict['status'] = report_dict['status'].value
+    report_dict['upload_date'] = str(report_dict['upload_date'])
+    yaml_summary_report = yaml.dump(report_dict)
     click.echo(yaml_summary_report)
 
 
