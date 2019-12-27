@@ -32,10 +32,10 @@ def _get_class_name(homebrew_recipe_filename: str) -> str:
     disallowed_characters = {'-', '.', '+'}
     class_name = ''
     for index, character in enumerate(list(stem)):
-        if character not in disallowed_characters:
-            if index == 0:
-                class_name += character.upper()
-            elif list(stem)[index - 1] in disallowed_characters:
+        if character in disallowed_characters:  # pragma: no cover
+            pass
+        else:
+            if index == 0 or list(stem)[index - 1] in disallowed_characters:
                 class_name += character.upper()
             else:
                 class_name += character
@@ -52,7 +52,7 @@ def get_homebrew_formula(
     Return the contents of a Homebrew formula for the CLIs.
     """
     parent = Path(__file__).parent
-    repository_root = parent.parent
+    repository_root = parent.parent.parent
     requirements = _get_dependencies(
         requirements_file=repository_root / 'requirements.txt',
     )
