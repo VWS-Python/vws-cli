@@ -45,12 +45,12 @@ def test_brew(tmp_path: Path) -> None:
     linuxbrew_image = 'linuxbrew/linuxbrew'
     # The path needs to look like a versioned artifact to Linuxbrew.
     container_archive_path = '/' + archive_name
-    archive_url = 'file://' + container_archive_path
+    container_archive_url = 'file://' + container_archive_path
     head_url = 'file://' + str(Path(local_repository.path).absolute())
     homebrew_filename = 'vws.rb'
 
     homebrew_formula_contents = get_homebrew_formula(
-        archive_url=archive_url,
+        archive_url=container_archive_url,
         head_url=head_url,
         homebrew_recipe_filename=homebrew_filename,
     )

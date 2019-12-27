@@ -5,6 +5,7 @@ cli
 homebrew
 linter
 linting
+linuxbrew
 login
 macOS
 metadata
