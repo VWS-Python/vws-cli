@@ -144,6 +144,11 @@ def main() -> None:
     homebrew_file = Path('vws.rb')
     changelog = Path('CHANGELOG.rst')
     update_changelog(version=version_str, changelog=changelog)
+    update_homebrew(
+        homebrew_file=homebrew_file,
+        version_str=version_str,
+        repository=repository,
+    )
     paths = [homebrew_file, changelog]
     commit_and_push(version=version_str, repository=repository, paths=paths)
     create_github_release(
