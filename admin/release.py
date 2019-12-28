@@ -68,7 +68,7 @@ def update_homebrew(
         ref=version_str,
     )
 
-    homebrew_formula_contents = get_homebrew_formula(
+    get_homebrew_formula(
         archive_url=archive_url,
         head_url=github_repository.clone_url,
         homebrew_recipe_filename=homebrew_filename,
