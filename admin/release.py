@@ -9,7 +9,7 @@ from pathlib import Path
 
 from github import Github, Repository
 
-from homebrew import get_homebrew_formula
+from homebrew import update_homebrew
 
 
 def get_version(github_repository: Repository) -> str:
@@ -54,25 +54,6 @@ def update_changelog(version: str, github_repository: Repository) -> None:
         sha=changelog_content_file.sha,
     )
 
-
-def update_homebrew(
-    homebrew_filename: str,
-    version_str: str,
-    github_repository: Repository,
-) -> None:
-    """
-    Update the Homebrew file.
-    """
-    archive_url = github_repository.get_archive_link(
-        archive_format='tarball',
-        ref=version_str,
-    )
-
-    get_homebrew_formula(
-        archive_url=archive_url,
-        head_url=github_repository.clone_url,
-        homebrew_recipe_filename=homebrew_filename,
-    )
 
 
 def build_and_upload_to_pypi() -> None:
