@@ -17,6 +17,7 @@ author = 'Adam Dangoor'
 extensions = [
     'sphinxcontrib.spelling',
     'sphinx_click.ext',
+    'sphinx_substitution_extensions',
 ]
 
 templates_path = ['_templates']
@@ -31,6 +32,12 @@ copyright = f'{year}, {author}'  # pylint: disable=redefined-builtin
 # built documents.
 version = vws_cli.__version__
 release = version.split('+')[0]
+
+substitutions = [
+    ('|release|', release),
+    ('|github-owner|', 'adamtheturtle'),
+    ('|github-repository|', 'vws-cli'),
+]
 
 language = None
 
