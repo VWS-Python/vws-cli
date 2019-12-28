@@ -54,6 +54,7 @@ def update_changelog(version: str, github_repository: Repository) -> None:
         sha=changelog_content_file.sha,
     )
 
+
 def update_homebrew(
     homebrew_filename: str,
     version_str: str,
@@ -72,6 +73,7 @@ def update_homebrew(
         head_url=github_repository.clone_url,
         homebrew_recipe_filename=homebrew_filename,
     )
+
 
 def build_and_upload_to_pypi() -> None:
     """
