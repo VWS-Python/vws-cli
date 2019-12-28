@@ -4,7 +4,6 @@ check-manifest==0.40
 codecov==2.0.15 # Upload coverage data
 doc8==0.8.0
 docker==4.1.0
-dulwich==0.19.14
 flake8-commas==2.0.0
 flake8-quotes==2.1.1
 flake8==3.7.9
