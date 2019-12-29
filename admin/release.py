@@ -9,6 +9,7 @@ from pathlib import Path
 
 from github import Github, GitRelease, Repository
 
+from binaries import make_linux_binaries
 from homebrew import update_homebrew
 
 
