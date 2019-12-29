@@ -7,8 +7,9 @@ import os
 import subprocess
 from pathlib import Path
 
-from github import Github, Repository
+from github import Github, GitRelease, Repository
 
+from binaries import make_linux_binaries
 from homebrew import update_homebrew
 
 
@@ -29,6 +30,28 @@ def get_version(github_repository: Repository) -> str:
     micro = int(len(today_tag_labels))
     new_version = f'{date_str}.{micro}'
     return new_version
+
+
+def add_binaries_to_github_release(github_release: GitRelease) -> None:
+    """
+    Add binaries to a GitHub release.
+    """
+    # We need to make the artifacts just after creating a tag so that the
+    # --version output is exactly the one of the tag.
+    # We fetch the latest tags, including the one which was just created.
+    for args in (
+        ['git', 'fetch', '--tags'],
+        ['git', 'merge', 'origin/master'],
+        ['git', 'status'],
+    ):
+        subprocess.run(args=args, check=True)
+
+    linux_artifacts = make_linux_binaries(repo_root=Path('.'))
+    for installer_path in linux_artifacts:
+        github_release.upload_asset(
+            path=str(installer_path),
+            label=installer_path.name,
+        )
 
 
 def update_changelog(version: str, github_repository: Repository) -> None:
@@ -91,7 +114,7 @@ def main() -> None:
             full_name_or_id='adamtheturtle/homebrew-vws',
         ),
     )
-    github_repository.create_git_tag_and_release(
+    github_release = github_repository.create_git_tag_and_release(
         tag=version_str,
         tag_message='Release ' + version_str,
         release_name='Release ' + version_str,
@@ -99,6 +122,8 @@ def main() -> None:
         type='commit',
         object=github_repository.get_commits()[0].sha,
     )
+
+    add_binaries_to_github_release(github_release=github_release)
     build_and_upload_to_pypi()
 
 
