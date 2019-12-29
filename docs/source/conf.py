@@ -18,7 +18,6 @@ extensions = [
     'sphinxcontrib.spelling',
     'sphinx_click.ext',
     'sphinx_substitution_extensions',
-    'sphinx_tabs.tabs',
 ]
 
 templates_path = ['_templates']

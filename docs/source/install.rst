@@ -1,27 +1,23 @@
 Installation
 ------------
 
-.. tabs::
+With ``pip``
+~~~~~~~~~~~~
 
-   .. tab:: With ``pip``
+Requires Python 3.8+.
 
-      Requires Python 3.8+.
+.. code:: sh
 
-      .. code:: sh
+   pip install VWS-CLI
 
-         pip install VWS-CLI
+With Homebrew (macOS, Linux, WSL)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   .. tab:: With Homebrew (macOS, Linux, WSL)
+Requires `Homebrew`_.
 
-      Requires `Homebrew`_.
+.. code:: sh
 
-      .. code:: sh
-
-         brew tap adamtheturtle/vws
-         brew install vws-cli
-
-   .. tab:: Linux binary
-
-      Coming soon.
+   brew tap adamtheturtle/vws
+   brew install vws-cli
 
 .. _Homebrew: https://docs.brew.sh/Installation
