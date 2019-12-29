@@ -55,7 +55,6 @@ def update_changelog(version: str, github_repository: Repository) -> None:
     )
 
 
-
 def build_and_upload_to_pypi() -> None:
     """
     Build source and binary distributions.
@@ -86,6 +85,9 @@ def main() -> None:
         homebrew_filename=f'{github_repository_name}.rb',
         version_str=version_str,
         github_repository=github_repository,
+        homebrew_tap_github_repository=github_client.get_repo(
+            full_name_or_id='adamtheturtle/homebrew-vws',
+        ),
     )
     github_repository.create_git_tag_and_release(
         tag=version_str,

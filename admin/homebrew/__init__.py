@@ -95,6 +95,7 @@ def update_homebrew(
     homebrew_filename: str,
     version_str: str,
     github_repository: Repository,
+    homebrew_tap_github_repository: Repository,
 ) -> None:
     """
     Update a Homebrew file in a given Homebrew tap with an archive from a given
@@ -105,7 +106,7 @@ def update_homebrew(
         ref=version_str,
     )
 
-    get_homebrew_formula(
+    new_recipe_contents = get_homebrew_formula(
         archive_url=archive_url,
         head_url=github_repository.clone_url,
         homebrew_recipe_filename=homebrew_filename,
@@ -119,6 +120,6 @@ def update_homebrew(
     homebrew_tap_github_repository.update_file(
         path=homebrew_filename,
         message=f'Update for release {version_str}',
-        content=new_changelog_contents,
-        sha=changelog_content_file.sha,
+        content=new_recipe_contents,
+        sha=homebrew_recipe_content_file.sha,
     )
