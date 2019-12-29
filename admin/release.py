@@ -7,7 +7,7 @@ import os
 import subprocess
 from pathlib import Path
 
-from github import Github, Repository, GitRelease
+from github import Github, GitRelease, Repository
 
 from homebrew import update_homebrew
 
@@ -51,6 +51,7 @@ def add_binaries_to_github_release(github_release: GitRelease) -> None:
             path=str(installer_path),
             label=installer_path.name,
         )
+
 
 def update_changelog(version: str, github_repository: Repository) -> None:
     """
