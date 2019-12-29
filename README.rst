@@ -17,6 +17,18 @@ Requires Python 3.8+.
 
    pip install VWS-CLI
 
+Installing with Homebrew (macOS) or Linuxbrew (Linux)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Requires `Homebrew`_ or `Linuxbrew`_.
+
+.. code:: sh
+
+   brew tap adamtheturtle/vws
+   brew install vws-cli
+
+.. _Homebrew: https://brew.sh
+
 Usage example
 -------------
 
