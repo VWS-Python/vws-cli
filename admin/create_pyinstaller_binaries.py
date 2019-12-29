@@ -158,4 +158,4 @@ def create_binaries(accept_editable: bool) -> None:
 
 
 if __name__ == '__main__':
-    create_binaries()
+    create_binaries()  # pylint: disable=no-value-for-parameter
