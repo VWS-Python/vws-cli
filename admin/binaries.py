@@ -37,7 +37,7 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
     cmd_in_container = [
         'pip',
         'install',
-        '.[dev]',
+        '.[packaging]',
         '&&',
         'python',
         'admin/create_pyinstaller_binaries.py',

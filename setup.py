@@ -28,9 +28,16 @@ DEV_REQUIRES = _get_dependencies(
     requirements_file=Path('dev-requirements.txt'),
 )
 
+PACKAGING_REQUIRES = _get_dependencies(
+    requirements_file=Path('packaging-requirements.txt'),
+)
+
 setup(
     version=versioneer.get_version(),  # type: ignore
     cmdclass=versioneer.get_cmdclass(),  # type: ignore
     install_requires=INSTALL_REQUIRES,
-    extras_require={'dev': DEV_REQUIRES},
+    extras_require={
+        'dev': DEV_REQUIRES,
+        'packaging': PACKAGING_REQUIRES,
+    },
 )
