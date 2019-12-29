@@ -1,4 +1,4 @@
-Release Process
+Release process
 ===============
 
 Outcomes
@@ -15,7 +15,7 @@ Prerequisites
 * Push access to this repository.
 * Trust that ``master`` is ready and high enough quality for release.
 
-Perform a Release
+Perform a release
 ~~~~~~~~~~~~~~~~~
 
 #. Install keyring
