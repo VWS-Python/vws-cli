@@ -1,0 +1,4 @@
+#!/usr/bin/env python3
+from vws_cli import vws_group
+
+vws_group()

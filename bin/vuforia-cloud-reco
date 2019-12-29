@@ -1,0 +1,4 @@
+#!/usr/bin/env python3
+from vws_cli.query import vuforia_cloud_reco
+
+vuforia_cloud_reco()
