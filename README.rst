@@ -5,11 +5,14 @@ vws-cli
 
 A CLI for Vuforia.
 
+.. contents::
+   :local:
+
 Installation
 ------------
 
-Installing with `pip`
-^^^^^^^^^^^^^^^^^^^^^
+With `pip`
+^^^^^^^^^^
 
 Requires Python 3.8+.
 
@@ -17,8 +20,8 @@ Requires Python 3.8+.
 
    pip install VWS-CLI
 
-Installing with Homebrew (macOS, Linux, WSL)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+With Homebrew (macOS, Linux, WSL)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Requires `Homebrew`_.
 
