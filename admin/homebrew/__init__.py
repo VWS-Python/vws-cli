@@ -6,7 +6,7 @@ import subprocess
 from pathlib import Path
 from typing import List
 
-from github import Repository
+from github import Repository, UnknownObjectException
 
 
 def _get_dependencies(requirements_file: Path) -> List[str]:
@@ -112,14 +112,24 @@ def update_homebrew(
         homebrew_recipe_filename=homebrew_filename,
     )
 
-    homebrew_recipe_content_file = homebrew_tap_github_repository.get_contents(
-        path=homebrew_filename,
-        ref='master',
-    )
+    message = f'Homebrew recipe for version {version_str}'
 
-    homebrew_tap_github_repository.update_file(
-        path=homebrew_filename,
-        message=f'Update for release {version_str}',
-        content=new_recipe_contents,
-        sha=homebrew_recipe_content_file.sha,
-    )
+    try:
+        sha = homebrew_tap_github_repository.get_contents(
+            path=homebrew_filename,
+            ref='master',
+        ).sha
+    except UnknownObjectException:
+        homebrew_tap_github_repository.create_file(
+            path=homebrew_filename,
+            message=message,
+            content=new_recipe_contents,
+        )
+    else:
+        homebrew_tap_github_repository.update_file(
+            path=homebrew_filename,
+            message=message,
+            content=new_recipe_contents,
+            sha=sha,
+        )
+
