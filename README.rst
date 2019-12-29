@@ -5,6 +5,9 @@ vws-cli
 
 A CLI for Vuforia.
 
+.. contents::
+   :local:
+
 Installation
 ------------
 
