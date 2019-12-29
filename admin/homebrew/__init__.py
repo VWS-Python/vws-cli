@@ -132,4 +132,3 @@ def update_homebrew(
             content=new_recipe_contents,
             sha=sha,
         )
-
