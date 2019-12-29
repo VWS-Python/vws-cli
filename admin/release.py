@@ -50,7 +50,7 @@ def add_binaries_to_github_release(github_release: GitRelease) -> None:
     for installer_path in linux_artifacts:
         github_release.upload_asset(
             path=str(installer_path),
-            label=installer_path.name,
+            label=installer_path.name + '-linux',
         )
         # Remove the installer so that it is not later uploaded by twine.
         installer_path.unlink()
