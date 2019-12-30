@@ -17,6 +17,7 @@ metadata
 noqa
 num
 pragma
+pre
 pyperclip
 pytest
 reco
