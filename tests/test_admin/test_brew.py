@@ -4,7 +4,6 @@ Tests for Homebrew and Linuxbrew.
 
 import logging
 import subprocess
-import uuid
 from pathlib import Path
 
 import docker
@@ -55,7 +54,6 @@ def test_create_local_brewfile(tmp_path: Path) -> None:
         archive_url=local_archive_url,
         head_url=head_url,
         homebrew_recipe_filename=homebrew_filename,
-        version_str=uuid.uuid4().hex,
     )
 
     homebrew_file = tmp_path / homebrew_filename
@@ -88,7 +86,6 @@ def test_brew(tmp_path: Path) -> None:
         archive_url=container_archive_url,
         head_url=head_url,
         homebrew_recipe_filename=homebrew_filename,
-        version_str=uuid.uuid4().hex,
     )
 
     homebrew_file = tmp_path / homebrew_filename
