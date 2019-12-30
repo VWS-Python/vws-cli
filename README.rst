@@ -32,6 +32,11 @@ Requires `Homebrew`_.
 
 .. _Homebrew: https://docs.brew.sh/Installation
 
+Pre-built Linux binaries
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+See the full documentation for details on how to install pre-built Linux binaries.
+
 Usage example
 -------------
 
