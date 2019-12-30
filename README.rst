@@ -67,8 +67,12 @@ Usage example
 Full documentation
 ------------------
 
-See the `full documentation <https://vws-cli.readthedocs.io/en/latest>`__ for information on all available commands.
+See the `full documentation <https://vws-cli.readthedocs.io/en/latest>`__ for information on:
 
+* All available commands.
+* Setting up autocompletion.
+* How to contribute to this project.
+* Release notes.
 
 .. |Build Status| image:: https://travis-ci.com/adamtheturtle/vws-cli.svg?branch=master
    :target: https://travis-ci.com/adamtheturtle/vws-cli

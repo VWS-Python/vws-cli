@@ -22,6 +22,8 @@ _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 __version__ = get_versions()['version']  # type: ignore
 del get_versions
 
+import click_completion
+click_completion.init()
 
 @click.group(name='vws', context_settings=_CONTEXT_SETTINGS)
 # We set the ``version`` parameter because in PyInstaller binaries,
