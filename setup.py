@@ -7,8 +7,6 @@ from typing import List
 
 from setuptools import setup
 
-import versioneer
-
 
 def _get_dependencies(requirements_file: Path) -> List[str]:
     """
