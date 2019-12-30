@@ -104,4 +104,4 @@ venv.bak/
 .mypy_cache/
 
 # setuptools_scm
-src/*/_setuptools_scm_version.py
+src/*/_setuptools_scm_version.txt

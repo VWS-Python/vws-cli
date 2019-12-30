@@ -1,1 +1,1 @@
-include src/*/_setuptools_scm_version.txt
+include src/vws_cli/_setuptools_scm_version.txt
