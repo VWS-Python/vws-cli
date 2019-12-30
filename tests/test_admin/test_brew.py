@@ -31,6 +31,7 @@ def _create_archive(directory: Path) -> Path:
     repository_copy_git_archival = repository_copy_dir / '.git_archival.txt'
     # Expected pattern is from
     # https://pypi.org/project/setuptools-scm-git-archive/.
+    git_archival_pattern = 'ref-names: $Format:%D$\n'
     assert repository_copy_git_archival.read_text() == git_archival_pattern
 
     # This is taken from the ``.git_archival.txt`` file from a real GitHub
@@ -52,10 +53,8 @@ def _create_archive(directory: Path) -> Path:
         '--prefix',
         '{version}/'.format(version=version),
         'HEAD',
-        str(repository_copy_dir),
     ]
-    for args in (create_tag_args, checkout_tag_args, archive_args):
-        subprocess.run(args=args, check=True, cwd=repository_copy_dir)
+    subprocess.run(args=archive_args, check=True, cwd=repository_copy_dir)
 
     # import pdb; pdb.set_trace()
     return archive_file
