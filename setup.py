@@ -2,7 +2,6 @@
 Setup script for VWS CLI.
 """
 
-import os
 from pathlib import Path
 from typing import List
 
@@ -33,8 +32,7 @@ PACKAGING_REQUIRES = _get_dependencies(
 
 setup(
     use_scm_version={
-        'write_to': 'src/vws_cli/_setuptools_scm_version.py',
-        'fallback_version': os.environ.get('_SETUPTOOLS_SCM_VWS_CLI_FALLBACK'),
+        'write_to': 'src/vws_cli/_setuptools_scm_version.txt',
     },
     setup_requires=['setuptools_scm'],
     install_requires=INSTALL_REQUIRES,

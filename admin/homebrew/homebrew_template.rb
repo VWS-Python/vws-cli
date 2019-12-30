@@ -10,7 +10,6 @@ class {class_name} < Formula
 {resource_stanzas}
 
   def install
-    ENV["_SETUPTOOLS_SCM_VWS_CLI_FALLBACK"] = "{version_str}"
     virtualenv_install_with_resources
   end
 end
