@@ -46,6 +46,7 @@ def _get_class_name(homebrew_recipe_filename: str) -> str:
 
 
 def get_homebrew_formula(
+    version_str: str,
     archive_url: str,
     head_url: str,
     homebrew_recipe_filename: str,
@@ -88,6 +89,7 @@ def get_homebrew_formula(
         archive_url=archive_url,
         head_url=head_url,
         homepage_url=homepage_url,
+        version_str=version_str,
     )
 
 
@@ -110,6 +112,7 @@ def update_homebrew(
         archive_url=archive_url,
         head_url=github_repository.clone_url,
         homebrew_recipe_filename=homebrew_filename,
+        version_str = version_str,
     )
 
     message = f'Homebrew recipe for version {version_str}'

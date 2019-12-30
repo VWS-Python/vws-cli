@@ -4,6 +4,7 @@ Tests for Homebrew and Linuxbrew.
 
 import logging
 import subprocess
+import uuid
 from pathlib import Path
 
 import docker
@@ -22,6 +23,8 @@ def _create_archive(directory: Path) -> Path:
     archive_file.touch()
     # We do not use ``dulwich.porcelain.archive`` because it has no option to
     # use a gzip format.
+    #
+    # This archive does not include uncommitted changes.
     args = [
         'git',
         'archive',
@@ -52,12 +55,14 @@ def test_create_local_brewfile(tmp_path: Path) -> None:
         archive_url=local_archive_url,
         head_url=head_url,
         homebrew_recipe_filename=homebrew_filename,
+        version_str=uuid.uuid4().hex,
     )
 
     homebrew_file = tmp_path / homebrew_filename
     homebrew_file.write_text(homebrew_formula_contents)
     # For local testing:
-    # import pyperclip; pyperclip.copy(str(homebrew_file))
+    import pyperclip; pyperclip.copy(str(homebrew_file))
+    import pdb; pdb.set_trace()
     #
     # Then:
     # $ brew install --debug <PASTE>
@@ -84,6 +89,7 @@ def test_brew(tmp_path: Path) -> None:
         archive_url=container_archive_url,
         head_url=head_url,
         homebrew_recipe_filename=homebrew_filename,
+        version_str=uuid.uuid4().hex,
     )
 
     homebrew_file = tmp_path / homebrew_filename
