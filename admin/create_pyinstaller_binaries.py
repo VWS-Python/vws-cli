@@ -15,49 +15,6 @@ import pkg_resources
 import vws_cli
 
 
-def is_editable() -> bool:
-    """
-    Return whether this project is an editable package.
-
-    See https://stackoverflow.com/a/40835950.
-    """
-    package_name = vws_cli.__name__
-    # Normalize as per https://www.python.org/dev/peps/pep-0440/.
-    normalized_package_name = package_name.replace('_', '-').lower()
-    distributions = {v.key: v for v in set(pkg_resources.working_set)}
-    distribution = distributions[normalized_package_name]
-    project_name = distribution.project_name
-    for path_item in sys.path:
-        egg_link = Path(path_item) / (project_name + '.egg-link')
-        if egg_link.exists():
-            return True
-    return False
-
-
-def require_not_editable(editable: bool) -> None:
-    """
-    Require the package to have been installed not in editable mode.
-    """
-
-    message = dedent(
-        """\
-        We explicitly require the package to have been installed without the
-        use of ``-e / --editable``.
-
-        This is because ``versioneer`` replaces the dynamic ``_version.py``
-        file with a static one only when creating a non-editable Python EGG.
-
-        This is required for the PyInstaller binary to determine the version
-        string because the git tags used by the dynamic ``_version.py`` are not
-        included.
-
-        Use --accept-editable to ignore this error.
-        """,
-    )
-    if editable:
-        raise Exception(message)
-
-
 def remove_existing_files(scripts: Set[Path]) -> None:
     """
     Remove files created when building binaries.
@@ -130,25 +87,12 @@ def create_binary(script: Path, repo_root: Path) -> None:
     subprocess.check_output(args=pyinstaller_command)
 
 
-@click.command('create_binaries')
-@click.option(
-    '--accept-editable',
-    is_flag=True,
-    help=(
-        'For --version to work appropriately on the binary, we require the '
-        'package to be installed not in --editable mode. '
-        'Use this flag to override that requirement.'
-    ),
-)
-def create_binaries(accept_editable: bool) -> None:
+def create_binaries() -> None:
     """
     Make PyInstaller binaries for the platform that this is being run on.
 
     All binaries will be created in ``./dist``.
     """
-    editable = is_editable()
-    if not accept_editable:
-        require_not_editable(editable=editable)
     repo_root = Path(__file__).resolve().parent.parent
     script_dir = repo_root / 'bin'
     scripts = set(script_dir.iterdir())
@@ -158,4 +102,4 @@ def create_binaries(accept_editable: bool) -> None:
 
 
 if __name__ == '__main__':
-    create_binaries()  # pylint: disable=no-value-for-parameter
+    create_binaries()
