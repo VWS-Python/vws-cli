@@ -9,6 +9,7 @@ yapf:
 	    --recursive \
 	    --exclude versioneer.py  \
 	    --exclude src/*/_version.py \
+	    --exclude .eggs \
 	    .
 
 .PHONY: fix-yapf
@@ -18,6 +19,7 @@ fix-yapf:
 	    --recursive \
 	    --exclude versioneer.py  \
 	    --exclude src/*/_version.py \
+	    --exclude .eggs \
 	    .
 
 .PHONY: mypy
@@ -58,7 +60,7 @@ pyroma:
 
 .PHONY: vulture
 vulture:
-	vulture --min-confidence 100 --exclude _vendor .
+	vulture --min-confidence 100 --exclude _vendor --exclude .eggs .
 
 .PHONY: linkcheck
 linkcheck:

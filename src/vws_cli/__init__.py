@@ -2,7 +2,10 @@
 A CLI for Vuforia Web Services.
 """
 
+from pathlib import Path
+
 import click
+from setuptools_scm import get_version
 
 from vws_cli.commands import (
     add_target,
@@ -16,11 +19,16 @@ from vws_cli.commands import (
     wait_for_target_processed,
 )
 
-from ._version import get_versions
-
 _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
-__version__ = get_versions()['version']  # type: ignore
-del get_versions
+
+try:
+    __version__ = get_version(root='..', relative_to=Path(__file__).parent)
+except LookupError:  # pragma: no cover
+    # When pkg_resources and git tags are not available,
+    # for example in a PyInstaller binary,
+    # we write the file ``_setuptools_scm_version.py`` on ``pip install``.
+    _VERSION_FILE = Path(__file__).parent / '_setuptools_scm_version.txt'
+    __version__ = _VERSION_FILE.read_text()
 
 
 @click.group(name='vws', context_settings=_CONTEXT_SETTINGS)
