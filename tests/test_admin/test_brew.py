@@ -29,7 +29,14 @@ def _create_archive(directory: Path) -> Path:
     # Therefore we make this repository copy look in a way like a GitHub
     # archive looks after a tag.
     repository_copy_git_archival = repository_copy_dir / '.git_archival.txt'
+    # Expected pattern is from
+    # https://pypi.org/project/setuptools-scm-git-archive/.
     assert repository_copy_git_archival.read_text() == git_archival_pattern
+
+    # This is taken from the ``.git_archival.txt`` file from a real GitHub
+    # release.
+    fake_subsitution = 'ref-names: HEAD -> master, tag: 2019.12.30.1'
+    repository_copy_git_archival.write_text(fake_subsitution)
 
     # We do not use ``dulwich.porcelain.archive`` because it has no option to
     # use a gzip format.
@@ -44,7 +51,7 @@ def _create_archive(directory: Path) -> Path:
         str(archive_file),
         '--prefix',
         '{version}/'.format(version=version),
-        tag,
+        'HEAD',
         str(repository_copy_dir),
     ]
     for args in (create_tag_args, checkout_tag_args, archive_args):
