@@ -4,5 +4,4 @@ click-pathlib==2019.12.28.7
 click==7.0.0
 requests==2.22.0
 setuptools-scm==3.3.3
-setuptools-scm-git-archive
 wrapt==1.11.2

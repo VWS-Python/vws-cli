@@ -23,7 +23,7 @@ _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 try:
     __version__ = get_version(root='..', relative_to=Path(__file__).parent)
-except LookupError:
+except LookupError:  # pragma: no cover
     # When pkg_resources and git tags are not available,
     # for example in a PyInstaller binary,
     # we write the file ``_setuptools_scm_version.py`` on ``pip install``.
