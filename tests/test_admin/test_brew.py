@@ -4,6 +4,7 @@ Tests for Homebrew and Linuxbrew.
 
 import logging
 import subprocess
+import uuid
 from pathlib import Path
 
 import docker
@@ -20,11 +21,15 @@ def _create_archive(directory: Path) -> Path:
     archive_name = '{version}.tar.gz'.format(version=version)
     archive_file = directory / archive_name
     archive_file.touch()
+    # setuptools_scm only works with archives of tagged commits.
+    # Therefore we tag this current commit and then remove the tag.
+    tag = 'test_tag'
+    create_tag_args = ['git', 'tag', '--annotate', tag, '--message', 'TEST']
     # We do not use ``dulwich.porcelain.archive`` because it has no option to
     # use a gzip format.
     #
     # This archive does not include uncommitted changes.
-    args = [
+    archive_args = [
         'git',
         'archive',
         '--format',
@@ -33,9 +38,12 @@ def _create_archive(directory: Path) -> Path:
         str(archive_file),
         '--prefix',
         '{version}/'.format(version=version),
-        'HEAD',
+        tag,
     ]
-    subprocess.run(args=args, check=True)
+    delete_tag_args = ['git', 'tag', '--delete', tag]
+    for args in (create_tag_args, archive_args, delete_tag_args):
+        subprocess.run(args=args, check=True)
+
     return archive_file
 
 
@@ -59,7 +67,8 @@ def test_create_local_brewfile(tmp_path: Path) -> None:
     homebrew_file = tmp_path / homebrew_filename
     homebrew_file.write_text(homebrew_formula_contents)
     # For local testing:
-    # import pyperclip; pyperclip.copy(str(homebrew_file))
+    import pyperclip; pyperclip.copy(str(homebrew_file))
+    import pdb; pdb.set_trace()
     #
     # Then:
     # $ brew install --debug <PASTE>
