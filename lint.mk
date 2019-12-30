@@ -58,7 +58,7 @@ pyroma:
 
 .PHONY: vulture
 vulture:
-	vulture --min-confidence 100 --exclude _vendor .
+	vulture --min-confidence 100 --exclude _vendor --exclude .eggs .
 
 .PHONY: linkcheck
 linkcheck:
