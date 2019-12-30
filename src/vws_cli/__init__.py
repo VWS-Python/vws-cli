@@ -28,7 +28,7 @@ except LookupError:  # pragma: no cover
     # for example in a PyInstaller binary,
     # we write the file ``_setuptools_scm_version.py`` on ``pip install``.
     _VERSION_FILE = Path(__file__).parent / '_setuptools_scm_version.txt'
-    __version__ = _version_file.read_text()
+    __version__ = _VERSION_FILE.read_text()
 
 
 @click.group(name='vws', context_settings=_CONTEXT_SETTINGS)
