@@ -55,8 +55,6 @@ def _create_archive(directory: Path) -> Path:
         'HEAD',
     ]
     subprocess.run(args=archive_args, check=True, cwd=repository_copy_dir)
-
-    # import pdb; pdb.set_trace()
     return archive_file
 
 
@@ -80,8 +78,8 @@ def test_create_local_brewfile(tmp_path: Path) -> None:
     homebrew_file = tmp_path / homebrew_filename
     homebrew_file.write_text(homebrew_formula_contents)
     # For local testing:
-    import pyperclip; pyperclip.copy(str(homebrew_file))
-    import pdb; pdb.set_trace()
+    # import pyperclip; pyperclip.copy(str(homebrew_file))
+    # import pdb; pdb.set_trace()
     #
     # Then:
     # $ brew install --debug <PASTE>
