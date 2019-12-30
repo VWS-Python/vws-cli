@@ -26,12 +26,11 @@ def _create_archive(directory: Path) -> Path:
     archive_file = directory / archive_name
     archive_file.touch()
     # setuptools_scm only works with archives of tagged commits.
-    # Therefore we tag this current commit.
-    # This is why we have a copy of the repository - so as not to affect the
-    # real repository.
-    tag = 'test_tag'
-    create_tag_args = ['git', 'tag', '--annotate', tag, '--message', 'TEST']
-    checkout_tag_args = ['git', 'checkout', tag]
+    # Therefore we make this repository copy look in a way like a GitHub
+    # archive looks after a tag.
+    repository_copy_git_archival = repository_copy_dir / '.git_archival.txt'
+    assert repository_copy_git_archival.read_text() == git_archival_pattern
+
     # We do not use ``dulwich.porcelain.archive`` because it has no option to
     # use a gzip format.
     #
