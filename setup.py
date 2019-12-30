@@ -32,9 +32,9 @@ PACKAGING_REQUIRES = _get_dependencies(
 
 setup(
     use_scm_version={
-        'write_to': 'src/vws_cli/_setuptools_scm_version.txt',
+        'write_to': 'src/vws_cli/_setuptools_scm_version.py',
     },
-    setup_requires=['setuptools_scm'],
+    setup_requires=['setuptools_scm', 'setuptools_scm_git_archive'],
     install_requires=INSTALL_REQUIRES,
     extras_require={
         'dev': DEV_REQUIRES,

@@ -27,8 +27,7 @@ except LookupError:
     # When pkg_resources and git tags are not available,
     # for example in a PyInstaller binary,
     # we write the file ``_setuptools_scm_version.py`` on ``pip install``.
-    from ._setuptools_scm_version import version
-    __version__ = version
+    from _setuptools_scm_version import version as __version__
 
 
 @click.group(name='vws', context_settings=_CONTEXT_SETTINGS)
