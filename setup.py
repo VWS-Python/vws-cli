@@ -33,8 +33,8 @@ PACKAGING_REQUIRES = _get_dependencies(
 )
 
 setup(
-    version=versioneer.get_version(),  # type: ignore
-    cmdclass=versioneer.get_cmdclass(),  # type: ignore
+    use_scm_version=True,
+    setup_requires=['setuptools_scm'],
     install_requires=INSTALL_REQUIRES,
     extras_require={
         'dev': DEV_REQUIRES,

@@ -16,12 +16,15 @@ from vws_cli.commands import (
     wait_for_target_processed,
 )
 
-from ._version import get_versions
+from pathlib import Path
+# from ._version import get_versions
 
 _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
-__version__ = get_versions()['version']  # type: ignore
-del get_versions
+# __version__ = get_versions()['version']  # type: ignore
+# del get_versions
 
+from setuptools_scm import get_version
+__version__ = get_version(root='..', relative_to=Path(__file__).parent)
 
 @click.group(name='vws', context_settings=_CONTEXT_SETTINGS)
 # We set the ``version`` parameter because in PyInstaller binaries,
