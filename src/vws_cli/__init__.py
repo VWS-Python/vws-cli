@@ -27,7 +27,7 @@ except LookupError:  # pragma: no cover
     # When pkg_resources and git tags are not available,
     # for example in a PyInstaller binary,
     # we write the file ``_setuptools_scm_version.py`` on ``pip install``.
-    _version_file = Path(__file__).parent / '_setuptools_scm_version.txt'
+    _VERSION_FILE = Path(__file__).parent / '_setuptools_scm_version.txt'
     __version__ = _version_file.read_text()
 
 
