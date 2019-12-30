@@ -33,6 +33,7 @@ PACKAGING_REQUIRES = _get_dependencies(
 setup(
     use_scm_version={
         'write_to': 'src/vws_cli/_setuptools_scm_version.py',
+        'fallback_version': 'ADAM FALLBACK',
     },
     setup_requires=['setuptools_scm'],
     install_requires=INSTALL_REQUIRES,
