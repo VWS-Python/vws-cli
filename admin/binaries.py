@@ -35,15 +35,14 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
     )
 
     cmd_in_container = [
-        'sleep',
-        '500',
-        '&&',
         'pip',
         'install',
+        '--editable',
         '.[packaging]',
         '&&',
         'python',
         'admin/create_pyinstaller_binaries.py',
+        '--accept-editable',
     ]
     command = 'bash -c "{cmd}"'.format(cmd=' '.join(cmd_in_container))
 
