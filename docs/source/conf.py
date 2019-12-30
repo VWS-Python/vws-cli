@@ -32,6 +32,8 @@ copyright = f'{year}, {author}'  # pylint: disable=redefined-builtin
 # built documents.
 version = vws_cli.__version__
 release = version.split('+')[0]
+_month, _day, _year, *_ = version.split('.')
+release = f'{_month}.{_day}.{_year}'
 
 substitutions = [
     ('|release|', release),
