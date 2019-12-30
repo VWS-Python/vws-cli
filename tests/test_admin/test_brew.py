@@ -10,6 +10,7 @@ from pathlib import Path
 import docker
 from docker.types import Mount
 
+import shutil
 from admin.homebrew import get_homebrew_formula
 
 LOGGER = logging.getLogger(__name__)
@@ -19,12 +20,18 @@ def _create_archive(directory: Path) -> Path:
     # Homebrew requires the archive name to look like a valid version.
     version = '1'
     archive_name = '{version}.tar.gz'.format(version=version)
+    repository_copy_dir = directory / 'repository_copy_dir'
+    repo_root = Path(__file__).parent.parent.parent
+    shutil.copytree(src=repo_root, dst=repository_copy_dir)
     archive_file = directory / archive_name
     archive_file.touch()
     # setuptools_scm only works with archives of tagged commits.
-    # Therefore we tag this current commit and then remove the tag.
+    # Therefore we tag this current commit.
+    # This is why we have a copy of the repository - so as not to affect the
+    # real repository.
     tag = 'test_tag'
     create_tag_args = ['git', 'tag', '--annotate', tag, '--message', 'TEST']
+    checkout_tag_args = ['git', 'checkout', tag]
     # We do not use ``dulwich.porcelain.archive`` because it has no option to
     # use a gzip format.
     #
@@ -39,11 +46,12 @@ def _create_archive(directory: Path) -> Path:
         '--prefix',
         '{version}/'.format(version=version),
         tag,
+        str(repository_copy_dir),
     ]
-    delete_tag_args = ['git', 'tag', '--delete', tag]
-    for args in (create_tag_args, archive_args, delete_tag_args):
-        subprocess.run(args=args, check=True)
+    for args in (create_tag_args, checkout_tag_args, archive_args):
+        subprocess.run(args=args, check=True, cwd=repository_copy_dir)
 
+    # import pdb; pdb.set_trace()
     return archive_file
 
 
