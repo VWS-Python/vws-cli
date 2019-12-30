@@ -35,6 +35,9 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
     )
 
     cmd_in_container = [
+        'git',
+        'pull',
+        '&&'
         'pip',
         'install',
         '.[packaging]',
