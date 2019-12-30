@@ -4,15 +4,8 @@ Make PyInstaller binaries for the platform that this is being run on.
 
 import shutil
 import subprocess
-import sys
 from pathlib import Path
-from textwrap import dedent
 from typing import Set
-
-import click
-import pkg_resources
-
-import vws_cli
 
 
 def remove_existing_files(scripts: Set[Path]) -> None:
