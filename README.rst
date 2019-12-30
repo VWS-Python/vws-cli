@@ -37,7 +37,9 @@ Requires `Homebrew`_.
 Pre-built Linux binaries
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-See the full documentation for details on how to install pre-built Linux binaries.
+See the `full documentation`_ for details on how to install pre-built Linux binaries.
+
+.. _full documentation: https://vws-cli.readthedocs.io/en/latest/install.html#pre-built-linux-binaries
 
 Usage example
 -------------
