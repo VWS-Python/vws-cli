@@ -3,6 +3,7 @@ Tests for Homebrew and Linuxbrew.
 """
 
 import logging
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -18,11 +19,33 @@ def _create_archive(directory: Path) -> Path:
     # Homebrew requires the archive name to look like a valid version.
     version = '1'
     archive_name = '{version}.tar.gz'.format(version=version)
+    repository_copy_dir = directory / 'repository_copy_dir'
+    repo_root = Path(__file__).parent.parent.parent
+    shutil.copytree(src=repo_root, dst=repository_copy_dir)
     archive_file = directory / archive_name
     archive_file.touch()
+    # setuptools_scm only works with archives of tagged commits.
+    # Therefore we make this repository copy look in a way like a GitHub
+    # archive looks after a tag.
+    repository_copy_git_archival = repository_copy_dir / '.git_archival.txt'
+    # Expected pattern is from
+    # https://pypi.org/project/setuptools-scm-git-archive/.
+    git_archival_pattern = 'ref-names: $Format:%D$\n'
+    assert repository_copy_git_archival.read_text() == git_archival_pattern
+
+    # This is taken from the ``.git_archival.txt`` file from a real GitHub
+    # release.
+    fake_subsitution = 'ref-names: HEAD -> master, tag: 2019.12.30.1'
+    repository_copy_git_archival.write_text(fake_subsitution)
+
+    # A Git archive does not include uncommitted changes.
+    # Therefore we commit changes.
+    add_args = ['git', 'add', '.git_archival.txt']
+    commit_args = ['git', 'commit', '-m', 'Fake git archival']
+
     # We do not use ``dulwich.porcelain.archive`` because it has no option to
     # use a gzip format.
-    args = [
+    archive_args = [
         'git',
         'archive',
         '--format',
@@ -32,8 +55,10 @@ def _create_archive(directory: Path) -> Path:
         '--prefix',
         '{version}/'.format(version=version),
         'HEAD',
+        str(repository_copy_dir),
     ]
-    subprocess.run(args=args, check=True)
+    for args in (add_args, commit_args, archive_args):
+        subprocess.run(args=args, check=True, cwd=repository_copy_dir)
     return archive_file
 
 
@@ -58,6 +83,7 @@ def test_create_local_brewfile(tmp_path: Path) -> None:
     homebrew_file.write_text(homebrew_formula_contents)
     # For local testing:
     # import pyperclip; pyperclip.copy(str(homebrew_file))
+    # import pdb; pdb.set_trace()
     #
     # Then:
     # $ brew install --debug <PASTE>

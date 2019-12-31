@@ -1,4 +1,4 @@
-|Build Status| |codecov| |Updates| |PyPI| |Documentation Status|
+|Build Status| |codecov| |PyPI| |Documentation Status|
 
 vws-cli
 =======
@@ -78,8 +78,6 @@ See the `full documentation <https://vws-cli.readthedocs.io/en/latest>`__ for in
    :target: https://travis-ci.com/adamtheturtle/vws-cli
 .. |codecov| image:: https://codecov.io/gh/adamtheturtle/vws-cli/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/adamtheturtle/vws-cli
-.. |Updates| image:: https://pyup.io/repos/github/adamtheturtle/vws-cli/shield.svg
-   :target: https://pyup.io/repos/github/adamtheturtle/vws-cli/
 .. |Documentation Status| image:: https://readthedocs.org/projects/vws-cli/badge/?version=latest
    :target: https://vws-cli.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status

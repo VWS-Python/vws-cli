@@ -7,8 +7,7 @@ yapf:
 	yapf \
 	    --diff \
 	    --recursive \
-	    --exclude versioneer.py  \
-	    --exclude src/*/_version.py \
+	    --exclude .eggs \
 	    .
 
 .PHONY: fix-yapf
@@ -16,8 +15,7 @@ fix-yapf:
 	yapf \
 	    --in-place \
 	    --recursive \
-	    --exclude versioneer.py  \
-	    --exclude src/*/_version.py \
+	    --exclude .eggs \
 	    .
 
 .PHONY: mypy
@@ -58,7 +56,7 @@ pyroma:
 
 .PHONY: vulture
 vulture:
-	vulture --min-confidence 100 --exclude _vendor .
+	vulture --min-confidence 100 --exclude _vendor --exclude .eggs .
 
 .PHONY: linkcheck
 linkcheck:
@@ -80,7 +78,7 @@ autoflake:
 	    --remove-all-unused-imports \
 	    --remove-unused-variables \
 	    --expand-star-imports \
-	    --exclude _vendor,src/*/_version.py,versioneer.py,release \
+	    --exclude _vendor,release \
 	    .
 
 .PHONY: pydocstyle

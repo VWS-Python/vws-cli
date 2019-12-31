@@ -34,9 +34,12 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
         type='bind',
     )
 
+    # We install in editable mode to overwrite any potential
+    # ``_setuptools_scm_version.txt`` file.
     cmd_in_container = [
         'pip',
         'install',
+        '--editable',
         '.[packaging]',
         '&&',
         'python',
@@ -54,7 +57,7 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
     )
     for line in container.logs(stream=True):
         line = line.strip()
-        LOGGER.info(line)
+        LOGGER.warning(line)
 
     status_code = container.wait()['StatusCode']
     assert status_code == 0
