@@ -5,6 +5,7 @@ A CLI for Vuforia Web Services.
 from pathlib import Path
 
 import click
+import click_completion
 from setuptools_scm import get_version
 
 from vws_cli.commands import (
@@ -19,6 +20,7 @@ from vws_cli.commands import (
     wait_for_target_processed,
 )
 
+click_completion.init()
 _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 try:
@@ -30,8 +32,6 @@ except LookupError:  # pragma: no cover
     _VERSION_FILE = Path(__file__).parent / '_setuptools_scm_version.txt'
     __version__ = _VERSION_FILE.read_text()
 
-import click_completion
-click_completion.init()
 
 @click.group(name='vws', context_settings=_CONTEXT_SETTINGS)
 # We set the ``version`` parameter because in PyInstaller binaries,
