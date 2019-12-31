@@ -39,10 +39,13 @@ def _create_archive(directory: Path) -> Path:
     fake_subsitution = 'ref-names: HEAD -> master, tag: 2019.12.30.1'
     repository_copy_git_archival.write_text(fake_subsitution)
 
+    # A Git archive does not include uncommitted changes.
+    # Therefore we commit changes.
+    add_args = ['git', 'add', '.git_archival.txt']
+    commit_args = ['git', 'commit', '-m', 'Fake git archival']
+
     # We do not use ``dulwich.porcelain.archive`` because it has no option to
     # use a gzip format.
-    #
-    # This archive does not include uncommitted changes.
     archive_args = [
         'git',
         'archive',
@@ -53,8 +56,10 @@ def _create_archive(directory: Path) -> Path:
         '--prefix',
         '{version}/'.format(version=version),
         'HEAD',
+        str(repository_copy_dir),
     ]
-    subprocess.run(args=archive_args, check=True, cwd=repository_copy_dir)
+    for args in (add_args, commit_args, archive_args):
+        subprocess.run(args=args, check=True, cwd=repository_copy_dir)
     return archive_file
 
 
