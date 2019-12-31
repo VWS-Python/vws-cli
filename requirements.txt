@@ -5,4 +5,3 @@ click==7.0.0
 requests==2.22.0
 setuptools-scm==3.3.3
 wrapt==1.11.2
-setuptools-scm-git-archive
