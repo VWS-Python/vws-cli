@@ -3,14 +3,13 @@ Tests for Homebrew and Linuxbrew.
 """
 
 import logging
+import shutil
 import subprocess
-import uuid
 from pathlib import Path
 
 import docker
 from docker.types import Mount
 
-import shutil
 from admin.homebrew import get_homebrew_formula
 
 LOGGER = logging.getLogger(__name__)
