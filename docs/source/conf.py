@@ -8,6 +8,7 @@ Configuration for Sphinx.
 
 import datetime
 from typing import List, Tuple
+
 from pkg_resources import get_distribution
 
 project = 'VWS-CLI'
