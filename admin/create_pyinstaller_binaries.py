@@ -67,7 +67,14 @@ def create_binary(script: Path, repo_root: Path) -> None:
                 data_item = (str(repo_root / manifest_path), path_without_src)
                 datas.append(data_item)
 
-    pyinstaller_command = ['pyinstaller', str(script.resolve()), '--onefile']
+    pyinstaller_command = [
+        'pyinstaller',
+        str(script.resolve()),
+        '--onefile',
+        # Work around https://github.com/pypa/setuptools/issues/1963.
+        '--hidden-import',
+        'pkg_resources.py2_warn',
+    ]
     for data in datas:
         source, destination = data
         data_str = '{source}:{destination}'.format(
