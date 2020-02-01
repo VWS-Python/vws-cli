@@ -72,7 +72,7 @@ def create_binary(script: Path, repo_root: Path) -> None:
         str(script.resolve()),
         '--onefile',
         # Work around https://github.com/pypa/setuptools/issues/1963.
-        '--hidden-import'
+        '--hidden-import',
         'pkg_resources.py2_warn',
     ]
     for data in datas:
