@@ -1,7 +1,7 @@
 Sphinx-Substitution-Extensions==2020.2.21.0
 VWS-Python-Mock==2019.12.27.0
 VWS-Test-Fixtures==2019.12.13.1
-check-manifest==0.40
+check-manifest==0.41
 codecov==2.0.16 # Upload coverage data
 doc8==0.8.0
 docker==4.2.0
