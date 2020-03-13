@@ -128,9 +128,9 @@ class TestQuery:
         expected_stderr = dedent(
             f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
-            Try "vuforia-cloud-reco --help" for help.
+            Try 'vuforia-cloud-reco --help' for help.
 
-            Error: Invalid value for "IMAGE": File "{tmp_path}" is a directory.
+            Error: Invalid value for 'IMAGE': File '{tmp_path}' is a directory.
             """,  # noqa: E501
         )
         assert result.stderr == expected_stderr
@@ -196,9 +196,9 @@ class TestQuery:
         expected_stderr = dedent(
             f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
-            Try "vuforia-cloud-reco --help" for help.
+            Try 'vuforia-cloud-reco --help' for help.
 
-            Error: Invalid value for "IMAGE": File "{does_not_exist_file}" does not exist.
+            Error: Invalid value for 'IMAGE': File '{does_not_exist_file}' does not exist.
             """,  # noqa: E501
         )
         assert result.stderr == expected_stderr
@@ -357,7 +357,7 @@ class TestMaxNumResults:
         )
         assert result.exit_code == 2
         expected_stderr_substring = (
-            'Error: Invalid value for "--max-num-results": 0 is not in the '
+            "Error: Invalid value for '--max-num-results': 0 is not in the "
             'valid range of 1 to 50.'
         )
         assert expected_stderr_substring in result.stderr
@@ -607,7 +607,7 @@ class TestIncludeTargetData:
         )
         assert result.exit_code == 2
         expected_stderr = (
-            '"--include-target-data": invalid choice: other. (choose from '
+            "'--include-target-data': invalid choice: other. (choose from "
             'top, none, all)'
         )
         assert expected_stderr in result.stderr

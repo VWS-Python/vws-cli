@@ -1,7 +1,7 @@
 PyYAML==5.3
 VWS-Python==2020.3.13.0
-click-pathlib==2019.12.28.7
-click==7.0.0
+click-pathlib==2020.3.13.0
+click==7.1.1
 requests==2.23.0
 setuptools-scm==3.5.0
 wrapt==1.12.1
