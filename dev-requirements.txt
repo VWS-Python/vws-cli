@@ -6,7 +6,7 @@ codecov==2.0.22 # Upload coverage data
 doc8==0.8.0
 docker==4.2.0
 flake8-commas==2.0.0
-flake8-quotes==2.1.1
+flake8-quotes==3.0.0
 flake8==3.7.9
 freezegun==0.3.15
 homebrew-pypi-poet==0.10.0
