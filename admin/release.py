@@ -7,7 +7,10 @@ import os
 import subprocess
 from pathlib import Path
 
-from github import Github, GitRelease, Repository
+from github import Github
+from github.ContentFile import ContentFile
+from github.GitRelease import GitRelease
+from github.Repository import Repository
 
 from binaries import make_linux_binaries
 from homebrew import update_homebrew
@@ -66,6 +69,9 @@ def update_changelog(version: str, github_repository: Repository) -> None:
         path=str(changelog_path),
         ref=branch,
     )
+    # ``get_contents`` can return a ``ContentFile`` or a list of
+    # ``ContentFile``s.
+    assert isinstance(changelog_content_file, ContentFile)
     changelog_bytes = changelog_content_file.decoded_content
     changelog_contents = changelog_bytes.decode('utf-8')
     new_changelog_contents = changelog_contents.replace(
