@@ -9,8 +9,8 @@ from pathlib import Path
 
 from github import Github
 from github.ContentFile import ContentFile
-from github.Repository import Repository
 from github.GitRelease import GitRelease
+from github.Repository import Repository
 
 from binaries import make_linux_binaries
 from homebrew import update_homebrew
