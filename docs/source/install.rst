@@ -17,7 +17,7 @@ Requires `Homebrew`_.
 
 .. code:: sh
 
-   brew tap adamtheturtle/vws
+   brew tap VWS-Python/vws
    brew install vws-cli
 
 .. _Homebrew: https://docs.brew.sh/Installation

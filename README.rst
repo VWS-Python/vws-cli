@@ -29,7 +29,7 @@ Requires `Homebrew`_.
 
 .. code:: sh
 
-   brew tap adamtheturtle/vws
+   brew tap VWS-Python/vws
    brew install vws-cli
 
 .. _Homebrew: https://docs.brew.sh/Installation
@@ -70,10 +70,10 @@ Full documentation
 See the `full documentation <https://vws-cli.readthedocs.io/en/latest>`__ for information on all available commands.
 
 
-.. |Build Status| image:: https://travis-ci.com/adamtheturtle/vws-cli.svg?branch=master
-   :target: https://travis-ci.com/adamtheturtle/vws-cli
-.. |codecov| image:: https://codecov.io/gh/adamtheturtle/vws-cli/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/adamtheturtle/vws-cli
+.. |Build Status| image:: https://travis-ci.com/VWS-Python/vws-cli.svg?branch=master
+   :target: https://travis-ci.com/VWS-Python/vws-cli
+.. |codecov| image:: https://codecov.io/gh/VWS-Python/vws-cli/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/VWS-Python/vws-cli
 .. |Documentation Status| image:: https://readthedocs.org/projects/vws-cli/badge/?version=latest
    :target: https://vws-cli.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation Status

@@ -119,7 +119,7 @@ def main() -> None:
         version_str=version_str,
         github_repository=github_repository,
         homebrew_tap_github_repository=github_client.get_repo(
-            full_name_or_id='adamtheturtle/homebrew-vws',
+            full_name_or_id='VWS-Python/homebrew-vws',
         ),
     )
     github_release = github_repository.create_git_tag_and_release(
