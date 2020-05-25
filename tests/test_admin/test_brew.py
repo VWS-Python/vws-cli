@@ -67,15 +67,7 @@ def _create_archive(directory: Path) -> Path:
         str(repository_copy_dir),
     ]
     for args in (add_args, commit_args, archive_args):
-        subprocess.run(
-            args=args,
-            check=True,
-            cwd=repository_copy_dir,
-            env={
-                'GIT_AUTHOR_NAME': 'fakename',
-                'GIT_AUTHOR_EMAIL': 'fake@example.com',
-            },
-        )
+        subprocess.run(args=args, check=True, cwd=repository_copy_dir)
     return archive_file
 
 
