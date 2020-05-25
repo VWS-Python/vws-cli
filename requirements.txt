@@ -3,5 +3,5 @@ VWS-Python==2020.3.21.0
 click-pathlib==2020.3.13.0
 click==7.1.2
 requests==2.23.0
-setuptools-scm==3.5.0
+setuptools-scm==4.0.0
 wrapt==1.12.1
