@@ -44,10 +44,8 @@ def _create_archive(directory: Path) -> Path:
     commit_args = [
         'git',
         '-c',
-        'user.email',
-        'fake@example.com',
-        'user.name',
-        'fakename',
+        'user.email="fakeemail@example.com"',
+        'user.name="fakename"',
         'commit',
         '-m',
         'Fake git archival',
