@@ -24,5 +24,5 @@ sphinx-click==2.3.2
 sphinx==3.0.3
 sphinxcontrib.spelling==5.0.0
 twine==3.1.1
-vulture==1.4
+vulture==1.5
 yapf==0.30.0
