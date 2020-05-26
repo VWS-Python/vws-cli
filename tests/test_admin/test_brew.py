@@ -41,7 +41,16 @@ def _create_archive(directory: Path) -> Path:
     # A Git archive does not include uncommitted changes.
     # Therefore we commit changes.
     add_args = ['git', 'add', '.git_archival.txt']
-    commit_args = ['git', 'commit', '-m', 'Fake git archival']
+    commit_args = [
+        'git',
+        '-c',
+        'user.email="fake@gmail.com"',
+        '-c',
+        'user.name="fakename"',
+        'commit',
+        '-m',
+        'Fake git archival',
+    ]
 
     # We do not use ``dulwich.porcelain.archive`` because it has no option to
     # use a gzip format.
