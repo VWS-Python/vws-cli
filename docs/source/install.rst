@@ -25,7 +25,8 @@ Requires `Homebrew`_.
 Pre-built Linux binaries
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. substitution-prompt:: bash
+.. prompt:: bash
+   :substitutions:
 
    curl --fail -L https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vws -o /usr/local/bin/vws && \
    chmod +x /usr/local/bin/vws

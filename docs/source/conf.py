@@ -17,6 +17,7 @@ author = 'Adam Dangoor'
 extensions = [
     'sphinxcontrib.spelling',
     'sphinx_click.ext',
+    'sphinx-prompt',
     'sphinx_substitution_extensions',
 ]
 
