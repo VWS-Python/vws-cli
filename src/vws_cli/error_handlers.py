@@ -3,11 +3,11 @@ Tools for handling errors from VWS and the Cloud Reco Service.
 """
 
 import sys
+from http import HTTPStatus
 from typing import Any, Callable, Dict, Tuple
 
 import click
 import wrapt
-from requests import codes
 from vws.exceptions import (
     AuthenticationFailure,
     BadImage,
@@ -32,7 +32,7 @@ from vws.exceptions import (
 
 
 @wrapt.decorator
-def handle_vws_exceptions(
+def handle_vws_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-many-statements
     wrapped: Callable[..., str],
     instance: Any,
     args: Tuple,
@@ -53,7 +53,7 @@ def handle_vws_exceptions(
             'supported.'
         )
     except Fail as exc:
-        assert exc.response.status_code == codes.BAD_REQUEST
+        assert exc.response.status_code == HTTPStatus.BAD_REQUEST
         error_message = (
             'Error: The request made to Vuforia was invalid and could not be '
             'processed. '
