@@ -1,2 +1,3 @@
 include src/vws_cli/_setuptools_scm_version.txt
 include .git_archival.txt
+include pyproject.toml
