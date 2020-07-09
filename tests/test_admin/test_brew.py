@@ -162,6 +162,7 @@ def test_brew(tmp_path: Path) -> None:
         image=linuxbrew_image,
         mounts=mounts,
         command=command,
+        user='linuxbrew',
         environment={'HOMEBREW_NO_AUTO_UPDATE': 1},
     )
 
