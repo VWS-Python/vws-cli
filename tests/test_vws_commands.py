@@ -470,7 +470,9 @@ class TestAddTarget:
         assert target_data is not None
         assert target_data.application_metadata == base64_encoded_metadata
 
-    @pytest.mark.parametrize(
+    # pylint issue for the "disable":
+    # https://github.com/PyCQA/pylint/issues/3755.
+    @pytest.mark.parametrize(  # pylint: disable=not-callable
         'active_flag_given,active_flag_expected',
         [
             ('true', True),

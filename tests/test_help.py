@@ -17,7 +17,9 @@ _BASE_COMMAND: List[List[str]] = [[]]
 _COMMANDS = _BASE_COMMAND + _SUBCOMMANDS
 
 
-@pytest.mark.parametrize(
+# pylint issue for the "disable":
+# https://github.com/PyCQA/pylint/issues/3755.
+@pytest.mark.parametrize(  # pylint: disable=not-callable
     'command',
     _COMMANDS,
     ids=[str(cmd) for cmd in _COMMANDS],
