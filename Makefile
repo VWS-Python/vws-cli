@@ -24,10 +24,10 @@ lint: \
     yapf
 
 .PHONY: fix-lint
-fix-lint:
-	$(MAKE) autoflake
-	$(MAKE) fix-yapf
-	isort .
+fix-lint: \
+    autoflake \
+    fix-yapf \
+    fix-isort
 
 .PHONY: docs
 docs:

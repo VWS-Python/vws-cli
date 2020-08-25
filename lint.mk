@@ -38,6 +38,10 @@ flake8:
 isort:
 	isort --check-only .
 
+.PHONY: fix-isort
+fix-isort:
+	isort .
+
 .PHONY: pip-extra-reqs
 pip-extra-reqs:
 	pip-extra-reqs src/
