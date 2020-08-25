@@ -303,7 +303,8 @@ class TestAddTarget:
         assert result.exit_code == 0
 
         target_id = result.stdout.strip()
-        target_record = vws_client.get_target_record(target_id=target_id)
+        target_details = vws_client.get_target_record(target_id=target_id)
+        target_record = target_details.target_record
         assert target_record.name == name
         assert target_record.width == width
         assert target_record.active_flag is True
@@ -423,7 +424,7 @@ class TestAddTarget:
         assert result.exit_code == 0
         target_id = result.stdout.strip()
         target_record = vws_client.get_target_record(target_id=target_id)
-        assert target_record.name == name
+        assert target_record.target_record.name == name
 
     def test_custom_metadata(
         self,
@@ -512,8 +513,9 @@ class TestAddTarget:
         assert result.exit_code == 0
 
         target_id = result.stdout.strip()
-        target_record = vws_client.get_target_record(target_id=target_id)
-        assert target_record.active_flag is active_flag_expected
+        target_details = vws_client.get_target_record(target_id=target_id)
+        active_flag = target_details.target_record.active_flag
+        assert active_flag is active_flag_expected
 
 
 class TestWaitForTargetProcessed:
@@ -869,10 +871,11 @@ class TestUpdateTarget:
         assert result.exit_code == 0
         assert result.stdout == ''
         target_details = vws_client.get_target_record(target_id=target_id)
-        assert not target_details.active_flag
-        assert target_details.name == new_name
-        assert target_details.width == new_width
-        assert not target_details.active_flag
+        target_record = target_details.target_record
+        assert not target_record.active_flag
+        assert target_record.name == new_name
+        assert target_record.width == new_width
+        assert not target_record.active_flag
 
     def test_no_fields_given(
         self,
