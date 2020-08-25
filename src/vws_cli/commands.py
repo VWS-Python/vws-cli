@@ -68,7 +68,7 @@ def get_target_record(
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
     )
-    record = vws_client.get_target_record(target_id=target_id)
+    record = vws_client.get_target_record(target_id=target_id).target_record
 
     yaml_record = yaml.dump(dataclasses.asdict(record))
     click.echo(yaml_record)
