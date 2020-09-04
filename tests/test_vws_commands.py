@@ -596,18 +596,23 @@ class TestWaitForTargetProcessed:
             report = vws_client.get_database_summary_report()
             expected_requests = (
                 # Add target request
-                1 +
+                1
+                +
                 # Database summary request
-                1 +
+                1
+                +
                 # Initial request
-                1 +
+                1
+                +
                 # Request after 0.2 seconds - not processed
-                1 +
+                1
+                +
                 # Request after 0.4 seconds - not processed
                 # This assumes that there is less than 0.1 seconds taken
                 # between the start of the target processing and the start of
                 # waiting for the target to be processed.
-                1 +
+                1
+                +
                 # Request after 0.6 seconds - processed
                 1
             )
@@ -657,16 +662,20 @@ class TestWaitForTargetProcessed:
             report = vws_client.get_database_summary_report()
             expected_requests = (
                 # Add target request
-                1 +
+                1
+                +
                 # Database summary request
-                1 +
+                1
+                +
                 # Initial request
-                1 +
+                1
+                +
                 # Request after 0.3 seconds - not processed
                 # This assumes that there is less than 0.2 seconds taken
                 # between the start of the target processing and the start of
                 # waiting for the target to be processed.
-                1 +
+                1
+                +
                 # Request after 0.6 seconds - processed
                 1
             )

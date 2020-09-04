@@ -14,13 +14,15 @@ def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
     """
     An option decorator for choosing a target ID.
     """
-    click_option_function: Callable[[Callable[..., None]], Callable[
-        ..., None]] = click.option(
-            '--target-id',
-            type=str,
-            help='The ID of a target in the Vuforia database.',
-            required=True,
-        )
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
+        '--target-id',
+        type=str,
+        help='The ID of a target in the Vuforia database.',
+        required=True,
+    )
     function: Callable[..., None] = click_option_function(command)
     return function
 
@@ -38,13 +40,15 @@ def target_name_option(
             target_name_option,
             required=required,
         )
-    click_option_function: Callable[[Callable[..., None]], Callable[
-        ..., None]] = click.option(
-            '--name',
-            type=str,
-            help='The name of the target in the Vuforia database.',
-            required=required,
-        )
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
+        '--name',
+        type=str,
+        help='The name of the target in the Vuforia database.',
+        required=required,
+    )
     function: Callable[..., None] = click_option_function(command)
     return function
 
@@ -62,13 +66,15 @@ def target_width_option(
             target_width_option,
             required=required,
         )
-    click_option_function: Callable[[Callable[..., None]], Callable[
-        ..., None]] = click.option(
-            '--width',
-            type=float,
-            help='The width of the target in the Vuforia database.',
-            required=required,
-        )
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
+        '--width',
+        type=float,
+        help='The width of the target in the Vuforia database.',
+        required=required,
+    )
     assert command is not None
     function: Callable[..., None] = click_option_function(command)
     return function
@@ -151,16 +157,18 @@ def active_flag_option(
         default = ActiveFlagChoice.TRUE.value
         show_default = True
 
-    click_option_function: Callable[[Callable[..., None]], Callable[
-        ..., None]] = click.option(
-            '--active-flag',
-            'active_flag_choice',
-            help='Whether or not the target is active for query.',
-            type=click.Choice([item.value for item in ActiveFlagChoice]),
-            default=default,
-            callback=_active_flag_choice_callback,
-            show_default=show_default,
-        )
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
+        '--active-flag',
+        'active_flag_choice',
+        help='Whether or not the target is active for query.',
+        type=click.Choice([item.value for item in ActiveFlagChoice]),
+        default=default,
+        callback=_active_flag_choice_callback,
+        show_default=show_default,
+    )
     function: Callable[..., None] = click_option_function(command)
     return function
 
@@ -171,16 +179,18 @@ def application_metadata_option(
     """
     An option decorator for setting application metadata.
     """
-    click_option_function: Callable[[Callable[..., None]], Callable[
-        ..., None]] = click.option(
-            '--application-metadata',
-            type=str,
-            required=False,
-            help=(
-                'The base64 encoded application metadata associated with the '
-                'target.'
-            ),
-        )
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
+        '--application-metadata',
+        type=str,
+        required=False,
+        help=(
+            'The base64 encoded application metadata associated with the '
+            'target.'
+        ),
+    )
     assert command is not None
     function: Callable[..., None] = click_option_function(command)
     return function
