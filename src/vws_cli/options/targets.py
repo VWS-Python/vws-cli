@@ -15,7 +15,8 @@ def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
     An option decorator for choosing a target ID.
     """
     click_option_function: Callable[
-        [Callable[..., None]], Callable[..., None]
+        [Callable[..., None]],
+        Callable[..., None],
     ] = click.option(
         '--target-id',
         type=str,
@@ -40,7 +41,8 @@ def target_name_option(
             required=required,
         )
     click_option_function: Callable[
-        [Callable[..., None]], Callable[..., None]
+        [Callable[..., None]],
+        Callable[..., None],
     ] = click.option(
         '--name',
         type=str,
@@ -65,7 +67,8 @@ def target_width_option(
             required=required,
         )
     click_option_function: Callable[
-        [Callable[..., None]], Callable[..., None]
+        [Callable[..., None]],
+        Callable[..., None],
     ] = click.option(
         '--width',
         type=float,
@@ -155,7 +158,8 @@ def active_flag_option(
         show_default = True
 
     click_option_function: Callable[
-        [Callable[..., None]], Callable[..., None]
+        [Callable[..., None]],
+        Callable[..., None],
     ] = click.option(
         '--active-flag',
         'active_flag_choice',
@@ -176,7 +180,8 @@ def application_metadata_option(
     An option decorator for setting application metadata.
     """
     click_option_function: Callable[
-        [Callable[..., None]], Callable[..., None]
+        [Callable[..., None]],
+        Callable[..., None],
     ] = click.option(
         '--application-metadata',
         type=str,

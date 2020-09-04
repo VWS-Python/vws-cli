@@ -14,7 +14,8 @@ def server_access_key_option(
     An option decorator for the Vuforia server access key.
     """
     click_option_function: Callable[
-        [Callable[..., None]], Callable[..., None]
+        [Callable[..., None]],
+        Callable[..., None],
     ] = click.option(
         '--server-access-key',
         type=str,
@@ -38,7 +39,8 @@ def server_secret_key_option(
     An option decorator for the Vuforia server secret key.
     """
     click_option_function: Callable[
-        [Callable[..., None]], Callable[..., None]
+        [Callable[..., None]],
+        Callable[..., None],
     ] = click.option(
         '--server-secret-key',
         type=str,
@@ -62,7 +64,8 @@ def client_access_key_option(
     An option decorator for the Vuforia client access key.
     """
     click_option_function: Callable[
-        [Callable[..., None]], Callable[..., None]
+        [Callable[..., None]],
+        Callable[..., None],
     ] = click.option(
         '--client-access-key',
         type=str,
@@ -86,7 +89,8 @@ def client_secret_key_option(
     An option decorator for the Vuforia client secret key.
     """
     click_option_function: Callable[
-        [Callable[..., None]], Callable[..., None]
+        [Callable[..., None]],
+        Callable[..., None],
     ] = click.option(
         '--client-secret-key',
         type=str,
