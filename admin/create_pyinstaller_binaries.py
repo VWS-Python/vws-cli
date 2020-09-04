@@ -63,7 +63,7 @@ def create_binary(script: Path, repo_root: Path) -> None:
                     parent = Path(manifest_path).parent
                     manifest_path = str(parent)
 
-                path_without_src = manifest_path[len('src/'):]
+                path_without_src = manifest_path[len('src/') :]
                 data_item = (str(repo_root / manifest_path), path_without_src)
                 datas.append(data_item)
 
