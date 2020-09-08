@@ -4,21 +4,78 @@ A CLI for the Vuforia Cloud Recognition Service API.
 
 import dataclasses
 import io
+import sys
 from pathlib import Path
-from typing import Callable, Union
+from typing import Any, Callable, Dict, Tuple, Union
 
 import click
 import click_pathlib
+import wrapt
 import yaml
 from vws import CloudRecoService
+from vws.exceptions.cloud_reco_exceptions import (
+    AuthenticationFailure,
+    BadImage,
+    InactiveProject,
+    MatchProcessing,
+    RequestTimeTooSkewed,
+)
+from vws.exceptions.custom_exceptions import (
+    ConnectionErrorPossiblyImageTooLarge,
+)
 from vws.include_target_data import CloudRecoIncludeTargetData
 
 from vws_cli import __version__
-from vws_cli.error_handlers import handle_vws_exceptions
 from vws_cli.options.credentials import (
     client_access_key_option,
     client_secret_key_option,
 )
+
+
+@wrapt.decorator
+def handle_vwq_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-many-statements
+    wrapped: Callable[..., str],
+    instance: Any,
+    args: Tuple,
+    kwargs: Dict,
+) -> None:
+    """
+    Show error messages and catch exceptions for errors from the ``VWS-Python``
+    library.
+    """
+    assert not instance  # This is to satisfy the "vulture" linter.
+    try:
+        wrapped(*args, **kwargs)
+    except BadImage:
+        error_message = (
+            'Error: The given image is corrupted or the format is not '
+            'supported.'
+        )
+    except InactiveProject:
+        error_message = (
+            'Error: The project associated with the given keys is inactive.'
+        )
+    except AuthenticationFailure:
+        error_message = 'The given secret key was incorrect.'
+    except RequestTimeTooSkewed:
+        error_message = (
+            'Error: Vuforia reported that the time given with this request '
+            'was outside the expected range. '
+            'This may be because the system clock is out of sync.'
+        )
+    except ConnectionErrorPossiblyImageTooLarge:
+        error_message = 'Error: The given image is too large.'
+    except MatchProcessing:
+        error_message = (
+            'Error: The given image matches a target which was recently '
+            'added, updated or deleted and Vuforia returns an error in this '
+            'case.'
+        )
+    else:
+        return
+
+    click.echo(error_message, err=True)
+    sys.exit(1)
 
 
 def image_argument(command: Callable[..., None]) -> Callable[..., None]:
@@ -122,7 +179,7 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @include_target_data_option
 @max_num_results_option
 @base_vwq_url_option
-@handle_vws_exceptions
+@handle_vwq_exceptions
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
 #
