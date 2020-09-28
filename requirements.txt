@@ -1,5 +1,5 @@
 PyYAML==5.3.1
-VWS-Python==2020.9.25.0
+VWS-Python==2020.9.28.0
 click-pathlib==2020.3.13.0
 click==7.1.2
 setuptools-scm==4.1.2
