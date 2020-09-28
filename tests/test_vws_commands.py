@@ -101,7 +101,8 @@ def test_list_targets(
     assert result.exit_code == 0
     result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
     expected_result_data = [target_id_1, target_id_2]
-    assert result_data == expected_result_data
+    # We do not expect a particular order.
+    assert sorted(result_data) == sorted(expected_result_data)
 
 
 def test_get_target_record(
