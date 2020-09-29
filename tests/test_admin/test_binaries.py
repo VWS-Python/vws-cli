@@ -38,7 +38,8 @@ def test_linux_binaries() -> None:
         remote_paths.append(remote_path)
 
     client = docker.from_env()
-    # XXX should this just be like alpine or something?
+    # We use the Python image because this is already pulled when building the
+    # image.
     image = 'python:3.7'
     client.images.pull(image)
 

@@ -23,7 +23,7 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
     Returns:
         A set of paths to the built binaries.
     """
-    client = docker.from_env(version='auto')
+    client = docker.from_env()
     dist_dir = repo_root / 'dist'
     assert not dist_dir.exists() or not set(dist_dir.iterdir())
 
@@ -48,7 +48,7 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
     command = 'bash -c "{cmd}"'.format(cmd=' '.join(cmd_in_container))
 
     container = client.containers.run(
-        image='python:3.8',
+        image='python:3.7',
         mounts=[code_mount],
         command=command,
         working_dir=target_dir,
