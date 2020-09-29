@@ -107,7 +107,7 @@ def test_brew(tmp_path: Path) -> None:
     """
     archive_file = _create_archive(directory=tmp_path)
 
-    client = docker.from_env(version='auto')
+    client = docker.from_env()
     linuxbrew_image = 'linuxbrew/brew'
     # The path needs to look like a versioned artifact to Linuxbrew.
     container_archive_path = '/' + archive_file.stem
