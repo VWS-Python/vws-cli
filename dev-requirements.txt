@@ -1,4 +1,4 @@
-Sphinx-Substitution-Extensions==2020.7.4.1
+Sphinx-Substitution-Extensions==2020.9.30.0
 VWS-Python-Mock==2020.9.25.0
 VWS-Test-Fixtures==2020.9.25.1
 autoflake==1.4
