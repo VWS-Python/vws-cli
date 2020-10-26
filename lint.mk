@@ -2,21 +2,13 @@
 
 SHELL := /bin/bash -euxo pipefail
 
-.PHONY: yapf
-yapf:
-	yapf \
-	    --diff \
-	    --recursive \
-	    --exclude .eggs \
-	    .
+.PHONY: black
+black:
+	black --check .
 
-.PHONY: fix-yapf
-fix-yapf:
-	yapf \
-	    --in-place \
-	    --recursive \
-	    --exclude .eggs \
-	    .
+.PHONY: fix-black
+fix-black:
+	black .
 
 .PHONY: mypy
 mypy:
@@ -36,7 +28,11 @@ flake8:
 
 .PHONY: isort
 isort:
-	isort --recursive --check-only
+	isort --check-only .
+
+.PHONY: fix-isort
+fix-isort:
+	isort .
 
 .PHONY: pip-extra-reqs
 pip-extra-reqs:

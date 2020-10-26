@@ -23,7 +23,7 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
     Returns:
         A set of paths to the built binaries.
     """
-    client = docker.from_env(version='auto')
+    client = docker.from_env()
     dist_dir = repo_root / 'dist'
     assert not dist_dir.exists() or not set(dist_dir.iterdir())
 

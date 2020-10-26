@@ -41,7 +41,16 @@ def _create_archive(directory: Path) -> Path:
     # A Git archive does not include uncommitted changes.
     # Therefore we commit changes.
     add_args = ['git', 'add', '.git_archival.txt']
-    commit_args = ['git', 'commit', '-m', 'Fake git archival']
+    commit_args = [
+        'git',
+        '-c',
+        'user.email="fake@gmail.com"',
+        '-c',
+        'user.name="fakename"',
+        'commit',
+        '-m',
+        'Fake git archival',
+    ]
 
     # We do not use ``dulwich.porcelain.archive`` because it has no option to
     # use a gzip format.
@@ -98,7 +107,7 @@ def test_brew(tmp_path: Path) -> None:
     """
     archive_file = _create_archive(directory=tmp_path)
 
-    client = docker.from_env(version='auto')
+    client = docker.from_env()
     linuxbrew_image = 'linuxbrew/brew'
     # The path needs to look like a versioned artifact to Linuxbrew.
     container_archive_path = '/' + archive_file.stem
@@ -153,6 +162,7 @@ def test_brew(tmp_path: Path) -> None:
         image=linuxbrew_image,
         mounts=mounts,
         command=command,
+        user='linuxbrew',
         environment={'HOMEBREW_NO_AUTO_UPDATE': 1},
     )
 

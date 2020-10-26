@@ -7,10 +7,13 @@ import os
 import subprocess
 from pathlib import Path
 
-from github import Github, GitRelease, Repository
+from github import Github
+from github.ContentFile import ContentFile
+from github.GitRelease import GitRelease
+from github.Repository import Repository
 
-from binaries import make_linux_binaries
-from homebrew import update_homebrew
+from .binaries import make_linux_binaries
+from .homebrew import update_homebrew
 
 
 def get_version(github_repository: Repository) -> str:
@@ -66,6 +69,9 @@ def update_changelog(version: str, github_repository: Repository) -> None:
         path=str(changelog_path),
         ref=branch,
     )
+    # ``get_contents`` can return a ``ContentFile`` or a list of
+    # ``ContentFile``s.
+    assert isinstance(changelog_content_file, ContentFile)
     changelog_bytes = changelog_content_file.decoded_content
     changelog_contents = changelog_bytes.decode('utf-8')
     new_changelog_contents = changelog_contents.replace(
@@ -113,7 +119,7 @@ def main() -> None:
         version_str=version_str,
         github_repository=github_repository,
         homebrew_tap_github_repository=github_client.get_repo(
-            full_name_or_id='adamtheturtle/homebrew-vws',
+            full_name_or_id='VWS-Python/homebrew-vws',
         ),
     )
     github_release = github_repository.create_git_tag_and_release(

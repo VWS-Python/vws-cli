@@ -5,15 +5,37 @@
 import dataclasses
 import io
 import sys
+from http import HTTPStatus
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Any, Callable, Dict, Optional, Tuple
 
 import click
+import wrapt
 import yaml
 from vws import VWS
-from vws.exceptions import TargetProcessingTimeout
+from vws.exceptions.custom_exceptions import (
+    TargetProcessingTimeout,
+    UnknownVWSErrorPossiblyBadName,
+)
+from vws.exceptions.vws_exceptions import (
+    AuthenticationFailure,
+    BadImage,
+    DateRangeError,
+    Fail,
+    ImageTooLarge,
+    MetadataTooLarge,
+    ProjectHasNoAPIAccess,
+    ProjectInactive,
+    ProjectSuspended,
+    RequestQuotaReached,
+    RequestTimeTooSkewed,
+    TargetNameExist,
+    TargetQuotaReached,
+    TargetStatusNotSuccess,
+    TargetStatusProcessing,
+    UnknownTarget,
+)
 
-from vws_cli.error_handlers import handle_vws_exceptions
 from vws_cli.options.credentials import (
     server_access_key_option,
     server_secret_key_option,
@@ -27,6 +49,106 @@ from vws_cli.options.targets import (
     target_name_option,
     target_width_option,
 )
+
+
+@wrapt.decorator
+def handle_vws_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-many-statements
+    wrapped: Callable[..., str],
+    instance: Any,
+    args: Tuple,
+    kwargs: Dict,
+) -> None:
+    """
+    Show error messages and catch exceptions for errors from the ``VWS-Python``
+    library.
+    """
+    assert not instance  # This is to satisfy the "vulture" linter.
+    try:
+        wrapped(*args, **kwargs)
+    except UnknownTarget as exc:
+        error_message = f'Error: Target "{exc.target_id}" does not exist.'
+    except BadImage:
+        error_message = (
+            'Error: The given image is corrupted or the format is not '
+            'supported.'
+        )
+    except Fail as exc:
+        assert exc.response.status_code == HTTPStatus.BAD_REQUEST
+        error_message = (
+            'Error: The request made to Vuforia was invalid and could not be '
+            'processed. '
+            'Check the given parameters.'
+        )
+    except MetadataTooLarge:
+        error_message = 'Error: The given metadata is too large.'
+    except ImageTooLarge:
+        error_message = 'Error: The given image is too large.'
+    except TargetNameExist as exc:
+        error_message = (
+            f'Error: There is already a target named "{exc.target_name}".'
+        )
+    except ProjectInactive:
+        error_message = (
+            'Error: The project associated with the given keys is inactive.'
+        )
+    except UnknownVWSErrorPossiblyBadName:
+        error_message = (
+            'Error: There was an unknown error from Vuforia. '
+            'This may be because there is a problem with the given name.'
+        )
+    except TargetStatusProcessing as exc:
+        error_message = (
+            f'Error: The target "{exc.target_id}" cannot be deleted as it is '
+            'in the processing state.'
+        )
+    except TargetStatusNotSuccess as exc:
+        error_message = (
+            f'Error: The target "{exc.target_id}" cannot be updated as it is '
+            'in the processing state.'
+        )
+    except AuthenticationFailure:
+        error_message = 'The given secret key was incorrect.'
+    except RequestTimeTooSkewed:
+        error_message = (
+            'Error: Vuforia reported that the time given with this request '
+            'was outside the expected range. '
+            'This may be because the system clock is out of sync.'
+        )
+    # This exception is not available from the mock.
+    except RequestQuotaReached:  # pragma: no cover
+        error_message = (
+            'Error: The maximum number of API calls for this database has '
+            'been reached.'
+        )
+    # This exception is not available from the mock.
+    except DateRangeError:  # pragma: no cover
+        error_message = (
+            'Error: There was a problem with the date details given in the '
+            'request.'
+        )
+    # This exception is not available from the mock.
+    except TargetQuotaReached:  # pragma: no cover
+        error_message = (
+            'Error: The maximum number of targets for this database has been '
+            'reached.'
+        )
+    # This exception is not available from the mock.
+    except ProjectSuspended:  # pragma: no cover
+        error_message = (
+            'Error: The request could not be completed because this database '
+            'has been suspended.'
+        )
+    # This exception is not available from the mock.
+    except ProjectHasNoAPIAccess:  # pragma: no cover
+        error_message = (
+            'Error: The request could not be completed because this database '
+            'is not allowed to make API requests.'
+        )
+    else:
+        return
+
+    click.echo(error_message, err=True)
+    sys.exit(1)
 
 
 def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
@@ -68,7 +190,7 @@ def get_target_record(
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
     )
-    record = vws_client.get_target_record(target_id=target_id)
+    record = vws_client.get_target_record(target_id=target_id).target_record
 
     yaml_record = yaml.dump(dataclasses.asdict(record))
     click.echo(yaml_record)

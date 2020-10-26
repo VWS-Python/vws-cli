@@ -37,7 +37,11 @@ def test_linux_binaries() -> None:
         remote_path = remote_repo_dir / str(relative_path)
         remote_paths.append(remote_path)
 
-    client = docker.from_env(version='auto')
+    client = docker.from_env()
+    # We use the Python image because this is already pulled when building the
+    # image.
+    image = 'python:3.7'
+    client.images.pull(image)
 
     for remote_path in remote_paths:
         # Unset LANG and LC_ALL to show that these are not necessary for the
@@ -63,8 +67,7 @@ def test_linux_binaries() -> None:
         ]
         command = 'bash -c "{cmd}"'.format(cmd=' '.join(cmd_in_container))
         container = client.containers.create(
-            # XXX should this just be like alpine or something?
-            image='python:3.7',
+            image=image,
             mounts=mounts,
             command=command,
         )

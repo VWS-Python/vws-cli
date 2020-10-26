@@ -1,3 +1,4 @@
+# pylint:disable=too-many-lines
 """
 Tests for VWS CLI commands.
 """
@@ -100,7 +101,8 @@ def test_list_targets(
     assert result.exit_code == 0
     result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
     expected_result_data = [target_id_1, target_id_2]
-    assert result_data == expected_result_data
+    # We do not expect a particular order.
+    assert sorted(result_data) == sorted(expected_result_data)
 
 
 def test_get_target_record(
@@ -302,7 +304,8 @@ class TestAddTarget:
         assert result.exit_code == 0
 
         target_id = result.stdout.strip()
-        target_record = vws_client.get_target_record(target_id=target_id)
+        target_details = vws_client.get_target_record(target_id=target_id)
+        target_record = target_details.target_record
         assert target_record.name == name
         assert target_record.width == width
         assert target_record.active_flag is True
@@ -343,9 +346,9 @@ class TestAddTarget:
         expected_stderr = dedent(
             f"""\
             Usage: vws add-target [OPTIONS]
-            Try "vws add-target -h" for help.
+            Try 'vws add-target -h' for help.
 
-            Error: Invalid value for "--image": File "{does_not_exist_file}" does not exist.
+            Error: Invalid value for '--image': File '{does_not_exist_file}' does not exist.
             """,  # noqa: E501
         )
         assert result.stderr == expected_stderr
@@ -379,9 +382,9 @@ class TestAddTarget:
         expected_stderr = dedent(
             f"""\
             Usage: vws add-target [OPTIONS]
-            Try "vws add-target -h" for help.
+            Try 'vws add-target -h' for help.
 
-            Error: Invalid value for "--image": File "{tmp_path}" is a directory.
+            Error: Invalid value for '--image': File '{tmp_path}' is a directory.
             """,  # noqa: E501
         )
         assert result.stderr == expected_stderr
@@ -422,7 +425,7 @@ class TestAddTarget:
         assert result.exit_code == 0
         target_id = result.stdout.strip()
         target_record = vws_client.get_target_record(target_id=target_id)
-        assert target_record.name == name
+        assert target_record.target_record.name == name
 
     def test_custom_metadata(
         self,
@@ -511,8 +514,9 @@ class TestAddTarget:
         assert result.exit_code == 0
 
         target_id = result.stdout.strip()
-        target_record = vws_client.get_target_record(target_id=target_id)
-        assert target_record.active_flag is active_flag_expected
+        target_details = vws_client.get_target_record(target_id=target_id)
+        active_flag = target_details.target_record.active_flag
+        assert active_flag is active_flag_expected
 
 
 class TestWaitForTargetProcessed:
@@ -593,18 +597,23 @@ class TestWaitForTargetProcessed:
             report = vws_client.get_database_summary_report()
             expected_requests = (
                 # Add target request
-                1 +
+                1
+                +
                 # Database summary request
-                1 +
+                1
+                +
                 # Initial request
-                1 +
+                1
+                +
                 # Request after 0.2 seconds - not processed
-                1 +
+                1
+                +
                 # Request after 0.4 seconds - not processed
                 # This assumes that there is less than 0.1 seconds taken
                 # between the start of the target processing and the start of
                 # waiting for the target to be processed.
-                1 +
+                1
+                +
                 # Request after 0.6 seconds - processed
                 1
             )
@@ -654,16 +663,20 @@ class TestWaitForTargetProcessed:
             report = vws_client.get_database_summary_report()
             expected_requests = (
                 # Add target request
-                1 +
+                1
+                +
                 # Database summary request
-                1 +
+                1
+                +
                 # Initial request
-                1 +
+                1
+                +
                 # Request after 0.3 seconds - not processed
                 # This assumes that there is less than 0.2 seconds taken
                 # between the start of the target processing and the start of
                 # waiting for the target to be processed.
-                1 +
+                1
+                +
                 # Request after 0.6 seconds - processed
                 1
             )
@@ -868,10 +881,11 @@ class TestUpdateTarget:
         assert result.exit_code == 0
         assert result.stdout == ''
         target_details = vws_client.get_target_record(target_id=target_id)
-        assert not target_details.active_flag
-        assert target_details.name == new_name
-        assert target_details.width == new_width
-        assert not target_details.active_flag
+        target_record = target_details.target_record
+        assert not target_record.active_flag
+        assert target_record.name == new_name
+        assert target_record.width == new_width
+        assert not target_record.active_flag
 
     def test_no_fields_given(
         self,
@@ -944,9 +958,9 @@ class TestUpdateTarget:
         expected_stderr = dedent(
             f"""\
             Usage: vws update-target [OPTIONS]
-            Try "vws update-target -h" for help.
+            Try 'vws update-target -h' for help.
 
-            Error: Invalid value for "--image": File "{does_not_exist_file}" does not exist.
+            Error: Invalid value for '--image': File '{does_not_exist_file}' does not exist.
             """,  # noqa: E501
         )
         assert result.stderr == expected_stderr
@@ -988,9 +1002,9 @@ class TestUpdateTarget:
         expected_stderr = dedent(
             f"""\
             Usage: vws update-target [OPTIONS]
-            Try "vws update-target -h" for help.
+            Try 'vws update-target -h' for help.
 
-            Error: Invalid value for "--image": File "{tmp_path}" is a directory.
+            Error: Invalid value for '--image': File '{tmp_path}' is a directory.
             """,  # noqa: E501
         )
         assert result.stderr == expected_stderr

@@ -9,7 +9,7 @@ Configuration for Sphinx.
 import datetime
 from typing import List, Tuple
 
-import vws_cli
+from pkg_resources import get_distribution
 
 project = 'VWS-CLI'
 author = 'Adam Dangoor'
@@ -17,6 +17,7 @@ author = 'Adam Dangoor'
 extensions = [
     'sphinxcontrib.spelling',
     'sphinx_click.ext',
+    'sphinx-prompt',
     'sphinx_substitution_extensions',
 ]
 
@@ -30,16 +31,12 @@ copyright = f'{year}, {author}'  # pylint: disable=redefined-builtin
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
-version = vws_cli.__version__
-release = version.split('+')[0]
+#
+# Use ``pkg_resources`` as per
+# https://github.com/pypa/setuptools_scm#usage-from-sphinx.
+version = get_distribution(project).version
 _month, _day, _year, *_ = version.split('.')
 release = f'{_month}.{_day}.{_year}'
-
-substitutions = [
-    ('|release|', release),
-    ('|github-owner|', 'adamtheturtle'),
-    ('|github-repository|', 'vws-cli'),
-]
 
 language = None
 
@@ -63,7 +60,7 @@ html_sidebars = {
 htmlhelp_basename = 'VWSCLIdoc'
 autoclass_content = 'init'
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3.7', None),
+    'python': ('https://docs.python.org/3.8', None),
 }
 nitpicky = True
 warning_is_error = True
@@ -105,4 +102,7 @@ autodoc_member_order = 'bysource'
 
 rst_prolog = f"""
 .. |project| replace:: {project}
+.. |release| replace:: {release}
+.. |github-owner| replace:: VWS-Python
+.. |github-repository| replace:: vws-cli
 """
