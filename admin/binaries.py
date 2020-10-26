@@ -56,7 +56,7 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
         detach=True,
     )
     for line in container.logs(stream=True):
-        line = line.strip()
+        line = line.decode().strip()
         LOGGER.warning(line)
 
     status_code = container.wait()['StatusCode']
