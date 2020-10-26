@@ -40,20 +40,14 @@ def test_linux_binaries() -> None:
     client = docker.from_env()
     # We use the Python image because this is already pulled when building the
     # image.
-    image = 'python:3.7'
+    #
+    # Because of a click limitation, we do not support running on containers
+    # which have LANG and LC_ALL unset.
+    image = 'python:3.9'
     client.images.pull(image)
 
     for remote_path in remote_paths:
-        # Unset LANG and LC_ALL to show that these are not necessary for the
-        # CLI to run.
-        # This was a problem when the binaries were built with Python < 3.7.
         cmd_in_container = [
-            'unset',
-            'LANG',
-            '&&',
-            'unset',
-            'LC_ALL',
-            '&&',
             'chmod',
             '+x',
             str(remote_path),
