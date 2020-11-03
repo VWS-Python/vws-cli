@@ -22,6 +22,6 @@ pytest-cov==2.10.1  # Measure code coverage
 pytest==6.1.2
 sphinx-click==2.5.0
 sphinx==3.2.1
-sphinxcontrib.spelling==7.0.0
+sphinxcontrib.spelling==7.0.1
 twine==3.2.0
 vulture==2.1
