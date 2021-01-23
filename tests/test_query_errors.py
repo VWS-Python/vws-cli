@@ -5,7 +5,6 @@ Tests for how errors from the Cloud Reco Service are handled by the CLI.
 import io
 import uuid
 from pathlib import Path
-from typing import List
 
 from click.testing import CliRunner
 from freezegun import freeze_time
@@ -29,7 +28,7 @@ def test_authentication_failure(
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
-    commands: List[str] = [
+    commands: list[str] = [
         str(new_file),
         '--client-access-key',
         mock_database.client_access_key,
@@ -58,7 +57,7 @@ def test_image_too_large(
     new_file = tmp_path / uuid.uuid4().hex
     image_data = png_too_large.getvalue()
     new_file.write_bytes(data=image_data)
-    commands: List[str] = [
+    commands: list[str] = [
         str(new_file),
         '--client-access-key',
         mock_database.client_access_key,
@@ -95,7 +94,7 @@ def test_match_processing(
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
-    commands: List[str] = [
+    commands: list[str] = [
         str(new_file),
         '--client-access-key',
         mock_database.client_access_key,
@@ -126,7 +125,7 @@ def test_bad_image(
     new_file = tmp_path / uuid.uuid4().hex
     new_file.write_bytes(data=b'Not an image')
     runner = CliRunner(mix_stderr=False)
-    commands: List[str] = [
+    commands: list[str] = [
         str(new_file),
         '--client-access-key',
         mock_database.client_access_key,
