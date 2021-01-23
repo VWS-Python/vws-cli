@@ -2,12 +2,14 @@
 ``click`` commands the VWS CLI.
 """
 
+from __future__ import annotations
+
 import dataclasses
 import io
 import sys
 from http import HTTPStatus
 from pathlib import Path
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any, Callable, Dict, Tuple
 
 import click
 import wrapt
@@ -358,7 +360,7 @@ def add_target(
     image_file_path: Path,
     active_flag_choice: ActiveFlagChoice,
     base_vws_url: str,
-    application_metadata: Optional[str] = None,
+    application_metadata: str | None = None,
 ) -> None:
     """
     Add a target.
@@ -407,12 +409,12 @@ def update_target(
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
-    image_file_path: Optional[Path],
+    image_file_path: Path | None,
     base_vws_url: str,
-    name: Optional[str] = None,
-    application_metadata: Optional[str] = None,
-    active_flag_choice: Optional[ActiveFlagChoice] = None,
-    width: Optional[float] = None,
+    name: str | None = None,
+    application_metadata: str | None = None,
+    active_flag_choice: ActiveFlagChoice | None = None,
+    width: float | None = None,
 ) -> None:
     """
     Update a target.

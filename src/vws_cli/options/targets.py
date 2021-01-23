@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import functools
 from enum import Enum
-from typing import Callable, Optional, Union
+from typing import Callable
 
 import click
 import click_pathlib
@@ -122,9 +122,9 @@ class ActiveFlagChoice(Enum):
 
 def _active_flag_choice_callback(
     ctx: click.core.Context,
-    param: Union[click.core.Option, click.core.Parameter],
-    value: Optional[str],
-) -> Optional[ActiveFlagChoice]:
+    param: click.core.Option | click.core.Parameter,
+    value: str | None,
+) -> ActiveFlagChoice | None:
     """
     Use as a callback for active flag options.
     """

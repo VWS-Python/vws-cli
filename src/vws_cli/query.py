@@ -2,11 +2,13 @@
 A CLI for the Vuforia Cloud Recognition Service API.
 """
 
+from __future__ import annotations
+
 import dataclasses
 import io
 import sys
 from pathlib import Path
-from typing import Any, Callable, Dict, Tuple, Union
+from typing import Any, Callable, Dict, Tuple
 
 import click
 import click_pathlib
@@ -33,7 +35,7 @@ from vws_cli.options.credentials import (
 
 
 @wrapt.decorator
-def handle_vwq_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-many-statements
+def handle_vwq_exceptions(
     wrapped: Callable[..., str],
     instance: Any,
     args: Tuple,
@@ -117,7 +119,7 @@ def max_num_results_option(
 
 def include_target_data_callback(
     ctx: click.core.Context,
-    param: Union[click.core.Option, click.core.Parameter],
+    param: click.core.Option | click.core.Parameter,
     value: str,
 ) -> CloudRecoIncludeTargetData:
     """
