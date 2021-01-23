@@ -3,7 +3,7 @@ Usage: vws get-duplicate-targets [OPTIONS]
   Get a list of potential duplicate targets.
 
   See
-  https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#how-to-check-for-similar-targets.
+  https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.html#how-to-check-for-similar-targets.
 
 Options:
   --server-access-key TEXT  A Vuforia server access key to use to access the

@@ -6,7 +6,6 @@ import io
 import uuid
 from pathlib import Path
 from textwrap import dedent
-from typing import List
 
 import yaml
 from click.testing import CliRunner
@@ -35,7 +34,7 @@ class TestQuery:
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
-        commands: List[str] = [
+        commands: list[str] = [
             str(new_file),
             '--client-access-key',
             mock_database.client_access_key,
@@ -111,7 +110,7 @@ class TestQuery:
         directory.
         """
         runner = CliRunner(mix_stderr=False)
-        commands: List[str] = [
+        commands: list[str] = [
             str(tmp_path),
             '--client-access-key',
             mock_database.client_access_key,
@@ -149,7 +148,7 @@ class TestQuery:
         original_image_file = tmp_path / 'foo'
         image_data = high_quality_image.getvalue()
         original_image_file.write_bytes(image_data)
-        commands: List[str] = [
+        commands: list[str] = [
             str(new_filename),
             '--client-access-key',
             mock_database.client_access_key,
@@ -179,7 +178,7 @@ class TestQuery:
         """
         runner = CliRunner(mix_stderr=False)
         does_not_exist_file = tmp_path / uuid.uuid4().hex
-        commands: List[str] = [
+        commands: list[str] = [
             str(does_not_exist_file),
             '--client-access-key',
             mock_database.client_access_key,

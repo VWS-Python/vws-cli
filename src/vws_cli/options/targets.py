@@ -2,6 +2,8 @@
 ``click`` options regarding targets.
 """
 
+from __future__ import annotations
+
 import functools
 from enum import Enum
 from typing import Callable, Optional, Union
@@ -28,7 +30,7 @@ def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
 
 
 def target_name_option(
-    command: Optional[Callable[..., None]] = None,
+    command: Callable[..., None] | None = None,
     required: bool = True,
 ) -> Callable[..., None]:
     """
@@ -54,7 +56,7 @@ def target_name_option(
 
 
 def target_width_option(
-    command: Optional[Callable[..., None]] = None,
+    command: Callable[..., None] | None = None,
     required: bool = True,
 ) -> Callable[..., None]:
     """
@@ -81,7 +83,7 @@ def target_width_option(
 
 
 def target_image_option(
-    command: Optional[Callable[..., None]] = None,
+    command: Callable[..., None] | None = None,
     required: bool = True,
 ) -> Callable[..., None]:
     """
@@ -137,7 +139,7 @@ def _active_flag_choice_callback(
 
 
 def active_flag_option(
-    command: Optional[Callable[..., None]] = None,
+    command: Callable[..., None] | None = None,
     allow_none: bool = False,
 ) -> Callable[..., None]:
     """
@@ -174,7 +176,7 @@ def active_flag_option(
 
 
 def application_metadata_option(
-    command: Optional[Callable[..., None]] = None,
+    command: Callable[..., None] | None = None,
 ) -> Callable[..., None]:
     """
     An option decorator for setting application metadata.

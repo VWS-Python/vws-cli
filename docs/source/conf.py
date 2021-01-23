@@ -7,7 +7,7 @@ Configuration for Sphinx.
 # pylint: disable=invalid-name
 
 import datetime
-from typing import List, Tuple
+from typing import Tuple
 
 from pkg_resources import get_distribution
 
@@ -26,7 +26,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 year = datetime.datetime.now().year
-copyright = f'{year}, {author}'  # pylint: disable=redefined-builtin
+project_copyright = f'{year}, {author}'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -64,7 +64,7 @@ intersphinx_mapping = {
 }
 nitpicky = True
 warning_is_error = True
-nitpick_ignore: List[Tuple[str, str]] = []
+nitpick_ignore: list[Tuple[str, str]] = []
 
 html_show_copyright = False
 html_show_sphinx = False
