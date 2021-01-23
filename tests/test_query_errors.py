@@ -2,6 +2,8 @@
 Tests for how errors from the Cloud Reco Service are handled by the CLI.
 """
 
+from __future__ import annotations
+
 import io
 import uuid
 from pathlib import Path

@@ -2,6 +2,8 @@
 Test for the Cloud Reco Service commands.
 """
 
+from __future__ import annotations
+
 import io
 import uuid
 from pathlib import Path
