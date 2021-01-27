@@ -6,6 +6,8 @@ Configuration for Sphinx.
 
 # pylint: disable=invalid-name
 
+from __future__ import annotations
+
 import datetime
 from typing import Tuple
 
