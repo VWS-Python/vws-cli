@@ -6,11 +6,12 @@ Outcomes
 
 * A new ``git`` tag available to install.
 * A new package on PyPI.
+* A new Homebrew recipe available to install.
 
 Prerequisites
 ~~~~~~~~~~~~~
 
-* ``python3`` on your ``PATH`` set to Python 3.8+.
+* ``python3`` on your ``PATH`` set to Python 3.9+.
 * ``virtualenv``.
 * Push access to this repository.
 * Trust that ``master`` is ready and high enough quality for release.

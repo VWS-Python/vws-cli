@@ -6,6 +6,8 @@ Configuration for Sphinx.
 
 # pylint: disable=invalid-name
 
+from __future__ import annotations
+
 import datetime
 from typing import Tuple
 
@@ -60,7 +62,7 @@ html_sidebars = {
 htmlhelp_basename = 'VWSCLIdoc'
 autoclass_content = 'init'
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3.8', None),
+    'python': ('https://docs.python.org/3.9', None),
 }
 nitpicky = True
 warning_is_error = True
