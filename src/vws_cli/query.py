@@ -19,11 +19,11 @@ from vws.exceptions.cloud_reco_exceptions import (
     AuthenticationFailure,
     BadImage,
     InactiveProject,
-    MatchProcessing,
     RequestTimeTooSkewed,
 )
 from vws.exceptions.custom_exceptions import (
-    ConnectionErrorPossiblyImageTooLarge,
+    ActiveMatchingTargetsDeleteProcessing,
+    RequestEntityTooLarge,
 )
 from vws.include_target_data import CloudRecoIncludeTargetData
 
@@ -65,13 +65,12 @@ def handle_vwq_exceptions(
             'was outside the expected range. '
             'This may be because the system clock is out of sync.'
         )
-    except ConnectionErrorPossiblyImageTooLarge:
+    except RequestEntityTooLarge:
         error_message = 'Error: The given image is too large.'
-    except MatchProcessing:
+    except ActiveMatchingTargetsDeleteProcessing:
         error_message = (
             'Error: The given image matches a target which was recently '
-            'added, updated or deleted and Vuforia returns an error in this '
-            'case.'
+            'deleted.'
         )
     else:
         return
