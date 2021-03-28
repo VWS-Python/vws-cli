@@ -90,12 +90,12 @@ def test_active_matching_targets_delete_processing(
     runner = CliRunner(mix_stderr=False)
 
     target_id = vws_client.add_target(
-         name='x',
-         width=1,
-         image=high_quality_image,
-         active_flag=True,
-         application_metadata=None,
-     )
+        name='x',
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
     vws_client.wait_for_target_processed(target_id=target_id)
     vws_client.delete_target(target_id=target_id)
     time.sleep(0.2)
