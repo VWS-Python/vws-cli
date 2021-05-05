@@ -20,7 +20,7 @@ pygithub==1.55
 pylint==2.8.2
 pyroma==3.1
 pytest-cov==2.11.1  # Measure code coverage
-pytest==6.2.3
+pytest==6.2.4
 sphinx-click==2.7.1
 sphinx==3.5.4
 sphinxcontrib.spelling==7.2.1
