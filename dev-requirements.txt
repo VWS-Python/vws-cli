@@ -10,19 +10,22 @@ flake8-commas==2.0.0
 flake8-quotes==3.2.0
 flake8==3.9.2
 freezegun==1.1.0
-furo==2021.4.11b34
+furo==2021.7.5b38
 homebrew-pypi-poet==0.10.0
-isort==5.8.0
-mypy==0.812
-pip_check_reqs==2.2.0
+isort==5.9.2
+mypy==0.910
+pip_check_reqs==2.2.2
 pydocstyle==6.1.1
 pygithub==1.55
-pylint==2.8.2
-pyroma==3.1
-pytest-cov==2.12.0  # Measure code coverage
+pylint==2.9.3
+pyroma==3.2
+pytest-cov==2.12.1  # Measure code coverage
 pytest==6.2.4
-sphinx-click==3.0.0
-sphinx==3.5.4
+sphinx-click==3.0.1
+sphinx==4.0.3
 sphinxcontrib.spelling==7.2.1
 twine==3.4.1
+types-freezegun==0.1.4
+types-setuptools==57.0.0
+types-PyYAML==5.4.3
 vulture==2.3

@@ -83,7 +83,10 @@ def image_argument(command: Callable[..., None]) -> Callable[..., None]:
     """
     An argument decorator for choosing a query image.
     """
-    click_option_function = click.argument(
+    click_argument_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.argument(
         'image',
         type=click_pathlib.Path(
             exists=True,
@@ -92,7 +95,8 @@ def image_argument(command: Callable[..., None]) -> Callable[..., None]:
         ),
     )
 
-    return click_option_function(command)
+    function: Callable[..., None] = click_argument_function(command)
+    return function
 
 
 def max_num_results_option(
@@ -102,7 +106,10 @@ def max_num_results_option(
     An option decorator for choosing the maximum number of query results.
     """
     maximum = 50
-    click_option_function = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         '--max-num-results',
         type=click.IntRange(min=1, max=maximum),
         default=1,
@@ -113,7 +120,8 @@ def max_num_results_option(
         show_default=True,
     )
 
-    return click_option_function(command)
+    function: Callable[..., None] = click_option_function(command)
+    return function
 
 
 def include_target_data_callback(
@@ -141,7 +149,10 @@ def include_target_data_option(
     """
     An option decorator for choosing whether to include target data.
     """
-    click_option_function = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         '--include-target-data',
         type=click.Choice(['top', 'none', 'all'], case_sensitive=True),
         default='top',
@@ -155,14 +166,18 @@ def include_target_data_option(
         show_default=True,
     )
 
-    return click_option_function(command)
+    function: Callable[..., None] = click_option_function(command)
+    return function
 
 
 def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
     """
     An option decorator for choosing the base VWQ URL.
     """
-    click_option_function = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         '--base-vwq-url',
         type=click.STRING,
         default='https://cloudreco.vuforia.com',
@@ -170,7 +185,8 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
         show_default=True,
     )
 
-    return click_option_function(command)
+    function: Callable[..., None] = click_option_function(command)
+    return function
 
 
 @click.command(name='vuforia-cloud-reco')
