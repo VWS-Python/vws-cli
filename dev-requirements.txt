@@ -25,4 +25,7 @@ sphinx-click==3.0.1
 sphinx==4.0.3
 sphinxcontrib.spelling==7.2.1
 twine==3.4.1
+types-freezegun==0.1.4
+types-setuptools==57.0.0
+types-PyYAML==5.4.3
 vulture==2.3
