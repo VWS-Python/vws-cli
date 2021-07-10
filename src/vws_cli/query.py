@@ -11,7 +11,6 @@ from pathlib import Path
 from typing import Any, Callable, Dict, Tuple
 
 import click
-import click_pathlib
 import wrapt
 import yaml
 from vws import CloudRecoService
@@ -88,10 +87,11 @@ def image_argument(command: Callable[..., None]) -> Callable[..., None]:
         Callable[..., None],
     ] = click.argument(
         'image',
-        type=click_pathlib.Path(
+        type=click.Path(
             exists=True,
             file_okay=True,
             dir_okay=False,
+            path_type=Path,
         ),
     )
 
