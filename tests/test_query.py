@@ -359,7 +359,7 @@ class TestMaxNumResults:
         assert result.exit_code == 2
         expected_stderr_substring = (
             "Error: Invalid value for '--max-num-results': 0 is not in the "
-            'valid range of 1 to 50.'
+            'range 1<=x<=50.'
         )
         assert expected_stderr_substring in result.stderr
 
@@ -608,8 +608,8 @@ class TestIncludeTargetData:
         )
         assert result.exit_code == 2
         expected_stderr = (
-            "'--include-target-data': invalid choice: other. (choose from "
-            'top, none, all)'
+            "'--include-target-data': 'other' is not one of 'top', 'none', "
+            "'all'."
         )
         assert expected_stderr in result.stderr
 

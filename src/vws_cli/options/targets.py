@@ -6,10 +6,10 @@ from __future__ import annotations
 
 import functools
 from enum import Enum
+from pathlib import Path
 from typing import Callable
 
 import click
-import click_pathlib
 
 
 def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
@@ -103,10 +103,11 @@ def target_image_option(
     ] = click.option(
         '--image',
         'image_file_path',
-        type=click_pathlib.Path(
+        type=click.Path(
             exists=True,
             file_okay=True,
             dir_okay=False,
+            path_type=Path,
         ),
         help='The path to an image to upload and set as the target image.',
         required=required,
