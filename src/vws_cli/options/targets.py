@@ -89,6 +89,7 @@ def target_image_option(
     """
     An option decorator for choosing a target image.
     """
+
     if not command:
         # Ignore type error as per https://github.com/python/mypy/issues/1484.
         return functools.partial(  # type: ignore
@@ -96,7 +97,10 @@ def target_image_option(
             required=required,
         )
 
-    click_option_function = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         '--image',
         'image_file_path',
         type=click_pathlib.Path(
@@ -108,7 +112,8 @@ def target_image_option(
         required=required,
     )
 
-    return click_option_function(command)
+    function: Callable[..., None] = click_option_function(command)
+    return function
 
 
 class ActiveFlagChoice(Enum):
