@@ -53,7 +53,7 @@ from vws_cli.options.targets import (
 )
 
 
-@wrapt.decorator
+@wrapt.decorator  # type: ignore
 def handle_vws_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-many-statements
     wrapped: Callable[..., str],
     instance: Any,
@@ -176,7 +176,7 @@ def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def get_target_record(
     server_access_key: str,
@@ -205,7 +205,7 @@ def get_target_record(
 @click.command(name='list-targets')
 @server_access_key_option
 @server_secret_key_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def list_targets(
     server_access_key: str,
@@ -233,7 +233,7 @@ def list_targets(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def get_duplicate_targets(
     server_access_key: str,
@@ -262,7 +262,7 @@ def get_duplicate_targets(
 @click.command(name='get-database-summary-report')
 @server_access_key_option
 @server_secret_key_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def get_database_summary_report(
     server_access_key: str,
@@ -290,7 +290,7 @@ def get_database_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def get_target_summary_report(
     server_access_key: str,
@@ -322,7 +322,7 @@ def get_target_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def delete_target(
     server_access_key: str,
@@ -354,7 +354,7 @@ def delete_target(
 @target_image_option(required=True)
 @application_metadata_option
 @active_flag_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def add_target(
     server_access_key: str,
@@ -407,7 +407,7 @@ def add_target(
 @application_metadata_option
 @active_flag_option(allow_none=True)
 @target_id_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def update_target(
     server_access_key: str,
@@ -488,7 +488,7 @@ _TIMEOUT_SECONDS_HELP = (
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def wait_for_target_processed(
     server_access_key: str,

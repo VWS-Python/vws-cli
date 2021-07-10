@@ -33,7 +33,7 @@ from vws_cli.options.credentials import (
 )
 
 
-@wrapt.decorator
+@wrapt.decorator  # type: ignore
 def handle_vwq_exceptions(
     wrapped: Callable[..., str],
     instance: Any,
@@ -196,7 +196,7 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @include_target_data_option
 @max_num_results_option
 @base_vwq_url_option
-@handle_vwq_exceptions
+@handle_vwq_exceptions  # type: ignore
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
 #
