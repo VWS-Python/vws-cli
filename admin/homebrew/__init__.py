@@ -2,16 +2,17 @@
 Tools for creating Homebrew recipes.
 """
 
+from __future__ import annotations
+
 import subprocess
 from pathlib import Path
-from typing import List
 
 from github import UnknownObjectException
 from github.ContentFile import ContentFile
 from github.Repository import Repository
 
 
-def _get_dependencies(requirements_file: Path) -> List[str]:
+def _get_dependencies(requirements_file: Path) -> list[str]:
     """
     Return requirements from a requirements file.
 

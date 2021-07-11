@@ -2,9 +2,10 @@
 Tests for the VWS CLI help.
 """
 
+from __future__ import annotations
+
 import os
 from pathlib import Path
-from typing import List
 
 import pytest
 from click.testing import CliRunner
@@ -13,7 +14,7 @@ from vws_cli import vws_group
 from vws_cli.query import vuforia_cloud_reco
 
 _SUBCOMMANDS = [[item] for item in vws_group.commands.keys()]
-_BASE_COMMAND: List[List[str]] = [[]]
+_BASE_COMMAND: list[list[str]] = [[]]
 _COMMANDS = _BASE_COMMAND + _SUBCOMMANDS
 
 
@@ -22,7 +23,7 @@ _COMMANDS = _BASE_COMMAND + _SUBCOMMANDS
     _COMMANDS,
     ids=[str(cmd) for cmd in _COMMANDS],
 )
-def test_vws_command_help(command: List[str]) -> None:
+def test_vws_command_help(command: list[str]) -> None:
     """
     Expected help text is shown for ``vws`` commands.
 

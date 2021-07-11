@@ -2,12 +2,14 @@
 ``click`` commands the VWS CLI.
 """
 
+from __future__ import annotations
+
 import dataclasses
 import io
 import sys
 from http import HTTPStatus
 from pathlib import Path
-from typing import Any, Callable, Dict, Optional, Tuple
+from typing import Any, Callable, Dict, Tuple
 
 import click
 import wrapt
@@ -51,7 +53,7 @@ from vws_cli.options.targets import (
 )
 
 
-@wrapt.decorator
+@wrapt.decorator  # type: ignore
 def handle_vws_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-many-statements
     wrapped: Callable[..., str],
     instance: Any,
@@ -155,7 +157,10 @@ def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
     """
     An option decorator for choosing the base VWS URL.
     """
-    click_option_function = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         '--base-vws-url',
         type=click.STRING,
         default='https://vws.vuforia.com',
@@ -163,14 +168,15 @@ def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
         show_default=True,
     )
 
-    return click_option_function(command)
+    function: Callable[..., None] = click_option_function(command)
+    return function
 
 
 @click.command(name='get-target-record')
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def get_target_record(
     server_access_key: str,
@@ -183,7 +189,7 @@ def get_target_record(
 
     \b
     See
-    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Retrieve-a-Target-Record.
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.html#How-To-Retrieve-a-Target-Record.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -199,7 +205,7 @@ def get_target_record(
 @click.command(name='list-targets')
 @server_access_key_option
 @server_secret_key_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def list_targets(
     server_access_key: str,
@@ -211,7 +217,7 @@ def list_targets(
 
     \b
     See
-    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Get-a-Target-List-for-a-Cloud-Database.
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.html#How-To-Get-a-Target-List-for-a-Cloud-Database.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -227,7 +233,7 @@ def list_targets(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def get_duplicate_targets(
     server_access_key: str,
@@ -240,7 +246,7 @@ def get_duplicate_targets(
 
     \b
     See
-    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#how-to-check-for-similar-targets.
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.html#how-to-check-for-similar-targets.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -256,7 +262,7 @@ def get_duplicate_targets(
 @click.command(name='get-database-summary-report')
 @server_access_key_option
 @server_secret_key_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def get_database_summary_report(
     server_access_key: str,
@@ -268,7 +274,7 @@ def get_database_summary_report(
 
     \b
     See
-    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Get-a-Database-Summary-Report.
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.html#How-To-Get-a-Database-Summary-Report.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -284,7 +290,7 @@ def get_database_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def get_target_summary_report(
     server_access_key: str,
@@ -297,7 +303,7 @@ def get_target_summary_report(
 
     \b
     See
-    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Retrieve-a-Target-Summary-Report.
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.html#How-To-Retrieve-a-Target-Summary-Report.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -316,7 +322,7 @@ def get_target_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def delete_target(
     server_access_key: str,
@@ -329,7 +335,7 @@ def delete_target(
 
     \b
     See
-    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.htm#How-To-Delete-a-Target.
+    https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API.html#How-To-Delete-a-Target.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -348,7 +354,7 @@ def delete_target(
 @target_image_option(required=True)
 @application_metadata_option
 @active_flag_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def add_target(
     server_access_key: str,
@@ -358,7 +364,7 @@ def add_target(
     image_file_path: Path,
     active_flag_choice: ActiveFlagChoice,
     base_vws_url: str,
-    application_metadata: Optional[str] = None,
+    application_metadata: str | None = None,
 ) -> None:
     """
     Add a target.
@@ -401,18 +407,18 @@ def add_target(
 @application_metadata_option
 @active_flag_option(allow_none=True)
 @target_id_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def update_target(
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
-    image_file_path: Optional[Path],
+    image_file_path: Path | None,
     base_vws_url: str,
-    name: Optional[str] = None,
-    application_metadata: Optional[str] = None,
-    active_flag_choice: Optional[ActiveFlagChoice] = None,
-    width: Optional[float] = None,
+    name: str | None = None,
+    application_metadata: str | None = None,
+    active_flag_choice: ActiveFlagChoice | None = None,
+    width: float | None = None,
 ) -> None:
     """
     Update a target.
@@ -482,7 +488,7 @@ _TIMEOUT_SECONDS_HELP = (
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions
+@handle_vws_exceptions  # type: ignore
 @base_vws_url_option
 def wait_for_target_processed(
     server_access_key: str,

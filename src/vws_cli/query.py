@@ -2,14 +2,15 @@
 A CLI for the Vuforia Cloud Recognition Service API.
 """
 
+from __future__ import annotations
+
 import dataclasses
 import io
 import sys
 from pathlib import Path
-from typing import Any, Callable, Dict, Tuple, Union
+from typing import Any, Callable, Dict, Tuple
 
 import click
-import click_pathlib
 import wrapt
 import yaml
 from vws import CloudRecoService
@@ -17,11 +18,11 @@ from vws.exceptions.cloud_reco_exceptions import (
     AuthenticationFailure,
     BadImage,
     InactiveProject,
-    MatchProcessing,
     RequestTimeTooSkewed,
 )
 from vws.exceptions.custom_exceptions import (
-    ConnectionErrorPossiblyImageTooLarge,
+    ActiveMatchingTargetsDeleteProcessing,
+    RequestEntityTooLarge,
 )
 from vws.include_target_data import CloudRecoIncludeTargetData
 
@@ -32,8 +33,8 @@ from vws_cli.options.credentials import (
 )
 
 
-@wrapt.decorator
-def handle_vwq_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-many-statements
+@wrapt.decorator  # type: ignore
+def handle_vwq_exceptions(
     wrapped: Callable[..., str],
     instance: Any,
     args: Tuple,
@@ -63,13 +64,12 @@ def handle_vwq_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-man
             'was outside the expected range. '
             'This may be because the system clock is out of sync.'
         )
-    except ConnectionErrorPossiblyImageTooLarge:
+    except RequestEntityTooLarge:
         error_message = 'Error: The given image is too large.'
-    except MatchProcessing:
+    except ActiveMatchingTargetsDeleteProcessing:
         error_message = (
             'Error: The given image matches a target which was recently '
-            'added, updated or deleted and Vuforia returns an error in this '
-            'case.'
+            'deleted.'
         )
     else:
         return
@@ -82,16 +82,21 @@ def image_argument(command: Callable[..., None]) -> Callable[..., None]:
     """
     An argument decorator for choosing a query image.
     """
-    click_option_function = click.argument(
+    click_argument_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.argument(
         'image',
-        type=click_pathlib.Path(
+        type=click.Path(
             exists=True,
             file_okay=True,
             dir_okay=False,
+            path_type=Path,
         ),
     )
 
-    return click_option_function(command)
+    function: Callable[..., None] = click_argument_function(command)
+    return function
 
 
 def max_num_results_option(
@@ -101,7 +106,10 @@ def max_num_results_option(
     An option decorator for choosing the maximum number of query results.
     """
     maximum = 50
-    click_option_function = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         '--max-num-results',
         type=click.IntRange(min=1, max=maximum),
         default=1,
@@ -112,12 +120,13 @@ def max_num_results_option(
         show_default=True,
     )
 
-    return click_option_function(command)
+    function: Callable[..., None] = click_option_function(command)
+    return function
 
 
 def include_target_data_callback(
     ctx: click.core.Context,
-    param: Union[click.core.Option, click.core.Parameter],
+    param: click.core.Option | click.core.Parameter,
     value: str,
 ) -> CloudRecoIncludeTargetData:
     """
@@ -140,7 +149,10 @@ def include_target_data_option(
     """
     An option decorator for choosing whether to include target data.
     """
-    click_option_function = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         '--include-target-data',
         type=click.Choice(['top', 'none', 'all'], case_sensitive=True),
         default='top',
@@ -154,14 +166,18 @@ def include_target_data_option(
         show_default=True,
     )
 
-    return click_option_function(command)
+    function: Callable[..., None] = click_option_function(command)
+    return function
 
 
 def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
     """
     An option decorator for choosing the base VWQ URL.
     """
-    click_option_function = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         '--base-vwq-url',
         type=click.STRING,
         default='https://cloudreco.vuforia.com',
@@ -169,7 +185,8 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
         show_default=True,
     )
 
-    return click_option_function(command)
+    function: Callable[..., None] = click_option_function(command)
+    return function
 
 
 @click.command(name='vuforia-cloud-reco')
@@ -179,7 +196,7 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @include_target_data_option
 @max_num_results_option
 @base_vwq_url_option
-@handle_vwq_exceptions
+@handle_vwq_exceptions  # type: ignore
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
 #

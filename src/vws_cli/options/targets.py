@@ -2,12 +2,14 @@
 ``click`` options regarding targets.
 """
 
+from __future__ import annotations
+
 import functools
 from enum import Enum
-from typing import Callable, Optional, Union
+from pathlib import Path
+from typing import Callable
 
 import click
-import click_pathlib
 
 
 def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
@@ -28,7 +30,7 @@ def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
 
 
 def target_name_option(
-    command: Optional[Callable[..., None]] = None,
+    command: Callable[..., None] | None = None,
     required: bool = True,
 ) -> Callable[..., None]:
     """
@@ -54,7 +56,7 @@ def target_name_option(
 
 
 def target_width_option(
-    command: Optional[Callable[..., None]] = None,
+    command: Callable[..., None] | None = None,
     required: bool = True,
 ) -> Callable[..., None]:
     """
@@ -81,12 +83,13 @@ def target_width_option(
 
 
 def target_image_option(
-    command: Optional[Callable[..., None]] = None,
+    command: Callable[..., None] | None = None,
     required: bool = True,
 ) -> Callable[..., None]:
     """
     An option decorator for choosing a target image.
     """
+
     if not command:
         # Ignore type error as per https://github.com/python/mypy/issues/1484.
         return functools.partial(  # type: ignore
@@ -94,19 +97,24 @@ def target_image_option(
             required=required,
         )
 
-    click_option_function = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         '--image',
         'image_file_path',
-        type=click_pathlib.Path(
+        type=click.Path(
             exists=True,
             file_okay=True,
             dir_okay=False,
+            path_type=Path,
         ),
         help='The path to an image to upload and set as the target image.',
         required=required,
     )
 
-    return click_option_function(command)
+    function: Callable[..., None] = click_option_function(command)
+    return function
 
 
 class ActiveFlagChoice(Enum):
@@ -120,9 +128,9 @@ class ActiveFlagChoice(Enum):
 
 def _active_flag_choice_callback(
     ctx: click.core.Context,
-    param: Union[click.core.Option, click.core.Parameter],
-    value: Optional[str],
-) -> Optional[ActiveFlagChoice]:
+    param: click.core.Option | click.core.Parameter,
+    value: str | None,
+) -> ActiveFlagChoice | None:
     """
     Use as a callback for active flag options.
     """
@@ -137,7 +145,7 @@ def _active_flag_choice_callback(
 
 
 def active_flag_option(
-    command: Optional[Callable[..., None]] = None,
+    command: Callable[..., None] | None = None,
     allow_none: bool = False,
 ) -> Callable[..., None]:
     """
@@ -174,7 +182,7 @@ def active_flag_option(
 
 
 def application_metadata_option(
-    command: Optional[Callable[..., None]] = None,
+    command: Callable[..., None] | None = None,
 ) -> Callable[..., None]:
     """
     An option decorator for setting application metadata.

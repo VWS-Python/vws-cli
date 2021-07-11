@@ -708,9 +708,7 @@ class TestWaitForTargetProcessed:
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code != 0
         assert result.stdout == ''
-        expected_substring = (
-            '0.01 is smaller than the minimum valid value 0.05'
-        )
+        expected_substring = '0.01 is not in the range x>=0.05.'
         assert expected_substring in result.stderr
 
     def test_custom_timeout(
@@ -792,9 +790,7 @@ class TestWaitForTargetProcessed:
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code != 0
-        expected_substring = (
-            '0.01 is smaller than the minimum valid value 0.05'
-        )
+        expected_substring = '0.01 is not in the range x>=0.05.'
         assert expected_substring in result.stderr
 
 

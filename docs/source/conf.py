@@ -6,8 +6,10 @@ Configuration for Sphinx.
 
 # pylint: disable=invalid-name
 
+from __future__ import annotations
+
 import datetime
-from typing import List, Tuple
+from typing import Tuple
 
 from pkg_resources import get_distribution
 
@@ -26,7 +28,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 year = datetime.datetime.now().year
-copyright = f'{year}, {author}'  # pylint: disable=redefined-builtin
+project_copyright = f'{year}, {author}'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -42,45 +44,29 @@ language = None
 
 # The name of the syntax highlighting style to use.
 pygments_style = 'sphinx'
-html_theme = 'alabaster'
-
-# Custom sidebar templates, must be a dictionary that maps document names
-# to template names.
-#
-# This is required for the alabaster theme
-# refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
-html_sidebars = {
-    '**': [
-        'relations.html',  # needs 'show_related': True theme option to display
-        'searchbox.html',
-    ],
-}
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'VWSCLIdoc'
 autoclass_content = 'init'
 intersphinx_mapping = {
-    'python': ('https://docs.python.org/3.8', None),
+    'python': ('https://docs.python.org/3.9', None),
 }
 nitpicky = True
 warning_is_error = True
-nitpick_ignore: List[Tuple[str, str]] = []
+nitpick_ignore: list[Tuple[str, str]] = []
 
 html_show_copyright = False
 html_show_sphinx = False
 html_show_sourcelink = False
 autoclass_content = 'both'
 
+html_theme = 'furo'
+html_title = project
+html_show_copyright = False
+html_show_sphinx = False
+html_show_sourcelink = False
 html_theme_options = {
-    'show_powered_by': 'false',
-}
-
-html_sidebars = {
-    '**': [
-        'about.html',
-        'navigation.html',
-        'searchbox.html',
-    ],
+    'sidebar_hide_name': False,
 }
 
 # Don't check anchors because many websites use #! for AJAX magic

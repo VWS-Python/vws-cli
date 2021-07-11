@@ -48,7 +48,7 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
     command = 'bash -c "{cmd}"'.format(cmd=' '.join(cmd_in_container))
 
     container = client.containers.run(
-        image='python:3.7',
+        image='python:3.9',
         mounts=[code_mount],
         command=command,
         working_dir=target_dir,
@@ -56,7 +56,7 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
         detach=True,
     )
     for line in container.logs(stream=True):
-        line = line.strip()
+        line = line.decode().strip()
         LOGGER.warning(line)
 
     status_code = container.wait()['StatusCode']

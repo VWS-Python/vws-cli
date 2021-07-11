@@ -2,10 +2,12 @@
 Tests for how errors from the Cloud Reco Service are handled by the CLI.
 """
 
+from __future__ import annotations
+
 import io
+import time
 import uuid
 from pathlib import Path
-from typing import List
 
 from click.testing import CliRunner
 from freezegun import freeze_time
@@ -29,7 +31,7 @@ def test_authentication_failure(
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
-    commands: List[str] = [
+    commands: list[str] = [
         str(new_file),
         '--client-access-key',
         mock_database.client_access_key,
@@ -58,7 +60,7 @@ def test_image_too_large(
     new_file = tmp_path / uuid.uuid4().hex
     image_data = png_too_large.getvalue()
     new_file.write_bytes(data=image_data)
-    commands: List[str] = [
+    commands: list[str] = [
         str(new_file),
         '--client-access-key',
         mock_database.client_access_key,
@@ -75,27 +77,32 @@ def test_image_too_large(
     assert result.stdout == ''
 
 
-def test_match_processing(
+def test_active_matching_targets_delete_processing(
     mock_database: VuforiaDatabase,
     tmp_path: Path,
     high_quality_image: io.BytesIO,
     vws_client: VWS,
 ) -> None:
     """
-    An error is given when the image matches a target which is processing.
+    An error is given when the image matches a target which has recently been
+    deleted.
     """
     runner = CliRunner(mix_stderr=False)
-    vws_client.add_target(
+
+    target_id = vws_client.add_target(
         name='x',
         width=1,
         image=high_quality_image,
         active_flag=True,
         application_metadata=None,
     )
+    vws_client.wait_for_target_processed(target_id=target_id)
+    vws_client.delete_target(target_id=target_id)
+    time.sleep(0.2)
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
-    commands: List[str] = [
+    commands: list[str] = [
         str(new_file),
         '--client-access-key',
         mock_database.client_access_key,
@@ -108,8 +115,7 @@ def test_match_processing(
         catch_exceptions=False,
     )
     expected_stderr = (
-        'Error: The given image matches a target which was recently added, '
-        'updated or deleted and Vuforia returns an error in this case.\n'
+        'Error: The given image matches a target which was recently deleted.\n'
     )
     assert result.stderr == expected_stderr
     assert result.stdout == ''
@@ -126,7 +132,7 @@ def test_bad_image(
     new_file = tmp_path / uuid.uuid4().hex
     new_file.write_bytes(data=b'Not an image')
     runner = CliRunner(mix_stderr=False)
-    commands: List[str] = [
+    commands: list[str] = [
         str(new_file),
         '--client-access-key',
         mock_database.client_access_key,
