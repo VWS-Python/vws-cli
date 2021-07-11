@@ -4,7 +4,7 @@ class {class_name} < Formula
   url "{archive_url}"
   head "{head_url}"
   homepage "{homepage_url}"
-  depends_on "python@3.8"
+  depends_on "python@3.9"
   depends_on "pkg-config"
 
 {resource_stanzas}
