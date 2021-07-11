@@ -68,4 +68,4 @@ Shell completion
 
       _VWS_COMPLETE=fish_source vws > ~/.config/fish/completions/vws.fish
 
-After modifying the shell config, you need to start a new shell in order for the changes to be loaded.
+After modifying the shell configuration files, you need to start a new shell in order for the changes to be loaded.
