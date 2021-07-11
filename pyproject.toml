@@ -111,7 +111,6 @@ ignore = [
   "*.enc",
   ".appveyor.yml",
   ".coveragerc",
-  ".isort.cfg",
   ".markdownlint.json",
   ".pydocstyle",
   ".remarkrc",
