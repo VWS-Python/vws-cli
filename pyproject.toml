@@ -111,7 +111,6 @@ ignore = [
   "*.enc",
   ".appveyor.yml",
   ".coveragerc",
-  ".isort.cfg",
   ".markdownlint.json",
   ".pydocstyle",
   ".remarkrc",
@@ -146,7 +145,6 @@ ignore = [
   "bin/*",
   "src/*/_setuptools_scm_version.txt",
 ]
-
 
 [tool.mypy]
 
