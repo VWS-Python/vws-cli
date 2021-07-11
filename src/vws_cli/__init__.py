@@ -5,7 +5,6 @@ A CLI for Vuforia Web Services.
 from pathlib import Path
 
 import click
-import click_completion
 from setuptools_scm import get_version
 
 from vws_cli.commands import (
@@ -20,7 +19,6 @@ from vws_cli.commands import (
     wait_for_target_processed,
 )
 
-click_completion.init()
 _CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 try:
