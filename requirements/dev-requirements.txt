@@ -4,7 +4,7 @@ VWS-Test-Fixtures==2020.9.25.1
 autoflake==1.4
 black==21.5b0
 check-manifest==0.46
-doc8==0.8.1
+doc8==0.9.0
 docker==5.0.0
 flake8-commas==2.0.0
 flake8-quotes==3.2.0
@@ -14,18 +14,18 @@ furo==2021.7.5b38
 homebrew-pypi-poet==0.10.0
 isort==5.9.2
 mypy==0.910
-pip_check_reqs==2.2.2
+pip_check_reqs==2.3.0
 pydocstyle==6.1.1
 pygithub==1.55
-pylint==2.9.3
+pylint==2.9.5
 pyroma==3.2
 pytest-cov==2.12.1  # Measure code coverage
 pytest==6.2.4
 sphinx-click==3.0.1
-sphinx==4.0.3
+sphinx==4.1.2
 sphinx-inline-tabs==2021.4.11b9
 sphinxcontrib.spelling==7.2.1
-twine==3.4.1
+twine==3.4.2
 types-freezegun==0.1.4
 types-setuptools==57.0.0
 types-PyYAML==5.4.3
