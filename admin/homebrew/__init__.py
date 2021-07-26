@@ -59,7 +59,7 @@ def get_homebrew_formula(
     parent = Path(__file__).parent
     repository_root = parent.parent.parent
     requirements = _get_dependencies(
-        requirements_file=repository_root / 'requirements.txt',
+        requirements_file=repository_root / 'requirements/requirements.txt',
     )
 
     first = requirements[0]
