@@ -26,7 +26,7 @@ sphinx==4.1.2
 sphinx-inline-tabs==2021.4.11b9
 sphinxcontrib.spelling==7.2.1
 twine==3.4.2
-types-freezegun==0.1.4
+types-freezegun==1.1.0
 types-setuptools==57.0.0
 types-PyYAML==5.4.3
 vulture==2.3
