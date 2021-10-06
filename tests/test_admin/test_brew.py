@@ -169,7 +169,7 @@ def test_brew(tmp_path: Path) -> None:
     container.start()
     for line in container.logs(stream=True):
         line = line.decode().strip()
-        LOGGER.info(line)
+        LOGGER.warn(line)
 
     status_code = container.wait()['StatusCode']
     assert status_code == 0
