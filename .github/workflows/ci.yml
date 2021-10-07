@@ -47,13 +47,5 @@ jobs:
           python -m pip install --ignore-installed --upgrade --editable .[dev]
           sudo apt-get install -y enchant
 
-      - name: "Lint"
-        run: |
-          make lint
-
-      - name: "Run tests"
-        run: |
-          pytest -s -vvv --cov-fail-under 100 --cov=src/ --cov=tests tests/ --cov-report=xml
-
-      - name: "Upload coverage to Codecov"
-        uses: "codecov/codecov-action@v1"
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
