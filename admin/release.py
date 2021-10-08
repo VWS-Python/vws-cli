@@ -7,12 +7,11 @@ import os
 import subprocess
 from pathlib import Path
 
+from binaries import make_linux_binaries
 from github import Github
 from github.ContentFile import ContentFile
 from github.GitRelease import GitRelease
 from github.Repository import Repository
-
-from binaries import make_linux_binaries
 from homebrew import update_homebrew
 
 
