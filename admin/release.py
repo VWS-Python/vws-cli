@@ -12,8 +12,8 @@ from github.ContentFile import ContentFile
 from github.GitRelease import GitRelease
 from github.Repository import Repository
 
-from .binaries import make_linux_binaries
-from .homebrew import update_homebrew
+from admin.binaries import make_linux_binaries
+from admin.homebrew import update_homebrew
 
 
 def get_version(github_repository: Repository) -> str:
