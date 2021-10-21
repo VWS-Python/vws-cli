@@ -1,4 +1,4 @@
-PyYAML==5.4.1
+PyYAML==6.0
 VWS-Python==2021.3.28.2
 click==8.0.1
 setuptools-scm==6.3.2
