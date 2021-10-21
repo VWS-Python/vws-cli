@@ -36,16 +36,18 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
 
     # We install in editable mode to overwrite any potential
     # ``_setuptools_scm_version.txt`` file.
-    cmd_in_container = [
-        'pip',
-        'install',
-        '--editable',
-        '.[packaging]',
-        '&&',
-        'python',
-        'admin/create_pyinstaller_binaries.py',
-    ]
-    command = 'bash -c "{cmd}"'.format(cmd=' '.join(cmd_in_container))
+    cmd_in_container = ' '.join(
+        [
+            'pip',
+            'install',
+            '--editable',
+            '.[packaging]',
+            '&&',
+            'python',
+            'admin/create_pyinstaller_binaries.py',
+        ],
+    )
+    command = f'bash -c "{cmd_in_container}"'
 
     container = client.containers.run(
         image='python:3.9',
