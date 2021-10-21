@@ -3,7 +3,6 @@ Create binaries for the CLIs.
 """
 
 import logging
-import shlex
 import uuid
 from pathlib import Path
 from typing import Set
@@ -37,7 +36,7 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
 
     # We install in editable mode to overwrite any potential
     # ``_setuptools_scm_version.txt`` file.
-    cmd_in_container = shlex.join(
+    cmd_in_container = ' '.join(
         [
             'pip',
             'install',
