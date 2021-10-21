@@ -5,10 +5,10 @@ Usage: vuforia-cloud-reco [OPTIONS] IMAGE
 Options:
   --client-access-key TEXT        A Vuforia client access key to use to access
                                   the Vuforia Cloud Recognition API.  [env var:
-                                  VUFORIA_CLIENT_ACCESS_KEY;required]
+                                  VUFORIA_CLIENT_ACCESS_KEY; required]
   --client-secret-key TEXT        A Vuforia client secret key to use to access
                                   the Vuforia Cloud Recognition API.  [env var:
-                                  VUFORIA_CLIENT_SECRET_KEY;required]
+                                  VUFORIA_CLIENT_SECRET_KEY; required]
   --include-target-data [top|none|all]
                                   Whether target_data records shall be returned
                                   for the matched targets. Accepted values are
@@ -18,8 +18,8 @@ Options:
                                   [default: top]
   --max-num-results INTEGER RANGE
                                   The maximum number of matching targets to be
-                                  returned. Must be <= 50.  [default:
-                                  1;1<=x<=50]
+                                  returned. Must be <= 50.  [default: 1;
+                                  1<=x<=50]
   --base-vwq-url TEXT             The base URL for the VWQ API.  [default:
                                   https://cloudreco.vuforia.com]
   --version                       Show the version and exit.
