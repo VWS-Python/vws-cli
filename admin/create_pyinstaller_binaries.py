@@ -71,10 +71,7 @@ def create_binary(script: Path, repo_root: Path) -> None:
     pyinstaller_command = ['pyinstaller', str(script.resolve()), '--onefile']
     for data in datas:
         source, destination = data
-        data_str = '{source}:{destination}'.format(
-            source=source,
-            destination=destination,
-        )
+        data_str = (f'{source}:{destination}',)
         add_data_command = ['--add-data', data_str]
         pyinstaller_command += add_data_command
 

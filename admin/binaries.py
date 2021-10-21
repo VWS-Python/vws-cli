@@ -3,6 +3,7 @@ Create binaries for the CLIs.
 """
 
 import logging
+import shlex
 import uuid
 from pathlib import Path
 from typing import Set
@@ -36,16 +37,18 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
 
     # We install in editable mode to overwrite any potential
     # ``_setuptools_scm_version.txt`` file.
-    cmd_in_container = [
-        'pip',
-        'install',
-        '--editable',
-        '.[packaging]',
-        '&&',
-        'python',
-        'admin/create_pyinstaller_binaries.py',
-    ]
-    command = 'bash -c "{cmd}"'.format(cmd=' '.join(cmd_in_container))
+    cmd_in_container = shlex.join(
+        [
+            'pip',
+            'install',
+            '--editable',
+            '.[packaging]',
+            '&&',
+            'python',
+            'admin/create_pyinstaller_binaries.py',
+        ]
+    )
+    command = f'bash -c "{cmd_in_container}"'
 
     container = client.containers.run(
         image='python:3.9',

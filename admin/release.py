@@ -7,12 +7,12 @@ import os
 import subprocess
 from pathlib import Path
 
-from binaries import make_linux_binaries
+from binaries import make_linux_binaries  # pylint: disable=import-error
 from github import Github
 from github.ContentFile import ContentFile
 from github.GitRelease import GitRelease
 from github.Repository import Repository
-from homebrew import update_homebrew
+from homebrew import update_homebrew  # pylint: disable=import-error
 
 
 def get_version(github_repository: Repository) -> str:
