@@ -1,6 +1,6 @@
 Sphinx-Substitution-Extensions==2020.9.30.0
 VWS-Python-Mock==2021.3.27.1
-VWS-Test-Fixtures==2020.9.25.1
+VWS-Test-Fixtures==2021.11.5.1
 autoflake==1.4
 black==21.10b0
 check-manifest==0.47
