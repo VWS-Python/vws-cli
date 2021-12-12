@@ -17,11 +17,10 @@ lint: \
     pip-extra-reqs \
     pip-missing-reqs \
     pyroma \
-    shellcheck \
     spelling \
     vulture \
     pylint \
-    pydocstyle \
+    pydocstyle
 
 .PHONY: fix-lint
 fix-lint: \
