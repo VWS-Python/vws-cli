@@ -4,6 +4,7 @@ Release the next version.
 
 import datetime
 import os
+import subprocess
 from pathlib import Path
 
 from binaries import make_linux_binaries  # pylint: disable=import-error
