@@ -85,21 +85,6 @@ def update_changelog(version: str, github_repository: Repository) -> None:
     )
 
 
-def build_and_upload_to_pypi() -> None:
-    """
-    Build source and binary distributions.
-    """
-    for args in (
-        ['git', 'fetch', '--tags'],
-        ['git', 'merge', 'origin/master'],
-        ['rm', '-rf', 'build'],
-        ['git', 'status'],
-        ['python', 'setup.py', 'sdist', 'bdist_wheel'],
-        ['twine', 'upload', '-r', 'pypi', 'dist/*'],
-    ):
-        subprocess.run(args=args, check=True)
-
-
 def main() -> None:
     """
     Perform a release.
@@ -131,7 +116,6 @@ def main() -> None:
     )
 
     add_binaries_to_github_release(github_release=github_release)
-    build_and_upload_to_pypi()
 
 
 if __name__ == '__main__':
