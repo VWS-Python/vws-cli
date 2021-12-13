@@ -100,7 +100,7 @@ def main() -> None:
     version_str = get_version(github_repository=github_repository)
     update_changelog(version=version_str, github_repository=github_repository)
     update_homebrew(
-        homebrew_filename=f'{github_repository_name}.rb',
+        homebrew_filename='vws-cli.rb',
         version_str=version_str,
         github_repository=github_repository,
         homebrew_tap_github_repository=homebrew_tap_github_client.get_repo(
