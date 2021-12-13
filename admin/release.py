@@ -54,8 +54,6 @@ def add_binaries_to_github_release(github_release: GitRelease) -> None:
             path=str(installer_path),
             label=installer_path.name + '-linux',
         )
-        # Remove the installer so that it is not later uploaded by twine.
-        installer_path.unlink()
 
 
 def update_changelog(version: str, github_repository: Repository) -> None:

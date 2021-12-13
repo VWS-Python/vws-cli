@@ -51,6 +51,8 @@ jobs:
           # Checkout the latest tag - the one we just created.
           git fetch --tags
           git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
+          # Remove any files which have not been committed.
+          git clean -fdx
           python -m build --sdist --wheel --outdir dist/ .
 
       - name: Publish distribution 📦 to PyPI
