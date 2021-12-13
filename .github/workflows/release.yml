@@ -76,7 +76,7 @@ jobs:
           # Checkout the latest tag - the one we just created.
           git fetch --tags
           git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
-          sudo rm -rf dist/ build/
+          rm -rf dist/ build/
           python -m build --sdist --wheel --outdir dist/ .
 
       - name: Publish distribution 📦 to PyPI

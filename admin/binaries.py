@@ -56,6 +56,9 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
         working_dir=target_dir,
         remove=True,
         detach=True,
+        # Setting means that we get binaries owned by the current user, rather
+        # than the root user.
+        user=os.geteuid(),
     )
     for line in container.logs(stream=True):
         line = line.decode().strip()
