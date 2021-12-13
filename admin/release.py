@@ -2,7 +2,6 @@
 Release the next version.
 """
 
-import datetime
 import os
 import subprocess
 from pathlib import Path
@@ -13,25 +12,6 @@ from github.ContentFile import ContentFile
 from github.GitRelease import GitRelease
 from github.Repository import Repository
 from homebrew import update_homebrew  # pylint: disable=import-error
-
-
-def get_version(github_repository: Repository) -> str:
-    """
-    Return the next version.
-    This is today’s date in the format ``YYYY.MM.DD.MICRO``.
-    ``MICRO`` refers to the number of releases created on this date,
-    starting from ``0``.
-    """
-    utc_now = datetime.datetime.utcnow()
-    date_format = '%Y.%m.%d'
-    date_str = utc_now.strftime(date_format)
-    tag_labels = [tag.name for tag in github_repository.get_tags()]
-    today_tag_labels = [
-        item for item in tag_labels if item.startswith(date_str)
-    ]
-    micro = int(len(today_tag_labels))
-    new_version = f'{date_str}.{micro}'
-    return new_version
 
 
 def add_binaries_to_github_release(github_release: GitRelease) -> None:
@@ -95,7 +75,7 @@ def main() -> None:
     github_repository = github_client.get_repo(
         full_name_or_id=github_repository_name,
     )
-    version_str = get_version(github_repository=github_repository)
+    version_str = os.environ['NEXT_VERSION']
     update_changelog(version=version_str, github_repository=github_repository)
     update_homebrew(
         homebrew_filename='vws-cli.rb',
