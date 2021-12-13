@@ -83,7 +83,7 @@ jobs:
           HOMEBREW_TAP_GITHUB_TOKEN: ${{secrets.HOMEBREW_TAP_GITHUB_TOKEN}}
           NEXT_VERSION: ${{ steps.calver.outputs.release }}
         run: |
-          python admin/release.py
+          sudo python admin/release.py
 
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
