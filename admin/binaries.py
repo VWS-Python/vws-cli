@@ -14,15 +14,12 @@ from docker.types import Mount
 LOGGER = logging.getLogger(__name__)
 
 
-def make_linux_binaries(repo_root: Path) -> Set[Path]:
+def make_linux_binaries(repo_root: Path):
     """
     Create binaries for Linux in a Docker container.
 
     Args:
         repo_root: The path to the root of the repository.
-
-    Returns:
-        A set of paths to the built binaries.
     """
     client = docker.from_env()
     dist_dir = repo_root / 'dist'
@@ -64,6 +61,3 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
 
     status_code = container.wait()['StatusCode']
     assert status_code == 0
-    for item in dist_dir.iterdir():
-        new_path = item.with_name(item.name + '-linux')
-        shutil.copy(src=item, dst=new_path)

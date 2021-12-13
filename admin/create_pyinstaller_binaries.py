@@ -4,6 +4,7 @@ Make PyInstaller binaries for the platform that this is being run on.
 
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 from typing import Set
 
@@ -68,7 +69,13 @@ def create_binary(script: Path, repo_root: Path) -> None:
                 data_item = (str(repo_root / manifest_path), path_without_src)
                 datas.append(data_item)
 
-    pyinstaller_command = ['pyinstaller', str(script.resolve()), '--onefile']
+    pyinstaller_command = [
+        'pyinstaller',
+        str(script.resolve()),
+        '--onefile',
+        '--name',
+        script.name + '-' + sys.patform,
+    ]
     for data in datas:
         source, destination = data
         add_data_command = ['--add-data', f'{source}:{destination}']
