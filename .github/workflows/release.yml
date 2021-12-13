@@ -71,6 +71,23 @@ jobs:
         run: |
           python admin/release.py
 
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          custom_tag: ${{ steps.calver.outputs.release }}
+          tag_prefix: ""
+          commit_sha: ${{ steps.commit.outputs.commit_hash }}
+
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "dist/*-linux"
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
+
       - name: Build a binary wheel and a source tarball
         run: |
           # Checkout the latest tag - the one we just created.

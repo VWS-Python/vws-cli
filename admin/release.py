@@ -8,11 +8,10 @@ from pathlib import Path
 
 from binaries import make_linux_binaries  # pylint: disable=import-error
 from github import Github
-from github.GitRelease import GitRelease
 from homebrew import update_homebrew  # pylint: disable=import-error
 
 
-def add_binaries_to_github_release(github_release: GitRelease) -> None:
+def create_binaries() -> None:
     """
     Add binaries to a GitHub release.
     """
@@ -26,12 +25,7 @@ def add_binaries_to_github_release(github_release: GitRelease) -> None:
     ):
         subprocess.run(args=args, check=True)
 
-    linux_artifacts = make_linux_binaries(repo_root=Path('.'))
-    for installer_path in linux_artifacts:
-        github_release.upload_asset(
-            path=str(installer_path),
-            label=installer_path.name + '-linux',
-        )
+    make_linux_binaries(repo_root=Path('.'))
 
 
 def main() -> None:
@@ -55,16 +49,7 @@ def main() -> None:
             full_name_or_id='VWS-Python/homebrew-vws',
         ),
     )
-    github_release = github_repository.create_git_tag_and_release(
-        tag=version_str,
-        tag_message='Release ' + version_str,
-        release_name='Release ' + version_str,
-        release_message='See CHANGELOG.rst',
-        type='commit',
-        object=github_repository.get_commits()[0].sha,
-    )
-
-    add_binaries_to_github_release(github_release=github_release)
+    create_binaries()
 
 
 if __name__ == '__main__':

@@ -5,6 +5,7 @@ Create binaries for the CLIs.
 import logging
 import uuid
 from pathlib import Path
+import shutil
 from typing import Set
 
 import docker
@@ -63,4 +64,6 @@ def make_linux_binaries(repo_root: Path) -> Set[Path]:
 
     status_code = container.wait()['StatusCode']
     assert status_code == 0
-    return set(dist_dir.iterdir())
+    for item in dist_dir.iterdir():
+        new_path = item.with_name(item.name + '-linux')
+        shutil.copy(src=item, dst=new_path)
