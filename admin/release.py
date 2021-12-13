@@ -23,7 +23,7 @@ def add_binaries_to_github_release(github_release: GitRelease) -> None:
     # We fetch the latest tags, including the one which was just created.
     for args in (
         ['git', 'fetch', '--tags'],
-        ['git', 'merge', 'origin/master'],
+        ['git', 'rebase', 'origin/master'],
         ['git', 'status'],
     ):
         subprocess.run(args=args, check=True)
