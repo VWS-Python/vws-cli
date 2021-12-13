@@ -3,7 +3,6 @@ Create binaries for the CLIs.
 """
 
 import logging
-import os
 import uuid
 from pathlib import Path
 from typing import Set
