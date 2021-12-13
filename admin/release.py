@@ -90,8 +90,10 @@ def main() -> None:
     Perform a release.
     """
     github_token = os.environ['GITHUB_TOKEN']
+    homebrew_tap_github_token = os.environ['HOMEBREW_TAP_GITHUB_TOKEN']
     github_repository_name = os.environ['GITHUB_REPOSITORY']
     github_client = Github(github_token)
+    homebrew_tap_github_client = Github(homebrew_tap_github_token)
     github_repository = github_client.get_repo(
         full_name_or_id=github_repository_name,
     )
@@ -101,7 +103,7 @@ def main() -> None:
         homebrew_filename=f'{github_repository_name}.rb',
         version_str=version_str,
         github_repository=github_repository,
-        homebrew_tap_github_repository=github_client.get_repo(
+        homebrew_tap_github_repository=homebrew_tap_github_client.get_repo(
             full_name_or_id='VWS-Python/homebrew-vws',
         ),
     )
