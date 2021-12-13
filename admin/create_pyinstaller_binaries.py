@@ -74,7 +74,7 @@ def create_binary(script: Path, repo_root: Path) -> None:
         str(script.resolve()),
         '--onefile',
         '--name',
-        script.name + '-' + sys.patform,
+        script.name + '-' + sys.platform,
     ]
     for data in datas:
         source, destination = data
