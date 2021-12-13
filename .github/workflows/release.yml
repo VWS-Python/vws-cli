@@ -46,6 +46,14 @@ jobs:
         run: |
           python admin/release.py
 
+      - name: Setup tmate session
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          HOMEBREW_TAP_GITHUB_TOKEN: ${{secrets.HOMEBREW_TAP_GITHUB_TOKEN}}
+        uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
+
       - name: Build a binary wheel and a source tarball
         run: |
           # Checkout the latest tag - the one we just created.
