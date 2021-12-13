@@ -3,29 +3,11 @@ Release the next version.
 """
 
 import os
-import subprocess
 from pathlib import Path
 
 from binaries import make_linux_binaries  # pylint: disable=import-error
 from github import Github
 from homebrew import update_homebrew  # pylint: disable=import-error
-
-
-def create_binaries() -> None:
-    """
-    Add binaries to a GitHub release.
-    """
-    # We need to make the artifacts just after creating a tag so that the
-    # --version output is exactly the one of the tag.
-    # We fetch the latest tags, including the one which was just created.
-    for args in (
-        ['git', 'fetch', '--tags'],
-        ['git', 'merge', 'origin/master'],
-        ['git', 'status'],
-    ):
-        subprocess.run(args=args, check=True)
-
-    make_linux_binaries(repo_root=Path('.'))
 
 
 def main() -> None:
@@ -49,7 +31,7 @@ def main() -> None:
             full_name_or_id='VWS-Python/homebrew-vws',
         ),
     )
-    create_binaries()
+    make_linux_binaries(repo_root=Path('.'))
 
 
 if __name__ == '__main__':
