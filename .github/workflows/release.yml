@@ -48,6 +48,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: "Update changelog"
+        uses: jacobtomlinson/gha-find-replace@v2
+        env:
+          NEXT_VERSION: ${{ steps.calver.outputs.release }}
+        with:
+          find: "Next\n----"
+          replace: "Next\n----\n\n${{ env.NEXT_VERSION }}\n------------"
+          include: "CHANGELOG.rst"
+          regex: false
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        id: commit
+        with:
+          commit_message: Bump CHANGELOG
+
       - name: "Publish a release"
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

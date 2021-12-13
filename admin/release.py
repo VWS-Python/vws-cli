@@ -8,9 +8,7 @@ from pathlib import Path
 
 from binaries import make_linux_binaries  # pylint: disable=import-error
 from github import Github
-from github.ContentFile import ContentFile
 from github.GitRelease import GitRelease
-from github.Repository import Repository
 from homebrew import update_homebrew  # pylint: disable=import-error
 
 
@@ -36,33 +34,6 @@ def add_binaries_to_github_release(github_release: GitRelease) -> None:
         )
 
 
-def update_changelog(version: str, github_repository: Repository) -> None:
-    """
-    Add a version title to the changelog.
-    """
-    changelog_path = Path('CHANGELOG.rst')
-    branch = 'master'
-    changelog_content_file = github_repository.get_contents(
-        path=str(changelog_path),
-        ref=branch,
-    )
-    # ``get_contents`` can return a ``ContentFile`` or a list of
-    # ``ContentFile``s.
-    assert isinstance(changelog_content_file, ContentFile)
-    changelog_bytes = changelog_content_file.decoded_content
-    changelog_contents = changelog_bytes.decode('utf-8')
-    new_changelog_contents = changelog_contents.replace(
-        'Next\n----',
-        f'Next\n----\n\n{version}\n------------',
-    )
-    github_repository.update_file(
-        path=str(changelog_path),
-        message=f'Update for release {version}',
-        content=new_changelog_contents,
-        sha=changelog_content_file.sha,
-    )
-
-
 def main() -> None:
     """
     Perform a release.
@@ -76,7 +47,6 @@ def main() -> None:
         full_name_or_id=github_repository_name,
     )
     version_str = os.environ['NEXT_VERSION']
-    update_changelog(version=version_str, github_repository=github_repository)
     update_homebrew(
         homebrew_filename='vws-cli.rb',
         version_str=version_str,
