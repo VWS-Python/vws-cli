@@ -46,13 +46,16 @@ jobs:
         run: |
           python admin/release.py
 
+      - name: Remove PyInstaller Files
+        uses: JesseTG/rm@v1.0.2
+        with:
+          path: dist/
+
       - name: Build a binary wheel and a source tarball
         run: |
           # Checkout the latest tag - the one we just created.
           git fetch --tags
           git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
-          # Remove any files which have not been committed.
-          git clean -fdx
           python -m build --sdist --wheel --outdir dist/ .
 
       - name: Publish distribution 📦 to PyPI
