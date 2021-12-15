@@ -102,10 +102,22 @@ jobs:
           password: ${{ secrets.PYPI_API_TOKEN }}
           verbose: true
 
-      - name: Build a binary wheel and a source tarball
+      - name: Create a Homebrew recipe
+        env:
+          NEXT_VERSION: ${{ steps.calver.outputs.release }}
         run: |
-          sudo rm -rf dist/ build/
-          python -m build --sdist --wheel --outdir dist/ .
+          pip install vws-cli==${{ env.NEXT_VERSION }}
+          poet --formula vws-cli > vws-cli.rb
+
+      - name: "Update Homebrew description"
+        uses: jacobtomlinson/gha-find-replace@v2
+        env:
+          NEXT_VERSION: ${{ steps.calver.outputs.release }}
+        with:
+          find: "desc \"Shiny new formula\""
+          replace:  "desc \"CLI for Vuforia Web Services\""
+          include: "vws-cli.rst"
+          regex: false
 
       - name: Push Homebrew Recipe
         uses: dmnemec/copy_file_to_another_repo_action@main
