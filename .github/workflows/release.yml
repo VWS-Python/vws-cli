@@ -78,8 +78,6 @@ jobs:
           git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
 
       - name: Create Linux binaries
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
           python admin/release.py
 
