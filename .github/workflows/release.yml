@@ -77,11 +77,9 @@ jobs:
           git fetch --tags
           git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
 
-      - name: "Publish a release"
+      - name: Create Linux binaries
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          HOMEBREW_TAP_GITHUB_TOKEN: ${{secrets.HOMEBREW_TAP_GITHUB_TOKEN}}
-          NEXT_VERSION: ${{ steps.calver.outputs.release }}
         run: |
           python admin/release.py
 
@@ -103,6 +101,23 @@ jobs:
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
           verbose: true
+
+      - name: Create a Homebrew recipe
+        env:
+          NEXT_VERSION: ${{ steps.calver.outputs.release }}
+        run: |
+          pip install vws-cli==${{ env.NEXT_VERSION }}
+          poet --formula vws-cli > vws-cli.rb
+
+      - name: "Update Homebrew description"
+        uses: jacobtomlinson/gha-find-replace@v2
+        env:
+          NEXT_VERSION: ${{ steps.calver.outputs.release }}
+        with:
+          find: "desc \"Shiny new formula\""
+          replace:  "desc \"CLI for Vuforia Web Services\""
+          include: "vws-cli.rst"
+          regex: false
 
       - name: Push Homebrew Recipe
         uses: dmnemec/copy_file_to_another_repo_action@main
