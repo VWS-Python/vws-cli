@@ -77,11 +77,9 @@ jobs:
           git fetch --tags
           git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
 
-      - name: "Publish a release"
+      - name: Create Linux binaries
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-          HOMEBREW_TAP_GITHUB_TOKEN: ${{secrets.HOMEBREW_TAP_GITHUB_TOKEN}}
-          NEXT_VERSION: ${{ steps.calver.outputs.release }}
         run: |
           python admin/release.py
 
@@ -103,6 +101,11 @@ jobs:
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
           verbose: true
+
+      - name: Build a binary wheel and a source tarball
+        run: |
+          sudo rm -rf dist/ build/
+          python -m build --sdist --wheel --outdir dist/ .
 
       - name: Push Homebrew Recipe
         uses: dmnemec/copy_file_to_another_repo_action@main
