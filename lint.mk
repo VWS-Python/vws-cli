@@ -62,6 +62,10 @@ linkcheck:
 spelling:
 	$(MAKE) -C docs/ spelling SPHINXOPTS=$(SPHINXOPTS)
 
+.PHONY: shellcheck
+shellcheck:
+	shellcheck --exclude SC2164,SC1091 */*.sh
+
 .PHONY: autoflake
 autoflake:
 	autoflake \
