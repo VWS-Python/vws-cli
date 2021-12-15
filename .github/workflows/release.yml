@@ -107,7 +107,7 @@ jobs:
     - name: Push Homebrew Recipe
       uses: dmnemec/copy_file_to_another_repo_action@main
       env:
-        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        API_TOKEN_GITHUB: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
       with:
         source_file: 'vws-cli.rb'
         destination_repo: 'VWS-Python/homebrew-vws'
