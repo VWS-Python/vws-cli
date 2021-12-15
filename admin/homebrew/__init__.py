@@ -7,10 +7,6 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
-from github import UnknownObjectException
-from github.ContentFile import ContentFile
-from github.Repository import Repository
-
 
 def _get_dependencies(requirements_file: Path) -> list[str]:
     """
@@ -92,49 +88,3 @@ def get_homebrew_formula(
         head_url=head_url,
         homepage_url=homepage_url,
     )
-
-
-def update_homebrew(
-    homebrew_filename: str,
-    version_str: str,
-    github_repository: Repository,
-    homebrew_tap_github_repository: Repository,
-) -> None:
-    """
-    Update a Homebrew file in a given Homebrew tap with an archive from a given
-    repository.
-    """
-    archive_url = github_repository.get_archive_link(
-        archive_format='tarball',
-        ref=version_str,
-    )
-
-    new_recipe_contents = get_homebrew_formula(
-        archive_url=archive_url,
-        head_url=github_repository.clone_url,
-        homebrew_recipe_filename=homebrew_filename,
-    )
-
-    message = f'Homebrew recipe for version {version_str}'
-
-    try:
-        content_file = homebrew_tap_github_repository.get_contents(
-            path=homebrew_filename,
-            ref='master',
-        )
-    except UnknownObjectException:
-        homebrew_tap_github_repository.create_file(
-            path=homebrew_filename,
-            message=message,
-            content=new_recipe_contents,
-        )
-    else:
-        # ``get_contents`` can return a ``ContentFile`` or a list of
-        # ``ContentFile``s.
-        assert isinstance(content_file, ContentFile)
-        homebrew_tap_github_repository.update_file(
-            path=homebrew_filename,
-            message=message,
-            content=new_recipe_contents,
-            sha=content_file.sha,
-        )
