@@ -109,6 +109,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
         with:
+          destination_branch: master
           source_file: 'vws-cli.rb'
           destination_repo: 'VWS-Python/homebrew-vws'
           user_email: 'adamdangoor@gmail.com'
