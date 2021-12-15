@@ -12,7 +12,7 @@ from docker.types import Mount
 LOGGER = logging.getLogger(__name__)
 
 
-def make_linux_binaries(repo_root: Path):
+def make_linux_binaries(repo_root: Path) -> None:
     """
     Create binaries for Linux in a Docker container.
 
