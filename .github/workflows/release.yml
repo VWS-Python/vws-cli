@@ -121,7 +121,7 @@ jobs:
 
       - name: "Fix Homebrew class name"
         uses: jacobtomlinson/gha-find-replace@v2
-        env:
+        with:
           find: "class VWSCLI"
           replace:  "class VwsCli"
           include: "vws-cli.rst"
