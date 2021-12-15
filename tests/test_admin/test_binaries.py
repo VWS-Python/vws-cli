@@ -18,9 +18,10 @@ def test_linux_binaries() -> None:
     ``make_linux_binaries`` creates a binary which can be run on Linux.
     """
     repo_root = Path(__file__).parent.parent.parent.absolute()
-    binary_paths = make_linux_binaries(repo_root=repo_root)
-    binary_path_names = set(path.name for path in binary_paths)
-    assert binary_path_names == {'vws', 'vuforia-cloud-reco'}
+    dist_dir = repo_root / 'dist'
+    make_linux_binaries(repo_root=repo_root)
+    binary_path_names = set(path.name for path in dist_dir.iterdir())
+    assert binary_path_names == {'vws-linux', 'vuforia-cloud-reco-linux'}
     remote_repo_dir = Path('/repo')
 
     mounts = [
@@ -32,7 +33,7 @@ def test_linux_binaries() -> None:
     ]
 
     remote_paths = []
-    for path in binary_paths:
+    for path in dist_dir.iterdir():
         relative_path = path.relative_to(repo_root)
         remote_path = remote_repo_dir / str(relative_path)
         remote_paths.append(remote_path)

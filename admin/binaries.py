@@ -5,8 +5,6 @@ Create binaries for the CLIs.
 import logging
 import uuid
 from pathlib import Path
-import shutil
-from typing import Set
 
 import docker
 from docker.types import Mount
@@ -14,7 +12,7 @@ from docker.types import Mount
 LOGGER = logging.getLogger(__name__)
 
 
-def make_linux_binaries(repo_root: Path):
+def make_linux_binaries(repo_root: Path) -> None:
     """
     Create binaries for Linux in a Docker container.
 
