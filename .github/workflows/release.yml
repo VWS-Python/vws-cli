@@ -103,3 +103,14 @@ jobs:
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
           verbose: true
+
+    - name: Push Homebrew Recipe
+      uses: dmnemec/copy_file_to_another_repo_action@main
+      env:
+        API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+      with:
+        source_file: 'vws-cli.rb'
+        destination_repo: 'VWS-Python/homebrew-vws'
+        user_email: 'adamdangoor@gmail.com'
+        user_name: 'adamtheturtle'
+        commit_message: 'Bump VWS CLI Homebrew recipe'
