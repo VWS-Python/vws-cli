@@ -2,7 +2,6 @@
 Release the next version.
 """
 
-import os
 from pathlib import Path
 
 from binaries import make_linux_binaries  # pylint: disable=import-error
