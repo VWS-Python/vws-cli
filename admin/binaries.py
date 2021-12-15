@@ -5,8 +5,6 @@ Create binaries for the CLIs.
 import logging
 import uuid
 from pathlib import Path
-import shutil
-from typing import Set
 
 import docker
 from docker.types import Mount
