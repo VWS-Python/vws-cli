@@ -1,5 +1,5 @@
 PyYAML==6.0
 VWS-Python==2021.3.28.2
-click==8.0.4
+click==8.1.2
 setuptools-scm==6.4.2
 wrapt==1.13.3
