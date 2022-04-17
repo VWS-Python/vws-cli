@@ -65,6 +65,8 @@ def handle_vws_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-man
     library.
     """
     assert not instance  # This is to satisfy the "vulture" linter.
+    error_message = ''
+
     try:
         wrapped(*args, **kwargs)
     except UnknownTarget as exc:
