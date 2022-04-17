@@ -45,6 +45,8 @@ def handle_vwq_exceptions(
     library.
     """
     assert not instance  # This is to satisfy the "vulture" linter.
+    error_message = ''
+
     try:
         wrapped(*args, **kwargs)
     except BadImage:
