@@ -28,4 +28,4 @@ sphinxcontrib.spelling==7.3.3
 types-freezegun==1.1.9
 types-setuptools==57.4.14
 types-PyYAML==6.0.7
-vulture==2.3
+vulture==2.4
