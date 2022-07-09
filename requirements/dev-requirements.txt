@@ -26,6 +26,6 @@ sphinx-inline-tabs==2022.1.2b11
 sphinx-prompt==1.5.0
 sphinxcontrib.spelling==7.6.0
 types-freezegun==1.1.10
-types-setuptools==57.4.18
+types-setuptools==62.6.0
 types-PyYAML==6.0.9
 vulture==2.5
