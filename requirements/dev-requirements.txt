@@ -21,7 +21,7 @@ pyroma==4.0
 pytest-cov==3.0.0  # Measure code coverage
 pytest==7.1.2
 sphinx-click==4.3.0
-sphinx==5.0.2
+sphinx==5.1.1
 sphinx-inline-tabs==2022.1.2b11
 sphinx-prompt==1.5.0
 sphinxcontrib.spelling==7.6.0
