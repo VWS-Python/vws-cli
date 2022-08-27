@@ -23,8 +23,8 @@ class TestQuery:
     Tests for making image queries.
     """
 
+    @staticmethod
     def test_no_matches(
-        self,
         mock_database: VuforiaDatabase,
         tmp_path: Path,
         high_quality_image: io.BytesIO,
@@ -52,8 +52,8 @@ class TestQuery:
         result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
         assert result_data == []
 
+    @staticmethod
     def test_matches(
-        self,
         tmp_path: Path,
         high_quality_image: io.BytesIO,
         vws_client: VWS,
@@ -102,8 +102,8 @@ class TestQuery:
         }
         assert matching_target == expected_result_data
 
+    @staticmethod
     def test_image_file_is_dir(
-        self,
         tmp_path: Path,
         mock_database: VuforiaDatabase,
     ) -> None:
@@ -136,8 +136,8 @@ class TestQuery:
         )
         assert result.stderr == expected_stderr
 
+    @staticmethod
     def test_relative_path(
-        self,
         tmp_path: Path,
         mock_database: VuforiaDatabase,
         high_quality_image: io.BytesIO,
@@ -170,8 +170,8 @@ class TestQuery:
         result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
         assert result_data == []
 
+    @staticmethod
     def test_image_file_does_not_exist(
-        self,
         mock_database: VuforiaDatabase,
         tmp_path: Path,
     ) -> None:
@@ -225,8 +225,8 @@ class TestMaxNumResults:
     Tests for the ``--max-num-results`` option.
     """
 
+    @staticmethod
     def test_default(
-        self,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -272,8 +272,8 @@ class TestMaxNumResults:
         result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
         assert len(result_data) == 1
 
+    @staticmethod
     def test_custom(
-        self,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -329,8 +329,8 @@ class TestMaxNumResults:
         result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
         assert len(result_data) == 2
 
+    @staticmethod
     def test_out_of_range(
-        self,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
         mock_database: VuforiaDatabase,
@@ -369,8 +369,8 @@ class TestIncludeTargetData:
     Tests for the ``--include-target-data`` option.
     """
 
+    @staticmethod
     def test_default(
-        self,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -419,8 +419,8 @@ class TestIncludeTargetData:
         assert top_match['target_data'] is not None
         assert second_match['target_data'] is None
 
+    @staticmethod
     def test_top(
-        self,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -471,8 +471,8 @@ class TestIncludeTargetData:
         assert top_match['target_data'] is not None
         assert second_match['target_data'] is None
 
+    @staticmethod
     def test_none(
-        self,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -523,8 +523,8 @@ class TestIncludeTargetData:
         assert top_match['target_data'] is None
         assert second_match['target_data'] is None
 
+    @staticmethod
     def test_all(
-        self,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -576,8 +576,8 @@ class TestIncludeTargetData:
         assert top_match['target_data'] is not None
         assert second_match['target_data'] is not None
 
+    @staticmethod
     def test_other(
-        self,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
         mock_database: VuforiaDatabase,

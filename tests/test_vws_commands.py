@@ -270,8 +270,8 @@ class TestAddTarget:
     Tests for ``vws add-target``.
     """
 
+    @staticmethod
     def test_add_target(
-        self,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -317,8 +317,8 @@ class TestAddTarget:
         assert target_data is not None
         assert target_data.application_metadata is None
 
+    @staticmethod
     def test_image_file_does_not_exist(
-        self,
         mock_database: VuforiaDatabase,
         tmp_path: Path,
     ) -> None:
@@ -353,8 +353,8 @@ class TestAddTarget:
         )
         assert result.stderr == expected_stderr
 
+    @staticmethod
     def test_image_file_is_dir(
-        self,
         mock_database: VuforiaDatabase,
         tmp_path: Path,
     ) -> None:
@@ -389,8 +389,8 @@ class TestAddTarget:
         )
         assert result.stderr == expected_stderr
 
+    @staticmethod
     def test_relative_path(
-        self,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -427,8 +427,8 @@ class TestAddTarget:
         target_record = vws_client.get_target_record(target_id=target_id)
         assert target_record.target_record.name == name
 
+    @staticmethod
     def test_custom_metadata(
-        self,
         mock_database: VuforiaDatabase,
         cloud_reco_client: CloudRecoService,
         vws_client: VWS,
@@ -472,6 +472,7 @@ class TestAddTarget:
         assert target_data is not None
         assert target_data.application_metadata == base64_encoded_metadata
 
+    @staticmethod
     @pytest.mark.parametrize(
         'active_flag_given,active_flag_expected',
         [
@@ -480,7 +481,6 @@ class TestAddTarget:
         ],
     )
     def test_custom_active_flag(
-        self,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -524,8 +524,8 @@ class TestWaitForTargetProcessed:
     Tests for ``vws wait-for-target-processed``.
     """
 
+    @staticmethod
     def test_wait_for_target_processed(
-        self,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -558,8 +558,8 @@ class TestWaitForTargetProcessed:
         report = vws_client.get_target_summary_report(target_id=target_id)
         assert report.status != TargetStatuses.PROCESSING
 
+    @staticmethod
     def test_default_seconds_between_requests(
-        self,
         high_quality_image: io.BytesIO,
     ) -> None:
         """
@@ -622,8 +622,8 @@ class TestWaitForTargetProcessed:
             expected_requests = 0
             assert report.request_usage == expected_requests
 
+    @staticmethod
     def test_custom_seconds_between_requests(
-        self,
         high_quality_image: io.BytesIO,
     ) -> None:
         """
@@ -685,10 +685,8 @@ class TestWaitForTargetProcessed:
             expected_requests = 0
             assert report.request_usage == expected_requests
 
-    def test_custom_seconds_too_small(
-        self,
-        mock_database: VuforiaDatabase,
-    ) -> None:
+    @staticmethod
+    def test_custom_seconds_too_small(mock_database: VuforiaDatabase) -> None:
         """
         The minimum valid value for ``--seconds-between-requests`` is 0.05
         seconds.
@@ -711,10 +709,8 @@ class TestWaitForTargetProcessed:
         expected_substring = '0.01 is not in the range x>=0.05.'
         assert expected_substring in result.stderr
 
-    def test_custom_timeout(
-        self,
-        high_quality_image: io.BytesIO,
-    ) -> None:
+    @staticmethod
+    def test_custom_timeout(high_quality_image: io.BytesIO) -> None:
         """
         It is possible to set a maximum timeout.
         """
@@ -769,10 +765,8 @@ class TestWaitForTargetProcessed:
             report = vws_client.get_target_summary_report(target_id=target_id)
             assert report.status != TargetStatuses.PROCESSING
 
-    def test_custom_timeout_too_small(
-        self,
-        mock_database: VuforiaDatabase,
-    ) -> None:
+    @staticmethod
+    def test_custom_timeout_too_small(mock_database: VuforiaDatabase) -> None:
         """
         The minimum valid value for ``--timeout-seconds`` is 0.05 seconds.
         """
@@ -799,8 +793,8 @@ class TestUpdateTarget:
     Tests for ``vws update-target``.
     """
 
+    @staticmethod
     def test_update_target(
-        self,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -883,8 +877,8 @@ class TestUpdateTarget:
         assert target_record.width == new_width
         assert not target_record.active_flag
 
+    @staticmethod
     def test_no_fields_given(
-        self,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -917,8 +911,8 @@ class TestUpdateTarget:
         assert result.exit_code == 0
         assert result.stdout == ''
 
+    @staticmethod
     def test_image_file_does_not_exist(
-        self,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -961,8 +955,8 @@ class TestUpdateTarget:
         )
         assert result.stderr == expected_stderr
 
+    @staticmethod
     def test_image_file_is_dir(
-        self,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -1005,8 +999,8 @@ class TestUpdateTarget:
         )
         assert result.stderr == expected_stderr
 
+    @staticmethod
     def test_relative_path(
-        self,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
