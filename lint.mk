@@ -80,3 +80,7 @@ autoflake:
 .PHONY: pydocstyle
 pydocstyle:
 	pydocstyle
+
+.PHONY: add-trailing-comma
+add-trailing-comma:
+	add-trailing-comma **/*.py
