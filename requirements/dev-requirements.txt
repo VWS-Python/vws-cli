@@ -11,7 +11,7 @@ flake8-commas==2.1.0
 flake8-quotes==3.3.1
 flake8==5.0.4
 freezegun==1.2.2
-furo==2022.6.21
+furo==2022.9.15
 homebrew-pypi-poet==0.10.0
 isort==5.10.1
 mypy==0.971
