@@ -14,7 +14,7 @@ freezegun==1.2.2
 furo==2022.9.15
 homebrew-pypi-poet==0.10.0
 isort==5.10.1
-mypy==0.971
+mypy==0.981
 pip_check_reqs==2.3.2
 pydocstyle==6.1.1
 pylint==2.15.3
