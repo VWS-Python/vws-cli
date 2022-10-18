@@ -28,5 +28,5 @@ sphinx==5.2.3
 sphinxcontrib.spelling==7.6.1
 types-PyYAML==6.0.12
 types-freezegun==1.1.10
-types-setuptools==65.4.0.0
+types-setuptools==65.5.0.1
 vulture==2.6
