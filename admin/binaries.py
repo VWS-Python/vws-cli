@@ -46,7 +46,7 @@ def make_linux_binaries(repo_root: Path) -> None:
     command = f'bash -c "{cmd_in_container}"'
 
     container = client.containers.run(
-        image='python:3.9',
+        image='python:3.11',
         mounts=[code_mount],
         command=command,
         working_dir=target_dir,
