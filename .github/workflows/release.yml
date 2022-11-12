@@ -79,7 +79,7 @@ jobs:
 
       - name: Create Linux binaries
         run: |
-          python admin/release.py
+          PYTHONPATH=. python admin/release.py
 
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
