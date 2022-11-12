@@ -20,7 +20,7 @@ def test_linux_binaries() -> None:
     repo_root = Path(__file__).parent.parent.parent.absolute()
     dist_dir = repo_root / 'dist'
     make_linux_binaries(repo_root=repo_root)
-    binary_path_names = set(path.name for path in dist_dir.iterdir())
+    binary_path_names = {path.name for path in dist_dir.iterdir()}
     assert binary_path_names == {'vws-linux', 'vuforia-cloud-reco-linux'}
     remote_repo_dir = Path('/repo')
 

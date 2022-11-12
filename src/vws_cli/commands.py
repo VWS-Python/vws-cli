@@ -9,7 +9,7 @@ import io
 import sys
 from http import HTTPStatus
 from pathlib import Path
-from typing import Any, Callable, Dict, Tuple
+from typing import Any, Callable
 
 import click
 import wrapt
@@ -57,8 +57,8 @@ from vws_cli.options.targets import (
 def handle_vws_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-many-statements
     wrapped: Callable[..., str],
     instance: Any,
-    args: Tuple[Any],
-    kwargs: Dict[Any, Any],
+    args: tuple[Any],
+    kwargs: dict[Any, Any],
 ) -> None:
     """
     Show error messages and catch exceptions for errors from the ``VWS-Python``

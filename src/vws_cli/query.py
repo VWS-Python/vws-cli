@@ -8,7 +8,7 @@ import dataclasses
 import io
 import sys
 from pathlib import Path
-from typing import Any, Callable, Dict, Tuple
+from typing import Any, Callable
 
 import click
 import wrapt
@@ -37,8 +37,8 @@ from vws_cli.options.credentials import (
 def handle_vwq_exceptions(
     wrapped: Callable[..., str],
     instance: Any,
-    args: Tuple[Any],
-    kwargs: Dict[Any, Any],
+    args: tuple[Any],
+    kwargs: dict[Any, Any],
 ) -> None:
     """
     Show error messages and catch exceptions for errors from the ``VWS-Python``
