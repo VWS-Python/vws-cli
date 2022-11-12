@@ -57,8 +57,8 @@ from vws_cli.options.targets import (
 def handle_vws_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-many-statements
     wrapped: Callable[..., str],
     instance: Any,
-    args: Tuple,
-    kwargs: Dict,
+    args: Tuple[Any],
+    kwargs: Dict[Any, Any],
 ) -> None:
     """
     Show error messages and catch exceptions for errors from the ``VWS-Python``

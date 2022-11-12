@@ -4,7 +4,7 @@ Release the next version.
 
 from pathlib import Path
 
-from binaries import make_linux_binaries  # pylint: disable=import-error
+from admin.binaries import make_linux_binaries
 
 
 def main() -> None:
