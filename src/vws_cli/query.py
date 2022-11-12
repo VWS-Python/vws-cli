@@ -37,8 +37,8 @@ from vws_cli.options.credentials import (
 def handle_vwq_exceptions(
     wrapped: Callable[..., str],
     instance: Any,
-    args: Tuple,
-    kwargs: Dict,
+    args: Tuple[Any],
+    kwargs: Dict[Any, Any],
 ) -> None:
     """
     Show error messages and catch exceptions for errors from the ``VWS-Python``
