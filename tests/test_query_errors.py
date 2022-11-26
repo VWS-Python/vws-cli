@@ -33,19 +33,19 @@ def test_authentication_failure(
     new_file.write_bytes(data=image_data)
     commands: list[str] = [
         str(new_file),
-        '--client-access-key',
+        "--client-access-key",
         mock_database.client_access_key,
-        '--client-secret-key',
-        'wrong_secret_key',
+        "--client-secret-key",
+        "wrong_secret_key",
     ]
     result = runner.invoke(
         vuforia_cloud_reco,
         commands,
         catch_exceptions=False,
     )
-    expected_stderr = 'The given secret key was incorrect.\n'
+    expected_stderr = "The given secret key was incorrect.\n"
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_image_too_large(
@@ -62,9 +62,9 @@ def test_image_too_large(
     new_file.write_bytes(data=image_data)
     commands: list[str] = [
         str(new_file),
-        '--client-access-key',
+        "--client-access-key",
         mock_database.client_access_key,
-        '--client-secret-key',
+        "--client-secret-key",
         mock_database.client_secret_key,
     ]
     result = runner.invoke(
@@ -72,9 +72,9 @@ def test_image_too_large(
         commands,
         catch_exceptions=False,
     )
-    expected_stderr = 'Error: The given image is too large.\n'
+    expected_stderr = "Error: The given image is too large.\n"
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_active_matching_targets_delete_processing(
@@ -90,7 +90,7 @@ def test_active_matching_targets_delete_processing(
     runner = CliRunner(mix_stderr=False)
 
     target_id = vws_client.add_target(
-        name='x',
+        name="x",
         width=1,
         image=high_quality_image,
         active_flag=True,
@@ -104,9 +104,9 @@ def test_active_matching_targets_delete_processing(
     new_file.write_bytes(data=image_data)
     commands: list[str] = [
         str(new_file),
-        '--client-access-key',
+        "--client-access-key",
         mock_database.client_access_key,
-        '--client-secret-key',
+        "--client-secret-key",
         mock_database.client_secret_key,
     ]
     result = runner.invoke(
@@ -115,10 +115,10 @@ def test_active_matching_targets_delete_processing(
         catch_exceptions=False,
     )
     expected_stderr = (
-        'Error: The given image matches a target which was recently deleted.\n'
+        "Error: The given image matches a target which was recently deleted.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_bad_image(
@@ -130,13 +130,13 @@ def test_bad_image(
     when a corrupt image is uploaded.
     """
     new_file = tmp_path / uuid.uuid4().hex
-    new_file.write_bytes(data=b'Not an image')
+    new_file.write_bytes(data=b"Not an image")
     runner = CliRunner(mix_stderr=False)
     commands: list[str] = [
         str(new_file),
-        '--client-access-key',
+        "--client-access-key",
         mock_database.client_access_key,
-        '--client-secret-key',
+        "--client-secret-key",
         mock_database.client_secret_key,
     ]
     result = runner.invoke(
@@ -146,10 +146,10 @@ def test_bad_image(
     )
     assert result.exit_code == 1
     expected_stderr = (
-        'Error: The given image is corrupted or the format is not supported.\n'
+        "Error: The given image is corrupted or the format is not supported.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_inactive_project(
@@ -169,9 +169,9 @@ def test_inactive_project(
         runner = CliRunner(mix_stderr=False)
         commands = [
             str(new_file),
-            '--client-access-key',
+            "--client-access-key",
             database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             database.client_secret_key,
         ]
         result = runner.invoke(
@@ -182,10 +182,10 @@ def test_inactive_project(
 
     assert result.exit_code == 1
     expected_stderr = (
-        'Error: The project associated with the given keys is inactive.\n'
+        "Error: The project associated with the given keys is inactive.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_request_time_too_skewed(
@@ -214,9 +214,9 @@ def test_request_time_too_skewed(
     with freeze_time(auto_tick_seconds=time_difference_from_now):
         commands = [
             str(new_file),
-            '--client-access-key',
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -226,9 +226,9 @@ def test_request_time_too_skewed(
         )
 
     expected_stderr = (
-        'Error: Vuforia reported that the time given with this request was '
-        'outside the expected range. '
-        'This may be because the system clock is out of sync.\n'
+        "Error: Vuforia reported that the time given with this request was "
+        "outside the expected range. "
+        "This may be because the system clock is out of sync.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""

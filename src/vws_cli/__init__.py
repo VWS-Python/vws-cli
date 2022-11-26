@@ -19,19 +19,19 @@ from vws_cli.commands import (
     wait_for_target_processed,
 )
 
-_CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
+_CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 
 try:
-    __version__ = get_version(root='../..', relative_to=__file__)
+    __version__ = get_version(root="../..", relative_to=__file__)
 except LookupError:  # pragma: no cover
     # When pkg_resources and git tags are not available,
     # for example in a PyInstaller binary,
     # we write the file ``_setuptools_scm_version.py`` on ``pip install``.
-    _VERSION_FILE = Path(__file__).parent / '_setuptools_scm_version.txt'
+    _VERSION_FILE = Path(__file__).parent / "_setuptools_scm_version.txt"
     __version__ = _VERSION_FILE.read_text()
 
 
-@click.group(name='vws', context_settings=_CONTEXT_SETTINGS)
+@click.group(name="vws", context_settings=_CONTEXT_SETTINGS)
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
 #

@@ -19,14 +19,14 @@ def server_access_key_option(
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--server-access-key',
+        "--server-access-key",
         type=str,
         help=(
-            'A Vuforia server access key to use to access the Vuforia Web '
-            'Services API.'
+            "A Vuforia server access key to use to access the Vuforia Web "
+            "Services API."
         ),
         required=True,
-        envvar='VUFORIA_SERVER_ACCESS_KEY',
+        envvar="VUFORIA_SERVER_ACCESS_KEY",
         show_envvar=True,
     )
     assert command is not None
@@ -44,14 +44,14 @@ def server_secret_key_option(
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--server-secret-key',
+        "--server-secret-key",
         type=str,
         help=(
-            'A Vuforia server secret key to use to access the Vuforia Web '
-            'Services API.'
+            "A Vuforia server secret key to use to access the Vuforia Web "
+            "Services API."
         ),
         required=True,
-        envvar='VUFORIA_SERVER_SECRET_KEY',
+        envvar="VUFORIA_SERVER_SECRET_KEY",
         show_envvar=True,
     )
     assert command is not None
@@ -69,14 +69,14 @@ def client_access_key_option(
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--client-access-key',
+        "--client-access-key",
         type=str,
         help=(
-            'A Vuforia client access key to use to access the Vuforia '
-            'Cloud Recognition API.'
+            "A Vuforia client access key to use to access the Vuforia "
+            "Cloud Recognition API."
         ),
         required=True,
-        envvar='VUFORIA_CLIENT_ACCESS_KEY',
+        envvar="VUFORIA_CLIENT_ACCESS_KEY",
         show_envvar=True,
     )
     assert command is not None
@@ -94,14 +94,14 @@ def client_secret_key_option(
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--client-secret-key',
+        "--client-secret-key",
         type=str,
         help=(
-            'A Vuforia client secret key to use to access the Vuforia '
-            'Cloud Recognition API.'
+            "A Vuforia client secret key to use to access the Vuforia "
+            "Cloud Recognition API."
         ),
         required=True,
-        envvar='VUFORIA_CLIENT_SECRET_KEY',
+        envvar="VUFORIA_CLIENT_SECRET_KEY",
         show_envvar=True,
     )
     assert command is not None

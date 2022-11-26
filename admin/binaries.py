@@ -20,33 +20,33 @@ def make_linux_binaries(repo_root: Path) -> None:
         repo_root: The path to the root of the repository.
     """
     client = docker.from_env()
-    dist_dir = repo_root / 'dist'
+    dist_dir = repo_root / "dist"
     assert not dist_dir.exists() or not set(dist_dir.iterdir())
 
-    target_dir = '/' + uuid.uuid4().hex
+    target_dir = "/" + uuid.uuid4().hex
     code_mount = Mount(
         source=str(repo_root.absolute()),
         target=target_dir,
-        type='bind',
+        type="bind",
     )
 
     # We install in editable mode to overwrite any potential
     # ``_setuptools_scm_version.txt`` file.
-    cmd_in_container = ' '.join(
+    cmd_in_container = " ".join(
         [
-            'pip',
-            'install',
-            '--editable',
-            '.[packaging]',
-            '&&',
-            'python',
-            'admin/create_pyinstaller_binaries.py',
+            "pip",
+            "install",
+            "--editable",
+            ".[packaging]",
+            "&&",
+            "python",
+            "admin/create_pyinstaller_binaries.py",
         ],
     )
     command = f'bash -c "{cmd_in_container}"'
 
     container = client.containers.run(
-        image='python:3.11',
+        image="python:3.11",
         mounts=[code_mount],
         command=command,
         working_dir=target_dir,
@@ -57,5 +57,5 @@ def make_linux_binaries(repo_root: Path) -> None:
         line = line.decode().strip()
         LOGGER.warning(line)
 
-    status_code = container.wait()['StatusCode']
+    status_code = container.wait()["StatusCode"]
     assert status_code == 0

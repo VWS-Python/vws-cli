@@ -65,7 +65,7 @@ def handle_vws_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-man
     library.
     """
     assert not instance  # This is to satisfy the "vulture" linter.
-    error_message = ''
+    error_message = ""
 
     try:
         wrapped(*args, **kwargs)
@@ -73,80 +73,80 @@ def handle_vws_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-man
         error_message = f'Error: Target "{exc.target_id}" does not exist.'
     except BadImage:
         error_message = (
-            'Error: The given image is corrupted or the format is not '
-            'supported.'
+            "Error: The given image is corrupted or the format is not "
+            "supported."
         )
     except Fail as exc:
         assert exc.response.status_code == HTTPStatus.BAD_REQUEST
         error_message = (
-            'Error: The request made to Vuforia was invalid and could not be '
-            'processed. '
-            'Check the given parameters.'
+            "Error: The request made to Vuforia was invalid and could not be "
+            "processed. "
+            "Check the given parameters."
         )
     except MetadataTooLarge:
-        error_message = 'Error: The given metadata is too large.'
+        error_message = "Error: The given metadata is too large."
     except ImageTooLarge:
-        error_message = 'Error: The given image is too large.'
+        error_message = "Error: The given image is too large."
     except TargetNameExist as exc:
         error_message = (
             f'Error: There is already a target named "{exc.target_name}".'
         )
     except ProjectInactive:
         error_message = (
-            'Error: The project associated with the given keys is inactive.'
+            "Error: The project associated with the given keys is inactive."
         )
     except UnknownVWSErrorPossiblyBadName:
         error_message = (
-            'Error: There was an unknown error from Vuforia. '
-            'This may be because there is a problem with the given name.'
+            "Error: There was an unknown error from Vuforia. "
+            "This may be because there is a problem with the given name."
         )
     except TargetStatusProcessing as exc:
         error_message = (
             f'Error: The target "{exc.target_id}" cannot be deleted as it is '
-            'in the processing state.'
+            "in the processing state."
         )
     except TargetStatusNotSuccess as exc:
         error_message = (
             f'Error: The target "{exc.target_id}" cannot be updated as it is '
-            'in the processing state.'
+            "in the processing state."
         )
     except AuthenticationFailure:
-        error_message = 'The given secret key was incorrect.'
+        error_message = "The given secret key was incorrect."
     except RequestTimeTooSkewed:
         error_message = (
-            'Error: Vuforia reported that the time given with this request '
-            'was outside the expected range. '
-            'This may be because the system clock is out of sync.'
+            "Error: Vuforia reported that the time given with this request "
+            "was outside the expected range. "
+            "This may be because the system clock is out of sync."
         )
     # This exception is not available from the mock.
     except RequestQuotaReached:  # pragma: no cover
         error_message = (
-            'Error: The maximum number of API calls for this database has '
-            'been reached.'
+            "Error: The maximum number of API calls for this database has "
+            "been reached."
         )
     # This exception is not available from the mock.
     except DateRangeError:  # pragma: no cover
         error_message = (
-            'Error: There was a problem with the date details given in the '
-            'request.'
+            "Error: There was a problem with the date details given in the "
+            "request."
         )
     # This exception is not available from the mock.
     except TargetQuotaReached:  # pragma: no cover
         error_message = (
-            'Error: The maximum number of targets for this database has been '
-            'reached.'
+            "Error: The maximum number of targets for this database has been "
+            "reached."
         )
     # This exception is not available from the mock.
     except ProjectSuspended:  # pragma: no cover
         error_message = (
-            'Error: The request could not be completed because this database '
-            'has been suspended.'
+            "Error: The request could not be completed because this database "
+            "has been suspended."
         )
     # This exception is not available from the mock.
     except ProjectHasNoAPIAccess:  # pragma: no cover
         error_message = (
-            'Error: The request could not be completed because this database '
-            'is not allowed to make API requests.'
+            "Error: The request could not be completed because this database "
+            "is not allowed to make API requests."
         )
     else:
         return
@@ -163,10 +163,10 @@ def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--base-vws-url',
+        "--base-vws-url",
         type=click.STRING,
-        default='https://vws.vuforia.com',
-        help='The base URL for the VWS API.',
+        default="https://vws.vuforia.com",
+        help="The base URL for the VWS API.",
         show_default=True,
     )
 
@@ -174,7 +174,7 @@ def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
     return function
 
 
-@click.command(name='get-target-record')
+@click.command(name="get-target-record")
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
@@ -204,7 +204,7 @@ def get_target_record(
     click.echo(yaml_record)
 
 
-@click.command(name='list-targets')
+@click.command(name="list-targets")
 @server_access_key_option
 @server_secret_key_option
 @handle_vws_exceptions  # type: ignore
@@ -231,7 +231,7 @@ def list_targets(
     click.echo(yaml_list)
 
 
-@click.command(name='get-duplicate-targets')
+@click.command(name="get-duplicate-targets")
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
@@ -261,7 +261,7 @@ def get_duplicate_targets(
     click.echo(yaml_record)
 
 
-@click.command(name='get-database-summary-report')
+@click.command(name="get-database-summary-report")
 @server_access_key_option
 @server_secret_key_option
 @handle_vws_exceptions  # type: ignore
@@ -288,7 +288,7 @@ def get_database_summary_report(
     click.echo(yaml_report)
 
 
-@click.command(name='get-target-summary-report')
+@click.command(name="get-target-summary-report")
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
@@ -314,13 +314,13 @@ def get_target_summary_report(
     )
     report = vws_client.get_target_summary_report(target_id=target_id)
     report_dict = dataclasses.asdict(report)
-    report_dict['status'] = report_dict['status'].value
-    report_dict['upload_date'] = str(report_dict['upload_date'])
+    report_dict["status"] = report_dict["status"].value
+    report_dict["upload_date"] = str(report_dict["upload_date"])
     yaml_summary_report = yaml.dump(report_dict)
     click.echo(yaml_summary_report)
 
 
-@click.command(name='delete-target')
+@click.command(name="delete-target")
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
@@ -348,7 +348,7 @@ def delete_target(
     vws_client.delete_target(target_id=target_id)
 
 
-@click.command(name='add-target')
+@click.command(name="add-target")
 @server_access_key_option
 @server_secret_key_option
 @target_name_option
@@ -400,7 +400,7 @@ def add_target(
     click.echo(target_id)
 
 
-@click.command(name='update-target')
+@click.command(name="update-target")
 @server_access_key_option
 @server_secret_key_option
 @target_name_option(required=False)
@@ -460,28 +460,28 @@ def update_target(
 _SECONDS_BETWEEN_REQUESTS_DEFAULT = 0.2
 
 _SECONDS_BETWEEN_REQUESTS_HELP = (
-    'The number of seconds to wait between requests made while polling the '
-    'target status. '
-    f'We wait {_SECONDS_BETWEEN_REQUESTS_DEFAULT} seconds by default, rather '
-    'than less, than that to decrease the number of calls made to the API, to '
-    'decrease the likelihood of hitting the request quota.'
+    "The number of seconds to wait between requests made while polling the "
+    "target status. "
+    f"We wait {_SECONDS_BETWEEN_REQUESTS_DEFAULT} seconds by default, rather "
+    "than less, than that to decrease the number of calls made to the API, to "
+    "decrease the likelihood of hitting the request quota."
 )
 
 _TIMEOUT_SECONDS_HELP = (
-    'The maximum number of seconds to wait for the target to be processed.'
+    "The maximum number of seconds to wait for the target to be processed."
 )
 
 
-@click.command(name='wait-for-target-processed')
+@click.command(name="wait-for-target-processed")
 @click.option(
-    '--seconds-between-requests',
+    "--seconds-between-requests",
     type=click.FloatRange(min=0.05),
     default=_SECONDS_BETWEEN_REQUESTS_DEFAULT,
     help=_SECONDS_BETWEEN_REQUESTS_HELP,
     show_default=True,
 )
 @click.option(
-    '--timeout-seconds',
+    "--timeout-seconds",
     type=click.FloatRange(min=0.05),
     default=300,
     help=_TIMEOUT_SECONDS_HELP,
@@ -516,5 +516,5 @@ def wait_for_target_processed(
             timeout_seconds=timeout_seconds,
         )
     except TargetProcessingTimeout:
-        click.echo(f'Timeout of {timeout_seconds} seconds reached.', err=True)
+        click.echo(f"Timeout of {timeout_seconds} seconds reached.", err=True)
         sys.exit(1)

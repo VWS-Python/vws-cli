@@ -31,7 +31,7 @@ def test_get_database_summary_report(
     It is possible to get a database summary report.
     """
     runner = CliRunner()
-    for name in ('a', 'b'):
+    for name in ("a", "b"):
         vws_client.add_target(
             name=name,
             width=1,
@@ -41,28 +41,28 @@ def test_get_database_summary_report(
         )
 
     commands = [
-        'get-database-summary-report',
-        '--server-access-key',
+        "get-database-summary-report",
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
     result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
     expected_result_data = {
-        'active_images': 0,
-        'current_month_recos': 0,
-        'failed_images': 0,
-        'inactive_images': 0,
-        'name': mock_database.database_name,
-        'previous_month_recos': 0,
-        'processing_images': 2,
-        'reco_threshold': 1000,
-        'request_quota': 100000,
-        'request_usage': 0,
-        'target_quota': 1000,
-        'total_recos': 0,
+        "active_images": 0,
+        "current_month_recos": 0,
+        "failed_images": 0,
+        "inactive_images": 0,
+        "name": mock_database.database_name,
+        "previous_month_recos": 0,
+        "processing_images": 2,
+        "reco_threshold": 1000,
+        "request_quota": 100000,
+        "request_usage": 0,
+        "target_quota": 1000,
+        "total_recos": 0,
     }
     assert result_data == expected_result_data
 
@@ -77,24 +77,24 @@ def test_list_targets(
     """
     runner = CliRunner()
     target_id_1 = vws_client.add_target(
-        name='x1',
+        name="x1",
         width=1,
         image=high_quality_image,
         active_flag=True,
         application_metadata=None,
     )
     target_id_2 = vws_client.add_target(
-        name='x2',
+        name="x2",
         width=1,
         image=high_quality_image,
         active_flag=True,
         application_metadata=None,
     )
     commands = [
-        'list-targets',
-        '--server-access-key',
+        "list-targets",
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
@@ -115,31 +115,31 @@ def test_get_target_record(
     """
     runner = CliRunner()
     target_id = vws_client.add_target(
-        name='x',
+        name="x",
         width=1,
         image=high_quality_image,
         active_flag=True,
         application_metadata=None,
     )
     commands = [
-        'get-target-record',
-        '--target-id',
+        "get-target-record",
+        "--target-id",
         target_id,
-        '--server-access-key',
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
     result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
     expected_result_data = {
-        'active_flag': True,
-        'name': 'x',
-        'reco_rating': '',
-        'target_id': target_id,
-        'tracking_rating': -1,
-        'width': 1,
+        "active_flag": True,
+        "name": "x",
+        "reco_rating": "",
+        "target_id": target_id,
+        "tracking_rating": -1,
+        "width": 1,
     }
     assert result_data == expected_result_data
 
@@ -153,10 +153,10 @@ def test_get_target_summary_report(
     It is possible to get a target summary report.
     """
     runner = CliRunner()
-    upload_date = '2015-04-29'
+    upload_date = "2015-04-29"
     with freeze_time(upload_date):
         target_id = vws_client.add_target(
-            name='x',
+            name="x",
             width=1,
             image=high_quality_image,
             active_flag=True,
@@ -164,27 +164,27 @@ def test_get_target_summary_report(
         )
 
     commands = [
-        'get-target-summary-report',
-        '--target-id',
+        "get-target-summary-report",
+        "--target-id",
         target_id,
-        '--server-access-key',
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
     result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
     expected_result_data = {
-        'active_flag': True,
-        'current_month_recos': 0,
-        'database_name': mock_database.database_name,
-        'previous_month_recos': 0,
-        'status': 'success',
-        'target_name': 'x',
-        'total_recos': 0,
-        'tracking_rating': result_data['tracking_rating'],
-        'upload_date': upload_date,
+        "active_flag": True,
+        "current_month_recos": 0,
+        "database_name": mock_database.database_name,
+        "previous_month_recos": 0,
+        "status": "success",
+        "target_name": "x",
+        "total_recos": 0,
+        "tracking_rating": result_data["tracking_rating"],
+        "upload_date": upload_date,
     }
     assert result_data == expected_result_data
 
@@ -199,7 +199,7 @@ def test_delete_target(
     """
     runner = CliRunner()
     target_id = vws_client.add_target(
-        name='x',
+        name="x",
         width=1,
         image=high_quality_image,
         active_flag=True,
@@ -207,18 +207,18 @@ def test_delete_target(
     )
     assert vws_client.list_targets() == [target_id]
     commands = [
-        'delete-target',
-        '--target-id',
+        "delete-target",
+        "--target-id",
         target_id,
-        '--server-access-key',
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
     vws_client.wait_for_target_processed(target_id=target_id)
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
-    assert result.stdout == ''
+    assert result.stdout == ""
     assert vws_client.list_targets() == []
 
 
@@ -232,14 +232,14 @@ def test_get_duplicate_targets(
     """
     runner = CliRunner()
     target_id = vws_client.add_target(
-        name='x',
+        name="x",
         width=1,
         image=high_quality_image,
         active_flag=True,
         application_metadata=None,
     )
     target_id_2 = vws_client.add_target(
-        name='x2',
+        name="x2",
         width=1,
         image=high_quality_image,
         active_flag=True,
@@ -250,12 +250,12 @@ def test_get_duplicate_targets(
     vws_client.wait_for_target_processed(target_id_2)
 
     commands = [
-        'get-duplicate-targets',
-        '--target-id',
+        "get-duplicate-targets",
+        "--target-id",
         target_id,
-        '--server-access-key',
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
@@ -288,16 +288,16 @@ class TestAddTarget:
         new_file.write_bytes(data=image_data)
         width = random.uniform(a=0.01, b=50)
         commands = [
-            'add-target',
-            '--name',
+            "add-target",
+            "--name",
             name,
-            '--width',
+            "--width",
             str(width),
-            '--image',
+            "--image",
             str(new_file),
-            '--server-access-key',
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
@@ -328,21 +328,21 @@ class TestAddTarget:
         runner = CliRunner(mix_stderr=False)
         does_not_exist_file = tmp_path / uuid.uuid4().hex
         commands = [
-            'add-target',
-            '--name',
-            'foo',
-            '--width',
-            '1',
-            '--image',
+            "add-target",
+            "--name",
+            "foo",
+            "--width",
+            "1",
+            "--image",
             str(does_not_exist_file),
-            '--server-access-key',
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 2
-        assert result.stdout == ''
+        assert result.stdout == ""
         expected_stderr = dedent(
             f"""\
             Usage: vws add-target [OPTIONS]
@@ -364,21 +364,21 @@ class TestAddTarget:
         """
         runner = CliRunner(mix_stderr=False)
         commands = [
-            'add-target',
-            '--name',
-            'foo',
-            '--width',
-            '1',
-            '--image',
+            "add-target",
+            "--name",
+            "foo",
+            "--width",
+            "1",
+            "--image",
             str(tmp_path),
-            '--server-access-key',
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 2
-        assert result.stdout == ''
+        assert result.stdout == ""
         expected_stderr = dedent(
             f"""\
             Usage: vws add-target [OPTIONS]
@@ -401,21 +401,21 @@ class TestAddTarget:
         """
         runner = CliRunner(mix_stderr=False)
         new_filename = uuid.uuid4().hex
-        original_image_file = tmp_path / 'foo'
+        original_image_file = tmp_path / "foo"
         image_data = high_quality_image.getvalue()
         original_image_file.write_bytes(image_data)
         name = uuid.uuid4().hex
         commands = [
-            'add-target',
-            '--name',
+            "add-target",
+            "--name",
             name,
-            '--width',
-            '1',
-            '--image',
+            "--width",
+            "1",
+            "--image",
             new_filename,
-            '--server-access-key',
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         with runner.isolated_filesystem():
@@ -444,22 +444,22 @@ class TestAddTarget:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         application_metadata = uuid.uuid4().hex
-        metadata_bytes = application_metadata.encode('ascii')
+        metadata_bytes = application_metadata.encode("ascii")
         base64_encoded_metadata_bytes = base64.b64encode(metadata_bytes)
-        base64_encoded_metadata = base64_encoded_metadata_bytes.decode('ascii')
+        base64_encoded_metadata = base64_encoded_metadata_bytes.decode("ascii")
         commands = [
-            'add-target',
-            '--name',
+            "add-target",
+            "--name",
             name,
-            '--width',
-            '0.1',
-            '--image',
+            "--width",
+            "0.1",
+            "--image",
             str(new_file),
-            '--application-metadata',
+            "--application-metadata",
             base64_encoded_metadata,
-            '--server-access-key',
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
@@ -474,10 +474,10 @@ class TestAddTarget:
 
     @staticmethod
     @pytest.mark.parametrize(
-        'active_flag_given,active_flag_expected',
+        "active_flag_given,active_flag_expected",
         [
-            ('true', True),
-            ('false', False),
+            ("true", True),
+            ("false", False),
         ],
     )
     def test_custom_active_flag(
@@ -496,18 +496,18 @@ class TestAddTarget:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         commands = [
-            'add-target',
-            '--name',
-            'foo',
-            '--width',
-            '0.1',
-            '--image',
+            "add-target",
+            "--name",
+            "foo",
+            "--width",
+            "0.1",
+            "--image",
             str(new_file),
-            '--active-flag',
+            "--active-flag",
             active_flag_given,
-            '--server-access-key',
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
@@ -535,7 +535,7 @@ class TestWaitForTargetProcessed:
         """
         runner = CliRunner()
         target_id = vws_client.add_target(
-            name='x',
+            name="x",
             width=1,
             image=high_quality_image,
             active_flag=True,
@@ -544,17 +544,17 @@ class TestWaitForTargetProcessed:
         report = vws_client.get_target_summary_report(target_id=target_id)
         assert report.status == TargetStatuses.PROCESSING
         commands = [
-            'wait-for-target-processed',
-            '--target-id',
+            "wait-for-target-processed",
+            "--target-id",
             target_id,
-            '--server-access-key',
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
-        assert result.stdout == ''
+        assert result.stdout == ""
         report = vws_client.get_target_summary_report(target_id=target_id)
         assert report.status != TargetStatuses.PROCESSING
 
@@ -575,7 +575,7 @@ class TestWaitForTargetProcessed:
             )
 
             target_id = vws_client.add_target(
-                name='x',
+                name="x",
                 width=1,
                 image=high_quality_image,
                 active_flag=True,
@@ -583,17 +583,17 @@ class TestWaitForTargetProcessed:
             )
 
             commands = [
-                'wait-for-target-processed',
-                '--target-id',
+                "wait-for-target-processed",
+                "--target-id",
                 target_id,
-                '--server-access-key',
+                "--server-access-key",
                 mock_database.server_access_key,
-                '--server-secret-key',
+                "--server-secret-key",
                 mock_database.server_secret_key,
             ]
             result = runner.invoke(vws_group, commands, catch_exceptions=False)
             assert result.exit_code == 0
-            assert result.stdout == ''
+            assert result.stdout == ""
             report = vws_client.get_database_summary_report()
             expected_requests = (
                 # Add target request
@@ -639,7 +639,7 @@ class TestWaitForTargetProcessed:
             )
 
             target_id = vws_client.add_target(
-                name='x',
+                name="x",
                 width=1,
                 image=high_quality_image,
                 active_flag=True,
@@ -647,19 +647,19 @@ class TestWaitForTargetProcessed:
             )
 
             commands = [
-                'wait-for-target-processed',
-                '--target-id',
+                "wait-for-target-processed",
+                "--target-id",
                 target_id,
-                '--seconds-between-requests',
-                '0.3',
-                '--server-access-key',
+                "--seconds-between-requests",
+                "0.3",
+                "--server-access-key",
                 mock_database.server_access_key,
-                '--server-secret-key',
+                "--server-secret-key",
                 mock_database.server_secret_key,
             ]
             result = runner.invoke(vws_group, commands, catch_exceptions=False)
             assert result.exit_code == 0
-            assert result.stdout == ''
+            assert result.stdout == ""
             report = vws_client.get_database_summary_report()
             expected_requests = (
                 # Add target request
@@ -693,20 +693,20 @@ class TestWaitForTargetProcessed:
         """
         runner = CliRunner(mix_stderr=False)
         commands = [
-            'wait-for-target-processed',
-            '--target-id',
-            'x',
-            '--seconds-between-requests',
-            '0.01',
-            '--server-access-key',
+            "wait-for-target-processed",
+            "--target-id",
+            "x",
+            "--seconds-between-requests",
+            "0.01",
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code != 0
-        assert result.stdout == ''
-        expected_substring = '0.01 is not in the range x>=0.05.'
+        assert result.stdout == ""
+        expected_substring = "0.01 is not in the range x>=0.05."
         assert expected_substring in result.stderr
 
     @staticmethod
@@ -724,7 +724,7 @@ class TestWaitForTargetProcessed:
             )
 
             target_id = vws_client.add_target(
-                name='x',
+                name="x",
                 width=1,
                 image=high_quality_image,
                 active_flag=True,
@@ -735,29 +735,29 @@ class TestWaitForTargetProcessed:
             assert report.status == TargetStatuses.PROCESSING
 
             commands = [
-                'wait-for-target-processed',
-                '--target-id',
+                "wait-for-target-processed",
+                "--target-id",
                 target_id,
-                '--timeout-seconds',
-                '0.1',
-                '--server-access-key',
+                "--timeout-seconds",
+                "0.1",
+                "--server-access-key",
                 mock_database.server_access_key,
-                '--server-secret-key',
+                "--server-secret-key",
                 mock_database.server_secret_key,
             ]
             result = runner.invoke(vws_group, commands, catch_exceptions=False)
             assert result.exit_code != 0
-            assert result.stderr == 'Timeout of 0.1 seconds reached.\n'
+            assert result.stderr == "Timeout of 0.1 seconds reached.\n"
 
             commands = [
-                'wait-for-target-processed',
-                '--target-id',
+                "wait-for-target-processed",
+                "--target-id",
                 target_id,
-                '--timeout-seconds',
-                '0.5',
-                '--server-access-key',
+                "--timeout-seconds",
+                "0.5",
+                "--server-access-key",
                 mock_database.server_access_key,
-                '--server-secret-key',
+                "--server-secret-key",
                 mock_database.server_secret_key,
             ]
             result = runner.invoke(vws_group, commands, catch_exceptions=False)
@@ -772,19 +772,19 @@ class TestWaitForTargetProcessed:
         """
         runner = CliRunner(mix_stderr=False)
         commands = [
-            'wait-for-target-processed',
-            '--target-id',
-            'x',
-            '--timeout-seconds',
-            '0.01',
-            '--server-access-key',
+            "wait-for-target-processed",
+            "--target-id",
+            "x",
+            "--timeout-seconds",
+            "0.01",
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code != 0
-        expected_substring = '0.01 is not in the range x>=0.05.'
+        expected_substring = "0.01 is not in the range x>=0.05."
         assert expected_substring in result.stderr
 
 
@@ -816,7 +816,7 @@ class TestUpdateTarget:
             application_metadata=None,
         )
         vws_client.wait_for_target_processed(target_id=target_id)
-        new_application_metadata = base64.b64encode(b'a').decode('ascii')
+        new_application_metadata = base64.b64encode(b"a").decode("ascii")
         new_name = uuid.uuid4().hex
         new_width = random.uniform(a=0.01, b=50)
         new_image_file = tmp_path / uuid.uuid4().hex
@@ -824,27 +824,27 @@ class TestUpdateTarget:
         new_image_file.write_bytes(data=new_image_data)
 
         commands = [
-            'update-target',
-            '--target-id',
+            "update-target",
+            "--target-id",
             target_id,
-            '--name',
+            "--name",
             new_name,
-            '--width',
+            "--width",
             str(new_width),
-            '--image',
+            "--image",
             str(new_image_file),
-            '--active-flag',
-            'true',
-            '--application-metadata',
+            "--active-flag",
+            "true",
+            "--application-metadata",
             new_application_metadata,
-            '--server-access-key',
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
-        assert result.stdout == ''
+        assert result.stdout == ""
 
         vws_client.wait_for_target_processed(target_id=target_id)
         [
@@ -857,19 +857,19 @@ class TestUpdateTarget:
         assert query_metadata == new_application_metadata
 
         commands = [
-            'update-target',
-            '--target-id',
+            "update-target",
+            "--target-id",
             target_id,
-            '--active-flag',
-            'false',
-            '--server-access-key',
+            "--active-flag",
+            "false",
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
-        assert result.stdout == ''
+        assert result.stdout == ""
         target_details = vws_client.get_target_record(target_id=target_id)
         target_record = target_details.target_record
         assert not target_record.active_flag
@@ -899,17 +899,17 @@ class TestUpdateTarget:
         vws_client.wait_for_target_processed(target_id=target_id)
 
         commands = [
-            'update-target',
-            '--target-id',
+            "update-target",
+            "--target-id",
             target_id,
-            '--server-access-key',
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
-        assert result.stdout == ''
+        assert result.stdout == ""
 
     @staticmethod
     def test_image_file_does_not_exist(
@@ -922,7 +922,7 @@ class TestUpdateTarget:
         An appropriate error is given if the given image file does not exist.
         """
         target_id = vws_client.add_target(
-            name='x',
+            name="x",
             width=1,
             image=high_quality_image,
             active_flag=True,
@@ -932,19 +932,19 @@ class TestUpdateTarget:
         runner = CliRunner(mix_stderr=False)
         does_not_exist_file = tmp_path / uuid.uuid4().hex
         commands = [
-            'update-target',
-            '--target-id',
+            "update-target",
+            "--target-id",
             target_id,
-            '--image',
+            "--image",
             str(does_not_exist_file),
-            '--server-access-key',
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 2
-        assert result.stdout == ''
+        assert result.stdout == ""
         expected_stderr = dedent(
             f"""\
             Usage: vws update-target [OPTIONS]
@@ -967,7 +967,7 @@ class TestUpdateTarget:
         directory.
         """
         target_id = vws_client.add_target(
-            name='x',
+            name="x",
             width=1,
             image=high_quality_image,
             active_flag=True,
@@ -976,19 +976,19 @@ class TestUpdateTarget:
         vws_client.wait_for_target_processed(target_id=target_id)
         runner = CliRunner(mix_stderr=False)
         commands = [
-            'update-target',
-            '--target-id',
+            "update-target",
+            "--target-id",
             target_id,
-            '--image',
+            "--image",
             str(tmp_path),
-            '--server-access-key',
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 2
-        assert result.stdout == ''
+        assert result.stdout == ""
         expected_stderr = dedent(
             f"""\
             Usage: vws update-target [OPTIONS]
@@ -1011,7 +1011,7 @@ class TestUpdateTarget:
         """
         runner = CliRunner(mix_stderr=False)
         target_id = vws_client.add_target(
-            name='x',
+            name="x",
             width=1,
             image=high_quality_image,
             active_flag=True,
@@ -1019,18 +1019,18 @@ class TestUpdateTarget:
         )
         vws_client.wait_for_target_processed(target_id=target_id)
         new_filename = uuid.uuid4().hex
-        original_image_file = tmp_path / 'foo'
+        original_image_file = tmp_path / "foo"
         image_data = high_quality_image.getvalue()
         original_image_file.write_bytes(image_data)
         commands = [
-            'update-target',
-            '--target-id',
+            "update-target",
+            "--target-id",
             target_id,
-            '--image',
+            "--image",
             new_filename,
-            '--server-access-key',
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
 
@@ -1048,15 +1048,15 @@ def test_custom_base_url() -> None:
     URL.
     """
     runner = CliRunner(mix_stderr=False)
-    base_vws_url = 'http://example.com'
+    base_vws_url = "http://example.com"
     mock_database = VuforiaDatabase()
     commands = [
-        'list-targets',
-        '--server-access-key',
+        "list-targets",
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
-        '--base-vws-url',
+        "--base-vws-url",
         base_vws_url,
     ]
     with MockVWS(base_vws_url=base_vws_url) as mock:

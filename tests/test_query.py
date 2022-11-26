@@ -38,9 +38,9 @@ class TestQuery:
         new_file.write_bytes(data=image_data)
         commands: list[str] = [
             str(new_file),
-            '--client-access-key',
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -78,9 +78,9 @@ class TestQuery:
         new_file.write_bytes(data=image_data)
         commands = [
             str(new_file),
-            '--client-access-key',
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -91,14 +91,14 @@ class TestQuery:
         assert result.exit_code == 0
         result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
         [matching_target] = result_data
-        target_timestamp = matching_target['target_data']['target_timestamp']
+        target_timestamp = matching_target["target_data"]["target_timestamp"]
         expected_result_data = {
-            'target_data': {
-                'application_metadata': None,
-                'name': name,
-                'target_timestamp': target_timestamp,
+            "target_data": {
+                "application_metadata": None,
+                "name": name,
+                "target_timestamp": target_timestamp,
             },
-            'target_id': target_id,
+            "target_id": target_id,
         }
         assert matching_target == expected_result_data
 
@@ -114,9 +114,9 @@ class TestQuery:
         runner = CliRunner(mix_stderr=False)
         commands: list[str] = [
             str(tmp_path),
-            '--client-access-key',
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -125,7 +125,7 @@ class TestQuery:
             catch_exceptions=False,
         )
         assert result.exit_code == 2
-        assert result.stdout == ''
+        assert result.stdout == ""
         expected_stderr = dedent(
             f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
@@ -147,14 +147,14 @@ class TestQuery:
         """
         runner = CliRunner(mix_stderr=False)
         new_filename = uuid.uuid4().hex
-        original_image_file = tmp_path / 'foo'
+        original_image_file = tmp_path / "foo"
         image_data = high_quality_image.getvalue()
         original_image_file.write_bytes(image_data)
         commands: list[str] = [
             str(new_filename),
-            '--client-access-key',
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         with runner.isolated_filesystem():
@@ -182,9 +182,9 @@ class TestQuery:
         does_not_exist_file = tmp_path / uuid.uuid4().hex
         commands: list[str] = [
             str(does_not_exist_file),
-            '--client-access-key',
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -193,7 +193,7 @@ class TestQuery:
             catch_exceptions=False,
         )
         assert result.exit_code == 2
-        assert result.stdout == ''
+        assert result.stdout == ""
         expected_stderr = dedent(
             f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
@@ -210,14 +210,14 @@ def test_version() -> None:
     ``vuforia-cloud-reco --version`` shows the version.
     """
     runner = CliRunner(mix_stderr=False)
-    commands = ['--version']
+    commands = ["--version"]
     result = runner.invoke(
         vuforia_cloud_reco,
         commands,
         catch_exceptions=False,
     )
     assert result.exit_code == 0
-    assert result.stdout.startswith('vuforia-cloud-reco, version ')
+    assert result.stdout.startswith("vuforia-cloud-reco, version ")
 
 
 class TestMaxNumResults:
@@ -258,9 +258,9 @@ class TestMaxNumResults:
         new_file.write_bytes(data=image_data)
         commands = [
             str(new_file),
-            '--client-access-key',
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -313,11 +313,11 @@ class TestMaxNumResults:
         new_file.write_bytes(data=image_data)
         commands = [
             str(new_file),
-            '--max-num-results',
+            "--max-num-results",
             str(2),
-            '--client-access-key',
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -344,11 +344,11 @@ class TestMaxNumResults:
         new_file.write_bytes(data=image_data)
         commands = [
             str(new_file),
-            '--max-num-results',
+            "--max-num-results",
             str(0),
-            '--client-access-key',
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -359,7 +359,7 @@ class TestMaxNumResults:
         assert result.exit_code == 2
         expected_stderr_substring = (
             "Error: Invalid value for '--max-num-results': 0 is not in the "
-            'range 1<=x<=50.'
+            "range 1<=x<=50."
         )
         assert expected_stderr_substring in result.stderr
 
@@ -401,11 +401,11 @@ class TestIncludeTargetData:
         new_file.write_bytes(data=image_data)
         commands = [
             str(new_file),
-            '--max-num-results',
+            "--max-num-results",
             str(2),
-            '--client-access-key',
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -416,8 +416,8 @@ class TestIncludeTargetData:
         assert result.exit_code == 0
         matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
         top_match, second_match = matches
-        assert top_match['target_data'] is not None
-        assert second_match['target_data'] is None
+        assert top_match["target_data"] is not None
+        assert second_match["target_data"] is None
 
     @staticmethod
     def test_top(
@@ -451,13 +451,13 @@ class TestIncludeTargetData:
         new_file.write_bytes(data=image_data)
         commands = [
             str(new_file),
-            '--max-num-results',
+            "--max-num-results",
             str(2),
-            '--include-target-data',
-            'top',
-            '--client-access-key',
+            "--include-target-data",
+            "top",
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -468,8 +468,8 @@ class TestIncludeTargetData:
         assert result.exit_code == 0
         matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
         top_match, second_match = matches
-        assert top_match['target_data'] is not None
-        assert second_match['target_data'] is None
+        assert top_match["target_data"] is not None
+        assert second_match["target_data"] is None
 
     @staticmethod
     def test_none(
@@ -503,13 +503,13 @@ class TestIncludeTargetData:
         new_file.write_bytes(data=image_data)
         commands = [
             str(new_file),
-            '--max-num-results',
+            "--max-num-results",
             str(2),
-            '--include-target-data',
-            'none',
-            '--client-access-key',
+            "--include-target-data",
+            "none",
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -520,8 +520,8 @@ class TestIncludeTargetData:
         assert result.exit_code == 0
         matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
         top_match, second_match = matches
-        assert top_match['target_data'] is None
-        assert second_match['target_data'] is None
+        assert top_match["target_data"] is None
+        assert second_match["target_data"] is None
 
     @staticmethod
     def test_all(
@@ -556,13 +556,13 @@ class TestIncludeTargetData:
 
         commands = [
             str(new_file),
-            '--max-num-results',
+            "--max-num-results",
             str(2),
-            '--include-target-data',
-            'all',
-            '--client-access-key',
+            "--include-target-data",
+            "all",
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -573,8 +573,8 @@ class TestIncludeTargetData:
         assert result.exit_code == 0
         matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
         top_match, second_match = matches
-        assert top_match['target_data'] is not None
-        assert second_match['target_data'] is not None
+        assert top_match["target_data"] is not None
+        assert second_match["target_data"] is not None
 
     @staticmethod
     def test_other(
@@ -592,13 +592,13 @@ class TestIncludeTargetData:
         new_file.write_bytes(data=image_data)
         commands = [
             str(new_file),
-            '--max-num-results',
+            "--max-num-results",
             str(2),
-            '--include-target-data',
-            'other',
-            '--client-access-key',
+            "--include-target-data",
+            "other",
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
@@ -620,7 +620,7 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
     URL.
     """
     runner = CliRunner(mix_stderr=False)
-    base_vwq_url = 'http://example.com'
+    base_vwq_url = "http://example.com"
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
@@ -633,7 +633,7 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
         )
 
         target_id = vws_client.add_target(
-            name='x',
+            name="x",
             width=1,
             image=high_quality_image,
             active_flag=True,
@@ -644,11 +644,11 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
 
         commands = [
             str(new_file),
-            '--client-access-key',
+            "--client-access-key",
             mock_database.client_access_key,
-            '--client-secret-key',
+            "--client-secret-key",
             mock_database.client_secret_key,
-            '--base-vwq-url',
+            "--base-vwq-url",
             base_vwq_url,
         ]
         result = runner.invoke(
@@ -659,7 +659,7 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
         assert result.exit_code == 0
 
     [match] = yaml.load(result.stdout, Loader=yaml.FullLoader)
-    assert match['target_id'] == target_id
+    assert match["target_id"] == target_id
 
 
 def test_env_var_credentials(
@@ -680,8 +680,8 @@ def test_env_var_credentials(
         commands,
         catch_exceptions=False,
         env={
-            'VUFORIA_CLIENT_ACCESS_KEY': mock_database.client_access_key,
-            'VUFORIA_CLIENT_SECRET_KEY': mock_database.client_secret_key,
+            "VUFORIA_CLIENT_ACCESS_KEY": mock_database.client_access_key,
+            "VUFORIA_CLIENT_SECRET_KEY": mock_database.client_secret_key,
         },
     )
     assert result.exit_code == 0

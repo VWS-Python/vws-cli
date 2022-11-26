@@ -45,33 +45,33 @@ def handle_vwq_exceptions(
     library.
     """
     assert not instance  # This is to satisfy the "vulture" linter.
-    error_message = ''
+    error_message = ""
 
     try:
         wrapped(*args, **kwargs)
     except BadImage:
         error_message = (
-            'Error: The given image is corrupted or the format is not '
-            'supported.'
+            "Error: The given image is corrupted or the format is not "
+            "supported."
         )
     except InactiveProject:
         error_message = (
-            'Error: The project associated with the given keys is inactive.'
+            "Error: The project associated with the given keys is inactive."
         )
     except AuthenticationFailure:
-        error_message = 'The given secret key was incorrect.'
+        error_message = "The given secret key was incorrect."
     except RequestTimeTooSkewed:
         error_message = (
-            'Error: Vuforia reported that the time given with this request '
-            'was outside the expected range. '
-            'This may be because the system clock is out of sync.'
+            "Error: Vuforia reported that the time given with this request "
+            "was outside the expected range. "
+            "This may be because the system clock is out of sync."
         )
     except RequestEntityTooLarge:
-        error_message = 'Error: The given image is too large.'
+        error_message = "Error: The given image is too large."
     except ActiveMatchingTargetsDeleteProcessing:
         error_message = (
-            'Error: The given image matches a target which was recently '
-            'deleted.'
+            "Error: The given image matches a target which was recently "
+            "deleted."
         )
     else:
         return
@@ -88,7 +88,7 @@ def image_argument(command: Callable[..., None]) -> Callable[..., None]:
         [Callable[..., None]],
         Callable[..., None],
     ] = click.argument(
-        'image',
+        "image",
         type=click.Path(
             exists=True,
             file_okay=True,
@@ -112,12 +112,12 @@ def max_num_results_option(
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--max-num-results',
+        "--max-num-results",
         type=click.IntRange(min=1, max=maximum),
         default=1,
         help=(
-            'The maximum number of matching targets to be returned. '
-            f'Must be <= {maximum}.'
+            "The maximum number of matching targets to be returned. "
+            f"Must be <= {maximum}."
         ),
         show_default=True,
     )
@@ -139,9 +139,9 @@ def include_target_data_callback(
     assert param
 
     return {
-        'top': CloudRecoIncludeTargetData.TOP,
-        'none': CloudRecoIncludeTargetData.NONE,
-        'all': CloudRecoIncludeTargetData.ALL,
+        "top": CloudRecoIncludeTargetData.TOP,
+        "none": CloudRecoIncludeTargetData.NONE,
+        "all": CloudRecoIncludeTargetData.ALL,
     }[value]
 
 
@@ -155,15 +155,15 @@ def include_target_data_option(
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--include-target-data',
-        type=click.Choice(['top', 'none', 'all'], case_sensitive=True),
-        default='top',
+        "--include-target-data",
+        type=click.Choice(["top", "none", "all"], case_sensitive=True),
+        default="top",
         callback=include_target_data_callback,
         help=(
-            'Whether target_data records shall be returned for the matched '
-            'targets. Accepted values are top (default value, only return '
-            'target_data for top ranked match), none (return no target_data), '
-            'all (for all matched targets).'
+            "Whether target_data records shall be returned for the matched "
+            "targets. Accepted values are top (default value, only return "
+            "target_data for top ranked match), none (return no target_data), "
+            "all (for all matched targets)."
         ),
         show_default=True,
     )
@@ -180,10 +180,10 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--base-vwq-url',
+        "--base-vwq-url",
         type=click.STRING,
-        default='https://cloudreco.vuforia.com',
-        help='The base URL for the VWQ API.',
+        default="https://cloudreco.vuforia.com",
+        help="The base URL for the VWQ API.",
         show_default=True,
     )
 
@@ -191,7 +191,7 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
     return function
 
 
-@click.command(name='vuforia-cloud-reco')
+@click.command(name="vuforia-cloud-reco")
 @image_argument
 @client_access_key_option
 @client_secret_key_option

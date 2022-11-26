@@ -10,7 +10,7 @@ from mock_vws.database import VuforiaDatabase
 from vws import VWS, CloudRecoService
 
 
-@pytest.fixture(name='mock_database')
+@pytest.fixture(name="mock_database")
 def fixture_mock_database() -> Iterator[VuforiaDatabase]:
     """
     Yield a mock ``VuforiaDatabase``.

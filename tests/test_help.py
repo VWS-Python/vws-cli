@@ -19,7 +19,7 @@ _COMMANDS = _BASE_COMMAND + _SUBCOMMANDS
 
 
 @pytest.mark.parametrize(
-    'command',
+    "command",
     _COMMANDS,
     ids=[str(cmd) for cmd in _COMMANDS],
 )
@@ -31,17 +31,17 @@ def test_vws_command_help(command: list[str]) -> None:
     To update these files, run the command ``bash admin/update_cli_tests.sh``.
     """
     runner = CliRunner()
-    arguments = command + ['--help']
+    arguments = command + ["--help"]
     result = runner.invoke(vws_group, arguments, catch_exceptions=False)
     assert result.exit_code == 0
-    help_output_filename = '-'.join(['vws'] + command) + '.txt'
-    help_outputs_dir = Path(__file__).parent / 'help_outputs'
+    help_output_filename = "-".join(["vws"] + command) + ".txt"
+    help_outputs_dir = Path(__file__).parent / "help_outputs"
     expected_help_file = help_outputs_dir / help_output_filename
     try:
         expected_help = expected_help_file.read_text()
         assert result.output == expected_help
     except (AssertionError, FileNotFoundError):  # pragma: no cover
-        if os.getenv('FIX_CLI_TESTS') == '1':
+        if os.getenv("FIX_CLI_TESTS") == "1":
             help_outputs_dir.mkdir(exist_ok=True)
             expected_help_file.touch()
             expected_help_file.write_text(result.output)
@@ -57,21 +57,21 @@ def test_query_help() -> None:
     To update these files, run the command ``bash admin/update_cli_tests.sh``.
     """
     runner = CliRunner()
-    arguments = ['--help']
+    arguments = ["--help"]
     result = runner.invoke(
         vuforia_cloud_reco,
         arguments,
         catch_exceptions=False,
     )
     assert result.exit_code == 0
-    help_output_filename = 'vuforia_cloud_reco.txt'
-    help_outputs_dir = Path(__file__).parent / 'help_outputs'
+    help_output_filename = "vuforia_cloud_reco.txt"
+    help_outputs_dir = Path(__file__).parent / "help_outputs"
     expected_help_file = help_outputs_dir / help_output_filename
     try:
         expected_help = expected_help_file.read_text()
         assert result.output == expected_help
     except (AssertionError, FileNotFoundError):  # pragma: no cover
-        if os.getenv('FIX_CLI_TESTS') == '1':
+        if os.getenv("FIX_CLI_TESTS") == "1":
             help_outputs_dir.mkdir(exist_ok=True)
             expected_help_file.touch()
             expected_help_file.write_text(result.output)
