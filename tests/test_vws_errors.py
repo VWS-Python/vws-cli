@@ -23,21 +23,21 @@ def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
     """
     runner = CliRunner(mix_stderr=False)
     for command_name, command in vws_group.commands.items():
-        if 'target_id' in [option.name for option in command.params]:
+        if "target_id" in [option.name for option in command.params]:
             args = [
                 command_name,
-                '--target-id',
-                'abc12345',
-                '--server-access-key',
+                "--target-id",
+                "abc12345",
+                "--server-access-key",
                 mock_database.server_access_key,
-                '--server-secret-key',
+                "--server-secret-key",
                 mock_database.server_secret_key,
             ]
             result = runner.invoke(vws_group, args, catch_exceptions=False)
             assert result.exit_code == 1
             expected_stderr = 'Error: Target "abc12345" does not exist.\n'
             assert result.stderr == expected_stderr
-            assert result.stdout == ''
+            assert result.stdout == ""
 
 
 def test_bad_image(
@@ -49,28 +49,28 @@ def test_bad_image(
     when a corrupt image is uploaded.
     """
     new_file = tmp_path / uuid.uuid4().hex
-    new_file.write_bytes(data=b'Not an image')
+    new_file.write_bytes(data=b"Not an image")
     runner = CliRunner(mix_stderr=False)
     args = [
-        'add-target',
-        '--name',
-        'x',
-        '--width',
-        '0.1',
-        '--image',
+        "add-target",
+        "--name",
+        "x",
+        "--width",
+        "0.1",
+        "--image",
         str(new_file),
-        '--server-access-key',
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, args, catch_exceptions=False)
     assert result.exit_code == 1
     expected_stderr = (
-        'Error: The given image is corrupted or the format is not supported.\n'
+        "Error: The given image is corrupted or the format is not supported.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_fail_bad_request(
@@ -89,27 +89,27 @@ def test_fail_bad_request(
     new_file.write_bytes(data=high_quality_image.getvalue())
     runner = CliRunner(mix_stderr=False)
     args = [
-        'add-target',
-        '--name',
-        'x',
-        '--width',
-        '0.1',
-        '--image',
+        "add-target",
+        "--name",
+        "x",
+        "--width",
+        "0.1",
+        "--image",
         str(new_file),
-        '--server-access-key',
-        'does_not_exist_key',
-        '--server-secret-key',
+        "--server-access-key",
+        "does_not_exist_key",
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, args, catch_exceptions=False)
     assert result.exit_code == 1
     expected_stderr = (
-        'Error: The request made to Vuforia was invalid and could not be '
-        'processed. '
-        'Check the given parameters.\n'
+        "Error: The request made to Vuforia was invalid and could not be "
+        "processed. "
+        "Check the given parameters.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_metadata_too_large(
@@ -124,25 +124,25 @@ def test_metadata_too_large(
     new_file.write_bytes(data=high_quality_image.getvalue())
     runner = CliRunner(mix_stderr=False)
     args = [
-        'add-target',
-        '--name',
-        'x',
-        '--width',
-        '0.1',
-        '--image',
+        "add-target",
+        "--name",
+        "x",
+        "--width",
+        "0.1",
+        "--image",
         str(new_file),
-        '--application-metadata',
-        'a' * 1024 * 1024 * 10,
-        '--server-access-key',
+        "--application-metadata",
+        "a" * 1024 * 1024 * 10,
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, args, catch_exceptions=False)
     assert result.exit_code == 1
-    expected_stderr = 'Error: The given metadata is too large.\n'
+    expected_stderr = "Error: The given metadata is too large.\n"
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_image_too_large(
@@ -158,23 +158,23 @@ def test_image_too_large(
     image_data = png_too_large.getvalue()
     new_file.write_bytes(data=image_data)
     commands = [
-        'add-target',
-        '--name',
-        'foo',
-        '--width',
-        '0.1',
-        '--image',
+        "add-target",
+        "--name",
+        "foo",
+        "--width",
+        "0.1",
+        "--image",
         str(new_file),
-        '--server-access-key',
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 1
-    expected_stderr = 'Error: The given image is too large.\n'
+    expected_stderr = "Error: The given image is too large.\n"
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_target_name_exist(
@@ -186,7 +186,7 @@ def test_target_name_exist(
     """
     An error is given when there is already a target with the given name.
     """
-    name = 'foobar'
+    name = "foobar"
     vws_client.add_target(
         name=name,
         width=1,
@@ -200,23 +200,23 @@ def test_target_name_exist(
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
     commands = [
-        'add-target',
-        '--name',
+        "add-target",
+        "--name",
         name,
-        '--width',
-        '0.1',
-        '--image',
+        "--width",
+        "0.1",
+        "--image",
         str(new_file),
-        '--server-access-key',
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 1
     expected_stderr = 'Error: There is already a target named "foobar".\n'
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_project_inactive(
@@ -235,26 +235,26 @@ def test_project_inactive(
         mock.add_database(database=database)
         runner = CliRunner(mix_stderr=False)
         commands = [
-            'add-target',
-            '--name',
-            'foo',
-            '--width',
-            '0.1',
-            '--image',
+            "add-target",
+            "--name",
+            "foo",
+            "--width",
+            "0.1",
+            "--image",
             str(new_file),
-            '--server-access-key',
+            "--server-access-key",
             database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
 
     assert result.exit_code == 1
     expected_stderr = (
-        'Error: The project associated with the given keys is inactive.\n'
+        "Error: The project associated with the given keys is inactive.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_unknown_vws_error(
@@ -274,26 +274,26 @@ def test_unknown_vws_error(
     bad_name = chr(max_char_value + 1)
 
     commands = [
-        'add-target',
-        '--name',
+        "add-target",
+        "--name",
         bad_name,
-        '--width',
-        '0.1',
-        '--image',
+        "--width",
+        "0.1",
+        "--image",
         str(new_file),
-        '--server-access-key',
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 1
     expected_stderr = (
-        'Error: There was an unknown error from Vuforia. '
-        'This may be because there is a problem with the given name.\n'
+        "Error: There was an unknown error from Vuforia. "
+        "This may be because there is a problem with the given name.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_target_status_processing(
@@ -307,7 +307,7 @@ def test_target_status_processing(
     runner = CliRunner(mix_stderr=False)
 
     target_id = vws_client.add_target(
-        name='x',
+        name="x",
         width=1,
         image=high_quality_image,
         active_flag=True,
@@ -315,12 +315,12 @@ def test_target_status_processing(
     )
 
     commands = [
-        'delete-target',
-        '--target-id',
+        "delete-target",
+        "--target-id",
         target_id,
-        '--server-access-key',
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
 
@@ -328,10 +328,10 @@ def test_target_status_processing(
     assert result.exit_code == 1
     expected_stderr = (
         f'Error: The target "{target_id}" cannot be deleted as it is in the '
-        'processing state.\n'
+        "processing state.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_target_status_not_success(
@@ -345,7 +345,7 @@ def test_target_status_not_success(
     """
     runner = CliRunner(mix_stderr=False)
     target_id = vws_client.add_target(
-        name='x',
+        name="x",
         width=1,
         image=high_quality_image,
         active_flag=True,
@@ -353,12 +353,12 @@ def test_target_status_not_success(
     )
 
     commands = [
-        'update-target',
-        '--target-id',
+        "update-target",
+        "--target-id",
         target_id,
-        '--server-access-key',
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
+        "--server-secret-key",
         mock_database.server_secret_key,
     ]
 
@@ -366,10 +366,10 @@ def test_target_status_not_success(
     assert result.exit_code == 1
     expected_stderr = (
         f'Error: The target "{target_id}" cannot be updated as it is in the '
-        'processing state.\n'
+        "processing state.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
@@ -378,18 +378,18 @@ def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
     """
     runner = CliRunner(mix_stderr=False)
     commands = [
-        'list-targets',
-        '--server-access-key',
+        "list-targets",
+        "--server-access-key",
         mock_database.server_access_key,
-        '--server-secret-key',
-        'wrong_key',
+        "--server-secret-key",
+        "wrong_key",
     ]
 
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 1
-    expected_stderr = 'The given secret key was incorrect.\n'
+    expected_stderr = "The given secret key was incorrect.\n"
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""
 
 
 def test_request_time_too_skewed(mock_database: VuforiaDatabase) -> None:
@@ -410,18 +410,18 @@ def test_request_time_too_skewed(mock_database: VuforiaDatabase) -> None:
     # >= 1 ticks are acceptable.
     with freeze_time(auto_tick_seconds=time_difference_from_now):
         commands = [
-            'list-targets',
-            '--server-access-key',
+            "list-targets",
+            "--server-access-key",
             mock_database.server_access_key,
-            '--server-secret-key',
+            "--server-secret-key",
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
 
     expected_stderr = (
-        'Error: Vuforia reported that the time given with this request was '
-        'outside the expected range. '
-        'This may be because the system clock is out of sync.\n'
+        "Error: Vuforia reported that the time given with this request was "
+        "outside the expected range. "
+        "This may be because the system clock is out of sync.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ''
+    assert result.stdout == ""

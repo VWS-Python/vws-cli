@@ -20,9 +20,9 @@ def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--target-id',
+        "--target-id",
         type=str,
-        help='The ID of a target in the Vuforia database.',
+        help="The ID of a target in the Vuforia database.",
         required=True,
     )
     function: Callable[..., None] = click_option_function(command)
@@ -46,9 +46,9 @@ def target_name_option(
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--name',
+        "--name",
         type=str,
-        help='The name of the target in the Vuforia database.',
+        help="The name of the target in the Vuforia database.",
         required=required,
     )
     function: Callable[..., None] = click_option_function(command)
@@ -72,9 +72,9 @@ def target_width_option(
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--width',
+        "--width",
         type=float,
-        help='The width of the target in the Vuforia database.',
+        help="The width of the target in the Vuforia database.",
         required=required,
     )
     assert command is not None
@@ -101,15 +101,15 @@ def target_image_option(
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--image',
-        'image_file_path',
+        "--image",
+        "image_file_path",
         type=click.Path(
             exists=True,
             file_okay=True,
             dir_okay=False,
             path_type=Path,
         ),
-        help='The path to an image to upload and set as the target image.',
+        help="The path to an image to upload and set as the target image.",
         required=required,
     )
 
@@ -122,8 +122,8 @@ class ActiveFlagChoice(Enum):
     Choices for active flag.
     """
 
-    TRUE = 'true'
-    FALSE = 'false'
+    TRUE = "true"
+    FALSE = "false"
 
 
 def _active_flag_choice_callback(
@@ -169,9 +169,9 @@ def active_flag_option(
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--active-flag',
-        'active_flag_choice',
-        help='Whether or not the target is active for query.',
+        "--active-flag",
+        "active_flag_choice",
+        help="Whether or not the target is active for query.",
         type=click.Choice([item.value for item in ActiveFlagChoice]),
         default=default,
         callback=_active_flag_choice_callback,
@@ -191,12 +191,12 @@ def application_metadata_option(
         [Callable[..., None]],
         Callable[..., None],
     ] = click.option(
-        '--application-metadata',
+        "--application-metadata",
         type=str,
         required=False,
         help=(
-            'The base64 encoded application metadata associated with the '
-            'target.'
+            "The base64 encoded application metadata associated with the "
+            "target."
         ),
     )
     assert command is not None

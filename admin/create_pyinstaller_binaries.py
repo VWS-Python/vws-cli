@@ -15,8 +15,8 @@ def remove_existing_files(scripts: Set[Path]) -> None:
 
     This is to stop interference with future builds.
     """
-    dist_dir = Path('.') / 'dist'
-    build_dir = Path('.') / 'build'
+    dist_dir = Path(".") / "dist"
+    build_dir = Path(".") / "build"
     try:
         shutil.rmtree(path=str(dist_dir))
     except FileNotFoundError:
@@ -28,7 +28,7 @@ def remove_existing_files(scripts: Set[Path]) -> None:
         pass
 
     for script in scripts:
-        path = Path(script.name + '.spec')
+        path = Path(script.name + ".spec")
         try:
             path.unlink()
         except FileNotFoundError:
@@ -48,37 +48,37 @@ def create_binary(script: Path, repo_root: Path) -> None:
     # These include e.g. Dockerfiles.
     # We still need to include these in the binary.
     datas = []
-    manifest = repo_root / 'MANIFEST.in'
+    manifest = repo_root / "MANIFEST.in"
     with manifest.open() as manifest_file:
         for line in manifest_file.readlines():
             # We do not yet have support for other MANIFEST types.
-            is_include_line = line.startswith('include')
-            is_recursive_include_line = line.startswith('recursive-include')
+            is_include_line = line.startswith("include")
+            is_recursive_include_line = line.startswith("recursive-include")
             assert is_include_line or is_recursive_include_line
-            if line.startswith('recursive-include'):
+            if line.startswith("recursive-include"):
                 _, manifest_path, _ = line.split()
             else:
                 _, manifest_path = line.split()
-            if manifest_path.startswith('src/'):
+            if manifest_path.startswith("src/"):
                 if Path(manifest_path).is_file():
                     parent = Path(manifest_path).parent
                     manifest_path = str(parent)
 
-                src_path_length = len('src/')
+                src_path_length = len("src/")
                 path_without_src = manifest_path[src_path_length:]
                 data_item = (str(repo_root / manifest_path), path_without_src)
                 datas.append(data_item)
 
     pyinstaller_command = [
-        'pyinstaller',
+        "pyinstaller",
         str(script.resolve()),
-        '--onefile',
-        '--name',
-        script.name + '-' + sys.platform,
+        "--onefile",
+        "--name",
+        script.name + "-" + sys.platform,
     ]
     for data in datas:
         source, destination = data
-        add_data_command = ['--add-data', f'{source}:{destination}']
+        add_data_command = ["--add-data", f"{source}:{destination}"]
         pyinstaller_command += add_data_command
 
     subprocess.check_output(args=pyinstaller_command)
@@ -91,12 +91,12 @@ def create_binaries() -> None:
     All binaries will be created in ``./dist``.
     """
     repo_root = Path(__file__).resolve().parent.parent
-    script_dir = repo_root / 'bin'
+    script_dir = repo_root / "bin"
     scripts = set(script_dir.iterdir())
     remove_existing_files(scripts=scripts)
     for script in scripts:
         create_binary(script=script, repo_root=repo_root)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     create_binaries()

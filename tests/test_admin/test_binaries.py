@@ -18,17 +18,17 @@ def test_linux_binaries() -> None:
     ``make_linux_binaries`` creates a binary which can be run on Linux.
     """
     repo_root = Path(__file__).parent.parent.parent.absolute()
-    dist_dir = repo_root / 'dist'
+    dist_dir = repo_root / "dist"
     make_linux_binaries(repo_root=repo_root)
     binary_path_names = {path.name for path in dist_dir.iterdir()}
-    assert binary_path_names == {'vws-linux', 'vuforia-cloud-reco-linux'}
-    remote_repo_dir = Path('/repo')
+    assert binary_path_names == {"vws-linux", "vuforia-cloud-reco-linux"}
+    remote_repo_dir = Path("/repo")
 
     mounts = [
         Mount(
             source=str(repo_root),
             target=str(remote_repo_dir),
-            type='bind',
+            type="bind",
         ),
     ]
 
@@ -44,23 +44,23 @@ def test_linux_binaries() -> None:
     #
     # Because of a click limitation, we do not support running on containers
     # which have LANG and LC_ALL unset.
-    image = 'python:3.11'
+    image = "python:3.11"
     client.images.pull(image)
 
     for remote_path in remote_paths:
         cmd_in_container = [
-            'chmod',
-            '+x',
+            "chmod",
+            "+x",
             str(remote_path),
-            '&&',
+            "&&",
             str(remote_path),
-            '--version',
-            '&&',
-            'rm',
-            '-rf',
+            "--version",
+            "&&",
+            "rm",
+            "-rf",
             str(remote_path),
         ]
-        command = 'bash -c "{cmd}"'.format(cmd=' '.join(cmd_in_container))
+        command = 'bash -c "{cmd}"'.format(cmd=" ".join(cmd_in_container))
         container = client.containers.create(
             image=image,
             mounts=mounts,
@@ -72,7 +72,7 @@ def test_linux_binaries() -> None:
             line = line.decode().strip()
             LOGGER.warning(line)
 
-        status_code = container.wait()['StatusCode']
+        status_code = container.wait()["StatusCode"]
 
         assert status_code == 0
         container.stop()
