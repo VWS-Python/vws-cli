@@ -9,7 +9,7 @@ doc8==1.0.0
 docker==6.0.1
 flake8==6.0.0
 freezegun==1.2.2
-furo==2022.9.29
+furo==2022.12.7
 homebrew-pypi-poet==0.10.0
 isort==5.10.1
 mypy==0.991
