@@ -11,7 +11,7 @@ flake8==6.0.0
 freezegun==1.2.2
 furo==2022.12.7
 homebrew-pypi-poet==0.10.0
-isort==5.10.1
+isort==5.11.1
 mypy==0.991
 pip_check_reqs==2.4.2
 pydocstyle==6.1.1
