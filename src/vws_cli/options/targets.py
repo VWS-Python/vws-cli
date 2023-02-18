@@ -1,21 +1,17 @@
-"""
-``click`` options regarding targets.
-"""
+"""``click`` options regarding targets."""
 
 from __future__ import annotations
 
 import functools
+from collections.abc import Callable
 from enum import Enum
 from pathlib import Path
-from typing import Callable
 
 import click
 
 
 def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
-    """
-    An option decorator for choosing a target ID.
-    """
+    """An option decorator for choosing a target ID."""
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -30,15 +26,14 @@ def target_id_option(command: Callable[..., None]) -> Callable[..., None]:
 
 
 def target_name_option(
-    command: Callable[..., None] | None = None,
-    required: bool = True,
+    command: Callable[..., None] | None,
+    *,
+    required: bool,
 ) -> Callable[..., None]:
-    """
-    An option decorator for choosing a target name.
-    """
+    """An option decorator for choosing a target name."""
     if not command:
         # Ignore type error as per https://github.com/python/mypy/issues/1484.
-        return functools.partial(  # type: ignore
+        return functools.partial(  # type: ignore[return-value]
             target_name_option,
             required=required,
         )
@@ -56,15 +51,14 @@ def target_name_option(
 
 
 def target_width_option(
-    command: Callable[..., None] | None = None,
-    required: bool = True,
+    command: Callable[..., None] | None,
+    *,
+    required: bool,
 ) -> Callable[..., None]:
-    """
-    An option decorator for choosing a target width.
-    """
+    """An option decorator for choosing a target width."""
     if not command:
         # Ignore type error as per https://github.com/python/mypy/issues/1484.
-        return functools.partial(  # type: ignore
+        return functools.partial(  # type: ignore[return-value]
             target_width_option,
             required=required,
         )
@@ -83,16 +77,14 @@ def target_width_option(
 
 
 def target_image_option(
-    command: Callable[..., None] | None = None,
-    required: bool = True,
+    command: Callable[..., None] | None,
+    *,
+    required: bool,
 ) -> Callable[..., None]:
-    """
-    An option decorator for choosing a target image.
-    """
-
+    """An option decorator for choosing a target image."""
     if not command:
         # Ignore type error as per https://github.com/python/mypy/issues/1484.
-        return functools.partial(  # type: ignore
+        return functools.partial(  # type: ignore[return-value]
             target_image_option,
             required=required,
         )
@@ -118,9 +110,7 @@ def target_image_option(
 
 
 class ActiveFlagChoice(Enum):
-    """
-    Choices for active flag.
-    """
+    """Choices for active flag."""
 
     TRUE = "true"
     FALSE = "false"
@@ -131,9 +121,7 @@ def _active_flag_choice_callback(
     param: click.core.Option | click.core.Parameter,
     value: str | None,
 ) -> ActiveFlagChoice | None:
-    """
-    Use as a callback for active flag options.
-    """
+    """Use as a callback for active flag options."""
     # This is to satisfy the "vulture" linter.
     assert ctx
     assert param
@@ -145,15 +133,14 @@ def _active_flag_choice_callback(
 
 
 def active_flag_option(
-    command: Callable[..., None] | None = None,
-    allow_none: bool = False,
+    command: Callable[..., None] | None,
+    *,
+    allow_none: bool,
 ) -> Callable[..., None]:
-    """
-    An option decorator for setting a target's active flag.
-    """
+    """An option decorator for setting a target's active flag."""
     if not command:
         # Ignore type error as per https://github.com/python/mypy/issues/1484.
-        return functools.partial(  # type: ignore
+        return functools.partial(  # type: ignore[return-value]
             active_flag_option,
             allow_none=allow_none,
         )
@@ -184,9 +171,7 @@ def active_flag_option(
 def application_metadata_option(
     command: Callable[..., None] | None = None,
 ) -> Callable[..., None]:
-    """
-    An option decorator for setting application metadata.
-    """
+    """An option decorator for setting application metadata."""
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
