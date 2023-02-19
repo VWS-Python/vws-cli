@@ -1,6 +1,4 @@
-"""
-A CLI for Vuforia Web Services.
-"""
+"""A CLI for Vuforia Web Services."""
 
 from pathlib import Path
 
@@ -38,9 +36,7 @@ except LookupError:  # pragma: no cover
 # Click uses ``pkg_resources`` to determine the version if it is not given.
 @click.version_option(version=__version__)
 def vws_group() -> None:
-    """
-    Manage a Vuforia Web Services cloud database.
-    """
+    """Manage a Vuforia Web Services cloud database."""
 
 
 vws_group.add_command(add_target)
