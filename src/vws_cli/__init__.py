@@ -19,7 +19,7 @@ from vws_cli.commands import (
     wait_for_target_processed,
 )
 
-_CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
+_CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
 try:
     __version__ = get_version(root="../..", relative_to=__file__)
