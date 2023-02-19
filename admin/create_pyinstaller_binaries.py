@@ -1,43 +1,34 @@
-"""
-Make PyInstaller binaries for the platform that this is being run on.
-"""
+"""Make PyInstaller binaries for the platform that this is being run on."""
 
+import contextlib
 import shutil
 import subprocess
 import sys
 from pathlib import Path
-from typing import Set
 
 
-def remove_existing_files(scripts: Set[Path]) -> None:
-    """
-    Remove files created when building binaries.
+def remove_existing_files(scripts: set[Path]) -> None:
+    """Remove files created when building binaries.
 
     This is to stop interference with future builds.
     """
     dist_dir = Path(".") / "dist"
     build_dir = Path(".") / "build"
-    try:
-        shutil.rmtree(path=str(dist_dir))
-    except FileNotFoundError:
-        pass
 
-    try:
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(path=str(dist_dir))
+
+    with contextlib.suppress(FileNotFoundError):
         shutil.rmtree(path=str(build_dir))
-    except FileNotFoundError:
-        pass
 
     for script in scripts:
         path = Path(script.name + ".spec")
-        try:
+        with contextlib.suppress(FileNotFoundError):
             path.unlink()
-        except FileNotFoundError:
-            pass
 
 
 def create_binary(script: Path, repo_root: Path) -> None:
-    """
-    Use PyInstaller to create a binary from a script.
+    """Use PyInstaller to create a binary from a script.
 
     Args:
         script: The script to create a binary for.
@@ -85,8 +76,7 @@ def create_binary(script: Path, repo_root: Path) -> None:
 
 
 def create_binaries() -> None:
-    """
-    Make PyInstaller binaries for the platform that this is being run on.
+    """Make PyInstaller binaries for the platform that this is being run on.
 
     All binaries will be created in ``./dist``.
     """

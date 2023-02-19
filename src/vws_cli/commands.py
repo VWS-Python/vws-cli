@@ -1,15 +1,13 @@
-"""
-``click`` commands the VWS CLI.
-"""
+"""``click`` commands the VWS CLI."""
 
 from __future__ import annotations
 
 import dataclasses
 import io
 import sys
-from http import HTTPStatus
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import click
 import wrapt
@@ -53,17 +51,14 @@ from vws_cli.options.targets import (
 )
 
 
-@wrapt.decorator  # type: ignore
-def handle_vws_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-many-statements
+@wrapt.decorator  # type: ignore[misc]
+def handle_vws_exceptions(  # noqa: E501 pylint:disable=too-many-branches,too-many-statements
     wrapped: Callable[..., str],
-    instance: Any,
+    instance: None,
     args: tuple[Any],
     kwargs: dict[Any, Any],
 ) -> None:
-    """
-    Show error messages and catch exceptions for errors from the ``VWS-Python``
-    library.
-    """
+    """Show error messages and catch exceptions from ``VWS-Python``."""
     assert not instance  # This is to satisfy the "vulture" linter.
     error_message = ""
 
@@ -76,8 +71,8 @@ def handle_vws_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-man
             "Error: The given image is corrupted or the format is not "
             "supported."
         )
-    except Fail as exc:
-        assert exc.response.status_code == HTTPStatus.BAD_REQUEST
+    except Fail:
+        # We assume that exc.response.status_code == HTTPStatus.BAD_REQUEST
         error_message = (
             "Error: The request made to Vuforia was invalid and could not be "
             "processed. "
@@ -156,9 +151,7 @@ def handle_vws_exceptions(  # noqa:E501 pylint:disable=too-many-branches,too-man
 
 
 def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
-    """
-    An option decorator for choosing the base VWS URL.
-    """
+    """An option decorator for choosing the base VWS URL."""
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -178,7 +171,7 @@ def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions  # type: ignore
+@handle_vws_exceptions  # type: ignore[misc]
 @base_vws_url_option
 def get_target_record(
     server_access_key: str,
@@ -186,8 +179,7 @@ def get_target_record(
     target_id: str,
     base_vws_url: str,
 ) -> None:
-    """
-    Get a target record.
+    """Get a target record.
 
     \b
     See
@@ -207,15 +199,14 @@ def get_target_record(
 @click.command(name="list-targets")
 @server_access_key_option
 @server_secret_key_option
-@handle_vws_exceptions  # type: ignore
+@handle_vws_exceptions  # type: ignore[misc]
 @base_vws_url_option
 def list_targets(
     server_access_key: str,
     server_secret_key: str,
     base_vws_url: str,
 ) -> None:
-    """
-    List targets.
+    """List targets.
 
     \b
     See
@@ -235,7 +226,7 @@ def list_targets(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions  # type: ignore
+@handle_vws_exceptions  # type: ignore[misc]
 @base_vws_url_option
 def get_duplicate_targets(
     server_access_key: str,
@@ -243,8 +234,7 @@ def get_duplicate_targets(
     target_id: str,
     base_vws_url: str,
 ) -> None:
-    """
-    Get a list of potential duplicate targets.
+    """Get a list of potential duplicate targets.
 
     \b
     See
@@ -264,15 +254,14 @@ def get_duplicate_targets(
 @click.command(name="get-database-summary-report")
 @server_access_key_option
 @server_secret_key_option
-@handle_vws_exceptions  # type: ignore
+@handle_vws_exceptions  # type: ignore[misc]
 @base_vws_url_option
 def get_database_summary_report(
     server_access_key: str,
     server_secret_key: str,
     base_vws_url: str,
 ) -> None:
-    """
-    Get a database summary report.
+    """Get a database summary report.
 
     \b
     See
@@ -292,7 +281,7 @@ def get_database_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions  # type: ignore
+@handle_vws_exceptions  # type: ignore[misc]
 @base_vws_url_option
 def get_target_summary_report(
     server_access_key: str,
@@ -300,8 +289,7 @@ def get_target_summary_report(
     target_id: str,
     base_vws_url: str,
 ) -> None:
-    """
-    Get a target summary report.
+    """Get a target summary report.
 
     \b
     See
@@ -324,7 +312,7 @@ def get_target_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions  # type: ignore
+@handle_vws_exceptions  # type: ignore[misc]
 @base_vws_url_option
 def delete_target(
     server_access_key: str,
@@ -332,8 +320,7 @@ def delete_target(
     target_id: str,
     base_vws_url: str,
 ) -> None:
-    """
-    Delete a target.
+    """Delete a target.
 
     \b
     See
@@ -351,12 +338,12 @@ def delete_target(
 @click.command(name="add-target")
 @server_access_key_option
 @server_secret_key_option
-@target_name_option
-@target_width_option
-@target_image_option(required=True)
+@target_name_option(command=None, required=True)
+@target_width_option(command=None, required=True)
+@target_image_option(command=None, required=True)
 @application_metadata_option
-@active_flag_option
-@handle_vws_exceptions  # type: ignore
+@active_flag_option(command=None, allow_none=False)
+@handle_vws_exceptions  # type: ignore[misc]
 @base_vws_url_option
 def add_target(
     server_access_key: str,
@@ -368,8 +355,7 @@ def add_target(
     base_vws_url: str,
     application_metadata: str | None = None,
 ) -> None:
-    """
-    Add a target.
+    """Add a target.
 
     \b
     See
@@ -403,13 +389,13 @@ def add_target(
 @click.command(name="update-target")
 @server_access_key_option
 @server_secret_key_option
-@target_name_option(required=False)
-@target_image_option(required=False)
-@target_width_option(required=False)
+@target_name_option(command=None, required=False)
+@target_image_option(command=None, required=False)
+@target_width_option(command=None, required=False)
 @application_metadata_option
-@active_flag_option(allow_none=True)
+@active_flag_option(command=None, allow_none=True)
 @target_id_option
-@handle_vws_exceptions  # type: ignore
+@handle_vws_exceptions  # type: ignore[misc]
 @base_vws_url_option
 def update_target(
     server_access_key: str,
@@ -422,8 +408,7 @@ def update_target(
     active_flag_choice: ActiveFlagChoice | None = None,
     width: float | None = None,
 ) -> None:
-    """
-    Update a target.
+    """Update a target.
 
     \b
     See
@@ -490,7 +475,7 @@ _TIMEOUT_SECONDS_HELP = (
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions  # type: ignore
+@handle_vws_exceptions  # type: ignore[misc]
 @base_vws_url_option
 def wait_for_target_processed(
     server_access_key: str,
@@ -500,9 +485,7 @@ def wait_for_target_processed(
     base_vws_url: str,
     timeout_seconds: float,
 ) -> None:
-    """
-    Wait for a target to be "processed". This is done by polling the VWS API.
-    """
+    """Wait for a target to be "processed". This is done by polling the VWS API."""
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,

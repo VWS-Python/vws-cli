@@ -1,14 +1,13 @@
-"""
-A CLI for the Vuforia Cloud Recognition Service API.
-"""
+"""A CLI for the Vuforia Cloud Recognition Service API."""
 
 from __future__ import annotations
 
 import dataclasses
 import io
 import sys
+from collections.abc import Callable
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import click
 import wrapt
@@ -33,17 +32,14 @@ from vws_cli.options.credentials import (
 )
 
 
-@wrapt.decorator  # type: ignore
+@wrapt.decorator  # type: ignore[misc]
 def handle_vwq_exceptions(
     wrapped: Callable[..., str],
-    instance: Any,
+    instance: None,
     args: tuple[Any],
     kwargs: dict[Any, Any],
 ) -> None:
-    """
-    Show error messages and catch exceptions for errors from the ``VWS-Python``
-    library.
-    """
+    """Show error messages and catch exceptions from ``VWS-Python``."""
     assert not instance  # This is to satisfy the "vulture" linter.
     error_message = ""
 
@@ -81,9 +77,7 @@ def handle_vwq_exceptions(
 
 
 def image_argument(command: Callable[..., None]) -> Callable[..., None]:
-    """
-    An argument decorator for choosing a query image.
-    """
+    """An argument decorator for choosing a query image."""
     click_argument_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -104,9 +98,7 @@ def image_argument(command: Callable[..., None]) -> Callable[..., None]:
 def max_num_results_option(
     command: Callable[..., None],
 ) -> Callable[..., None]:
-    """
-    An option decorator for choosing the maximum number of query results.
-    """
+    """An option decorator for choosing the maximum number of query results."""
     maximum = 50
     click_option_function: Callable[
         [Callable[..., None]],
@@ -131,9 +123,7 @@ def include_target_data_callback(
     param: click.core.Option | click.core.Parameter,
     value: str,
 ) -> CloudRecoIncludeTargetData:
-    """
-    Use as a callback for active flag options.
-    """
+    """Use as a callback for active flag options."""
     # This is to satisfy the "vulture" linter.
     assert ctx
     assert param
@@ -148,9 +138,7 @@ def include_target_data_callback(
 def include_target_data_option(
     command: Callable[..., None],
 ) -> Callable[..., None]:
-    """
-    An option decorator for choosing whether to include target data.
-    """
+    """An option decorator for choosing whether to include target data."""
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -173,9 +161,7 @@ def include_target_data_option(
 
 
 def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
-    """
-    An option decorator for choosing the base VWQ URL.
-    """
+    """An option decorator for choosing the base VWQ URL."""
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -198,7 +184,7 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @include_target_data_option
 @max_num_results_option
 @base_vwq_url_option
-@handle_vwq_exceptions  # type: ignore
+@handle_vwq_exceptions  # type: ignore[misc]
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
 #
@@ -212,9 +198,7 @@ def vuforia_cloud_reco(
     include_target_data: CloudRecoIncludeTargetData,
     base_vwq_url: str,
 ) -> None:
-    """
-    Make a request to the Vuforia Cloud Recognition Service API.
-    """
+    """Make a request to the Vuforia Cloud Recognition Service API."""
     client = CloudRecoService(
         client_access_key=client_access_key,
         client_secret_key=client_secret_key,

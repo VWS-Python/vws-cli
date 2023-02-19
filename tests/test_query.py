@@ -1,6 +1,4 @@
-"""
-Test for the Cloud Reco Service commands.
-"""
+"""Test for the Cloud Reco Service commands."""
 
 from __future__ import annotations
 
@@ -14,14 +12,11 @@ from click.testing import CliRunner
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 from vws import VWS
-
 from vws_cli.query import vuforia_cloud_reco
 
 
 class TestQuery:
-    """
-    Tests for making image queries.
-    """
+    """Tests for making image queries."""
 
     @staticmethod
     def test_no_matches(
@@ -29,9 +24,7 @@ class TestQuery:
         tmp_path: Path,
         high_quality_image: io.BytesIO,
     ) -> None:
-        """
-        An empty list is returned if there are no matches.
-        """
+        """An empty list is returned if there are no matches."""
         runner = CliRunner(mix_stderr=False)
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
@@ -49,7 +42,7 @@ class TestQuery:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        result_data = yaml.safe_load(result.stdout)
         assert result_data == []
 
     @staticmethod
@@ -59,9 +52,7 @@ class TestQuery:
         vws_client: VWS,
         mock_database: VuforiaDatabase,
     ) -> None:
-        """
-        Details of matching targets are shown.
-        """
+        """Details of matching targets are shown."""
         name = uuid.uuid4().hex
         target_id = vws_client.add_target(
             name=name,
@@ -89,7 +80,7 @@ class TestQuery:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        result_data = yaml.safe_load(result.stdout)
         [matching_target] = result_data
         target_timestamp = matching_target["target_data"]["target_timestamp"]
         expected_result_data = {
@@ -107,8 +98,7 @@ class TestQuery:
         tmp_path: Path,
         mock_database: VuforiaDatabase,
     ) -> None:
-        """
-        An appropriate error is given if the given image file path points to a
+        """An appropriate error is given if the given image file path points to a
         directory.
         """
         runner = CliRunner(mix_stderr=False)
@@ -124,7 +114,8 @@ class TestQuery:
             commands,
             catch_exceptions=False,
         )
-        assert result.exit_code == 2
+        expected_result_code = 2
+        assert result.exit_code == expected_result_code
         assert result.stdout == ""
         expected_stderr = dedent(
             f"""\
@@ -132,7 +123,7 @@ class TestQuery:
             Try 'vuforia-cloud-reco --help' for help.
 
             Error: Invalid value for 'IMAGE': File '{tmp_path}' is a directory.
-            """,  # noqa: E501
+            """,
         )
         assert result.stderr == expected_stderr
 
@@ -142,9 +133,7 @@ class TestQuery:
         mock_database: VuforiaDatabase,
         high_quality_image: io.BytesIO,
     ) -> None:
-        """
-        Image file paths are resolved.
-        """
+        """Image file paths are resolved."""
         runner = CliRunner(mix_stderr=False)
         new_filename = uuid.uuid4().hex
         original_image_file = tmp_path / "foo"
@@ -167,7 +156,7 @@ class TestQuery:
             )
 
         assert result.exit_code == 0
-        result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        result_data = yaml.safe_load(result.stdout)
         assert result_data == []
 
     @staticmethod
@@ -175,9 +164,7 @@ class TestQuery:
         mock_database: VuforiaDatabase,
         tmp_path: Path,
     ) -> None:
-        """
-        An appropriate error is given if the given image file does not exist.
-        """
+        """An appropriate error is given if the given image file does not exist."""
         runner = CliRunner(mix_stderr=False)
         does_not_exist_file = tmp_path / uuid.uuid4().hex
         commands: list[str] = [
@@ -192,7 +179,8 @@ class TestQuery:
             commands,
             catch_exceptions=False,
         )
-        assert result.exit_code == 2
+        expected_result_code = 2
+        assert result.exit_code == expected_result_code
         assert result.stdout == ""
         expected_stderr = dedent(
             f"""\
@@ -206,9 +194,7 @@ class TestQuery:
 
 
 def test_version() -> None:
-    """
-    ``vuforia-cloud-reco --version`` shows the version.
-    """
+    """``vuforia-cloud-reco --version`` shows the version."""
     runner = CliRunner(mix_stderr=False)
     commands = ["--version"]
     result = runner.invoke(
@@ -221,9 +207,7 @@ def test_version() -> None:
 
 
 class TestMaxNumResults:
-    """
-    Tests for the ``--max-num-results`` option.
-    """
+    """Tests for the ``--max-num-results`` option."""
 
     @staticmethod
     def test_default(
@@ -232,9 +216,7 @@ class TestMaxNumResults:
         tmp_path: Path,
         mock_database: VuforiaDatabase,
     ) -> None:
-        """
-        By default the maximum number of results is 1.
-        """
+        """By default the maximum number of results is 1."""
         runner = CliRunner(mix_stderr=False)
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
@@ -269,7 +251,7 @@ class TestMaxNumResults:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        result_data = yaml.safe_load(result.stdout)
         assert len(result_data) == 1
 
     @staticmethod
@@ -279,9 +261,7 @@ class TestMaxNumResults:
         tmp_path: Path,
         mock_database: VuforiaDatabase,
     ) -> None:
-        """
-        It is possible to set a custom ``--max-num-results``.
-        """
+        """It is possible to set a custom ``--max-num-results``."""
         runner = CliRunner(mix_stderr=False)
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
@@ -311,10 +291,11 @@ class TestMaxNumResults:
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
+        max_num_results = 2
         commands = [
             str(new_file),
             "--max-num-results",
-            str(2),
+            str(max_num_results),
             "--client-access-key",
             mock_database.client_access_key,
             "--client-secret-key",
@@ -326,8 +307,8 @@ class TestMaxNumResults:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        result_data = yaml.load(result.stdout, Loader=yaml.FullLoader)
-        assert len(result_data) == 2
+        result_data = yaml.safe_load(result.stdout)
+        assert len(result_data) == max_num_results
 
     @staticmethod
     def test_out_of_range(
@@ -335,9 +316,7 @@ class TestMaxNumResults:
         tmp_path: Path,
         mock_database: VuforiaDatabase,
     ) -> None:
-        """
-        ``--max-num-results`` must be between 1 and 50.
-        """
+        """``--max-num-results`` must be between 1 and 50."""
         runner = CliRunner(mix_stderr=False)
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
@@ -356,7 +335,8 @@ class TestMaxNumResults:
             commands,
             catch_exceptions=False,
         )
-        assert result.exit_code == 2
+        expected_result_code = 2
+        assert result.exit_code == expected_result_code
         expected_stderr_substring = (
             "Error: Invalid value for '--max-num-results': 0 is not in the "
             "range 1<=x<=50."
@@ -365,9 +345,7 @@ class TestMaxNumResults:
 
 
 class TestIncludeTargetData:
-    """
-    Tests for the ``--include-target-data`` option.
-    """
+    """Tests for the ``--include-target-data`` option."""
 
     @staticmethod
     def test_default(
@@ -376,9 +354,7 @@ class TestIncludeTargetData:
         tmp_path: Path,
         mock_database: VuforiaDatabase,
     ) -> None:
-        """
-        By default, target data is only returned in the top match.
-        """
+        """By default, target data is only returned in the top match."""
         runner = CliRunner(mix_stderr=False)
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
@@ -414,7 +390,7 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        matches = yaml.safe_load(result.stdout)
         top_match, second_match = matches
         assert top_match["target_data"] is not None
         assert second_match["target_data"] is None
@@ -426,9 +402,7 @@ class TestIncludeTargetData:
         tmp_path: Path,
         mock_database: VuforiaDatabase,
     ) -> None:
-        """
-        When 'top' is given, target data is only returned in the top match.
-        """
+        """When 'top' is given, target data is only returned in the top match."""
         runner = CliRunner(mix_stderr=False)
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
@@ -466,7 +440,7 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        matches = yaml.safe_load(result.stdout)
         top_match, second_match = matches
         assert top_match["target_data"] is not None
         assert second_match["target_data"] is None
@@ -478,9 +452,7 @@ class TestIncludeTargetData:
         tmp_path: Path,
         mock_database: VuforiaDatabase,
     ) -> None:
-        """
-        When 'none' is given, target data is not returned in any match.
-        """
+        """When 'none' is given, target data is not returned in any match."""
         runner = CliRunner(mix_stderr=False)
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
@@ -518,7 +490,7 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        matches = yaml.safe_load(result.stdout)
         top_match, second_match = matches
         assert top_match["target_data"] is None
         assert second_match["target_data"] is None
@@ -530,9 +502,7 @@ class TestIncludeTargetData:
         tmp_path: Path,
         mock_database: VuforiaDatabase,
     ) -> None:
-        """
-        When 'all' is given, target data is returned in all matches.
-        """
+        """When 'all' is given, target data is returned in all matches."""
         runner = CliRunner(mix_stderr=False)
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
@@ -571,7 +541,7 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        matches = yaml.load(result.stdout, Loader=yaml.FullLoader)
+        matches = yaml.safe_load(result.stdout)
         top_match, second_match = matches
         assert top_match["target_data"] is not None
         assert second_match["target_data"] is not None
@@ -582,8 +552,7 @@ class TestIncludeTargetData:
         tmp_path: Path,
         mock_database: VuforiaDatabase,
     ) -> None:
-        """
-        When a string other than 'top', 'all', or 'none' is given, an error is
+        """When a string other than 'top', 'all', or 'none' is given, an error is
         shown.
         """
         runner = CliRunner(mix_stderr=False)
@@ -606,7 +575,8 @@ class TestIncludeTargetData:
             commands,
             catch_exceptions=False,
         )
-        assert result.exit_code == 2
+        expected_result_code = 2
+        assert result.exit_code == expected_result_code
         expected_stderr = (
             "'--include-target-data': 'other' is not one of 'top', 'none', "
             "'all'."
@@ -615,8 +585,7 @@ class TestIncludeTargetData:
 
 
 def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
-    """
-    It is possible to use query a target to a database under a custom VWQ
+    """It is possible to use query a target to a database under a custom VWQ
     URL.
     """
     runner = CliRunner(mix_stderr=False)
@@ -658,7 +627,7 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
         )
         assert result.exit_code == 0
 
-    [match] = yaml.load(result.stdout, Loader=yaml.FullLoader)
+    [match] = yaml.safe_load(result.stdout)
     assert match["target_id"] == target_id
 
 
@@ -667,9 +636,7 @@ def test_env_var_credentials(
     tmp_path: Path,
     mock_database: VuforiaDatabase,
 ) -> None:
-    """
-    It is possible to use environment variables to set the credentials.
-    """
+    """It is possible to use environment variables to set the credentials."""
     runner = CliRunner(mix_stderr=False)
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()

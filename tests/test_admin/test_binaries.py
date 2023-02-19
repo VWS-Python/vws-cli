@@ -1,6 +1,4 @@
-"""
-Tests for creating binaries.
-"""
+"""Tests for creating binaries."""
 
 import logging
 from pathlib import Path
@@ -14,9 +12,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 def test_linux_binaries() -> None:
-    """
-    ``make_linux_binaries`` creates a binary which can be run on Linux.
-    """
+    """``make_linux_binaries`` creates a binary which can be run on Linux."""
     repo_root = Path(__file__).parent.parent.parent.absolute()
     dist_dir = repo_root / "dist"
     make_linux_binaries(repo_root=repo_root)
@@ -60,7 +56,8 @@ def test_linux_binaries() -> None:
             "-rf",
             str(remote_path),
         ]
-        command = 'bash -c "{cmd}"'.format(cmd=" ".join(cmd_in_container))
+        joined_cmd = " ".join(cmd_in_container)
+        command = f'bash -c "{joined_cmd}"'
         container = client.containers.create(
             image=image,
             mounts=mounts,

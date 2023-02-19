@@ -1,3 +1,1 @@
-"""
-Options for the VWS CLI commands.
-"""
+"""Options for the VWS CLI commands."""

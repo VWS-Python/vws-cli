@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Configuration for Sphinx.
-"""
+"""Configuration for Sphinx."""
 
 # pylint: disable=invalid-name
 
 from __future__ import annotations
 
 import datetime
-from typing import Tuple
 
 from pkg_resources import get_distribution
 
@@ -28,7 +24,7 @@ templates_path = ["_templates"]
 source_suffix = ".rst"
 master_doc = "index"
 
-year = datetime.datetime.now().year
+year = datetime.datetime.now(tz=datetime.timezone.utc).year
 project_copyright = f"{year}, {author}"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -54,7 +50,7 @@ intersphinx_mapping = {
 }
 nitpicky = True
 warning_is_error = True
-nitpick_ignore: list[Tuple[str, str]] = []
+nitpick_ignore: list[tuple[str, str]] = []
 
 html_show_copyright = False
 html_show_sphinx = False

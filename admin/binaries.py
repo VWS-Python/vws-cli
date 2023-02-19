@@ -1,6 +1,4 @@
-"""
-Create binaries for the CLIs.
-"""
+"""Create binaries for the CLIs."""
 
 import logging
 import uuid
@@ -13,8 +11,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 def make_linux_binaries(repo_root: Path) -> None:
-    """
-    Create binaries for Linux in a Docker container.
+    """Create binaries for Linux in a Docker container.
 
     Args:
         repo_root: The path to the root of the repository.
