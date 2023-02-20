@@ -5,7 +5,7 @@ updates:
   schedule:
     interval: daily
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: pylint
-    versions:
-    - 2.6.1
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: daily
