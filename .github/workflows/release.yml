@@ -49,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Update changelog"
-        uses: jacobtomlinson/gha-find-replace@v2
+        uses: jacobtomlinson/gha-find-replace@v3
         env:
           NEXT_VERSION: ${{ steps.calver.outputs.release }}
         with:
@@ -111,7 +111,7 @@ jobs:
           echo '::set-output name=HOMEBREW_RECIPE_FILE::${{ env.FILENAME }}'
 
       - name: "Update Homebrew description"
-        uses: jacobtomlinson/gha-find-replace@v2
+        uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "desc \"Shiny new formula\""
           replace:  "desc \"CLI for Vuforia Web Services\""
@@ -119,7 +119,7 @@ jobs:
           regex: false
 
       - name: "Fix Homebrew class name"
-        uses: jacobtomlinson/gha-find-replace@v2
+        uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "class VWSCLI"
           replace:  "class VwsCli"
