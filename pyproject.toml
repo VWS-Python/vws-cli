@@ -155,6 +155,36 @@ ignore_missing_imports = true
 requires = ["setuptools", "pip", "wheel"]
 build-backend = "setuptools.build_meta"
 
+[project]
+authors = [ { name = "Adam Dangoor", email = "adamdangoor@gmail.com"} ]
+classifiers = [
+    "Operating System :: POSIX",
+    "Environment :: Web Environment",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 5 - Production/Stable",
+]
+description = "A CLI for the Vuforia Web Services (VWS) API."
+dynamic = ["version"]
+keywords = ["vuforia", "vws", "cli"]
+license = { file = "LICENSE" }
+name = "vws_cli"
+readme = { file = "README.rst", content-type = "text/x-rst"}
+requires-python = ">=3.10"
+
+[project.urls]
+Source = "https://github.com/VWS-Python/vws-cli"
+
+[project.scripts]
+vws = "vws_cli:vws_group"
+vuforia-cloud-reco = "vws_cli.query:vuforia_cloud_reco"
+
+[tool.setuptools]
+zip-safe = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
 [tool.ruff]
 select = ["ALL"]
 

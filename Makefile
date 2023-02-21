@@ -10,7 +10,7 @@ lint: \
     black \
     check-manifest \
     doc8 \
-	ruff \
+    ruff \
     linkcheck \
     mypy \
     pip-extra-reqs \
