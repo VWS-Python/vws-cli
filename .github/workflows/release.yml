@@ -109,8 +109,8 @@ jobs:
           # We have a race condition.
           # In particular, we push to PyPI and then immediately try to install
           # the pushed version.
-          # Here, we give PyPI 30 seconds to propagate the package.
-          sleep 30
+          # Here, we give PyPI time to propagate the package.
+          sleep 120
           pip install vws-cli==${{ env.NEXT_VERSION }}
           poet --formula vws-cli > ${{ env.FILENAME }}
           echo '::set-output name=HOMEBREW_RECIPE_FILE::${{ env.FILENAME }}'
@@ -134,6 +134,8 @@ jobs:
       - name: Push Homebrew Recipe
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
+          # See https://github.com/marketplace/actions/github-action-to-push-subdirectories-to-another-repo#usage
+          # for how to get this token.
           API_TOKEN_GITHUB: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
         with:
           destination_branch: master
