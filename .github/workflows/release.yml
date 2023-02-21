@@ -95,7 +95,7 @@ jobs:
           python -m build --sdist --wheel --outdir dist/ .
 
       - name: Publish distribution 📦 to PyPI
-        uses: pypa/gh-action-pypi-publish@master
+        uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
           verbose: true
@@ -106,6 +106,11 @@ jobs:
           NEXT_VERSION: ${{ steps.calver.outputs.release }}
           FILENAME: vws-cli.rb
         run: |
+          # We have a race condition.
+          # In particular, we push to PyPI and then immediately try to install
+          # the pushed version.
+          # Here, we give PyPI 30 seconds to propagate the package.
+          sleep 30
           pip install vws-cli==${{ env.NEXT_VERSION }}
           poet --formula vws-cli > ${{ env.FILENAME }}
           echo '::set-output name=HOMEBREW_RECIPE_FILE::${{ env.FILENAME }}'
