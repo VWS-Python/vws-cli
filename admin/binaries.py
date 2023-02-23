@@ -51,8 +51,8 @@ def make_linux_binaries(repo_root: Path) -> None:
         detach=True,
     )
     for line in container.logs(stream=True):
-        line = line.decode().strip()
-        LOGGER.warning(line)
+        warning_line = line.decode().strip()
+        LOGGER.warning(warning_line)
 
     status_code = container.wait()["StatusCode"]
     assert status_code == 0
