@@ -1,7 +1,5 @@
 """Setup script for VWS CLI."""
 
-from __future__ import annotations
-
 from pathlib import Path
 
 from setuptools import setup
@@ -33,9 +31,6 @@ SETUP_REQUIRES = _get_dependencies(
 )
 
 setup(
-    use_scm_version={
-        "write_to": "src/vws_cli/_setuptools_scm_version.txt",
-    },
     setup_requires=SETUP_REQUIRES,
     install_requires=INSTALL_REQUIRES,
     extras_require={
