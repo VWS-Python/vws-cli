@@ -223,3 +223,6 @@ ignore = [
     # Do not require tests to have a one-line summary.
     "D205",
 ]
+
+[tool.setuptools_scm]
+write_to = "src/vws_cli/_setuptools_scm_version.txt"
