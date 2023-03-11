@@ -24,7 +24,7 @@ lint: \
 .PHONY: fix-lint
 fix-lint: \
     fix-black \
-    fix-isort
+    fix-ruff
 
 .PHONY: docs
 docs:

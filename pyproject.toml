@@ -212,7 +212,6 @@ dev = [
     "sphinxcontrib.spelling==8.0.0",
     "types-PyYAML==6.0.12.8",
     "types-freezegun==1.1.10",
-    "types-setuptools==67.6.0.0",
     "vulture==2.7",
 ]
 packaging = [
