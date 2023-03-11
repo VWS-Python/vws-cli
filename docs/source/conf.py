@@ -6,8 +6,7 @@
 from __future__ import annotations
 
 import datetime
-
-from pkg_resources import get_distribution
+import importlib.metadata
 
 project = "VWS-CLI"
 author = "Adam Dangoor"
@@ -31,9 +30,9 @@ project_copyright = f"{year}, {author}"
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
-# Use ``pkg_resources`` as per
+# Use ``importlib.metadata.version`` as per
 # https://github.com/pypa/setuptools_scm#usage-from-sphinx.
-version = get_distribution(project).version
+version = importlib.metadata.version(distribution_name=project)
 _month, _day, _year, *_ = version.split(".")
 release = f"{_month}.{_day}.{_year}"
 
