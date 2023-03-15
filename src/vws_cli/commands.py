@@ -181,7 +181,7 @@ def get_target_record(
     target_id: str,
     base_vws_url: str,
 ) -> None:
-    r"""Get a target record.
+    """Get a target record.
 
     \b
     See
@@ -208,7 +208,7 @@ def list_targets(
     server_secret_key: str,
     base_vws_url: str,
 ) -> None:
-    r"""List targets.
+    """List targets.
 
     \b
     See
@@ -236,7 +236,7 @@ def get_duplicate_targets(
     target_id: str,
     base_vws_url: str,
 ) -> None:
-    r"""Get a list of potential duplicate targets.
+    """Get a list of potential duplicate targets.
 
     \b
     See
@@ -263,7 +263,7 @@ def get_database_summary_report(
     server_secret_key: str,
     base_vws_url: str,
 ) -> None:
-    r"""Get a database summary report.
+    """Get a database summary report.
 
     \b
     See
@@ -291,7 +291,7 @@ def get_target_summary_report(
     target_id: str,
     base_vws_url: str,
 ) -> None:
-    r"""Get a target summary report.
+    """Get a target summary report.
 
     \b
     See
@@ -322,7 +322,7 @@ def delete_target(
     target_id: str,
     base_vws_url: str,
 ) -> None:
-    r"""Delete a target.
+    """Delete a target.
 
     \b
     See
@@ -357,7 +357,7 @@ def add_target(
     base_vws_url: str,
     application_metadata: str | None = None,
 ) -> None:
-    r"""Add a target.
+    """Add a target.
 
     \b
     See
@@ -410,7 +410,7 @@ def update_target(
     active_flag_choice: ActiveFlagChoice | None = None,
     width: float | None = None,
 ) -> None:
-    r"""Update a target.
+    """Update a target.
 
     \b
     See
