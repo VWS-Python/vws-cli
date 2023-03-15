@@ -5,9 +5,8 @@ from __future__ import annotations
 import dataclasses
 import io
 import sys
-from collections.abc import Callable
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import click
 import wrapt
@@ -30,6 +29,9 @@ from vws_cli.options.credentials import (
     client_access_key_option,
     client_secret_key_option,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 @wrapt.decorator  # type: ignore[misc]

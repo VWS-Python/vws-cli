@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-import io
 import uuid
 from pathlib import Path
 from textwrap import dedent
+from typing import TYPE_CHECKING
 
 import yaml
 from click.testing import CliRunner
@@ -13,6 +13,9 @@ from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 from vws import VWS
 from vws_cli.query import vuforia_cloud_reco
+
+if TYPE_CHECKING:
+    import io
 
 
 class TestQuery:
