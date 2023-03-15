@@ -205,7 +205,7 @@ def test_delete_target(
     vws_client.wait_for_target_processed(target_id=target_id)
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
-    assert result.stdout == ""
+    assert not result.stdout
     assert vws_client.list_targets() == []
 
 
@@ -322,7 +322,7 @@ class TestAddTarget:
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         expected_result_code = 2
         assert result.exit_code == expected_result_code
-        assert result.stdout == ""
+        assert not result.stdout
         expected_stderr = dedent(
             f"""\
             Usage: vws add-target [OPTIONS]
@@ -358,7 +358,7 @@ class TestAddTarget:
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         expected_result_code = 2
         assert result.exit_code == expected_result_code
-        assert result.stdout == ""
+        assert not result.stdout
         expected_stderr = dedent(
             f"""\
             Usage: vws add-target [OPTIONS]
@@ -525,7 +525,7 @@ class TestWaitForTargetProcessed:
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
-        assert result.stdout == ""
+        assert not result.stdout
         report = vws_client.get_target_summary_report(target_id=target_id)
         assert report.status != TargetStatuses.PROCESSING
 
@@ -562,7 +562,7 @@ class TestWaitForTargetProcessed:
             ]
             result = runner.invoke(vws_group, commands, catch_exceptions=False)
             assert result.exit_code == 0
-            assert result.stdout == ""
+            assert not result.stdout
             report = vws_client.get_database_summary_report()
             expected_requests = (
                 # Add target request
@@ -626,7 +626,7 @@ class TestWaitForTargetProcessed:
             ]
             result = runner.invoke(vws_group, commands, catch_exceptions=False)
             assert result.exit_code == 0
-            assert result.stdout == ""
+            assert not result.stdout
             report = vws_client.get_database_summary_report()
             expected_requests = (
                 # Add target request
@@ -671,7 +671,7 @@ class TestWaitForTargetProcessed:
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code != 0
-        assert result.stdout == ""
+        assert not result.stdout
         expected_substring = "0.01 is not in the range x>=0.05."
         assert expected_substring in result.stderr
 
@@ -802,7 +802,7 @@ class TestUpdateTarget:
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
-        assert result.stdout == ""
+        assert not result.stdout
 
         vws_client.wait_for_target_processed(target_id=target_id)
         [
@@ -827,7 +827,7 @@ class TestUpdateTarget:
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
-        assert result.stdout == ""
+        assert not result.stdout
         target_details = vws_client.get_target_record(target_id=target_id)
         target_record = target_details.target_record
         assert not target_record.active_flag
@@ -865,7 +865,7 @@ class TestUpdateTarget:
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         assert result.exit_code == 0
-        assert result.stdout == ""
+        assert not result.stdout
 
     @staticmethod
     def test_image_file_does_not_exist(
@@ -899,7 +899,7 @@ class TestUpdateTarget:
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         expected_result_code = 2
         assert result.exit_code == expected_result_code
-        assert result.stdout == ""
+        assert not result.stdout
         expected_stderr = dedent(
             f"""\
             Usage: vws update-target [OPTIONS]
@@ -943,7 +943,7 @@ class TestUpdateTarget:
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
         expected_result_code = 2
         assert result.exit_code == expected_result_code
-        assert result.stdout == ""
+        assert not result.stdout
         expected_stderr = dedent(
             f"""\
             Usage: vws update-target [OPTIONS]

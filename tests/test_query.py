@@ -116,7 +116,7 @@ class TestQuery:
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
-        assert result.stdout == ""
+        assert not result.stdout
         expected_stderr = dedent(
             f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
@@ -181,7 +181,7 @@ class TestQuery:
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
-        assert result.stdout == ""
+        assert not result.stdout
         expected_stderr = dedent(
             f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE

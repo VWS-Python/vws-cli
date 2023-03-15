@@ -40,7 +40,7 @@ def test_authentication_failure(
     )
     expected_stderr = "The given secret key was incorrect.\n"
     assert result.stderr == expected_stderr
-    assert result.stdout == ""
+    assert not result.stdout
 
 
 def test_image_too_large(
@@ -67,7 +67,7 @@ def test_image_too_large(
     )
     expected_stderr = "Error: The given image is too large.\n"
     assert result.stderr == expected_stderr
-    assert result.stdout == ""
+    assert not result.stdout
 
 
 def test_active_matching_targets_delete_processing(
@@ -110,7 +110,7 @@ def test_active_matching_targets_delete_processing(
         "Error: The given image matches a target which was recently deleted.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ""
+    assert not result.stdout
 
 
 def test_bad_image(
@@ -140,7 +140,7 @@ def test_bad_image(
         "Error: The given image is corrupted or the format is not supported.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ""
+    assert not result.stdout
 
 
 def test_inactive_project(
@@ -175,7 +175,7 @@ def test_inactive_project(
         "Error: The project associated with the given keys is inactive.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ""
+    assert not result.stdout
 
 
 def test_request_time_too_skewed(
@@ -220,4 +220,4 @@ def test_request_time_too_skewed(
         "This may be because the system clock is out of sync.\n"
     )
     assert result.stderr == expected_stderr
-    assert result.stdout == ""
+    assert not result.stdout
