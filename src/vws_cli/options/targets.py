@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 import functools
-from collections.abc import Callable
 from enum import Enum
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import click
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 def target_id_option(command: Callable[..., None]) -> Callable[..., None]:

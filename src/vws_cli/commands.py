@@ -5,9 +5,7 @@ from __future__ import annotations
 import dataclasses
 import io
 import sys
-from collections.abc import Callable
-from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import click
 import wrapt
@@ -49,6 +47,10 @@ from vws_cli.options.targets import (
     target_name_option,
     target_width_option,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+    from pathlib import Path
 
 
 @wrapt.decorator  # type: ignore[misc]

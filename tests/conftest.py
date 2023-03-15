@@ -1,11 +1,16 @@
 """``pytest`` fixtures."""
 
-from collections.abc import Iterator
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 import pytest
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 from vws import VWS, CloudRecoService
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 
 @pytest.fixture(name="mock_database")

@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
-from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 import click
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 def server_access_key_option(
