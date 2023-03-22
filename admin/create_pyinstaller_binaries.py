@@ -38,7 +38,7 @@ def create_binary(script: Path, repo_root: Path) -> None:
     # necessarily Python files.
     # These include e.g. Dockerfiles.
     # We still need to include these in the binary.
-    datas = []
+    datas: list[tuple[str, str]] = []
     manifest = repo_root / "MANIFEST.in"
     with manifest.open() as manifest_file:
         for line in manifest_file.readlines():

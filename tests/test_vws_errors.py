@@ -396,7 +396,11 @@ def test_request_time_too_skewed(mock_database: VuforiaDatabase) -> None:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
 
     expected_stderr = (
         "Error: Vuforia reported that the time given with this request was "
