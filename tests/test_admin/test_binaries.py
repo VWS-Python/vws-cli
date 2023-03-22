@@ -28,7 +28,7 @@ def test_linux_binaries() -> None:
         ),
     ]
 
-    remote_paths = []
+    remote_paths: list[Path] = []
     for path in dist_dir.iterdir():
         relative_path = path.relative_to(repo_root)
         remote_path = remote_repo_dir / str(relative_path)

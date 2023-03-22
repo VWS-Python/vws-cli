@@ -54,5 +54,5 @@ def make_linux_binaries(repo_root: Path) -> None:
         warning_line = line.decode().strip()
         LOGGER.warning(warning_line)
 
-    status_code = container.wait()["StatusCode"]
+    status_code = int(container.wait()["StatusCode"])
     assert status_code == 0

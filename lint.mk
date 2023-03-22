@@ -22,6 +22,10 @@ fix-ruff:
 mypy:
 	mypy .
 
+.PHONY: pyright
+pyright:
+	pyright .
+
 .PHONY: check-manifest
 check-manifest:
 	check-manifest .
