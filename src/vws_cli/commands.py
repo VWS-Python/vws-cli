@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
+import contextlib
 import dataclasses
 import io
 import sys
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 import click
-import wrapt
 import yaml
 from vws import VWS
 from vws.exceptions.custom_exceptions import (
@@ -49,23 +49,19 @@ from vws_cli.options.targets import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Iterator
     from pathlib import Path
 
 
-@wrapt.decorator  # type: ignore[misc]
-def handle_vws_exceptions(  # noqa: E501 pylint:disable=too-many-branches,too-many-statements
-    wrapped: Callable[..., str],
-    instance: None,
-    args: tuple[Any],
-    kwargs: dict[Any, Any],
-) -> None:
+@contextlib.contextmanager
+def handle_vws_exceptions() -> (  # noqa: E501 pylint:disable=too-many-branches,too-many-statements
+    Iterator[None]
+):
     """Show error messages and catch exceptions from ``VWS-Python``."""
-    assert not instance  # This is to satisfy the "vulture" linter.
     error_message = ""
 
     try:
-        wrapped(*args, **kwargs)
+        yield
     except UnknownTarget as exc:
         error_message = f'Error: Target "{exc.target_id}" does not exist.'
     except BadImage:
@@ -173,8 +169,8 @@ def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions  # type: ignore[misc]
 @base_vws_url_option
+@handle_vws_exceptions()
 def get_target_record(
     server_access_key: str,
     server_secret_key: str,
@@ -201,7 +197,7 @@ def get_target_record(
 @click.command(name="list-targets")
 @server_access_key_option
 @server_secret_key_option
-@handle_vws_exceptions  # type: ignore[misc]
+@handle_vws_exceptions()
 @base_vws_url_option
 def list_targets(
     server_access_key: str,
@@ -228,7 +224,7 @@ def list_targets(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions  # type: ignore[misc]
+@handle_vws_exceptions()
 @base_vws_url_option
 def get_duplicate_targets(
     server_access_key: str,
@@ -256,7 +252,7 @@ def get_duplicate_targets(
 @click.command(name="get-database-summary-report")
 @server_access_key_option
 @server_secret_key_option
-@handle_vws_exceptions  # type: ignore[misc]
+@handle_vws_exceptions()
 @base_vws_url_option
 def get_database_summary_report(
     server_access_key: str,
@@ -283,7 +279,7 @@ def get_database_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions  # type: ignore[misc]
+@handle_vws_exceptions()
 @base_vws_url_option
 def get_target_summary_report(
     server_access_key: str,
@@ -314,7 +310,7 @@ def get_target_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions  # type: ignore[misc]
+@handle_vws_exceptions()
 @base_vws_url_option
 def delete_target(
     server_access_key: str,
@@ -345,7 +341,7 @@ def delete_target(
 @target_image_option(command=None, required=True)
 @application_metadata_option
 @active_flag_option(command=None, allow_none=False)
-@handle_vws_exceptions  # type: ignore[misc]
+@handle_vws_exceptions()
 @base_vws_url_option
 def add_target(
     server_access_key: str,
@@ -397,7 +393,7 @@ def add_target(
 @application_metadata_option
 @active_flag_option(command=None, allow_none=True)
 @target_id_option
-@handle_vws_exceptions  # type: ignore[misc]
+@handle_vws_exceptions()
 @base_vws_url_option
 def update_target(
     server_access_key: str,
@@ -477,8 +473,8 @@ _TIMEOUT_SECONDS_HELP = (
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions  # type: ignore[misc]
 @base_vws_url_option
+@handle_vws_exceptions()
 def wait_for_target_processed(
     server_access_key: str,
     server_secret_key: str,
