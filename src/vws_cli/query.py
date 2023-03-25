@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
+import contextlib
 import dataclasses
 import io
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 import click
-import wrapt
 import yaml
 from vws import CloudRecoService
 from vws.exceptions.cloud_reco_exceptions import (
@@ -31,22 +31,14 @@ from vws_cli.options.credentials import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Iterator
 
 
-@wrapt.decorator  # type: ignore[misc]
-def handle_vwq_exceptions(
-    wrapped: Callable[..., str],
-    instance: None,
-    args: tuple[Any],
-    kwargs: dict[Any, Any],
-) -> None:
+@contextlib.contextmanager
+def handle_vwq_exceptions() -> Iterator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""
-    assert not instance  # This is to satisfy the "vulture" linter.
-    error_message = ""
-
     try:
-        wrapped(*args, **kwargs)
+        yield
     except BadImage:
         error_message = (
             "Error: The given image is corrupted or the format is not "
@@ -186,7 +178,7 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @include_target_data_option
 @max_num_results_option
 @base_vwq_url_option
-@handle_vwq_exceptions  # type: ignore[misc]
+@handle_vwq_exceptions()
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
 #
