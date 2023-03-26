@@ -42,10 +42,11 @@ from vws_cli.options.targets import (
     ActiveFlagChoice,
     active_flag_option,
     application_metadata_option,
+    optional_target_width_option,
+    required_target_width_option,
     target_id_option,
     target_image_option,
     target_name_option,
-    target_width_option,
 )
 
 if TYPE_CHECKING:
@@ -337,7 +338,7 @@ def delete_target(
 @server_access_key_option
 @server_secret_key_option
 @target_name_option(command=None, required=True)
-@target_width_option(command=None, required=True)
+@required_target_width_option
 @target_image_option(command=None, required=True)
 @application_metadata_option
 @active_flag_option(command=None, allow_none=False)
@@ -389,7 +390,7 @@ def add_target(
 @server_secret_key_option
 @target_name_option(command=None, required=False)
 @target_image_option(command=None, required=False)
-@target_width_option(command=None, required=False)
+@optional_target_width_option
 @application_metadata_option
 @active_flag_option(command=None, allow_none=True)
 @target_id_option

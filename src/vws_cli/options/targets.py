@@ -53,18 +53,10 @@ def target_name_option(
     return function
 
 
-def target_width_option(
+def optional_target_width_option(
     command: Callable[..., None] | None,
-    *,
-    required: bool,
 ) -> Callable[..., None]:
     """An option decorator for choosing a target width."""
-    if not command:
-        # Ignore type error as per https://github.com/python/mypy/issues/1484.
-        return functools.partial(  # type: ignore[return-value]
-            target_width_option,
-            required=required,
-        )
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -72,7 +64,25 @@ def target_width_option(
         "--width",
         type=float,
         help="The width of the target in the Vuforia database.",
-        required=required,
+        required=False,
+    )
+    assert command is not None
+    function: Callable[..., None] = click_option_function(command)
+    return function
+
+
+def required_target_width_option(
+    command: Callable[..., None] | None,
+) -> Callable[..., None]:
+    """An option decorator for choosing a target width."""
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
+        "--width",
+        type=float,
+        help="The width of the target in the Vuforia database.",
+        required=True,
     )
     assert command is not None
     function: Callable[..., None] = click_option_function(command)
