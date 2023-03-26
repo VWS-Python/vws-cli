@@ -334,13 +334,13 @@ def delete_target(
 
 
 @click.command(name="add-target")
+@target_width_option(required=True)
+@application_metadata_option
 @server_access_key_option
 @server_secret_key_option
-@target_name_option(command=None, required=True)
-@target_width_option(command=None, required=True)
-@target_image_option(command=None, required=True)
-@application_metadata_option
-@active_flag_option(command=None, allow_none=False)
+@target_name_option(required=True)
+@target_image_option(required=True)
+@active_flag_option(allow_none=False)
 @handle_vws_exceptions()
 @base_vws_url_option
 def add_target(
@@ -385,13 +385,13 @@ def add_target(
 
 
 @click.command(name="update-target")
+@target_width_option(required=False)
+@application_metadata_option
 @server_access_key_option
 @server_secret_key_option
-@target_name_option(command=None, required=False)
-@target_image_option(command=None, required=False)
-@target_width_option(command=None, required=False)
-@application_metadata_option
-@active_flag_option(command=None, allow_none=True)
+@target_name_option(required=False)
+@target_image_option(required=False)
+@active_flag_option(allow_none=True)
 @target_id_option
 @handle_vws_exceptions()
 @base_vws_url_option

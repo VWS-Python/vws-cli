@@ -287,7 +287,7 @@ class TestAddTarget:
             mock_database.server_secret_key,
         ]
         result = runner.invoke(vws_group, commands, catch_exceptions=False)
-        assert result.exit_code == 0
+        assert result.exit_code == 0, result.output
 
         target_id = result.stdout.strip()
         target_details = vws_client.get_target_record(target_id=target_id)
