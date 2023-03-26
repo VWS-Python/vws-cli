@@ -3,7 +3,7 @@ Usage: vws update-target [OPTIONS]
   Update a target.
 
   See
-  https://library.vuforia.com/articles/Solution/How-To-Use-the-Vuforia-Web-Services-API#How-To-Update-a-Target
+  https://library.vuforia.com/web-api/cloud-targets-web-services-api#How-To-Update-a-Target
 
 Options:
   --server-access-key TEXT     A Vuforia server access key to use to access the
