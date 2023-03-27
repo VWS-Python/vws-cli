@@ -274,6 +274,9 @@ unfixable = ["ERA001"]
     "D205",
 ]
 
+[tool.setuptools.package-data]
+vws_cli = ["py.typed"]
+
 [tool.setuptools_scm]
 write_to = "src/vws_cli/_setuptools_scm_version.txt"
 
