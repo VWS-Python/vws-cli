@@ -216,7 +216,7 @@ dev = [
     "vulture==2.7",
 ]
 packaging = [
-    "PyInstaller==5.9.0",
+    "PyInstaller==5.10.0",
 ]
 
 [project.urls]
