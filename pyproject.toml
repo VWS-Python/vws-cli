@@ -194,7 +194,7 @@ dev = [
     "black==23.3.0",
     "check-manifest==0.49",
     "doc8==1.1.1",
-    "docker==6.1.1",
+    "docker==6.1.2",
     "freezegun==1.2.2",
     "furo==2023.3.27",
     "homebrew-pypi-poet==0.10.0",
