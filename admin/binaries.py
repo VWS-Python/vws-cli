@@ -29,16 +29,9 @@ def make_linux_binaries(repo_root: Path) -> None:
 
     # We install in editable mode to overwrite any potential
     # ``_setuptools_scm_version.txt`` file.
-    cmd_in_container = " ".join(
-        [
-            "pip",
-            "install",
-            "--editable",
-            ".[packaging]",
-            "&&",
-            "python",
-            "admin/create_pyinstaller_binaries.py",
-        ],
+    cmd_in_container = (
+        "pip install --editable .[packaging] && "
+        "python admin/create_pyinstaller_binaries.py"
     )
     command = f'bash -c "{cmd_in_container}"'
 
