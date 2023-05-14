@@ -147,6 +147,7 @@ strict = true
 
 module = [
 	"docker",
+    "docker.models.containers",
 	"docker.types",
 	"setuptools_scm",
 ]
