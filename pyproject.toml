@@ -147,6 +147,7 @@ strict = true
 
 module = [
 	"docker",
+    "docker.models.containers",
 	"docker.types",
 	"setuptools_scm",
 ]
@@ -202,7 +203,7 @@ dev = [
     "pdm==2.6.1",
     "pip_check_reqs==2.4.4",
     "pylint==2.17.4",
-    "pyright==1.1.305",
+    "pyright==1.1.308",
     "pyroma==4.2",
     "pytest-cov==4.0.0",
     "pytest==7.3.1",
