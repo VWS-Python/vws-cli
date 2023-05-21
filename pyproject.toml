@@ -147,6 +147,7 @@ strict = true
 
 module = [
 	"docker",
+    "docker.models.containers",
 	"docker.types",
 	"setuptools_scm",
 ]
@@ -194,29 +195,29 @@ dev = [
     "black==23.3.0",
     "check-manifest==0.49",
     "doc8==1.1.1",
-    "docker==6.0.1",
+    "docker==6.1.2",
     "freezegun==1.2.2",
-    "furo==2023.3.27",
+    "furo==2023.5.20",
     "homebrew-pypi-poet==0.10.0",
-    "mypy==1.2.0",
-    "pdm==2.4.9",
+    "mypy==1.3.0",
+    "pdm==2.6.1",
     "pip_check_reqs==2.4.4",
-    "pylint==2.17.2",
-    "pyright==1.1.302",
+    "pylint==2.17.4",
+    "pyright==1.1.309",
     "pyroma==4.2",
     "pytest-cov==4.0.0",
-    "pytest==7.2.2",
-    "ruff==0.0.261",
+    "pytest==7.3.1",
+    "ruff==0.0.269",
     "sphinx-click==4.4.0",
-    "sphinx-inline-tabs==2022.1.2b11",
+    "sphinx-inline-tabs==2023.4.21",
     "sphinx-prompt==1.5.0",
-    "sphinx==6.1.3",
+    "sphinx==7.0.1",
     "sphinxcontrib.spelling==8.0.0",
     "types-PyYAML==6.0.12.9",
     "vulture==2.7",
 ]
 packaging = [
-    "PyInstaller==5.9.0",
+    "PyInstaller==5.11.0",
 ]
 
 [project.urls]

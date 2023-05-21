@@ -5,6 +5,7 @@ import uuid
 from pathlib import Path
 
 import docker
+from docker.models.containers import Container
 from docker.types import Mount
 
 LOGGER = logging.getLogger(__name__)
@@ -29,16 +30,9 @@ def make_linux_binaries(repo_root: Path) -> None:
 
     # We install in editable mode to overwrite any potential
     # ``_setuptools_scm_version.txt`` file.
-    cmd_in_container = " ".join(
-        [
-            "pip",
-            "install",
-            "--editable",
-            ".[packaging]",
-            "&&",
-            "python",
-            "admin/create_pyinstaller_binaries.py",
-        ],
+    cmd_in_container = (
+        "pip install --editable .[packaging] && "
+        "python admin/create_pyinstaller_binaries.py"
     )
     command = f'bash -c "{cmd_in_container}"'
 
@@ -50,6 +44,8 @@ def make_linux_binaries(repo_root: Path) -> None:
         remove=True,
         detach=True,
     )
+
+    assert isinstance(container, Container)
     for line in container.logs(stream=True):
         warning_line = line.decode().strip()
         LOGGER.warning(warning_line)

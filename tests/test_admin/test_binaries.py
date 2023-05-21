@@ -4,6 +4,7 @@ import logging
 from pathlib import Path
 
 import docker
+from docker.models.containers import Container
 from docker.types import Mount
 
 from admin.binaries import make_linux_binaries
@@ -64,6 +65,7 @@ def test_linux_binaries() -> None:
             command=command,
         )
 
+        assert isinstance(container, Container)
         container.start()
         for line in container.logs(stream=True):
             warning_line = line.decode().strip()
