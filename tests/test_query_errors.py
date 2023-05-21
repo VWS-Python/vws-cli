@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import time
 import uuid
 from typing import TYPE_CHECKING
 
@@ -16,8 +15,6 @@ from vws_cli.query import vuforia_cloud_reco
 if TYPE_CHECKING:
     import io
     from pathlib import Path
-
-    from vws import VWS
 
 
 def test_authentication_failure(
@@ -70,49 +67,6 @@ def test_image_too_large(
         catch_exceptions=False,
     )
     expected_stderr = "Error: The given image is too large.\n"
-    assert result.stderr == expected_stderr
-    assert not result.stdout
-
-
-def test_active_matching_targets_delete_processing(
-    mock_database: VuforiaDatabase,
-    tmp_path: Path,
-    high_quality_image: io.BytesIO,
-    vws_client: VWS,
-) -> None:
-    """An error is given when the image matches a target which has recently been
-    deleted.
-    """
-    runner = CliRunner(mix_stderr=False)
-
-    target_id = vws_client.add_target(
-        name="x",
-        width=1,
-        image=high_quality_image,
-        active_flag=True,
-        application_metadata=None,
-    )
-    vws_client.wait_for_target_processed(target_id=target_id)
-    vws_client.delete_target(target_id=target_id)
-    time.sleep(0.2)
-    new_file = tmp_path / uuid.uuid4().hex
-    image_data = high_quality_image.getvalue()
-    new_file.write_bytes(data=image_data)
-    commands: list[str] = [
-        str(new_file),
-        "--client-access-key",
-        mock_database.client_access_key,
-        "--client-secret-key",
-        mock_database.client_secret_key,
-    ]
-    result = runner.invoke(
-        vuforia_cloud_reco,
-        commands,
-        catch_exceptions=False,
-    )
-    expected_stderr = (
-        "Error: The given image matches a target which was recently deleted.\n"
-    )
     assert result.stderr == expected_stderr
     assert not result.stdout
 

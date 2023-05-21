@@ -19,7 +19,6 @@ from vws.exceptions.cloud_reco_exceptions import (
     RequestTimeTooSkewed,
 )
 from vws.exceptions.custom_exceptions import (
-    ActiveMatchingTargetsDeleteProcessing,
     RequestEntityTooLarge,
 )
 from vws.include_target_data import CloudRecoIncludeTargetData
@@ -58,11 +57,6 @@ def handle_vwq_exceptions() -> Iterator[None]:
         )
     except RequestEntityTooLarge:
         error_message = "Error: The given image is too large."
-    except ActiveMatchingTargetsDeleteProcessing:
-        error_message = (
-            "Error: The given image matches a target which was recently "
-            "deleted."
-        )
     else:
         return
 
