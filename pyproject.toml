@@ -206,7 +206,7 @@ dev = [
     "pyright==1.1.313",
     "pyroma==4.2",
     "pytest-cov==4.1.0",
-    "pytest==7.3.1",
+    "pytest==7.3.2",
     "ruff==0.0.270",
     "sphinx-click==4.4.0",
     "sphinx-inline-tabs==2023.4.21",
