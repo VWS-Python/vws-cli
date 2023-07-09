@@ -7,7 +7,7 @@ import dataclasses
 import io
 import sys
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import click
 import yaml
@@ -64,7 +64,7 @@ def handle_vwq_exceptions() -> Iterator[None]:
     sys.exit(1)
 
 
-def image_argument(command: Callable[..., None]) -> Callable[..., None]:
+def image_argument(command: Callable[..., None]) -> Callable[..., Any]:
     """An argument decorator for choosing a query image."""
     click_argument_function: Callable[
         [Callable[..., None]],

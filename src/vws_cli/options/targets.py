@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from enum import Enum
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import click
 
@@ -30,17 +30,18 @@ def target_name_option(*, required: bool) -> Callable[..., None]:
     )
 
 
-def target_width_option(*, required: bool) -> Callable[..., None]:
+def target_width_option(*, required: bool) -> Callable[..., Any]:
     """An option decorator for choosing a target width."""
-    return click.option(
+    option: Callable[..., Any] = click.option(
         "--width",
         type=float,
         help="The width of the target in the Vuforia database.",
         required=required,
     )
+    return option
 
 
-def target_image_option(*, required: bool) -> Callable[..., None]:
+def target_image_option(*, required: bool) -> Callable[..., Any]:
     """An option decorator for choosing a target image."""
     return click.option(
         "--image",
