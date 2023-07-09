@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
 
-target_id_option = click.option(
+target_id_option: Callable[..., None] = click.option(
     "--target-id",
     type=str,
     help="The ID of a target in the Vuforia database.",
@@ -103,7 +103,7 @@ def active_flag_option(
     )
 
 
-application_metadata_option = click.option(
+application_metadata_option: Callable[..., None] = click.option(
     "--application-metadata",
     type=str,
     required=False,
