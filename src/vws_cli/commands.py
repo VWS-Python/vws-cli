@@ -455,8 +455,7 @@ _TIMEOUT_SECONDS_HELP = (
 )
 
 
-# See https://github.com/pallets/click/issues/2558 for type ignore.
-@click.command(name="wait-for-target-processed")  # type: ignore[arg-type]
+@click.command(name="wait-for-target-processed")
 @click.option(
     "--seconds-between-requests",
     type=click.FloatRange(min=0.05),

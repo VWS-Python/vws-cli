@@ -29,8 +29,7 @@ except LookupError:  # pragma: no cover
     __version__ = _VERSION_FILE.read_text()
 
 
-# See https://github.com/pallets/click/issues/2558 for type ignore.
-@click.group(name="vws", context_settings=_CONTEXT_SETTINGS)  # type: ignore[arg-type]
+@click.group(name="vws", context_settings=_CONTEXT_SETTINGS)
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
 #
