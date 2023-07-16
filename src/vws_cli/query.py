@@ -165,8 +165,7 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
     return function
 
 
-# See https://github.com/pallets/click/issues/2558 for type ignore.
-@click.command(name="vuforia-cloud-reco")  # type: ignore[arg-type]
+@click.command(name="vuforia-cloud-reco")
 @image_argument
 @client_access_key_option
 @client_secret_key_option
