@@ -181,7 +181,7 @@ name = "vws_cli"
 readme = { file = "README.rst", content-type = "text/x-rst"}
 requires-python = ">=3.10"
 dependencies = [
-    "PyYAML==6.0",
+    "PyYAML==6.0.1",
     "VWS-Python==2023.5.21",
     "click==8.1.6",
     "setuptools-scm==7.1.0",
