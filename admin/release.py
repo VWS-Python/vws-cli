@@ -7,7 +7,7 @@ from admin.binaries import make_linux_binaries
 
 def main() -> None:
     """Perform a release."""
-    make_linux_binaries(repo_root=Path("."))
+    make_linux_binaries(repo_root=Path())
 
 
 if __name__ == "__main__":
