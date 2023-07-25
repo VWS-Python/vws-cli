@@ -12,8 +12,8 @@ def remove_existing_files(scripts: set[Path]) -> None:
 
     This is to stop interference with future builds.
     """
-    dist_dir = Path(".") / "dist"
-    build_dir = Path(".") / "build"
+    dist_dir = Path() / "dist"
+    build_dir = Path() / "build"
 
     with contextlib.suppress(FileNotFoundError):
         shutil.rmtree(path=str(dist_dir))
