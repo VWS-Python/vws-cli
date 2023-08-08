@@ -211,7 +211,7 @@ dev = [
     "sphinx-click==4.4.0",
     "sphinx-inline-tabs==2023.4.21",
     "sphinx-prompt==1.5.0",
-    "sphinx==7.1.1",
+    "sphinx==7.1.2",
     "sphinxcontrib.spelling==8.0.0",
     "types-PyYAML==6.0.12.11",
     "vulture==2.7",
