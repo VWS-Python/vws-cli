@@ -181,7 +181,7 @@ def get_target_record(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#How-To-Retrieve-a-Target-Record.
+    https://library.vuforia.com/web-api/cloud-targets-web-services-api#target-record.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -236,7 +236,7 @@ def get_duplicate_targets(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#how-to-check-for-similar-targets.
+    https://library.vuforia.com/web-api/cloud-targets-web-services-api#check.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -263,7 +263,7 @@ def get_database_summary_report(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#How-To-Get-a-Database-Summary-Report.
+    https://library.vuforia.com/web-api/cloud-targets-web-services-api#summary-report.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -357,7 +357,7 @@ def add_target(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#How-To-Add-a-Target
+    https://library.vuforia.com/web-api/cloud-targets-web-services-api#add
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -410,7 +410,7 @@ def update_target(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#How-To-Update-a-Target
+    https://library.vuforia.com/web-api/cloud-targets-web-services-api#update
     """
     vws_client = VWS(
         server_access_key=server_access_key,

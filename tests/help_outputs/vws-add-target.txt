@@ -3,7 +3,7 @@ Usage: vws add-target [OPTIONS]
   Add a target.
 
   See
-  https://library.vuforia.com/web-api/cloud-targets-web-services-api#How-To-Add-a-Target
+  https://library.vuforia.com/web-api/cloud-targets-web-services-api#add
 
 Options:
   --width FLOAT                The width of the target in the Vuforia database.
