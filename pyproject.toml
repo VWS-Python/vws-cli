@@ -214,7 +214,7 @@ dev = [
     "sphinx==7.2.2",
     "sphinxcontrib.spelling==8.0.0",
     "types-PyYAML==6.0.12.11",
-    "vulture==2.8",
+    "vulture==2.9.1",
 ]
 packaging = [
     "PyInstaller==5.13.0",
