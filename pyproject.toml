@@ -197,7 +197,7 @@ dev = [
     "doc8==1.1.1",
     "docker==6.1.3",
     "freezegun==1.2.2",
-    "furo==2023.8.17",
+    "furo==2023.8.19",
     "homebrew-pypi-poet==0.10.0",
     "mypy==1.5.1",
     "pdm==2.8.2",
