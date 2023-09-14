@@ -210,7 +210,7 @@ dev = [
     "ruff==0.0.289",
     "sphinx-click==5.0.1",
     "sphinx-inline-tabs==2023.4.21",
-    "sphinx-prompt==1.5.0",
+    "sphinx-prompt==1.8.0",
     "sphinx==7.2.5",
     "sphinxcontrib.spelling==8.0.0",
     "types-PyYAML==6.0.12.11",
