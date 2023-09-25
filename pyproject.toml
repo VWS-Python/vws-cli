@@ -213,7 +213,7 @@ dev = [
     "sphinx-prompt==1.8.0",
     "sphinx==7.2.6",
     "sphinxcontrib.spelling==8.0.0",
-    "types-PyYAML==6.0.12.11",
+    "types-PyYAML==6.0.12.12",
     "vulture==2.9.1",
 ]
 packaging = [
