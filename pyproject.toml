@@ -200,7 +200,7 @@ dev = [
     "furo==2023.9.10",
     "homebrew-pypi-poet==0.10.0",
     "mypy==1.5.1",
-    "pdm==2.9.2",
+    "pdm==2.9.3",
     "pip_check_reqs==2.5.3",
     "pylint==2.17.6",
     "pyright==1.1.327",
