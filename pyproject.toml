@@ -184,7 +184,7 @@ dependencies = [
     "PyYAML==6.0.1",
     "VWS-Python==2023.5.21",
     "click==8.1.7",
-    "setuptools-scm==8.0.3",
+    "setuptools-scm==8.0.4",
 ]
 
 [project.optional-dependencies]
