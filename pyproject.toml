@@ -158,8 +158,7 @@ ignore_missing_imports = true
 requires = [
      "pip",
      "setuptools",
-     "setuptools-scm-git-archive==1.4",
-     "setuptools_scm[toml]==8.0.4",
+     "setuptools_scm[toml]>=8.0.1",
      "wheel",
  ]
 build-backend = "setuptools.build_meta"
