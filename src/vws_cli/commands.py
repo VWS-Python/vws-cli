@@ -54,7 +54,7 @@ if TYPE_CHECKING:
 
 
 @contextlib.contextmanager
-def handle_vws_exceptions() -> (  # noqa: E501 pylint:disable=too-many-branches,too-many-statements
+def handle_vws_exceptions() -> (  # pylint:disable=too-many-branches,too-many-statements
     Iterator[None]
 ):
     """Show error messages and catch exceptions from ``VWS-Python``."""
