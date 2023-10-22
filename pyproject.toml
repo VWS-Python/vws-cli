@@ -168,7 +168,7 @@ authors = [ { name = "Adam Dangoor", email = "adamdangoor@gmail.com"} ]
 classifiers = [
     "Operating System :: POSIX",
     "Environment :: Web Environment",
-    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "License :: OSI Approved :: MIT License",
     "Development Status :: 5 - Production/Stable",
 ]
@@ -178,7 +178,7 @@ keywords = ["vuforia", "vws", "cli"]
 license = { file = "LICENSE" }
 name = "vws_cli"
 readme = { file = "README.rst", content-type = "text/x-rst"}
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
     "PyYAML==6.0.1",
     "VWS-Python==2023.5.21",
