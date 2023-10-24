@@ -191,7 +191,7 @@ class TestQuery:
             Try 'vuforia-cloud-reco --help' for help.
 
             Error: Invalid value for 'IMAGE': File '{does_not_exist_file}' does not exist.
-            """,  # noqa: E501
+            """,
         )
         assert result.stderr == expected_stderr
 

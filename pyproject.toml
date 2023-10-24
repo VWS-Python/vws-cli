@@ -249,6 +249,8 @@ ignore = [
     # docstrings.
     "D406",
     "D407",
+    # Let the formatter handle line lengths, and ignore the errors.
+    "E501",
     # Ignore "too-many-*" errors as they seem to get in the way more than
     # helping.
     "PLR0912",
