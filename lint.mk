@@ -56,6 +56,14 @@ linkcheck:
 spelling:
 	$(MAKE) -C docs/ spelling SPHINXOPTS=$(SPHINXOPTS)
 
+.PHONY: pyproject-fmt
+ pyproject-fmt:
+	pyproject-fmt --check --indent=4 pyproject.toml
+
+ .PHONY: fix-pyproject-fmt
+ fix-pyproject-fmt:
+	pyproject-fmt --indent=4 pyproject.toml
+
 .PHONY: shellcheck
 shellcheck:
 	shellcheck --exclude SC2164,SC1091 */*.sh
