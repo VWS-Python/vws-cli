@@ -76,7 +76,7 @@ See the `full documentation <https://vws-cli.readthedocs.io/en/latest>`__ for in
 
 .. |Build Status| image:: https://github.com/VWS-Python/vws-cli/workflows/CI/badge.svg
    :target: https://github.com/VWS-Python/vws-cli/actions
-.. |codecov| image:: https://codecov.io/gh/VWS-Python/vws-cli/branch/master/graph/badge.svg
+.. |codecov| image:: https://codecov.io/gh/VWS-Python/vws-cli/branch/main/graph/badge.svg
    :target: https://codecov.io/gh/VWS-Python/vws-cli
 .. |Documentation Status| image:: https://readthedocs.org/projects/vws-cli/badge/?version=latest
    :target: https://vws-cli.readthedocs.io/en/latest/?badge=latest
