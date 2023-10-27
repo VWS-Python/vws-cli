@@ -18,7 +18,7 @@ mypy:
 
 .PHONY: pyright
 pyright:
-	pyright .
+	pyright --verifytypes .
 
 .PHONY: check-manifest
 check-manifest:
