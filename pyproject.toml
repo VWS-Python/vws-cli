@@ -202,7 +202,7 @@ dev = [
     "pdm==2.10.1",
     "pip_check_reqs==2.5.3",
     "pylint==3.0.2",
-    "pyproject-fmt==1.4.1",
+    "pyproject-fmt==1.5.1",
     "pyright==1.1.335",
     "pyroma==4.2",
     "pytest==7.4.3",
