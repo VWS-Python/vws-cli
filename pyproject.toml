@@ -220,7 +220,7 @@ dev = [
     "VWS-Test-Fixtures==2023.3.5",
 ]
 packaging = [
-    "PyInstaller==6.1",
+    "PyInstaller==6.2.0",
 ]
 [project.urls]
 Source = "https://github.com/VWS-Python/vws-cli"
