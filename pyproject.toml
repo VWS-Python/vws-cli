@@ -82,10 +82,6 @@
     # --spelling-private-dict-file option instead of raising a message.
     spelling-store-unknown-words = 'no'
 
-[tool.black]
-
-line-length = 79
-
 [tool.coverage.run]
 
 branch = true
@@ -155,76 +151,80 @@ module = [
 ignore_missing_imports = true
 
 [build-system]
-requires = [
-     "pip",
-     "setuptools",
-     "setuptools_scm[toml]>=8.0.1",
-     "wheel",
- ]
 build-backend = "setuptools.build_meta"
+requires = [
+    "pip",
+    "setuptools",
+    "setuptools_scm[toml]>=8.0.1",
+    "wheel",
+]
 
 [project]
-authors = [ { name = "Adam Dangoor", email = "adamdangoor@gmail.com"} ]
-classifiers = [
-    "Operating System :: POSIX",
-    "Environment :: Web Environment",
-    "Programming Language :: Python :: 3.12",
-    "License :: OSI Approved :: MIT License",
-    "Development Status :: 5 - Production/Stable",
-]
+name = "vws-cli"
 description = "A CLI for the Vuforia Web Services (VWS) API."
-dynamic = ["version"]
-keywords = ["vuforia", "vws", "cli"]
-license = { file = "LICENSE" }
-name = "vws_cli"
 readme = { file = "README.rst", content-type = "text/x-rst"}
-requires-python = ">=3.12"
-dependencies = [
-    "PyYAML==6.0.1",
-    "VWS-Python==2023.5.21",
-    "click==8.1.7",
-    "setuptools-scm==8.0.4",
+keywords = [
+    "cli",
+    "vuforia",
+    "vws",
 ]
-
+license = { file = "LICENSE" }
+authors = [ { name = "Adam Dangoor", email = "adamdangoor@gmail.com"} ]
+requires-python = ">=3.12"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+]
+dynamic = [
+    "version",
+]
+dependencies = [
+    "click==8.1.7",
+    "PyYAML==6.0.1",
+    "setuptools-scm==8.0.4",
+    "VWS-Python==2023.5.21",
+]
 [project.optional-dependencies]
 dev = [
-    "Sphinx-Substitution-Extensions==2022.2.16",
-    "VWS-Python-Mock==2023.5.21",
-    "VWS-Test-Fixtures==2023.3.5",
-    "black==23.10.0",
     "check-manifest==0.49",
     "doc8==1.1.1",
     "docker==6.1.3",
     "freezegun==1.2.2",
     "furo==2023.9.10",
-    "homebrew-pypi-poet==0.10.0",
-    "mypy==1.6.1",
-    "pdm==2.9.3",
+    "homebrew-pypi-poet==0.10",
+    "mypy==1.7.0",
+    "pdm==2.10.3",
     "pip_check_reqs==2.5.3",
-    "pylint==3.0.1",
-    "pyright==1.1.332",
+    "pylint==3.0.2",
+    "pyproject-fmt==1.5.1",
+    "pyright==1.1.336",
     "pyroma==4.2",
-    "pytest-cov==4.1.0",
-    "pytest==7.4.2",
-    "ruff==0.1.1",
+    "pytest==7.4.3",
+    "pytest-cov==4.1",
+    "ruff==0.1.6",
+    "sphinx==7.2.6",
     "sphinx-click==5.0.1",
     "sphinx-inline-tabs==2023.4.21",
-    "sphinx-prompt==1.8.0",
-    "sphinx==7.2.6",
-    "sphinxcontrib.spelling==8.0.0",
+    "sphinx-prompt==1.8",
+    "Sphinx-Substitution-Extensions==2022.2.16",
+    "sphinxcontrib.spelling==8",
     "types-PyYAML==6.0.12.12",
     "vulture==2.10",
+    "VWS-Python-Mock==2023.5.21",
+    "VWS-Test-Fixtures==2023.3.5",
 ]
 packaging = [
-    "PyInstaller==6.1.0",
+    "PyInstaller==6.2.0",
 ]
-
 [project.urls]
 Source = "https://github.com/VWS-Python/vws-cli"
-
 [project.scripts]
-vws = "vws_cli:vws_group"
 vuforia-cloud-reco = "vws_cli.query:vuforia_cloud_reco"
+vws = "vws_cli:vws_group"
 
 [tool.setuptools]
 zip-safe = false
@@ -234,6 +234,7 @@ where = ["src"]
 
 [tool.ruff]
 select = ["ALL"]
+line-length = 79
 
 ignore = [
     # We are happy to manage our own "complexity".
@@ -253,6 +254,8 @@ ignore = [
     # docstrings.
     "D406",
     "D407",
+    # Let the formatter handle line lengths, and ignore the errors.
+    "E501",
     # Ignore "too-many-*" errors as they seem to get in the way more than
     # helping.
     "PLR0912",

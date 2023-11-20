@@ -2,21 +2,15 @@
 
 SHELL := /bin/bash -euxo pipefail
 
-.PHONY: black
-black:
-	black --check .
-
-.PHONY: fix-black
-fix-black:
-	black .
-
 .PHONY: ruff
 ruff:
 	ruff .
+	ruff format --check .
 
 .PHONY: fix-ruff
 fix-ruff:
 	ruff --fix .
+	ruff format .
 
 .PHONY: mypy
 mypy:
@@ -61,6 +55,14 @@ linkcheck:
 .PHONY: spelling
 spelling:
 	$(MAKE) -C docs/ spelling SPHINXOPTS=$(SPHINXOPTS)
+
+.PHONY: pyproject-fmt
+ pyproject-fmt:
+	pyproject-fmt --keep-full-version --check --indent=4 pyproject.toml
+
+ .PHONY: fix-pyproject-fmt
+ fix-pyproject-fmt:
+	pyproject-fmt --keep-full-version --indent=4 pyproject.toml
 
 .PHONY: shellcheck
 shellcheck:
