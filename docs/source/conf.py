@@ -23,7 +23,7 @@ templates_path = ["_templates"]
 source_suffix = ".rst"
 master_doc = "index"
 
-year = datetime.datetime.now(tz=datetime.timezone.utc).year
+year = datetime.datetime.now(tz=datetime.UTC).year
 project_copyright = f"{year}, {author}"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -45,7 +45,7 @@ pygments_style = "sphinx"
 htmlhelp_basename = "VWSCLIdoc"
 autoclass_content = "init"
 intersphinx_mapping = {
-    "python": ("https://docs.python.org/3.11", None),
+    "python": ("https://docs.python.org/3.12", None),
 }
 nitpicky = True
 warning_is_error = True
