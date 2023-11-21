@@ -20,6 +20,10 @@ mypy:
 pyright:
 	pyright .
 
+.PHONY: pyright-verifytypes
+pyright-verifytypes:
+	pyright --verifytypes vws_cli
+
 .PHONY: check-manifest
 check-manifest:
 	check-manifest .
