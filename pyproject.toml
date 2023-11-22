@@ -284,3 +284,6 @@ vws_cli = ["py.typed"]
 write_to = "src/vws_cli/_setuptools_scm_version.txt"
 
 [tool.pyright]
+# We would like this to be "strict" but we would need either to ignore errors,
+# or for more of docker to be typed.
+typeCheckingMode = "basic"
