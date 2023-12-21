@@ -196,7 +196,7 @@ dev = [
     "freezegun==1.4.0",
     "furo==2023.9.10",
     "homebrew-pypi-poet==0.10",
-    "mypy==1.7.1",
+    "mypy==1.8.0",
     "pdm==2.11.1",
     "pip_check_reqs==2.5.3",
     "pylint==3.0.3",
