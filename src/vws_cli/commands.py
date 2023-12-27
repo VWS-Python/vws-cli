@@ -12,8 +12,8 @@ import click
 import yaml
 from vws import VWS
 from vws.exceptions.custom_exceptions import (
+    OopsAnErrorOccurredPossiblyBadName,
     TargetProcessingTimeout,
-    UnknownVWSErrorPossiblyBadName,
 )
 from vws.exceptions.vws_exceptions import (
     AuthenticationFailure,
@@ -88,7 +88,7 @@ def handle_vws_exceptions() -> (  # pylint:disable=too-many-branches,too-many-st
         error_message = (
             "Error: The project associated with the given keys is inactive."
         )
-    except UnknownVWSErrorPossiblyBadName:
+    except OopsAnErrorOccurredPossiblyBadName:
         error_message = (
             "Error: There was an unknown error from Vuforia. "
             "This may be because there is a problem with the given name."
