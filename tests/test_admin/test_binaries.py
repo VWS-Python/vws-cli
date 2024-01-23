@@ -3,9 +3,11 @@
 import logging
 from pathlib import Path
 
-import docker
-from docker.models.containers import Container
-from docker.types import Mount
+import docker  # pyright: ignore[reportMissingTypeStubs]
+from docker.models.containers import (  # pyright: ignore[reportMissingTypeStubs]
+    Container,
+)
+from docker.types import Mount  # pyright: ignore[reportMissingTypeStubs]
 
 from admin.binaries import make_linux_binaries
 
@@ -35,14 +37,14 @@ def test_linux_binaries() -> None:
         remote_path = remote_repo_dir / str(relative_path)
         remote_paths.append(remote_path)
 
-    client = docker.from_env()
+    client = docker.from_env()  # pyright: ignore[reportUnknownMemberType]
     # We use the Python image because this is already pulled when building the
     # image.
     #
     # Because of a click limitation, we do not support running on containers
     # which have LANG and LC_ALL unset.
     image = "python:3.12"
-    client.images.pull(image)
+    client.images.pull(image)  # pyright: ignore[reportUnknownMemberType]
 
     for remote_path in remote_paths:
         cmd_in_container = [
@@ -59,20 +61,22 @@ def test_linux_binaries() -> None:
         ]
         joined_cmd = " ".join(cmd_in_container)
         command = f'bash -c "{joined_cmd}"'
-        container = client.containers.create(
+        container = client.containers.create(  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
             image=image,
             mounts=mounts,
             command=command,
         )
 
         assert isinstance(container, Container)
-        container.start()
-        for line in container.logs(stream=True):
+        container.start()  # pyright: ignore[reportUnknownMemberType]
+        for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
+            assert isinstance(line, bytes)
             warning_line = line.decode().strip()
             LOGGER.warning(warning_line)
 
-        status_code = container.wait()["StatusCode"]
+        container_wait_result = container.wait()  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
+        status_code = int(container_wait_result["StatusCode"])  # pyright: ignore[reportUnknownArgumentType]
 
         assert status_code == 0
-        container.stop()
-        container.remove(v=True)
+        container.stop()  # pyright: ignore[reportUnknownMemberType]
+        container.remove(v=True)  # pyright: ignore[reportUnknownMemberType]

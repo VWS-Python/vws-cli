@@ -19,8 +19,13 @@ num
 pragma
 pre
 pyperclip
+pyright
 pytest
 reco
+reportMissingTypeStubs
+reportUnknownArgumentType
+reportUnknownMemberType
+reportUnknownVariableType
 ubuntu
 versioned
 vuforia

@@ -4,9 +4,11 @@ import logging
 import uuid
 from pathlib import Path
 
-import docker
-from docker.models.containers import Container
-from docker.types import Mount
+import docker  # pyright: ignore[reportMissingTypeStubs]
+from docker.models.containers import (  # pyright: ignore[reportMissingTypeStubs]
+    Container,
+)
+from docker.types import Mount  # pyright: ignore[reportMissingTypeStubs]
 
 LOGGER = logging.getLogger(__name__)
 
@@ -17,7 +19,7 @@ def make_linux_binaries(repo_root: Path) -> None:
     Args:
         repo_root: The path to the root of the repository.
     """
-    client = docker.from_env()
+    client = docker.from_env()  # pyright: ignore[reportUnknownMemberType]
     dist_dir = repo_root / "dist"
     assert not dist_dir.exists() or not set(dist_dir.iterdir())
 
@@ -36,7 +38,7 @@ def make_linux_binaries(repo_root: Path) -> None:
     )
     command = f'bash -c "{cmd_in_container}"'
 
-    container = client.containers.run(
+    container = client.containers.run(  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
         image="python:3.12",
         mounts=[code_mount],
         command=command,
@@ -46,9 +48,10 @@ def make_linux_binaries(repo_root: Path) -> None:
     )
 
     assert isinstance(container, Container)
-    for line in container.logs(stream=True):
+    for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
+        assert isinstance(line, bytes)
         warning_line = line.decode().strip()
         LOGGER.warning(warning_line)
 
-    status_code = int(container.wait()["StatusCode"])
+    status_code = int(container.wait()["StatusCode"])  # pyright: ignore[reportUnknownArgumentType, reportUnknownMemberType]
     assert status_code == 0
