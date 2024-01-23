@@ -285,7 +285,7 @@ write_to = "src/vws_cli/_setuptools_scm_version.txt"
 
 [tool.pyproject-fmt]
 indent = 4
-keep_full_version = false
+keep_full_version = true
 
 [tool.pyright]
 # We would like this to be "strict" but we would need either to ignore errors,
