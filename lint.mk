@@ -62,11 +62,11 @@ spelling:
 
 .PHONY: pyproject-fmt
  pyproject-fmt:
-	pyproject-fmt --check  pyproject.toml
+	pyproject-fmt --check pyproject.toml
 
  .PHONY: fix-pyproject-fmt
  fix-pyproject-fmt:
-	pyproject-fmt  pyproject.toml
+	pyproject-fmt pyproject.toml
 
 .PHONY: shellcheck
 shellcheck:
