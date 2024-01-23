@@ -3,7 +3,12 @@
 from pathlib import Path
 
 import click
-from setuptools_scm import get_version
+
+# See https://github.com/pypa/setuptools_scm/issues/501 for ``setuptools_scm``
+# shipping type stubs.
+from setuptools_scm import (  # pyright: ignore[reportMissingTypeStubs]
+    get_version,
+)
 
 from vws_cli.commands import (
     add_target,
