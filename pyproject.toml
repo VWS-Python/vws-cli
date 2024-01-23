@@ -200,7 +200,7 @@ dev = [
     "pdm==2.12.2",
     "pip_check_reqs==2.5.3",
     "pylint==3.0.3",
-    "pyproject-fmt==1.6.0",
+    "pyproject-fmt==1.7.0",
     "pyright==1.1.347",
     "pyroma==4.2",
     "pytest==7.4.4",
@@ -282,6 +282,10 @@ vws_cli = ["py.typed"]
 
 [tool.setuptools_scm]
 write_to = "src/vws_cli/_setuptools_scm_version.txt"
+
+[tool.pyproject-fmt]
+indent = 4
+keep_full_version = false
 
 [tool.pyright]
 # We would like this to be "strict" but we would need either to ignore errors,
