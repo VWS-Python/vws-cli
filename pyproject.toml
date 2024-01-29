@@ -19,6 +19,8 @@
     # active Python interpreter and may run arbitrary code.
     unsafe-load-any-extension = false
 
+    ignore = ['_setuptools_scm_version.py']
+
     [tool.pylint.'MESSAGES CONTROL']
 
     # Enable the message, report, category or checker with the given id(s). You can
