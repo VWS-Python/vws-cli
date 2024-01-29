@@ -1,14 +1,9 @@
 """A CLI for Vuforia Web Services."""
 
-from pathlib import Path
+
+from importlib.metadata import PackageNotFoundError, version
 
 import click
-
-# See https://github.com/pypa/setuptools_scm/issues/501 for ``setuptools_scm``
-# shipping type stubs.
-from setuptools_scm import (  # type: ignore[import-untyped]
-    get_version,
-)
 
 from vws_cli.commands import (
     add_target,
@@ -25,13 +20,12 @@ from vws_cli.commands import (
 _CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
 try:
-    __version__ = get_version(root="../..", relative_to=__file__)
-except LookupError:  # pragma: no cover
+    __version__ = version(__name__)
+except PackageNotFoundError:  # pragma: no cover
     # When pkg_resources and git tags are not available,
     # for example in a PyInstaller binary,
     # we write the file ``_setuptools_scm_version.py`` on ``pip install``.
-    _VERSION_FILE = Path(__file__).parent / "_setuptools_scm_version.txt"
-    __version__ = _VERSION_FILE.read_text()
+    from ._setuptools_scm_version import __version__
 
 
 @click.group(name="vws", context_settings=_CONTEXT_SETTINGS)

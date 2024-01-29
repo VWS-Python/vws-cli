@@ -19,6 +19,8 @@
     # active Python interpreter and may run arbitrary code.
     unsafe-load-any-extension = false
 
+    ignore = ['_setuptools_scm_version.py']
+
     [tool.pylint.'MESSAGES CONTROL']
 
     # Enable the message, report, category or checker with the given id(s). You can
@@ -85,6 +87,7 @@
 [tool.coverage.run]
 
 branch = true
+omit = ['src/vws_cli/_setuptools_scm_version.py']
 
 [tool.coverage.report]
 exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]
@@ -120,7 +123,7 @@ ignore = [
   "lint.mk",
   "bin",
   "bin/*",
-  "src/*/_setuptools_scm_version.txt",
+  "src/*/_setuptools_scm_version.py",
 ]
 
 [tool.doc8]
@@ -174,7 +177,6 @@ dynamic = [
 dependencies = [
     "click==8.1.7",
     "PyYAML==6.0.1",
-    "setuptools-scm==8.0.4",
     "VWS-Python==2023.12.27",
 ]
 [project.optional-dependencies]
@@ -195,6 +197,7 @@ dev = [
     "pytest==7.4.4",
     "pytest-cov==4.1",
     "ruff==0.1.14",
+    "setuptools-scm==8.0.4",
     "sphinx==7.2.6",
     "sphinx-click==5.1.0",
     "sphinx-inline-tabs==2023.4.21",
@@ -270,7 +273,10 @@ unfixable = ["ERA001"]
 vws_cli = ["py.typed"]
 
 [tool.setuptools_scm]
-write_to = "src/vws_cli/_setuptools_scm_version.txt"
+# We write the version to a file so that we can import it.
+# We choose a ``.py`` file so that we can read it without
+# worrying about including the file in MANIFEST.in.
+write_to = "src/vws_cli/_setuptools_scm_version.py"
 
 [tool.pyproject-fmt]
 indent = 4
