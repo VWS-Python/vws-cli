@@ -27,12 +27,11 @@ def remove_existing_files(scripts: set[Path]) -> None:
             path.unlink()
 
 
-def create_binary(script: Path, repo_root: Path) -> None:
+def create_binary(script: Path) -> None:
     """Use PyInstaller to create a binary from a script.
 
     Args:
         script: The script to create a binary for.
-        repo_root: The path to the root of the repository.
     """
     pyinstaller_command = [
         "pyinstaller",
@@ -55,7 +54,7 @@ def create_binaries() -> None:
     scripts = set(script_dir.iterdir())
     remove_existing_files(scripts=scripts)
     for script in scripts:
-        create_binary(script=script, repo_root=repo_root)
+        create_binary(script=script)
 
 
 if __name__ == "__main__":
