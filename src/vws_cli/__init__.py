@@ -5,8 +5,6 @@ from importlib.metadata import PackageNotFoundError, version
 
 import click
 
-# See https://github.com/pypa/setuptools_scm/issues/501 for ``setuptools_scm``
-# shipping type stubs.
 from vws_cli.commands import (
     add_target,
     delete_target,

@@ -139,18 +139,6 @@ ignore_path = [
 
 strict = true
 
-[[tool.mypy.overrides]]
-
-module = [
-	"docker",
-    "docker.models.containers",
-	"docker.types",
-	# See https://github.com/pypa/setuptools_scm/issues/501.
-	"setuptools_scm",
-]
-
-ignore_missing_imports = true
-
 [build-system]
 build-backend = "setuptools.build_meta"
 requires = [

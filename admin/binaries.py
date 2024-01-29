@@ -4,11 +4,11 @@ import logging
 import uuid
 from pathlib import Path
 
-import docker  # pyright: ignore[reportMissingTypeStubs]
-from docker.models.containers import (  # pyright: ignore[reportMissingTypeStubs]
+import docker  # type: ignore[import-untyped]
+from docker.models.containers import (  # type: ignore[import-untyped]
     Container,
 )
-from docker.types import Mount  # pyright: ignore[reportMissingTypeStubs]
+from docker.types import Mount  # type: ignore[import-untyped]
 
 LOGGER = logging.getLogger(__name__)
 
