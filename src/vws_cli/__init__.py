@@ -6,7 +6,7 @@ import click
 
 # See https://github.com/pypa/setuptools_scm/issues/501 for ``setuptools_scm``
 # shipping type stubs.
-from setuptools_scm import (  # pyright: ignore[reportMissingTypeStubs]
+from setuptools_scm import (  # type: ignore[import-untyped]
     get_version,
 )
 
