@@ -120,7 +120,7 @@ ignore = [
   "lint.mk",
   "bin",
   "bin/*",
-  "src/*/_setuptools_scm_version.txt",
+  "src/*/_setuptools_scm_version.py",
 ]
 
 [tool.doc8]
@@ -282,7 +282,10 @@ unfixable = ["ERA001"]
 vws_cli = ["py.typed"]
 
 [tool.setuptools_scm]
-write_to = "src/vws_cli/_setuptools_scm_version.txt"
+# We write the version to a file so that we can import it.
+# We choose a ``.py`` file so that we can read it without
+# worrying about including the file in MANIFEST.in.
+write_to = "src/vws_cli/_setuptools_scm_version.py"
 
 [tool.pyproject-fmt]
 indent = 4

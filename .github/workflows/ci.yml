@@ -49,6 +49,8 @@ jobs:
 
       - name: "Run tests"
         run: |
+          # Using -s is useful but also it is required to avoid
+          # https://github.com/pallets/click/issues/824.
           pytest -s -vvv --cov-fail-under 100 --cov=src/ --cov=tests tests/ --cov-report=xml
 
       - name: "Upload coverage to Codecov"

@@ -34,32 +34,6 @@ def create_binary(script: Path, repo_root: Path) -> None:
         script: The script to create a binary for.
         repo_root: The path to the root of the repository.
     """
-    # MANIFEST.in describes files that must be available which are not
-    # necessarily Python files.
-    # These include e.g. Dockerfiles.
-    # We still need to include these in the binary.
-    datas: list[tuple[str, str]] = []
-    manifest = repo_root / "MANIFEST.in"
-    with manifest.open() as manifest_file:
-        for line in manifest_file.readlines():
-            # We do not yet have support for other MANIFEST types.
-            is_include_line = line.startswith("include")
-            is_recursive_include_line = line.startswith("recursive-include")
-            assert is_include_line or is_recursive_include_line
-            if line.startswith("recursive-include"):
-                _, manifest_path, _ = line.split()
-            else:
-                _, manifest_path = line.split()
-            if manifest_path.startswith("src/"):
-                if Path(manifest_path).is_file():
-                    parent = Path(manifest_path).parent
-                    manifest_path = str(parent)
-
-                src_path_length = len("src/")
-                path_without_src = manifest_path[src_path_length:]
-                data_item = (str(repo_root / manifest_path), path_without_src)
-                datas.append(data_item)
-
     pyinstaller_command = [
         "pyinstaller",
         str(script.resolve()),
@@ -67,10 +41,6 @@ def create_binary(script: Path, repo_root: Path) -> None:
         "--name",
         script.name + "-" + sys.platform,
     ]
-    for data in datas:
-        source, destination = data
-        add_data_command = ["--add-data", f"{source}:{destination}"]
-        pyinstaller_command += add_data_command
 
     subprocess.check_output(args=pyinstaller_command)
 
