@@ -87,6 +87,7 @@
 [tool.coverage.run]
 
 branch = true
+omit = ['src/vws_cli/_setuptools_scm_version.py']
 
 [tool.coverage.report]
 exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]
