@@ -13,11 +13,6 @@ jobs:
       matrix:
         python-version: ["3.12"]
 
-    # This is needed for PyPI publishing.
-    # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
-    permissions:
-      id-token: write
-
     steps:
       - uses: actions/checkout@v4
 
