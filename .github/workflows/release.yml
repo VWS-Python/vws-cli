@@ -133,6 +133,8 @@ jobs:
         env:
           # See https://github.com/marketplace/actions/github-action-to-push-subdirectories-to-another-repo#usage
           # for how to get this token.
+          # I do not yet know how to set this up to work with a
+          # "Fine-grained personal access token", only a "Token (classic)" with "repo" settings.
           API_TOKEN_GITHUB: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
         with:
           destination_branch: master
