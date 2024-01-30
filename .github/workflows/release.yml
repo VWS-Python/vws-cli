@@ -91,6 +91,12 @@ jobs:
     name: Publish to PyPI
     runs-on: ubuntu-latest
     needs: [build]
+
+    # This is needed for PyPI publishing.
+    # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
+    permissions:
+      id-token: write
+
     steps:
       - uses: actions/checkout@v4
 
