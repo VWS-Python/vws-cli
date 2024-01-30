@@ -13,10 +13,6 @@ jobs:
       matrix:
         python-version: ["3.12"]
 
-    # Specifying an environment is strongly recommended by PyPI.
-    # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
-    environment: release
-
     # This is needed for PyPI publishing.
     # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
     permissions:
