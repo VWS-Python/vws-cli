@@ -196,7 +196,7 @@ dev = [
     "pyroma==4.2",
     "pytest==8.0.0",
     "pytest-cov==4.1",
-    "ruff==0.1.14",
+    "ruff==0.1.15",
     "setuptools-scm==8.0.4",
     "sphinx==7.2.6",
     "sphinx-click==5.1.0",
