@@ -13,6 +13,16 @@ jobs:
       matrix:
         python-version: ["3.12"]
 
+    # Specifying an environment is strongly recommended by PyPI.
+    # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
+    environment: release
+
+    # This is needed for PyPI publishing.
+    # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
+    permissions:
+      id-token: write
+      contents: write
+
     steps:
       - uses: actions/checkout@v4
 
@@ -86,40 +96,6 @@ jobs:
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
 
-
-  pypi:
-    name: Publish to PyPI
-    runs-on: ubuntu-latest
-    needs: [build]
-
-    # This is needed for PyPI publishing.
-    # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
-    permissions:
-      id-token: write
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: "Set up Python"
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: "Install dependencies"
-        run: |
-          python -m pip install --upgrade pip setuptools wheel
-          # We use '--ignore-installed' to avoid GitHub's cache which can cause
-          # issues - we have seen packages from this cache cause trouble with
-          # pip-extra-reqs.
-          python -m pip install --ignore-installed --upgrade --editable .[dev]
-
       - name: Build a binary wheel and a source tarball
         run: |
           sudo rm -rf dist/ build/
@@ -131,27 +107,6 @@ jobs:
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           verbose: true
-
-  homebrew:
-    name: Publish to PyPI
-    runs-on: ubuntu-latest
-    needs: [pypi]
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: "Set up Python"
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: "Calver calculate version"
-        uses: StephaneBour/actions-calver@master
-        id: calver
-        with:
-          date_format: "%Y.%m.%d"
-          release: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create a Homebrew recipe
         id: homebrew-create
