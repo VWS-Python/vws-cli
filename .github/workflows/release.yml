@@ -17,10 +17,12 @@ jobs:
     # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
     environment: release
 
-    # This is needed for PyPI publishing.
-    # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
     permissions:
+      # This is needed for PyPI publishing.
+      # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
       id-token: write
+      # This is needed for https://github.com/stefanzweifel/git-auto-commit-action.
+      contents: write
 
     steps:
       - uses: actions/checkout@v4
