@@ -123,6 +123,7 @@ jobs:
           command: pip install vws-cli==${{ env.NEXT_VERSION }}
 
       - name: Create a Homebrew recipe
+        id: homebrew-create
         env:
           FILENAME: vws-cli.rb
         run: |
