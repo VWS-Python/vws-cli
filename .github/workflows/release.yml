@@ -109,20 +109,20 @@ jobs:
         with:
           verbose: true
 
+      # We have a race condition.
+      # In particular, we push to PyPI and then immediately try to install
+      # the pushed version.
+      # Here, we give PyPI time to propagate the package.
       - name: Install VWS-CLI from PyPI
-        id: install-from-pypi
+        uses: nick-fields/retry@v2
         env:
           NEXT_VERSION: ${{ steps.calver.outputs.release }}
-        run: |
-          # We have a race condition.
-          # In particular, we push to PyPI and then immediately try to install
-          # the pushed version.
-          # Here, we give PyPI time to propagate the package.
-          sleep 120
-          pip install vws-cli==${{ env.NEXT_VERSION }}
+        with:
+          timeout_seconds: 10
+          max_attempts: 20
+          command: pip install vws-cli==${{ env.NEXT_VERSION }}
 
       - name: Create a Homebrew recipe
-        id: homebrew-create
         env:
           FILENAME: vws-cli.rb
         run: |
