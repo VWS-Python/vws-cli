@@ -114,7 +114,7 @@ jobs:
       # the pushed version.
       # Here, we give PyPI time to propagate the package.
       - name: Install VWS-CLI from PyPI
-        uses: nick-fields/retry@v2
+        uses: nick-fields/retry@v3
         env:
           NEXT_VERSION: ${{ steps.calver.outputs.release }}
         with:
