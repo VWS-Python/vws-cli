@@ -109,11 +109,10 @@ jobs:
         with:
           verbose: true
 
-      - name: Create a Homebrew recipe
-        id: homebrew-create
+      - name: Install VWS-CLI from PyPI
+        id: install-from-pypi
         env:
           NEXT_VERSION: ${{ steps.calver.outputs.release }}
-          FILENAME: vws-cli.rb
         run: |
           # We have a race condition.
           # In particular, we push to PyPI and then immediately try to install
@@ -121,6 +120,12 @@ jobs:
           # Here, we give PyPI time to propagate the package.
           sleep 120
           pip install vws-cli==${{ env.NEXT_VERSION }}
+
+      - name: Create a Homebrew recipe
+        id: homebrew-create
+        env:
+          FILENAME: vws-cli.rb
+        run: |
           poet --formula vws-cli > ${{ env.FILENAME }}
           echo "HOMEBREW_RECIPE_FILE=${{ env.FILENAME }}" >> $GITHUB_OUTPUT
 
