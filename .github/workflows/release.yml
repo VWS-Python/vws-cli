@@ -83,7 +83,7 @@ jobs:
       - name: Checkout the latest tag - the one we just created
         run: |
           git fetch --tags
-          git checkout $(git describe --tags $(git rev-list --tags --max-count=1))
+          git checkout "$(git describe --tags "$(git rev-list --tags --max-count=1)")"
 
       - name: Create Linux binaries
         run: |

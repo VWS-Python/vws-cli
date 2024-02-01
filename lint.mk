@@ -2,6 +2,10 @@
 
 SHELL := /bin/bash -euxo pipefail
 
+.PHONY: actionlint
+actionlint:
+	actionlint
+
 .PHONY: ruff
 ruff:
 	ruff .
