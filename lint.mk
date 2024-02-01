@@ -2,6 +2,10 @@
 
 SHELL := /bin/bash -euxo pipefail
 
+.PHONY: actionlint
+actionlint:
+	actionlint
+
 .PHONY: ruff
 ruff:
 	ruff .
@@ -11,6 +15,10 @@ ruff:
 fix-ruff:
 	ruff --fix .
 	ruff format .
+
+.PHONY: actionlint
+actionlint:
+	actionlint
 
 .PHONY: mypy
 mypy:
