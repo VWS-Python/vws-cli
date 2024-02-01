@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING
 import click
 import yaml
 from vws import VWS
+from vws.exceptions.base_exceptions import VWSException
 from vws.exceptions.custom_exceptions import (
     OopsAnErrorOccurredPossiblyBadName,
     TargetProcessingTimeout,
@@ -53,94 +54,59 @@ if TYPE_CHECKING:
     from pathlib import Path
 
 
+def _get_error_message(exc: Exception) -> str:
+    """Get an error message from a VWS exception."""
+    if isinstance(exc, UnknownTarget):
+        return f'Error: Target "{exc.target_id}" does not exist.'
+
+    if isinstance(exc, TargetNameExist):
+        return f'Error: There is already a target named "{exc.target_name}".'
+
+    if isinstance(exc, TargetStatusNotSuccess):
+        return (
+            f'Error: The target "{exc.target_id}" cannot be updated as it is '
+            "in the processing state."
+        )
+
+    if isinstance(exc, TargetStatusProcessing):
+        return (
+            f'Error: The target "{exc.target_id}" cannot be deleted as it is '
+            "in the processing state."
+        )
+
+    exc_type_to_message: dict[type[Exception], str] = {
+        AuthenticationFailure: "The given secret key was incorrect.",
+        BadImage: "Error: The given image is corrupted or the format is not supported.",
+        DateRangeError: "Error: There was a problem with the date details given in the request.",
+        Fail: "Error: The request made to Vuforia was invalid and could not be processed. Check the given parameters.",
+        ImageTooLarge: "Error: The given image is too large.",
+        MetadataTooLarge: "Error: The given metadata is too large.",
+        OopsAnErrorOccurredPossiblyBadName: "Error: There was an unknown error from Vuforia. This may be because there is a problem with the given name.",
+        ProjectInactive: "Error: The project associated with the given keys is inactive.",
+        RequestQuotaReached: "Error: The maximum number of API calls for this database has been reached.",
+        RequestTimeTooSkewed: "Error: Vuforia reported that the time given with this request was outside the expected range. This may be because the system clock is out of sync.",
+        TargetProcessingTimeout: "Error: The target processing time has exceeded the allowed limit.",
+        TargetQuotaReached: "Error: The maximum number of targets for this database has been reached.",
+        ProjectSuspended: "Error: The request could not be completed because this database has been suspended.",
+        ProjectHasNoAPIAccess: "Error: The request could not be completed because this database is not allowed to make API requests.",
+    }
+
+    return exc_type_to_message[type(exc)]
+
+
 @contextlib.contextmanager
-def handle_vws_exceptions() -> (  # pylint:disable=too-many-branches,too-many-statements
-    Iterator[None]
-):
+def handle_vws_exceptions() -> Iterator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""
     error_message = ""
 
     try:
         yield
-    except UnknownTarget as exc:
-        error_message = f'Error: Target "{exc.target_id}" does not exist.'
-    except BadImage:
-        error_message = (
-            "Error: The given image is corrupted or the format is not "
-            "supported."
-        )
-    except Fail:
-        # We assume that exc.response.status_code == HTTPStatus.BAD_REQUEST
-        error_message = (
-            "Error: The request made to Vuforia was invalid and could not be "
-            "processed. "
-            "Check the given parameters."
-        )
-    except MetadataTooLarge:
-        error_message = "Error: The given metadata is too large."
-    except ImageTooLarge:
-        error_message = "Error: The given image is too large."
-    except TargetNameExist as exc:
-        error_message = (
-            f'Error: There is already a target named "{exc.target_name}".'
-        )
-    except ProjectInactive:
-        error_message = (
-            "Error: The project associated with the given keys is inactive."
-        )
-    except OopsAnErrorOccurredPossiblyBadName:
-        error_message = (
-            "Error: There was an unknown error from Vuforia. "
-            "This may be because there is a problem with the given name."
-        )
-    except TargetStatusProcessing as exc:
-        error_message = (
-            f'Error: The target "{exc.target_id}" cannot be deleted as it is '
-            "in the processing state."
-        )
-    except TargetStatusNotSuccess as exc:
-        error_message = (
-            f'Error: The target "{exc.target_id}" cannot be updated as it is '
-            "in the processing state."
-        )
-    except AuthenticationFailure:
-        error_message = "The given secret key was incorrect."
-    except RequestTimeTooSkewed:
-        error_message = (
-            "Error: Vuforia reported that the time given with this request "
-            "was outside the expected range. "
-            "This may be because the system clock is out of sync."
-        )
-    # This exception is not available from the mock.
-    except RequestQuotaReached:  # pragma: no cover
-        error_message = (
-            "Error: The maximum number of API calls for this database has "
-            "been reached."
-        )
-    # This exception is not available from the mock.
-    except DateRangeError:  # pragma: no cover
-        error_message = (
-            "Error: There was a problem with the date details given in the "
-            "request."
-        )
-    # This exception is not available from the mock.
-    except TargetQuotaReached:  # pragma: no cover
-        error_message = (
-            "Error: The maximum number of targets for this database has been "
-            "reached."
-        )
-    # This exception is not available from the mock.
-    except ProjectSuspended:  # pragma: no cover
-        error_message = (
-            "Error: The request could not be completed because this database "
-            "has been suspended."
-        )
-    # This exception is not available from the mock.
-    except ProjectHasNoAPIAccess:  # pragma: no cover
-        error_message = (
-            "Error: The request could not be completed because this database "
-            "is not allowed to make API requests."
-        )
+    except (
+        VWSException,
+        OopsAnErrorOccurredPossiblyBadName,
+        TargetProcessingTimeout,
+    ) as exc:
+        error_message = _get_error_message(exc=exc)
     else:
         return
 
