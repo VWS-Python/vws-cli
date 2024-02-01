@@ -75,7 +75,7 @@ def _get_error_message(exc: Exception) -> str:
         )
 
     exc_type_to_message: dict[type[Exception], str] = {
-        AuthenticationFailure: "Error: The given secret key was incorrect.",
+        AuthenticationFailure: "The given secret key was incorrect.",
         BadImage: "Error: The given image is corrupted or the format is not supported.",
         DateRangeError: "Error: There was a problem with the date details given in the request.",
         Fail: "Error: The request made to Vuforia was invalid and could not be processed. Check the given parameters.",
@@ -84,7 +84,7 @@ def _get_error_message(exc: Exception) -> str:
         OopsAnErrorOccurredPossiblyBadName: "Error: There was an unknown error from Vuforia. This may be because there is a problem with the given name.",
         ProjectInactive: "Error: The project associated with the given keys is inactive.",
         RequestQuotaReached: "Error: The maximum number of API calls for this database has been reached.",
-        RequestTimeTooSkewed: "Error: The given time was outside the expected range. This may be because the system clock is out of sync.",
+        RequestTimeTooSkewed: "Error: Vuforia reported that the time given with this request was outside the expected range. This may be because the system clock is out of sync.",
         TargetProcessingTimeout: "Error: The target processing time has exceeded the allowed limit.",
         TargetQuotaReached: "Error: The maximum number of targets for this database has been reached.",
         ProjectSuspended: "Error: The request could not be completed because this database has been suspended.",
@@ -101,7 +101,11 @@ def handle_vws_exceptions() -> Iterator[None]:
 
     try:
         yield
-    except VWSException as exc:
+    except (
+        VWSException,
+        OopsAnErrorOccurredPossiblyBadName,
+        TargetProcessingTimeout,
+    ) as exc:
         error_message = _get_error_message(exc=exc)
     else:
         return
