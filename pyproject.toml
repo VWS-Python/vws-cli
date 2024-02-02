@@ -220,7 +220,7 @@ dev = [
     "pyroma==4.2",
     "pytest==8.0.0",
     "pytest-cov==4.1",
-    "ruff==0.1.15",
+    "ruff==0.2.0",
     "setuptools-scm==8.0.4",
     "sphinx==7.2.6",
     "sphinx-click==5.1.0",
@@ -249,12 +249,16 @@ zip-safe = false
 where = ["src"]
 
 [tool.ruff]
-select = ["ALL"]
 line-length = 79
 
+[tool.ruff.lint]
+
+select = ["ALL"]
 ignore = [
     # We are happy to manage our own "complexity".
     "C901",
+    # Ruff warns that this conflicts with the formatter.
+    "COM812",
     # Ignore `one-blank-line-before-class` because it is incompatible with
     # `no-blank-line-before-class` (D211).
     "D203",
@@ -273,6 +277,8 @@ ignore = [
     "D413",
     # Let the formatter handle line lengths, and ignore the errors.
     "E501",
+    # Ruff warns that this conflicts with the formatter.
+    "ISC001",
     # Ignore "too-many-*" errors as they seem to get in the way more than
     # helping.
     "PLR0912",
@@ -288,7 +294,7 @@ ignore = [
 # is sometimes annoyingly removed.
 unfixable = ["ERA001"]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "tests/test_*.py" = [
     # Do not require tests to have a one-line summary.
     "D205",
