@@ -113,7 +113,7 @@ branch = true
 omit = ['src/vws_cli/_setuptools_scm_version.py']
 
 [tool.coverage.report]
-exclude_lines = ["pragma: no cover", "if TYPE_CHECKING:"]
+exclude_also = ["if TYPE_CHECKING:"]
 
 [tool.pytest.ini_options]
 
