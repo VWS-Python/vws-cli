@@ -2,13 +2,15 @@
 
 from __future__ import annotations
 
-import os
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import pytest
 from click.testing import CliRunner
 from vws_cli import vws_group
 from vws_cli.query import vuforia_cloud_reco
+
+if TYPE_CHECKING:
+    from pytest_regressions.file_regression import FileRegressionFixture
 
 _SUBCOMMANDS = [[item] for item in vws_group.commands]
 _BASE_COMMAND: list[list[str]] = [[]]
@@ -20,36 +22,27 @@ _COMMANDS = _BASE_COMMAND + _SUBCOMMANDS
     _COMMANDS,
     ids=[str(cmd) for cmd in _COMMANDS],
 )
-def test_vws_command_help(command: list[str]) -> None:
+def test_vws_command_help(
+    command: list[str],
+    file_regression: FileRegressionFixture,
+) -> None:
     """Expected help text is shown for ``vws`` commands.
 
     This help text is defined in files.
-    To update these files, run the command ``bash admin/update_cli_tests.sh``.
+    To update these files, run ``pytest`` with the ``--regen-all`` flag.
     """
     runner = CliRunner()
     arguments = [*command, "--help"]
     result = runner.invoke(vws_group, arguments, catch_exceptions=False)
     assert result.exit_code == 0
-    help_output_filename = "-".join(["vws", *command]) + ".txt"
-    help_outputs_dir = Path(__file__).parent / "help_outputs"
-    expected_help_file = help_outputs_dir / help_output_filename
-    try:
-        expected_help = expected_help_file.read_text()
-        assert result.output == expected_help
-    except (AssertionError, FileNotFoundError):  # pragma: no cover
-        if os.getenv("FIX_CLI_TESTS") == "1":
-            help_outputs_dir.mkdir(exist_ok=True)
-            expected_help_file.touch()
-            expected_help_file.write_text(result.output)
-        else:
-            raise
+    file_regression.check(contents=result.output)
 
 
-def test_query_help() -> None:
+def test_query_help(file_regression: FileRegressionFixture) -> None:
     """Expected help text is shown for the ``vuforia-cloud-reco`` command.
 
     This help text is defined in files.
-    To update these files, run the command ``bash admin/update_cli_tests.sh``.
+    To update these files, run ``pytest`` with the ``--regen-all`` flag.
     """
     runner = CliRunner()
     arguments = ["--help"]
@@ -59,16 +52,4 @@ def test_query_help() -> None:
         catch_exceptions=False,
     )
     assert result.exit_code == 0
-    help_output_filename = "vuforia_cloud_reco.txt"
-    help_outputs_dir = Path(__file__).parent / "help_outputs"
-    expected_help_file = help_outputs_dir / help_output_filename
-    try:
-        expected_help = expected_help_file.read_text()
-        assert result.output == expected_help
-    except (AssertionError, FileNotFoundError):  # pragma: no cover
-        if os.getenv("FIX_CLI_TESTS") == "1":
-            help_outputs_dir.mkdir(exist_ok=True)
-            expected_help_file.touch()
-            expected_help_file.write_text(result.output)
-        else:
-            raise
+    file_regression.check(contents=result.output)
