@@ -35,7 +35,7 @@ def test_vws_command_help(
     arguments = [*command, "--help"]
     result = runner.invoke(vws_group, arguments, catch_exceptions=False)
     assert result.exit_code == 0
-    file_regression.check(result.output)
+    file_regression.check(contents=result.output)
 
 
 def test_query_help(file_regression: FileRegressionFixture) -> None:
@@ -52,4 +52,4 @@ def test_query_help(file_regression: FileRegressionFixture) -> None:
         catch_exceptions=False,
     )
     assert result.exit_code == 0
-    file_regression.check(result.output)
+    file_regression.check(contents=result.output)
