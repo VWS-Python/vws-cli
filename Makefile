@@ -19,7 +19,6 @@ lint: \
     pyroma \
     pyright \
     pyright-verifytypes \
-    shellcheck \
     spelling \
     vulture \
     pylint

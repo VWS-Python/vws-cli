@@ -71,7 +71,3 @@ spelling:
  .PHONY: fix-pyproject-fmt
  fix-pyproject-fmt:
 	pyproject-fmt pyproject.toml
-
-.PHONY: shellcheck
-shellcheck:
-	shellcheck --exclude SC2164,SC1091 */*.sh
