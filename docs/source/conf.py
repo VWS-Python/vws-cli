@@ -49,7 +49,6 @@ intersphinx_mapping = {
 }
 nitpicky = True
 warning_is_error = True
-nitpick_ignore: list[tuple[str, str]] = []
 
 html_show_copyright = False
 html_show_sphinx = False
