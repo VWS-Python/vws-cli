@@ -38,11 +38,11 @@ doc8:
 
 .PHONY: pip-extra-reqs
 pip-extra-reqs:
-	pip-extra-reqs --requirements-file=<(pdm export --pyproject) src/
+	pip-extra-reqs --requirements-file=<(uv pip compile --no-deps pyproject.toml) src/
 
 .PHONY: pip-missing-reqs
 pip-missing-reqs:
-	pip-missing-reqs --requirements-file=<(pdm export --pyproject) src/
+	pip-missing-reqs --requirements-file=<(uv pip compile --no-deps pyproject.toml) src/
 
 .PHONY: pylint
 pylint:
