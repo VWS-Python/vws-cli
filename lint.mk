@@ -36,13 +36,14 @@ check-manifest:
 doc8:
 	doc8 .
 
-.PHONY: pip-extra-reqs
-pip-extra-reqs:
-	pip-extra-reqs --requirements-file=<(uv pip compile --no-deps pyproject.toml) src/
+TEMPFILE:= $(shell mktemp)
 
-.PHONY: pip-missing-reqs
-pip-missing-reqs:
-	pip-missing-reqs --requirements-file=<(uv pip compile --no-deps pyproject.toml) src/
+.PHONY: deptry
+deptry:
+	uv pip compile --no-deps pyproject.toml > $(TEMPFILE)
+	mv pyproject.toml pyproject.bak.toml
+	deptry --requirements-txt=$(TEMPFILE) src/ || (mv pyproject.bak.toml pyproject.toml && exit 1)
+	mv pyproject.bak.toml pyproject.toml
 
 .PHONY: pylint
 pylint:
