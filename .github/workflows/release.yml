@@ -80,6 +80,7 @@ jobs:
 
       - name: Create Linux binaries
         run: |
+          source /home/runner/.venv/bin/activate
           PYTHONPATH=. python admin/release.py
 
       - name: Create a GitHub release
@@ -92,6 +93,7 @@ jobs:
 
       - name: Build a binary wheel and a source tarball
         run: |
+          source /home/runner/.venv/bin/activate
           sudo rm -rf dist/ build/
           python -m build --sdist --wheel --outdir dist/ .
 
