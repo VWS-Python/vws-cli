@@ -65,7 +65,6 @@ jobs:
         id: commit
         with:
           commit_message: Bump CHANGELOG
-          push_options: --force
 
       - name: Bump version and push tag
         id: tag_version
