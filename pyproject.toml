@@ -229,7 +229,7 @@ dev = [
     "Sphinx-Substitution-Extensions==2024.2.25",
     "sphinxcontrib.spelling==8",
     "types-PyYAML==6.0.12.12",
-    "uv==0.1.11",
+    "uv==0.1.12",
     "vulture==2.11",
     "VWS-Python-Mock==2024.2.16",
     "VWS-Test-Fixtures==2023.3.5",
