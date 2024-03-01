@@ -1,6 +1,5 @@
 """A CLI for Vuforia Web Services."""
 
-
 from importlib.metadata import PackageNotFoundError, version
 
 import click
