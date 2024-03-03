@@ -40,9 +40,7 @@ jobs:
       - name: "Install dependencies"
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
-          uv venv /home/runner/.venv
-          source /home/runner/.venv/bin/activate
-          uv pip install --upgrade --editable .[dev]
+          uv pip install --system --upgrade --editable .[dev]
 
       - name: "Calver calculate version"
         uses: StephaneBour/actions-calver@master
@@ -84,7 +82,6 @@ jobs:
 
       - name: Create Linux binaries
         run: |
-          source /home/runner/.venv/bin/activate
           PYTHONPATH=. python admin/release.py
 
       - name: Create a GitHub release
@@ -97,7 +94,6 @@ jobs:
 
       - name: Build a binary wheel and a source tarball
         run: |
-          source /home/runner/.venv/bin/activate
           sudo rm -rf dist/ build/
           python -m build --sdist --wheel --outdir dist/ .
 
@@ -126,7 +122,6 @@ jobs:
         env:
           FILENAME: vws-cli.rb
         run: |
-          source /home/runner/.venv/bin/activate
           poet --formula vws-cli > ${{ env.FILENAME }}
           echo "HOMEBREW_RECIPE_FILE=${{ env.FILENAME }}" >> "$GITHUB_OUTPUT"
 
