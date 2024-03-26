@@ -229,7 +229,6 @@ dev = [
     "Sphinx-Substitution-Extensions==2024.2.25",
     "sphinxcontrib.spelling==8",
     "types-PyYAML==6.0.12.20240311",
-    "uv==0.1.24",
     "vulture==2.11",
     "VWS-Python-Mock==2024.2.16",
     "VWS-Test-Fixtures==2023.3.5",
@@ -317,3 +316,6 @@ keep_full_version = true
 [tool.pyright]
 reportUnnecessaryTypeIgnoreComment = true
 typeCheckingMode = "strict"
+
+[tool.deptry]
+pep621_dev_dependency_groups = ["dev", "packaging"]

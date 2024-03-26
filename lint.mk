@@ -36,14 +36,9 @@ check-manifest:
 doc8:
 	doc8 .
 
-TEMPFILE:= $(shell mktemp)
-
 .PHONY: deptry
 deptry:
-	uv pip compile --no-deps pyproject.toml > $(TEMPFILE)
-	mv pyproject.toml pyproject.bak.toml
-	deptry --requirements-txt=$(TEMPFILE) src/ || (mv pyproject.bak.toml pyproject.toml && exit 1)
-	mv pyproject.bak.toml pyproject.toml
+	deptry src/
 
 .PHONY: pylint
 pylint:
