@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import base64
-import random
+import secrets
 import uuid
 from pathlib import Path
 from textwrap import dedent
@@ -272,7 +272,7 @@ class TestAddTarget:
         name = uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
-        width = random.uniform(a=0.01, b=50)
+        width = secrets.choice(seq=range(1, 5000)) / 100
         commands = [
             "add-target",
             "--name",
@@ -770,7 +770,7 @@ class TestUpdateTarget:
         """It is possible to update a target."""
         runner = CliRunner(mix_stderr=False)
         old_name = uuid.uuid4().hex
-        old_width = random.uniform(a=0.01, b=50)
+        old_width = secrets.choice(seq=range(1, 5000)) / 100
         target_id = vws_client.add_target(
             name=old_name,
             width=old_width,
@@ -781,7 +781,7 @@ class TestUpdateTarget:
         vws_client.wait_for_target_processed(target_id=target_id)
         new_application_metadata = base64.b64encode(b"a").decode("ascii")
         new_name = uuid.uuid4().hex
-        new_width = random.uniform(a=0.01, b=50)
+        new_width = secrets.choice(seq=range(1, 5000)) / 100
         new_image_file = tmp_path / uuid.uuid4().hex
         new_image_data = different_high_quality_image.getvalue()
         new_image_file.write_bytes(data=new_image_data)
@@ -849,7 +849,7 @@ class TestUpdateTarget:
         """It is possible to give no update fields."""
         runner = CliRunner(mix_stderr=False)
         old_name = uuid.uuid4().hex
-        old_width = random.uniform(a=0.01, b=50)
+        old_width = secrets.choice(seq=range(1, 5000)) / 100
         target_id = vws_client.add_target(
             name=old_name,
             width=old_width,
