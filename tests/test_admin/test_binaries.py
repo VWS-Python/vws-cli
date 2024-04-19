@@ -4,6 +4,7 @@ import logging
 from pathlib import Path
 
 import docker  # type: ignore[import-untyped]
+import pytest
 from docker.models.containers import (  # type: ignore[import-untyped]
     Container,
 )
@@ -14,9 +15,9 @@ from admin.binaries import make_linux_binaries
 LOGGER = logging.getLogger(__name__)
 
 
-def test_linux_binaries() -> None:
+def test_linux_binaries(request: pytest.FixtureRequest) -> None:
     """``make_linux_binaries`` creates a binary which can be run on Linux."""
-    repo_root = Path(__file__).parent.parent.parent.absolute()
+    repo_root = request.config.rootpath.absolute()
     dist_dir = repo_root / "dist"
     make_linux_binaries(repo_root=repo_root)
     binary_path_names = {path.name for path in dist_dir.iterdir()}
