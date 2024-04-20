@@ -3,12 +3,10 @@
 import logging
 from pathlib import Path
 
-import docker  # type: ignore[import-untyped]
+import docker
 import pytest
-from docker.models.containers import (  # type: ignore[import-untyped]
-    Container,
-)
-from docker.types import Mount  # type: ignore[import-untyped]
+from docker.models.containers import Container
+from docker.types import Mount
 
 from admin.binaries import make_linux_binaries
 
@@ -69,15 +67,15 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
         )
 
         assert isinstance(container, Container)
-        container.start()  # pyright: ignore[reportUnknownMemberType]
-        for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
+        container.start()  # type: ignore[no-untyped-call]
+        for line in container.logs(stream=True):  # type: ignore[no-untyped-call]
             assert isinstance(line, bytes)
             warning_line = line.decode().strip()
             LOGGER.warning(warning_line)
 
-        container_wait_result = container.wait()  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
+        container_wait_result = container.wait()  # type: ignore[no-untyped-call]
         status_code = int(container_wait_result["StatusCode"])  # pyright: ignore[reportUnknownArgumentType]
 
         assert status_code == 0
-        container.stop()  # pyright: ignore[reportUnknownMemberType]
-        container.remove(v=True)  # pyright: ignore[reportUnknownMemberType]
+        container.stop()  # type: ignore[no-untyped-call]
+        container.remove(v=True)  # type: ignore[no-untyped-call]

@@ -4,11 +4,11 @@ import logging
 import uuid
 from pathlib import Path
 
-import docker  # type: ignore[import-untyped]
-from docker.models.containers import (  # type: ignore[import-untyped]
+import docker
+from docker.models.containers import (
     Container,
 )
-from docker.types import Mount  # type: ignore[import-untyped]
+from docker.types import Mount
 
 LOGGER = logging.getLogger(__name__)
 
@@ -48,10 +48,13 @@ def make_linux_binaries(repo_root: Path) -> None:
     )
 
     assert isinstance(container, Container)
-    for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
+    for line in container.logs(  # type: ignore[no-untyped-call]
+        stream=True
+    ):
         assert isinstance(line, bytes)
         warning_line = line.decode().strip()
         LOGGER.warning(warning_line)
 
-    status_code = int(container.wait()["StatusCode"])  # pyright: ignore[reportUnknownArgumentType, reportUnknownMemberType]
+    wait_result = container.wait()  # type: ignore[no-untyped-call]
+    status_code = int(wait_result["StatusCode"])  # pyright: ignore[reportUnknownArgumentType]
     assert status_code == 0
