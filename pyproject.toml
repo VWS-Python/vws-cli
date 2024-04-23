@@ -210,7 +210,7 @@ dev = [
     "deptry==0.16.1",
     "doc8==1.1.1",
     "docker==7.0.0",
-    "freezegun==1.4.0",
+    "freezegun==1.5.0",
     "furo==2024.1.29",
     "homebrew-pypi-poet==0.10",
     "mypy==1.9.0",
