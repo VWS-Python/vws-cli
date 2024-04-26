@@ -218,7 +218,7 @@ dev = [
     "pyproject-fmt==1.8.0",
     "pyright==1.1.360",
     "pyroma==4.2",
-    "pytest==8.1.1",
+    "pytest==8.1.2",
     "pytest-cov==5.0.0",
     "pytest-regressions==2.5.0",
     "ruff==0.4.2",
