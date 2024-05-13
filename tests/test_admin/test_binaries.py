@@ -67,8 +67,8 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
         )
 
         assert isinstance(container, Container)
-        container.start()  # type: ignore[no-untyped-call]
-        for line in container.logs(stream=True):  # type: ignore[no-untyped-call]
+        container.start()  # pyright: ignore[reportUnknownMemberType]
+        for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
             assert isinstance(line, bytes)
             warning_line = line.decode().strip()
             LOGGER.warning(warning_line)
