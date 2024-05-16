@@ -60,7 +60,7 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
         ]
         joined_cmd = " ".join(cmd_in_container)
         command = f'bash -c "{joined_cmd}"'
-        container = client.containers.create(  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
+        container = client.containers.create(  # pyright: ignore[reportUnknownMemberType]
             image=image,
             mounts=mounts,
             command=command,
