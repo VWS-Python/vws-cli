@@ -10,46 +10,51 @@ Install contribution dependencies
 
 Install Python dependencies in a virtual environment.
 
-.. code:: sh
+.. prompt:: bash
 
-    pip install --editable '.[dev]'
+   pip install --editable '.[dev]'
 
 Spell checking requires ``enchant``.
-This can be installed on macOS, for example, with `Homebrew <https://brew.sh>`__:
+This can be installed on macOS, for example, with `Homebrew`_:
 
-.. code:: sh
+.. prompt:: bash
 
-    brew install enchant
+   brew install enchant
 
 and on Ubuntu with ``apt``:
 
-.. code:: sh
+.. prompt:: bash
 
-    apt-get install -y enchant
+   apt-get install -y enchant
+
+Install ``pre-commit`` hooks:
+
+.. prompt:: bash
+
+   pre-commit install
+   pre-commit install --hook-type pre-push
 
 Linting
 -------
 
-Run lint tools:
+Run lint tools either by committing, or with:
 
-.. code:: sh
+.. prompt:: bash
 
-    make lint
+   pre-commit run --all-files --hook-stage commit --verbose
+   pre-commit run --all-files --hook-stage push --verbose
+   pre-commit run --all-files --hook-stage manual --verbose
 
-To fix some lint errors, run the following:
-
-.. code:: sh
-
-    make fix-lint
+.. _Homebrew: https://brew.sh
 
 Running tests
 -------------
 
 Run ``pytest``:
 
-.. code:: sh
+.. prompt:: bash
 
-    pytest
+   pytest
 
 Documentation
 -------------
@@ -58,7 +63,7 @@ Documentation is built on Read the Docs.
 
 Run the following commands to build and view documentation locally:
 
-.. code:: sh
+.. prompt:: bash
 
    make docs
    make open-docs
