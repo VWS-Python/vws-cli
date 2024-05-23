@@ -43,7 +43,7 @@ optional-dependencies.dev = [
     "check-wheel-contents==0.6.0",
     "deptry==0.16.1",
     "doc8==1.1.1",
-    "docker==7.0.0",
+    "docker==7.1.0",
     "freezegun==1.5.1",
     "furo==2024.5.6",
     "homebrew-pypi-poet==0.10",
