@@ -19,7 +19,7 @@ def make_linux_binaries(repo_root: Path) -> None:
     Args:
         repo_root: The path to the root of the repository.
     """
-    client = docker.from_env()  # pyright: ignore[reportUnknownMemberType]
+    client = docker.from_env()
     dist_dir = repo_root / "dist"
     assert not dist_dir.exists() or not set(dist_dir.iterdir())
 
