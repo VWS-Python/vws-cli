@@ -36,7 +36,7 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
         remote_path = remote_repo_dir / str(relative_path)
         remote_paths.append(remote_path)
 
-    client = docker.from_env()  # pyright: ignore[reportUnknownMemberType]
+    client = docker.from_env()
     # We use the Python image because this is already pulled when building the
     # image.
     #
