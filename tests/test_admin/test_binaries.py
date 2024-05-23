@@ -5,7 +5,6 @@ from pathlib import Path
 
 import docker
 import pytest
-from docker.models.containers import Container
 from docker.types import Mount
 
 from admin.binaries import make_linux_binaries
@@ -66,7 +65,6 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
             command=command,
         )
 
-        assert isinstance(container, Container)
         container.start()  # pyright: ignore[reportUnknownMemberType]
         for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
             assert isinstance(line, bytes)
