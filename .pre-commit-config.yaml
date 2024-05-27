@@ -111,6 +111,7 @@ repos:
         entry: interrogate
         language: system
         types_or: [python]
+        exclude_types: [executable]
 
     -   id: pyproject-fmt-check
         name: pyproject-fmt check
