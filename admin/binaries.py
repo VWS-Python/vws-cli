@@ -53,6 +53,6 @@ def make_linux_binaries(repo_root: Path) -> None:
         warning_line = line.decode().strip()
         LOGGER.warning(warning_line)
 
-    wait_result = container.wait()  # type: ignore[no-untyped-call]
+    wait_result = container.wait()  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
     status_code = int(wait_result["StatusCode"])  # pyright: ignore[reportUnknownArgumentType]
     assert status_code == 0

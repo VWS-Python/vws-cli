@@ -71,7 +71,7 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
             warning_line = line.decode().strip()
             LOGGER.warning(warning_line)
 
-        container_wait_result = container.wait()  # type: ignore[no-untyped-call]
+        container_wait_result = container.wait()  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
         status_code = int(container_wait_result["StatusCode"])  # pyright: ignore[reportUnknownArgumentType]
 
         assert status_code == 0
