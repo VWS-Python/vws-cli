@@ -48,7 +48,7 @@ def make_linux_binaries(repo_root: Path) -> None:
     )
 
     assert isinstance(container, Container)
-    for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
+    for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType]
         assert isinstance(line, bytes)
         warning_line = line.decode().strip()
         LOGGER.warning(warning_line)
