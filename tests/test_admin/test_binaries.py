@@ -75,5 +75,5 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
         status_code = int(container_wait_result["StatusCode"])  # pyright: ignore[reportUnknownArgumentType]
 
         assert status_code == 0
-        container.stop()  # pyright: ignore[reportUnknownMemberType]
+        container.stop()
         container.remove(v=True)  # pyright: ignore[reportUnknownMemberType]
