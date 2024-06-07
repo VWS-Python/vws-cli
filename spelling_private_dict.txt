@@ -22,10 +22,12 @@ pyperclip
 pyright
 pytest
 reco
+reportDeprecated
 reportMissingTypeStubs
 reportUnknownArgumentType
 reportUnknownMemberType
 reportUnknownVariableType
+typeshed
 ubuntu
 versioned
 vuforia
