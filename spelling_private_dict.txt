@@ -26,6 +26,7 @@ reportMissingTypeStubs
 reportUnknownArgumentType
 reportUnknownMemberType
 reportUnknownVariableType
+typeshed
 ubuntu
 versioned
 vuforia
