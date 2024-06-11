@@ -5,7 +5,7 @@ vws-cli
 
 A CLI for `Vuforia Web Services`_.
 
-.. _Vuforia Web Services: https://library.vuforia.com/web-api/cloud-targets-web-services-api
+.. _Vuforia Web Services: https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api
 
 .. contents::
    :local:

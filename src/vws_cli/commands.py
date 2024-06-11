@@ -147,7 +147,7 @@ def get_target_record(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#target-record.
+    https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#target-record.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -174,7 +174,7 @@ def list_targets(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#details-list.
+    https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#details-list.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -202,7 +202,7 @@ def get_duplicate_targets(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#check.
+    https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#check.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -229,7 +229,7 @@ def get_database_summary_report(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#summary-report.
+    https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#summary-report.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -257,7 +257,7 @@ def get_target_summary_report(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#retrieve-report.
+    https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#retrieve-report.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -288,7 +288,7 @@ def delete_target(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#delete.
+    https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#delete.
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -323,7 +323,7 @@ def add_target(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#add
+    https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#add
     """
     vws_client = VWS(
         server_access_key=server_access_key,
@@ -376,7 +376,7 @@ def update_target(
 
     \b
     See
-    https://library.vuforia.com/web-api/cloud-targets-web-services-api#update
+    https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#update
     """
     vws_client = VWS(
         server_access_key=server_access_key,
