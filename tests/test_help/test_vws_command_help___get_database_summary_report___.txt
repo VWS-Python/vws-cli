@@ -3,7 +3,7 @@ Usage: vws get-database-summary-report [OPTIONS]
   Get a database summary report.
 
   See
-  https://library.vuforia.com/web-api/cloud-targets-web-services-api#summary-report.
+  https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#summary-report.
 
 Options:
   --server-access-key TEXT  A Vuforia server access key to use to access the

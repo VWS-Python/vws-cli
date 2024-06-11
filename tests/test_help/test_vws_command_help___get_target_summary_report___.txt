@@ -3,7 +3,7 @@ Usage: vws get-target-summary-report [OPTIONS]
   Get a target summary report.
 
   See
-  https://library.vuforia.com/web-api/cloud-targets-web-services-api#retrieve-report.
+  https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#retrieve-report.
 
 Options:
   --server-access-key TEXT  A Vuforia server access key to use to access the

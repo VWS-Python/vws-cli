@@ -3,7 +3,7 @@ Usage: vws list-targets [OPTIONS]
   List targets.
 
   See
-  https://library.vuforia.com/web-api/cloud-targets-web-services-api#details-list.
+  https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#details-list.
 
 Options:
   --server-access-key TEXT  A Vuforia server access key to use to access the

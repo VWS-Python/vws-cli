@@ -3,7 +3,7 @@ Usage: vws update-target [OPTIONS]
   Update a target.
 
   See
-  https://library.vuforia.com/web-api/cloud-targets-web-services-api#update
+  https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#update
 
 Options:
   --width FLOAT                The width of the target in the Vuforia database.
