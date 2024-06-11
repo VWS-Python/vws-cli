@@ -72,7 +72,7 @@ optional-dependencies.dev = [
     "vws-test-fixtures==2023.3.5",
 ]
 optional-dependencies.packaging = [
-    "pyinstaller==6.7.0",
+    "pyinstaller==6.8.0",
 ]
 urls.Source = "https://github.com/VWS-Python/vws-cli"
 scripts.vuforia-cloud-reco = "vws_cli.query:vuforia_cloud_reco"
