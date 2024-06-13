@@ -16,12 +16,10 @@ def remove_existing_files(scripts: set[Path]) -> None:
     build_dir = Path() / "build"
 
     with contextlib.suppress(FileNotFoundError):
-        # The pyright ignore is because of a bug in typeshed: https://github.com/python/typeshed/issues/12103.
-        shutil.rmtree(path=str(dist_dir))  # pyright: ignore[reportDeprecated]
+        shutil.rmtree(path=str(dist_dir))
 
     with contextlib.suppress(FileNotFoundError):
-        # The pyright ignore is because of a bug in typeshed: https://github.com/python/typeshed/issues/12103.
-        shutil.rmtree(path=str(build_dir))  # pyright: ignore[reportDeprecated]
+        shutil.rmtree(path=str(build_dir))
 
     for script in scripts:
         path = Path(script.name + ".spec")
