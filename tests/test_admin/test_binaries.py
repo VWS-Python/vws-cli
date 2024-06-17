@@ -65,7 +65,7 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
             command=command,
         )
 
-        container.start()  # pyright: ignore[reportUnknownMemberType]
+        container.start()
         for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType]
             assert isinstance(line, bytes)
             warning_line = line.decode().strip()
@@ -76,4 +76,4 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
 
         assert status_code == 0
         container.stop()
-        container.remove(v=True)  # pyright: ignore[reportUnknownMemberType]
+        container.remove(v=True)
