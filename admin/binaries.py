@@ -5,9 +5,6 @@ import uuid
 from pathlib import Path
 
 import docker
-from docker.models.containers import (
-    Container,
-)
 from docker.types import Mount
 
 LOGGER = logging.getLogger(__name__)
@@ -38,7 +35,7 @@ def make_linux_binaries(repo_root: Path) -> None:
     )
     command = f'bash -c "{cmd_in_container}"'
 
-    container = client.containers.run(  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
+    container = client.containers.run(  # pyright: ignore[reportUnknownMemberType]
         image="python:3.12",
         mounts=[code_mount],
         command=command,
@@ -47,7 +44,6 @@ def make_linux_binaries(repo_root: Path) -> None:
         detach=True,
     )
 
-    assert isinstance(container, Container)
     for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType]
         assert isinstance(line, bytes)
         warning_line = line.decode().strip()

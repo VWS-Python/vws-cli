@@ -42,7 +42,7 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
     # Because of a click limitation, we do not support running on containers
     # which have LANG and LC_ALL unset.
     image = "python:3.12"
-    client.images.pull(image)  # pyright: ignore[reportUnknownMemberType]
+    client.images.pull(image)
 
     for remote_path in remote_paths:
         cmd_in_container = [
