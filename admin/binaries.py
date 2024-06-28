@@ -35,13 +35,15 @@ def make_linux_binaries(repo_root: Path) -> None:
     )
     command = f'bash -c "{cmd_in_container}"'
 
-    container = client.containers.run(  # pyright: ignore[reportUnknownMemberType]
+    container = client.containers.run(
         image="python:3.12",
         mounts=[code_mount],
         command=command,
         working_dir=target_dir,
         remove=True,
         detach=True,
+        version="auto",
+        name=f"vws-create-binaries-{uuid.uuid4().hex}",
     )
 
     for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType]
@@ -49,6 +51,5 @@ def make_linux_binaries(repo_root: Path) -> None:
         warning_line = line.decode().strip()
         LOGGER.warning(warning_line)
 
-    wait_result = container.wait()  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
-    status_code = int(wait_result["StatusCode"])  # pyright: ignore[reportUnknownArgumentType]
-    assert status_code == 0
+    wait_result = container.wait()
+    assert wait_result["StatusCode"] == 0
