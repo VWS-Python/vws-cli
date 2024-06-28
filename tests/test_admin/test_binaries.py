@@ -1,6 +1,7 @@
 """Tests for creating binaries."""
 
 import logging
+import uuid
 from pathlib import Path
 
 import docker
@@ -59,11 +60,13 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
         ]
         joined_cmd = " ".join(cmd_in_container)
         command = f'bash -c "{joined_cmd}"'
-        container = client.containers.run(  # pyright: ignore[reportUnknownMemberType]
+        container = client.containers.run(
             image=image,
             mounts=mounts,
             command=command,
             detach=True,
+            name=f"vws-test-binaries-{uuid.uuid4().hex}",
+            version="auto",
         )
 
         for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType]
@@ -71,9 +74,8 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
             warning_line = line.decode().strip()
             LOGGER.warning(warning_line)
 
-        container_wait_result = container.wait()  # pyright: ignore[reportUnknownVariableType, reportUnknownMemberType]
-        status_code = int(container_wait_result["StatusCode"])  # pyright: ignore[reportUnknownArgumentType]
+        container_wait_result = container.wait()
 
-        assert status_code == 0
+        assert container_wait_result["StatusCode"] == 0
         container.stop()
         container.remove(v=True)
