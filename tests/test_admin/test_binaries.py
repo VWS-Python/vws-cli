@@ -1,7 +1,6 @@
 """Tests for creating binaries."""
 
 import logging
-import uuid
 from pathlib import Path
 
 import docker
@@ -65,8 +64,6 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
             mounts=mounts,
             command=command,
             detach=True,
-            name=f"vws-test-binaries-{uuid.uuid4().hex}",
-            version="auto",
         )
 
         for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType]
