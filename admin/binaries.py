@@ -42,8 +42,6 @@ def make_linux_binaries(repo_root: Path) -> None:
         working_dir=target_dir,
         remove=True,
         detach=True,
-        version="auto",
-        name=f"vws-create-binaries-{uuid.uuid4().hex}",
     )
 
     for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType]
