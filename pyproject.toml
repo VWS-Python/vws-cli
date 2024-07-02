@@ -34,6 +34,10 @@ dynamic = [
 ]
 dependencies = [
     "click==8.1.7",
+    # Pin numpy to avoid:
+    # https://github.com/pytorch/pytorch/issues/128860
+    # When we remove this, also remove the deptry ignore.
+    "numpy<2.0.0; platform_system=='Windows'",
     "pyyaml==6.0.1",
     "vws-python==2024.2.19",
 ]
@@ -286,6 +290,11 @@ ignore = [
 pep621_dev_dependency_groups = [
     "dev",
     "packaging",
+]
+
+[tool.deptry.per_rule_ignores]
+DEP002 = [
+    "numpy",
 ]
 
 [tool.pyproject-fmt]
