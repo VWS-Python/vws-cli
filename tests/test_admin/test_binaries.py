@@ -66,8 +66,7 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
             detach=True,
         )
 
-        for line in container.logs(stream=True):  # pyright: ignore[reportUnknownVariableType]
-            assert isinstance(line, bytes)
+        for line in container.logs(stream=True):
             warning_line = line.decode().strip()
             LOGGER.warning(warning_line)
 
