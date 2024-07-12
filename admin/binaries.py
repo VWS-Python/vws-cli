@@ -35,8 +35,11 @@ def make_linux_binaries(repo_root: Path) -> None:
     )
     command = f'bash -c "{cmd_in_container}"'
 
+    repository = "python"
+    tag = "3.12"
+    image = client.images.pull(repository=repository, tag=tag)
     container = client.containers.run(
-        image="python:3.12",
+        image=image,
         mounts=[code_mount],
         command=command,
         working_dir=target_dir,
