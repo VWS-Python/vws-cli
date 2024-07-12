@@ -20,10 +20,9 @@ def make_linux_binaries(repo_root: Path) -> None:
     dist_dir = repo_root / "dist"
     assert not dist_dir.exists() or not set(dist_dir.iterdir())
 
-    target_dir = "/" + uuid.uuid4().hex
     code_mount = Mount(
         source=str(repo_root.absolute()),
-        target=target_dir,
+        target="/" + uuid.uuid4().hex,
         type="bind",
     )
 
@@ -39,7 +38,7 @@ def make_linux_binaries(repo_root: Path) -> None:
         image="python:3.12",
         mounts=[code_mount],
         command=command,
-        working_dir=target_dir,
+        working_dir=code_mount["Target"],
         remove=True,
         detach=True,
     )
