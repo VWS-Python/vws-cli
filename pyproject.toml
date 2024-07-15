@@ -68,7 +68,7 @@ optional-dependencies.dev = [
     "types-docker==7.1.0.20240711",
     "types-pyyaml==6.0.12.20240311",
     "vulture==2.11",
-    "vws-python-mock==2024.7.2.1",
+    "vws-python-mock==2024.7.15",
     "vws-test-fixtures==2023.3.5",
 ]
 optional-dependencies.packaging = [
