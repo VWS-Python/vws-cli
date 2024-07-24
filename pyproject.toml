@@ -66,7 +66,7 @@ optional-dependencies.dev = [
     "sphinx-substitution-extensions==2024.2.25",
     "sphinxcontrib-spelling==8",
     "types-docker==7.1.0.20240720",
-    "types-pyyaml==6.0.12.20240311",
+    "types-pyyaml==6.0.12.20240724",
     "vulture==2.11",
     "vws-python-mock==2024.7.15",
     "vws-test-fixtures==2023.3.5",
