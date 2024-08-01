@@ -12,6 +12,7 @@ project = "VWS-CLI"
 author = "Adam Dangoor"
 
 extensions = [
+    "sphinx_copybutton",
     "sphinxcontrib.spelling",
     "sphinx_click.ext",
     "sphinx_inline_tabs",
