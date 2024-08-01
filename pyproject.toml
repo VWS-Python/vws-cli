@@ -62,7 +62,6 @@ optional-dependencies.dev = [
     "sphinx==7.4.7",
     "sphinx-click==6.0.0",
     "sphinx-inline-tabs==2023.4.21",
-    "sphinx-prompt==1.8",
     "sphinx-substitution-extensions==2024.2.25",
     "sphinxcontrib-spelling==8",
     "types-docker==7.1.0.20240720",

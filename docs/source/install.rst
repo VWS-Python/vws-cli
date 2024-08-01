@@ -25,13 +25,13 @@ Requires `Homebrew`_.
 Pre-built Linux binaries
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. prompt:: bash
+.. code-block:: console
    :substitutions:
 
-   curl --fail -L https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vws -o /usr/local/bin/vws && \
-   chmod +x /usr/local/bin/vws
-   curl --fail -L https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vuforia-cloud-reco -o /usr/local/bin/vuforia-cloud-reco && \
-   chmod +x /usr/local/bin/vuforia-cloud-reco
+   $ curl --fail -L https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vws -o /usr/local/bin/vws && \
+   $ chmod +x /usr/local/bin/vws
+   $ curl --fail -L https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vuforia-cloud-reco -o /usr/local/bin/vuforia-cloud-reco && \
+   $ chmod +x /usr/local/bin/vuforia-cloud-reco
 
 Shell completion
 ~~~~~~~~~~~~~~~~
