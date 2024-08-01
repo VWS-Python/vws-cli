@@ -15,7 +15,6 @@ extensions = [
     "sphinxcontrib.spelling",
     "sphinx_click.ext",
     "sphinx_inline_tabs",
-    "sphinx-prompt",
     "sphinx_substitution_extensions",
 ]
 
