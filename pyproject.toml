@@ -34,7 +34,7 @@ dynamic = [
 ]
 dependencies = [
     "click==8.1.7",
-    "pyyaml==6.0.1",
+    "pyyaml==6.0.2",
     "vws-python==2024.2.19",
 ]
 optional-dependencies.dev = [
