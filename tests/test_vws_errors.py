@@ -10,6 +10,7 @@ from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 from mock_vws.states import States
 from vws import VWS
+
 from vws_cli import vws_group
 
 

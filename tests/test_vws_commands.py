@@ -18,6 +18,7 @@ from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 from vws import VWS, CloudRecoService
 from vws.reports import TargetStatuses
+
 from vws_cli import vws_group
 
 if TYPE_CHECKING:
