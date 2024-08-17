@@ -1,6 +1,7 @@
 """Tests for the VWS CLI."""
 
 from click.testing import CliRunner
+
 from vws_cli import vws_group
 
 

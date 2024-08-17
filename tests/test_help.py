@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 from click.testing import CliRunner
+
 from vws_cli import vws_group
 from vws_cli.query import vuforia_cloud_reco
 

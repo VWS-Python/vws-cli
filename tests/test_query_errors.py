@@ -10,6 +10,7 @@ from freezegun import freeze_time
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 from mock_vws.states import States
+
 from vws_cli.query import vuforia_cloud_reco
 
 if TYPE_CHECKING:
