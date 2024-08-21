@@ -70,6 +70,7 @@ optional-dependencies.dev = [
     "vulture==2.11",
     "vws-python-mock==2024.7.15",
     "vws-test-fixtures==2023.3.5",
+    "typeguard==4.3.0",
 ]
 optional-dependencies.packaging = [
     "pyinstaller==6.10.0",
@@ -296,6 +297,9 @@ keep_full_version = true
 
 xfail_strict = true
 log_cli = true
+typeguard-packages = """
+tests
+"""
 
 [tool.coverage.run]
 
