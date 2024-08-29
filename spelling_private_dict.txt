@@ -1,6 +1,7 @@
 admin
 api
 args
+beartype
 changelog
 cli
 dockerfile

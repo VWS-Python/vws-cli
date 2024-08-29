@@ -5,12 +5,22 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pytest
+from beartype import beartype
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 from vws import VWS, CloudRecoService
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
+
+
+def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
+    """
+    Apply the beartype decorator to all collected test functions.
+    """
+    for item in items:
+        assert isinstance(item, pytest.Function)
+        item.obj = beartype(obj=item.obj)
 
 
 @pytest.fixture(name="mock_database")

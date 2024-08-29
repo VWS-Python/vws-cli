@@ -1,9 +1,8 @@
 """Tests for how errors from the Cloud Reco Service are handled by the CLI."""
 
-from __future__ import annotations
-
+import io
 import uuid
-from typing import TYPE_CHECKING
+from pathlib import Path
 
 from click.testing import CliRunner
 from freezegun import freeze_time
@@ -12,10 +11,6 @@ from mock_vws.database import VuforiaDatabase
 from mock_vws.states import States
 
 from vws_cli.query import vuforia_cloud_reco
-
-if TYPE_CHECKING:
-    import io
-    from pathlib import Path
 
 
 def test_authentication_failure(
