@@ -1,12 +1,11 @@
 """``click`` commands the VWS CLI."""
 
-from __future__ import annotations
-
 import contextlib
 import dataclasses
 import io
 import sys
-from typing import TYPE_CHECKING
+from collections.abc import Callable, Iterator
+from pathlib import Path
 
 import click
 import yaml
@@ -48,10 +47,6 @@ from vws_cli.options.targets import (
     target_name_option,
     target_width_option,
 )
-
-if TYPE_CHECKING:
-    from collections.abc import Callable, Iterator
-    from pathlib import Path
 
 
 def _get_error_message(exc: Exception) -> str:
