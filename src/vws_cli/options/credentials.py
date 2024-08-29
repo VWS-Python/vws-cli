@@ -1,13 +1,8 @@
 """``click`` options regarding credentials."""
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
+from collections.abc import Callable
 
 import click
-
-if TYPE_CHECKING:
-    from collections.abc import Callable
 
 
 def server_access_key_option(

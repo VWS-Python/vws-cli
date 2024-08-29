@@ -1,13 +1,12 @@
 """A CLI for the Vuforia Cloud Recognition Service API."""
 
-from __future__ import annotations
-
 import contextlib
 import dataclasses
 import io
 import sys
+from collections.abc import Callable, Iterator
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import Any
 
 import click
 import yaml
@@ -28,9 +27,6 @@ from vws_cli.options.credentials import (
     client_access_key_option,
     client_secret_key_option,
 )
-
-if TYPE_CHECKING:
-    from collections.abc import Callable, Iterator
 
 
 @contextlib.contextmanager

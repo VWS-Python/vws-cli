@@ -1,14 +1,12 @@
 # pylint:disable=too-many-lines
 """Tests for VWS CLI commands."""
 
-from __future__ import annotations
-
 import base64
+import io
 import secrets
 import uuid
 from pathlib import Path
 from textwrap import dedent
-from typing import TYPE_CHECKING
 
 import pytest
 import yaml
@@ -20,9 +18,6 @@ from vws import VWS, CloudRecoService
 from vws.reports import TargetStatuses
 
 from vws_cli import vws_group
-
-if TYPE_CHECKING:
-    import io
 
 
 def test_get_database_summary_report(
