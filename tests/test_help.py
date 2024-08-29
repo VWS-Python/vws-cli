@@ -1,17 +1,11 @@
 """Tests for the VWS CLI help."""
 
-from __future__ import annotations
-
-from typing import TYPE_CHECKING
-
 import pytest
 from click.testing import CliRunner
+from pytest_regressions.file_regression import FileRegressionFixture
 
 from vws_cli import vws_group
 from vws_cli.query import vuforia_cloud_reco
-
-if TYPE_CHECKING:
-    from pytest_regressions.file_regression import FileRegressionFixture
 
 _SUBCOMMANDS = [[item] for item in vws_group.commands]
 _BASE_COMMAND: list[list[str]] = [[]]
