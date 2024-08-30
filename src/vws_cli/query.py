@@ -10,6 +10,7 @@ from typing import Any
 
 import click
 import yaml
+from beartype import beartype
 from vws import CloudRecoService
 from vws.exceptions.cloud_reco_exceptions import (
     AuthenticationFailure,
@@ -29,6 +30,7 @@ from vws_cli.options.credentials import (
 )
 
 
+@beartype
 @contextlib.contextmanager
 def handle_vwq_exceptions() -> Iterator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""
@@ -60,6 +62,7 @@ def handle_vwq_exceptions() -> Iterator[None]:
     sys.exit(1)
 
 
+@beartype
 def image_argument(command: Callable[..., None]) -> Callable[..., Any]:
     """An argument decorator for choosing a query image."""
     click_argument_function: Callable[
@@ -144,6 +147,7 @@ def include_target_data_option(
     return function
 
 
+@beartype
 def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
     """An option decorator for choosing the base VWQ URL."""
     click_option_function: Callable[

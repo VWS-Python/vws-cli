@@ -33,13 +33,13 @@ dynamic = [
     "version",
 ]
 dependencies = [
+    "beartype==0.18.5",
     "click==8.1.7",
     "pyyaml==6.0.2",
     "vws-python==2024.2.19",
 ]
 optional-dependencies.dev = [
     "actionlint-py==1.7.1.15",
-    "beartype==0.18.5",
     "check-manifest==0.49",
     "check-wheel-contents==0.6.0",
     "deptry==0.20.0",

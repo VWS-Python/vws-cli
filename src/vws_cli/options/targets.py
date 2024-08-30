@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 import click
+from beartype import beartype
 
 target_id_option: Callable[..., None] = click.option(
     "--target-id",
@@ -15,6 +16,7 @@ target_id_option: Callable[..., None] = click.option(
 )
 
 
+@beartype
 def target_name_option(*, required: bool) -> Callable[..., None]:
     """An option decorator for choosing a target name."""
     return click.option(
@@ -25,6 +27,7 @@ def target_name_option(*, required: bool) -> Callable[..., None]:
     )
 
 
+@beartype
 def target_width_option(*, required: bool) -> Callable[..., Any]:
     """An option decorator for choosing a target width."""
     option: Callable[..., Any] = click.option(
@@ -36,6 +39,7 @@ def target_width_option(*, required: bool) -> Callable[..., Any]:
     return option
 
 
+@beartype
 def target_image_option(*, required: bool) -> Callable[..., Any]:
     """An option decorator for choosing a target image."""
     return click.option(

@@ -9,6 +9,7 @@ from mock_vws.database import VuforiaDatabase
 from vws import VWS, CloudRecoService
 
 
+@beartype
 def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
     """
     Apply the beartype decorator to all collected test functions.
@@ -18,6 +19,7 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
         item.obj = beartype(obj=item.obj)
 
 
+@beartype
 @pytest.fixture(name="mock_database")
 def fixture_mock_database() -> Iterator[VuforiaDatabase]:
     """Yield a mock ``VuforiaDatabase``."""
@@ -27,6 +29,7 @@ def fixture_mock_database() -> Iterator[VuforiaDatabase]:
         yield database
 
 
+@beartype
 @pytest.fixture
 def vws_client(mock_database: VuforiaDatabase) -> VWS:
     """Return a VWS client which connects to a mock database."""

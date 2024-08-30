@@ -5,11 +5,13 @@ import uuid
 from pathlib import Path
 
 import docker
+from beartype import beartype
 from docker.types import Mount
 
 LOGGER = logging.getLogger(__name__)
 
 
+@beartype
 def make_linux_binaries(repo_root: Path) -> None:
     """Create binaries for Linux in a Docker container.
 
