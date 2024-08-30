@@ -9,6 +9,7 @@ from pathlib import Path
 
 import click
 import yaml
+from beartype import beartype
 from vws import VWS
 from vws.exceptions.base_exceptions import VWSException
 from vws.exceptions.custom_exceptions import (
@@ -49,6 +50,7 @@ from vws_cli.options.targets import (
 )
 
 
+@beartype
 def _get_error_message(exc: Exception) -> str:
     """Get an error message from a VWS exception."""
     if isinstance(exc, UnknownTarget):
@@ -89,6 +91,7 @@ def _get_error_message(exc: Exception) -> str:
     return exc_type_to_message[type(exc)]
 
 
+@beartype
 @contextlib.contextmanager
 def handle_vws_exceptions() -> Iterator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""

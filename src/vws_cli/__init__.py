@@ -3,6 +3,7 @@
 from importlib.metadata import PackageNotFoundError, version
 
 import click
+from beartype import beartype
 
 from vws_cli.commands import (
     add_target,
@@ -27,6 +28,7 @@ except PackageNotFoundError:  # pragma: no cover
     from ._setuptools_scm_version import __version__
 
 
+@beartype
 @click.group(name="vws", context_settings=_CONTEXT_SETTINGS)
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
