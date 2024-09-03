@@ -156,7 +156,7 @@ def test_get_target_summary_report(
     """It is possible to get a target summary report."""
     runner = CliRunner()
     upload_date = "2015-04-29"
-    with freeze_time(upload_date):
+    with freeze_time(time_to_freeze=upload_date):
         target_id = vws_client.add_target(
             name="x",
             width=1,
@@ -462,7 +462,7 @@ class TestAddTarget:
         new_file.write_bytes(data=image_data)
         application_metadata = uuid.uuid4().hex
         metadata_bytes = application_metadata.encode("ascii")
-        base64_encoded_metadata_bytes = base64.b64encode(metadata_bytes)
+        base64_encoded_metadata_bytes = base64.b64encode(s=metadata_bytes)
         base64_encoded_metadata = base64_encoded_metadata_bytes.decode("ascii")
         commands = [
             "add-target",
@@ -851,7 +851,9 @@ class TestUpdateTarget:
             application_metadata=None,
         )
         vws_client.wait_for_target_processed(target_id=target_id)
-        new_application_metadata = base64.b64encode(b"a").decode("ascii")
+        new_application_metadata = base64.b64encode(s=b"a").decode(
+            encoding="ascii",
+        )
         new_name = uuid.uuid4().hex
         new_width = secrets.choice(seq=range(1, 5000)) / 100
         new_image_file = tmp_path / uuid.uuid4().hex
