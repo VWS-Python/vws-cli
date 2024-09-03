@@ -13,13 +13,13 @@ import yaml
 from beartype import beartype
 from vws import CloudRecoService
 from vws.exceptions.cloud_reco_exceptions import (
-    AuthenticationFailure,
-    BadImage,
-    InactiveProject,
-    RequestTimeTooSkewed,
+    AuthenticationFailureError,
+    BadImageError,
+    InactiveProjectError,
+    RequestTimeTooSkewedError,
 )
 from vws.exceptions.custom_exceptions import (
-    RequestEntityTooLarge,
+    RequestEntityTooLargeError,
 )
 from vws.include_target_data import CloudRecoIncludeTargetData
 
@@ -36,24 +36,24 @@ def handle_vwq_exceptions() -> Iterator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""
     try:
         yield
-    except BadImage:
+    except BadImageError:
         error_message = (
             "Error: The given image is corrupted or the format is not "
             "supported."
         )
-    except InactiveProject:
+    except InactiveProjectError:
         error_message = (
             "Error: The project associated with the given keys is inactive."
         )
-    except AuthenticationFailure:
+    except AuthenticationFailureError:
         error_message = "The given secret key was incorrect."
-    except RequestTimeTooSkewed:
+    except RequestTimeTooSkewedError:
         error_message = (
             "Error: Vuforia reported that the time given with this request "
             "was outside the expected range. "
             "This may be because the system clock is out of sync."
         )
-    except RequestEntityTooLarge:
+    except RequestEntityTooLargeError:
         error_message = "Error: The given image is too large."
     else:
         return
