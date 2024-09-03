@@ -30,7 +30,9 @@ def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
                 "--server-secret-key",
                 mock_database.server_secret_key,
             ]
-            result = runner.invoke(vws_group, args, catch_exceptions=False)
+            result = runner.invoke(
+                cli=vws_group, args=args, catch_exceptions=False
+            )
             assert result.exit_code == 1
             expected_stderr = 'Error: Target "abc12345" does not exist.\n'
             assert result.stderr == expected_stderr
@@ -60,7 +62,7 @@ def test_bad_image(
         "--server-secret-key",
         mock_database.server_secret_key,
     ]
-    result = runner.invoke(vws_group, args, catch_exceptions=False)
+    result = runner.invoke(cli=vws_group, args=args, catch_exceptions=False)
     assert result.exit_code == 1
     expected_stderr = (
         "Error: The given image is corrupted or the format is not supported.\n"
@@ -96,7 +98,7 @@ def test_fail_bad_request(
         "--server-secret-key",
         mock_database.server_secret_key,
     ]
-    result = runner.invoke(vws_group, args, catch_exceptions=False)
+    result = runner.invoke(cli=vws_group, args=args, catch_exceptions=False)
     assert result.exit_code == 1
     expected_stderr = (
         "Error: The request made to Vuforia was invalid and could not be "
@@ -131,7 +133,7 @@ def test_metadata_too_large(
         "--server-secret-key",
         mock_database.server_secret_key,
     ]
-    result = runner.invoke(vws_group, args, catch_exceptions=False)
+    result = runner.invoke(cli=vws_group, args=args, catch_exceptions=False)
     assert result.exit_code == 1
     expected_stderr = "Error: The given metadata is too large.\n"
     assert result.stderr == expected_stderr
@@ -161,7 +163,11 @@ def test_image_too_large(
         "--server-secret-key",
         mock_database.server_secret_key,
     ]
-    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    result = runner.invoke(
+        cli=vws_group,
+        args=commands,
+        catch_exceptions=False,
+    )
     assert result.exit_code == 1
     expected_stderr = "Error: The given image is too large.\n"
     assert result.stderr == expected_stderr
@@ -201,7 +207,11 @@ def test_target_name_exist(
         "--server-secret-key",
         mock_database.server_secret_key,
     ]
-    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    result = runner.invoke(
+        cli=vws_group,
+        args=commands,
+        catch_exceptions=False,
+    )
     assert result.exit_code == 1
     expected_stderr = 'Error: There is already a target named "foobar".\n'
     assert result.stderr == expected_stderr
@@ -235,7 +245,11 @@ def test_project_inactive(
             "--server-secret-key",
             database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
 
     assert result.exit_code == 1
     expected_stderr = (
@@ -273,7 +287,11 @@ def test_unknown_vws_error(
         "--server-secret-key",
         mock_database.server_secret_key,
     ]
-    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    result = runner.invoke(
+        cli=vws_group,
+        args=commands,
+        catch_exceptions=False,
+    )
     assert result.exit_code == 1
     expected_stderr = (
         "Error: There was an unknown error from Vuforia. "
@@ -309,7 +327,11 @@ def test_target_status_processing(
         mock_database.server_secret_key,
     ]
 
-    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    result = runner.invoke(
+        cli=vws_group,
+        args=commands,
+        catch_exceptions=False,
+    )
     assert result.exit_code == 1
     expected_stderr = (
         f'Error: The target "{target_id}" cannot be deleted as it is in the '
@@ -346,7 +368,11 @@ def test_target_status_not_success(
         mock_database.server_secret_key,
     ]
 
-    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    result = runner.invoke(
+        cli=vws_group,
+        args=commands,
+        catch_exceptions=False,
+    )
     assert result.exit_code == 1
     expected_stderr = (
         f'Error: The target "{target_id}" cannot be updated as it is in the '
@@ -367,7 +393,11 @@ def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
         "wrong_key",
     ]
 
-    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    result = runner.invoke(
+        cli=vws_group,
+        args=commands,
+        catch_exceptions=False,
+    )
     assert result.exit_code == 1
     expected_stderr = "The given secret key was incorrect.\n"
     assert result.stderr == expected_stderr

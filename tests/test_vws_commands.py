@@ -43,7 +43,11 @@ def test_get_database_summary_report(
         "--server-secret-key",
         mock_database.server_secret_key,
     ]
-    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    result = runner.invoke(
+        cli=vws_group,
+        args=commands,
+        catch_exceptions=False,
+    )
     assert result.exit_code == 0
     result_data = yaml.safe_load(stream=result.stdout)
     expected_result_data = {
@@ -91,7 +95,11 @@ def test_list_targets(
         "--server-secret-key",
         mock_database.server_secret_key,
     ]
-    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    result = runner.invoke(
+        cli=vws_group,
+        args=commands,
+        catch_exceptions=False,
+    )
     assert result.exit_code == 0
     result_data = yaml.safe_load(stream=result.stdout)
     expected_result_data = [target_id_1, target_id_2]
@@ -122,7 +130,11 @@ def test_get_target_record(
         "--server-secret-key",
         mock_database.server_secret_key,
     ]
-    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    result = runner.invoke(
+        cli=vws_group,
+        args=commands,
+        catch_exceptions=False,
+    )
     assert result.exit_code == 0
     result_data = yaml.safe_load(stream=result.stdout)
     expected_result_data = {
@@ -162,7 +174,11 @@ def test_get_target_summary_report(
         "--server-secret-key",
         mock_database.server_secret_key,
     ]
-    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    result = runner.invoke(
+        cli=vws_group,
+        args=commands,
+        catch_exceptions=False,
+    )
     assert result.exit_code == 0
     result_data = yaml.safe_load(stream=result.stdout)
     expected_result_data = {
@@ -204,7 +220,11 @@ def test_delete_target(
         mock_database.server_secret_key,
     ]
     vws_client.wait_for_target_processed(target_id=target_id)
-    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    result = runner.invoke(
+        cli=vws_group,
+        args=commands,
+        catch_exceptions=False,
+    )
     assert result.exit_code == 0
     assert not result.stdout
     assert vws_client.list_targets() == []
@@ -244,7 +264,11 @@ def test_get_duplicate_targets(
         "--server-secret-key",
         mock_database.server_secret_key,
     ]
-    result = runner.invoke(vws_group, commands, catch_exceptions=False)
+    result = runner.invoke(
+        cli=vws_group,
+        args=commands,
+        catch_exceptions=False,
+    )
     assert result.exit_code == 0
     result_data = yaml.safe_load(stream=result.stdout)
     expected_result_data = [target_id_2]
@@ -282,7 +306,11 @@ class TestAddTarget:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         assert result.exit_code == 0, result.output
 
         target_id = result.stdout.strip()
@@ -320,7 +348,11 @@ class TestAddTarget:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
         assert not result.stdout
@@ -356,7 +388,11 @@ class TestAddTarget:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
         assert not result.stdout
@@ -400,7 +436,11 @@ class TestAddTarget:
         with runner.isolated_filesystem():
             new_file = Path(new_filename)
             new_file.symlink_to(original_image_file)
-            result = runner.invoke(vws_group, commands, catch_exceptions=False)
+            result = runner.invoke(
+                cli=vws_group,
+                args=commands,
+                catch_exceptions=False,
+            )
         assert result.exit_code == 0
         target_id = result.stdout.strip()
         target_record = vws_client.get_target_record(target_id=target_id)
@@ -439,7 +479,11 @@ class TestAddTarget:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         assert result.exit_code == 0
         target_id = result.stdout.strip()
         vws_client.wait_for_target_processed(target_id=target_id)
@@ -486,7 +530,11 @@ class TestAddTarget:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         assert result.exit_code == 0
 
         target_id = result.stdout.strip()
@@ -524,7 +572,11 @@ class TestWaitForTargetProcessed:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         assert result.exit_code == 0
         assert not result.stdout
         report = vws_client.get_target_summary_report(target_id=target_id)
@@ -561,7 +613,11 @@ class TestWaitForTargetProcessed:
                 "--server-secret-key",
                 mock_database.server_secret_key,
             ]
-            result = runner.invoke(vws_group, commands, catch_exceptions=False)
+            result = runner.invoke(
+                cli=vws_group,
+                args=commands,
+                catch_exceptions=False,
+            )
             assert result.exit_code == 0
             assert not result.stdout
             report = vws_client.get_database_summary_report()
@@ -625,7 +681,11 @@ class TestWaitForTargetProcessed:
                 "--server-secret-key",
                 mock_database.server_secret_key,
             ]
-            result = runner.invoke(vws_group, commands, catch_exceptions=False)
+            result = runner.invoke(
+                cli=vws_group,
+                args=commands,
+                catch_exceptions=False,
+            )
             assert result.exit_code == 0
             assert not result.stdout
             report = vws_client.get_database_summary_report()
@@ -670,7 +730,11 @@ class TestWaitForTargetProcessed:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         assert result.exit_code != 0
         assert not result.stdout
         expected_substring = "0.01 is not in the range x>=0.05."
@@ -710,7 +774,11 @@ class TestWaitForTargetProcessed:
                 "--server-secret-key",
                 mock_database.server_secret_key,
             ]
-            result = runner.invoke(vws_group, commands, catch_exceptions=False)
+            result = runner.invoke(
+                cli=vws_group,
+                args=commands,
+                catch_exceptions=False,
+            )
             assert result.exit_code != 0
             assert result.stderr == "Timeout of 0.1 seconds reached.\n"
 
@@ -725,7 +793,11 @@ class TestWaitForTargetProcessed:
                 "--server-secret-key",
                 mock_database.server_secret_key,
             ]
-            result = runner.invoke(vws_group, commands, catch_exceptions=False)
+            result = runner.invoke(
+                cli=vws_group,
+                args=commands,
+                catch_exceptions=False,
+            )
             assert result.exit_code == 0
             report = vws_client.get_target_summary_report(target_id=target_id)
             assert report.status != TargetStatuses.PROCESSING
@@ -745,7 +817,11 @@ class TestWaitForTargetProcessed:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         assert result.exit_code != 0
         expected_substring = "0.01 is not in the range x>=0.05."
         assert expected_substring in result.stderr
@@ -801,7 +877,11 @@ class TestUpdateTarget:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         assert result.exit_code == 0
         assert not result.stdout
 
@@ -826,7 +906,11 @@ class TestUpdateTarget:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         assert result.exit_code == 0
         assert not result.stdout
         target_details = vws_client.get_target_record(target_id=target_id)
@@ -864,7 +948,11 @@ class TestUpdateTarget:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         assert result.exit_code == 0
         assert not result.stdout
 
@@ -897,7 +985,11 @@ class TestUpdateTarget:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
         assert not result.stdout
@@ -941,7 +1033,11 @@ class TestUpdateTarget:
             "--server-secret-key",
             mock_database.server_secret_key,
         ]
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
         assert not result.stdout
@@ -991,7 +1087,11 @@ class TestUpdateTarget:
         with runner.isolated_filesystem():
             new_file = Path(new_filename)
             new_file.symlink_to(original_image_file)
-            result = runner.invoke(vws_group, commands, catch_exceptions=False)
+            result = runner.invoke(
+                cli=vws_group,
+                args=commands,
+                catch_exceptions=False,
+            )
 
         assert result.exit_code == 0
 
@@ -1014,6 +1114,10 @@ def test_custom_base_url() -> None:
     ]
     with MockVWS(base_vws_url=base_vws_url) as mock:
         mock.add_database(database=mock_database)
-        result = runner.invoke(vws_group, commands, catch_exceptions=False)
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+        )
 
     assert result.exit_code == 0

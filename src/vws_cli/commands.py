@@ -154,7 +154,7 @@ def get_target_record(
     )
     record = vws_client.get_target_record(target_id=target_id).target_record
 
-    yaml_record = yaml.dump(dataclasses.asdict(record))
+    yaml_record = yaml.dump(data=dataclasses.asdict(obj=record))
     click.echo(message=yaml_record)
 
 
@@ -180,7 +180,7 @@ def list_targets(
         base_vws_url=base_vws_url,
     )
     targets = vws_client.list_targets()
-    yaml_list = yaml.dump(targets)
+    yaml_list = yaml.dump(data=targets)
     click.echo(message=yaml_list)
 
 
@@ -209,7 +209,7 @@ def get_duplicate_targets(
     )
     record = vws_client.get_duplicate_targets(target_id=target_id)
 
-    yaml_record = yaml.dump(record)
+    yaml_record = yaml.dump(data=record)
     click.echo(message=yaml_record)
 
 
@@ -235,7 +235,7 @@ def get_database_summary_report(
         base_vws_url=base_vws_url,
     )
     report = vws_client.get_database_summary_report()
-    yaml_report = yaml.dump(dataclasses.asdict(report))
+    yaml_report = yaml.dump(data=dataclasses.asdict(obj=report))
     click.echo(message=yaml_report)
 
 
@@ -263,10 +263,10 @@ def get_target_summary_report(
         base_vws_url=base_vws_url,
     )
     report = vws_client.get_target_summary_report(target_id=target_id)
-    report_dict = dataclasses.asdict(report)
+    report_dict = dataclasses.asdict(obj=report)
     report_dict["status"] = report_dict["status"].value
     report_dict["upload_date"] = str(report_dict["upload_date"])
-    yaml_summary_report = yaml.dump(report_dict)
+    yaml_summary_report = yaml.dump(data=report_dict)
     click.echo(message=yaml_summary_report)
 
 
@@ -330,7 +330,7 @@ def add_target(
     )
 
     image_bytes = image_file_path.read_bytes()
-    image = io.BytesIO(image_bytes)
+    image = io.BytesIO(initial_bytes=image_bytes)
 
     active_flag = {
         ActiveFlagChoice.TRUE: True,
@@ -386,7 +386,7 @@ def update_target(
         image = None
     else:
         image_bytes = image_file_path.read_bytes()
-        image = io.BytesIO(image_bytes)
+        image = io.BytesIO(initial_bytes=image_bytes)
 
     active_flag = {
         ActiveFlagChoice.TRUE: True,

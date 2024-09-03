@@ -95,7 +95,7 @@ def active_flag_option(
         "--active-flag",
         "active_flag_choice",
         help="Whether or not the target is active for query.",
-        type=click.Choice([item.value for item in ActiveFlagChoice]),
+        type=click.Choice(choices=[item.value for item in ActiveFlagChoice]),
         default=default,
         callback=_active_flag_choice_callback,
         show_default=show_default,
