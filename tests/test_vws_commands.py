@@ -45,7 +45,7 @@ def test_get_database_summary_report(
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
-    result_data = yaml.safe_load(result.stdout)
+    result_data = yaml.safe_load(stream=result.stdout)
     expected_result_data = {
         "active_images": 0,
         "current_month_recos": 0,
@@ -93,7 +93,7 @@ def test_list_targets(
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
-    result_data = yaml.safe_load(result.stdout)
+    result_data = yaml.safe_load(stream=result.stdout)
     expected_result_data = [target_id_1, target_id_2]
     # We do not expect a particular order.
     assert sorted(result_data) == sorted(expected_result_data)
@@ -124,7 +124,7 @@ def test_get_target_record(
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
-    result_data = yaml.safe_load(result.stdout)
+    result_data = yaml.safe_load(stream=result.stdout)
     expected_result_data = {
         "active_flag": True,
         "name": "x",
@@ -164,7 +164,7 @@ def test_get_target_summary_report(
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
-    result_data = yaml.safe_load(result.stdout)
+    result_data = yaml.safe_load(stream=result.stdout)
     expected_result_data = {
         "active_flag": True,
         "current_month_recos": 0,
@@ -246,7 +246,7 @@ def test_get_duplicate_targets(
     ]
     result = runner.invoke(vws_group, commands, catch_exceptions=False)
     assert result.exit_code == 0
-    result_data = yaml.safe_load(result.stdout)
+    result_data = yaml.safe_load(stream=result.stdout)
     expected_result_data = [target_id_2]
     assert result_data == expected_result_data
 

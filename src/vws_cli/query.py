@@ -58,7 +58,7 @@ def handle_vwq_exceptions() -> Iterator[None]:
     else:
         return
 
-    click.echo(error_message, err=True)
+    click.echo(message=error_message, err=True)
     sys.exit(1)
 
 
@@ -199,4 +199,4 @@ def vuforia_cloud_reco(
     )
     query_result_dict_list = [dataclasses.asdict(res) for res in query_result]
     yaml_list = yaml.dump(query_result_dict_list)
-    click.echo(yaml_list)
+    click.echo(message=yaml_list)
