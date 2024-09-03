@@ -9,7 +9,7 @@ from docker.types import Mount
 
 from admin.binaries import make_linux_binaries
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger(name=__name__)
 
 
 def test_linux_binaries(request: pytest.FixtureRequest) -> None:
