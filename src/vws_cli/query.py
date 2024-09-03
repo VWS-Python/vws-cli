@@ -58,7 +58,7 @@ def handle_vwq_exceptions() -> Iterator[None]:
     else:
         return
 
-    click.echo(error_message, err=True)
+    click.echo(message=error_message, err=True)
     sys.exit(1)
 
 
@@ -131,7 +131,7 @@ def include_target_data_option(
         Callable[..., None],
     ] = click.option(
         "--include-target-data",
-        type=click.Choice(["top", "none", "all"], case_sensitive=True),
+        type=click.Choice(choices=["top", "none", "all"], case_sensitive=True),
         default="top",
         callback=include_target_data_callback,
         help=(
@@ -193,10 +193,12 @@ def vuforia_cloud_reco(
         base_vwq_url=base_vwq_url,
     )
     query_result = client.query(
-        image=io.BytesIO(image.read_bytes()),
+        image=io.BytesIO(initial_bytes=image.read_bytes()),
         max_num_results=max_num_results,
         include_target_data=include_target_data,
     )
-    query_result_dict_list = [dataclasses.asdict(res) for res in query_result]
-    yaml_list = yaml.dump(query_result_dict_list)
-    click.echo(yaml_list)
+    query_result_dict_list = [
+        dataclasses.asdict(obj=res) for res in query_result
+    ]
+    yaml_list = yaml.dump(data=query_result_dict_list)
+    click.echo(message=yaml_list)

@@ -41,7 +41,7 @@ class TestQuery:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        result_data = yaml.safe_load(result.stdout)
+        result_data = yaml.safe_load(stream=result.stdout)
         assert result_data == []
 
     @staticmethod
@@ -79,7 +79,7 @@ class TestQuery:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        result_data = yaml.safe_load(result.stdout)
+        result_data = yaml.safe_load(stream=result.stdout)
         [matching_target] = result_data
         target_timestamp = matching_target["target_data"]["target_timestamp"]
         expected_result_data = {
@@ -155,7 +155,7 @@ class TestQuery:
             )
 
         assert result.exit_code == 0
-        result_data = yaml.safe_load(result.stdout)
+        result_data = yaml.safe_load(stream=result.stdout)
         assert result_data == []
 
     @staticmethod
@@ -250,7 +250,7 @@ class TestMaxNumResults:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        result_data = yaml.safe_load(result.stdout)
+        result_data = yaml.safe_load(stream=result.stdout)
         assert len(result_data) == 1
 
     @staticmethod
@@ -306,7 +306,7 @@ class TestMaxNumResults:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        result_data = yaml.safe_load(result.stdout)
+        result_data = yaml.safe_load(stream=result.stdout)
         assert len(result_data) == max_num_results
 
     @staticmethod
@@ -389,7 +389,7 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        matches = yaml.safe_load(result.stdout)
+        matches = yaml.safe_load(stream=result.stdout)
         top_match, second_match = matches
         assert top_match["target_data"] is not None
         assert second_match["target_data"] is None
@@ -439,7 +439,7 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        matches = yaml.safe_load(result.stdout)
+        matches = yaml.safe_load(stream=result.stdout)
         top_match, second_match = matches
         assert top_match["target_data"] is not None
         assert second_match["target_data"] is None
@@ -489,7 +489,7 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        matches = yaml.safe_load(result.stdout)
+        matches = yaml.safe_load(stream=result.stdout)
         top_match, second_match = matches
         assert top_match["target_data"] is None
         assert second_match["target_data"] is None
@@ -540,7 +540,7 @@ class TestIncludeTargetData:
             catch_exceptions=False,
         )
         assert result.exit_code == 0
-        matches = yaml.safe_load(result.stdout)
+        matches = yaml.safe_load(stream=result.stdout)
         top_match, second_match = matches
         assert top_match["target_data"] is not None
         assert second_match["target_data"] is not None
@@ -626,7 +626,7 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
         )
         assert result.exit_code == 0
 
-    [match] = yaml.safe_load(result.stdout)
+    [match] = yaml.safe_load(stream=result.stdout)
     assert match["target_id"] == target_id
 
 

@@ -108,7 +108,7 @@ def handle_vws_exceptions() -> Iterator[None]:
     else:
         return
 
-    click.echo(error_message, err=True)
+    click.echo(message=error_message, err=True)
     sys.exit(1)
 
 
@@ -154,8 +154,8 @@ def get_target_record(
     )
     record = vws_client.get_target_record(target_id=target_id).target_record
 
-    yaml_record = yaml.dump(dataclasses.asdict(record))
-    click.echo(yaml_record)
+    yaml_record = yaml.dump(data=dataclasses.asdict(obj=record))
+    click.echo(message=yaml_record)
 
 
 @click.command(name="list-targets")
@@ -180,8 +180,8 @@ def list_targets(
         base_vws_url=base_vws_url,
     )
     targets = vws_client.list_targets()
-    yaml_list = yaml.dump(targets)
-    click.echo(yaml_list)
+    yaml_list = yaml.dump(data=targets)
+    click.echo(message=yaml_list)
 
 
 @click.command(name="get-duplicate-targets")
@@ -209,8 +209,8 @@ def get_duplicate_targets(
     )
     record = vws_client.get_duplicate_targets(target_id=target_id)
 
-    yaml_record = yaml.dump(record)
-    click.echo(yaml_record)
+    yaml_record = yaml.dump(data=record)
+    click.echo(message=yaml_record)
 
 
 @click.command(name="get-database-summary-report")
@@ -235,8 +235,8 @@ def get_database_summary_report(
         base_vws_url=base_vws_url,
     )
     report = vws_client.get_database_summary_report()
-    yaml_report = yaml.dump(dataclasses.asdict(report))
-    click.echo(yaml_report)
+    yaml_report = yaml.dump(data=dataclasses.asdict(obj=report))
+    click.echo(message=yaml_report)
 
 
 @click.command(name="get-target-summary-report")
@@ -263,11 +263,11 @@ def get_target_summary_report(
         base_vws_url=base_vws_url,
     )
     report = vws_client.get_target_summary_report(target_id=target_id)
-    report_dict = dataclasses.asdict(report)
+    report_dict = dataclasses.asdict(obj=report)
     report_dict["status"] = report_dict["status"].value
     report_dict["upload_date"] = str(report_dict["upload_date"])
-    yaml_summary_report = yaml.dump(report_dict)
-    click.echo(yaml_summary_report)
+    yaml_summary_report = yaml.dump(data=report_dict)
+    click.echo(message=yaml_summary_report)
 
 
 @click.command(name="delete-target")
@@ -330,7 +330,7 @@ def add_target(
     )
 
     image_bytes = image_file_path.read_bytes()
-    image = io.BytesIO(image_bytes)
+    image = io.BytesIO(initial_bytes=image_bytes)
 
     active_flag = {
         ActiveFlagChoice.TRUE: True,
@@ -345,7 +345,7 @@ def add_target(
         application_metadata=application_metadata,
     )
 
-    click.echo(target_id)
+    click.echo(message=target_id)
 
 
 @click.command(name="update-target")
@@ -386,7 +386,7 @@ def update_target(
         image = None
     else:
         image_bytes = image_file_path.read_bytes()
-        image = io.BytesIO(image_bytes)
+        image = io.BytesIO(initial_bytes=image_bytes)
 
     active_flag = {
         ActiveFlagChoice.TRUE: True,
@@ -461,5 +461,8 @@ def wait_for_target_processed(
             timeout_seconds=timeout_seconds,
         )
     except TargetProcessingTimeoutError:
-        click.echo(f"Timeout of {timeout_seconds} seconds reached.", err=True)
+        click.echo(
+            message=f"Timeout of {timeout_seconds} seconds reached.",
+            err=True,
+        )
         sys.exit(1)
