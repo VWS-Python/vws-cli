@@ -46,8 +46,8 @@ def test_query_help(file_regression: FileRegressionFixture) -> None:
     runner = CliRunner()
     arguments = ["--help"]
     result = runner.invoke(
-        vuforia_cloud_reco,
-        arguments,
+        cli=vuforia_cloud_reco,
+        args=arguments,
         catch_exceptions=False,
     )
     assert result.exit_code == 0

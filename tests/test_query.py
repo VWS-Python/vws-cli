@@ -36,8 +36,8 @@ class TestQuery:
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         assert result.exit_code == 0
@@ -74,8 +74,8 @@ class TestQuery:
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         assert result.exit_code == 0
@@ -109,15 +109,15 @@ class TestQuery:
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
         assert not result.stdout
         expected_stderr = dedent(
-            f"""\
+            text=f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
             Try 'vuforia-cloud-reco --help' for help.
 
@@ -149,8 +149,8 @@ class TestQuery:
             new_file = Path(new_filename)
             new_file.symlink_to(original_image_file)
             result = runner.invoke(
-                vuforia_cloud_reco,
-                commands,
+                cli=vuforia_cloud_reco,
+                args=commands,
                 catch_exceptions=False,
             )
 
@@ -174,15 +174,15 @@ class TestQuery:
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
         assert not result.stdout
         expected_stderr = dedent(
-            f"""\
+            text=f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
             Try 'vuforia-cloud-reco --help' for help.
 
@@ -197,8 +197,8 @@ def test_version() -> None:
     runner = CliRunner(mix_stderr=False)
     commands = ["--version"]
     result = runner.invoke(
-        vuforia_cloud_reco,
-        commands,
+        cli=vuforia_cloud_reco,
+        args=commands,
         catch_exceptions=False,
     )
     assert result.exit_code == 0
@@ -245,8 +245,8 @@ class TestMaxNumResults:
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         assert result.exit_code == 0
@@ -301,8 +301,8 @@ class TestMaxNumResults:
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         assert result.exit_code == 0
@@ -330,8 +330,8 @@ class TestMaxNumResults:
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         expected_result_code = 2
@@ -384,8 +384,8 @@ class TestIncludeTargetData:
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         assert result.exit_code == 0
@@ -434,8 +434,8 @@ class TestIncludeTargetData:
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         assert result.exit_code == 0
@@ -484,8 +484,8 @@ class TestIncludeTargetData:
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         assert result.exit_code == 0
@@ -535,8 +535,8 @@ class TestIncludeTargetData:
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         assert result.exit_code == 0
@@ -570,8 +570,8 @@ class TestIncludeTargetData:
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         expected_result_code = 2
@@ -620,8 +620,8 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
             base_vwq_url,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
         assert result.exit_code == 0
@@ -642,8 +642,8 @@ def test_env_var_credentials(
     new_file.write_bytes(data=image_data)
     commands = [str(new_file)]
     result = runner.invoke(
-        vuforia_cloud_reco,
-        commands,
+        cli=vuforia_cloud_reco,
+        args=commands,
         catch_exceptions=False,
         env={
             "VUFORIA_CLIENT_ACCESS_KEY": mock_database.client_access_key,

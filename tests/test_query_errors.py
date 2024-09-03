@@ -31,8 +31,8 @@ def test_authentication_failure(
         "wrong_secret_key",
     ]
     result = runner.invoke(
-        vuforia_cloud_reco,
-        commands,
+        cli=vuforia_cloud_reco,
+        args=commands,
         catch_exceptions=False,
     )
     expected_stderr = "The given secret key was incorrect.\n"
@@ -58,8 +58,8 @@ def test_image_too_large(
         mock_database.client_secret_key,
     ]
     result = runner.invoke(
-        vuforia_cloud_reco,
-        commands,
+        cli=vuforia_cloud_reco,
+        args=commands,
         catch_exceptions=False,
     )
     expected_stderr = "Error: The given image is too large.\n"
@@ -85,8 +85,8 @@ def test_bad_image(
         mock_database.client_secret_key,
     ]
     result = runner.invoke(
-        vuforia_cloud_reco,
-        commands,
+        cli=vuforia_cloud_reco,
+        args=commands,
         catch_exceptions=False,
     )
     assert result.exit_code == 1
@@ -119,8 +119,8 @@ def test_inactive_project(
             database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
 
@@ -163,8 +163,8 @@ def test_request_time_too_skewed(
             mock_database.client_secret_key,
         ]
         result = runner.invoke(
-            vuforia_cloud_reco,
-            commands,
+            cli=vuforia_cloud_reco,
+            args=commands,
             catch_exceptions=False,
         )
 

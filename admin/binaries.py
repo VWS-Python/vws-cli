@@ -8,7 +8,7 @@ import docker
 from beartype import beartype
 from docker.types import Mount
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger(name=__name__)
 
 
 @beartype
