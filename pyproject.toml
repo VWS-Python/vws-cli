@@ -36,7 +36,7 @@ dependencies = [
     "beartype==0.18.5",
     "click==8.1.7",
     "pyyaml==6.0.2",
-    "vws-python==2024.9.2",
+    "vws-python==2024.9.3.1",
 ]
 optional-dependencies.dev = [
     "actionlint-py==1.7.1.15",
