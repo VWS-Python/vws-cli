@@ -11,28 +11,28 @@ import click
 import yaml
 from beartype import beartype
 from vws import VWS
-from vws.exceptions.base_exceptions import VWSException
+from vws.exceptions.base_exceptions import VWSError
 from vws.exceptions.custom_exceptions import (
-    OopsAnErrorOccurredPossiblyBadName,
-    TargetProcessingTimeout,
+    OopsAnErrorOccurredPossiblyBadNameError,
+    TargetProcessingTimeoutError,
 )
 from vws.exceptions.vws_exceptions import (
-    AuthenticationFailure,
-    BadImage,
+    AuthenticationFailureError,
+    BadImageError,
     DateRangeError,
-    Fail,
-    ImageTooLarge,
-    MetadataTooLarge,
-    ProjectHasNoAPIAccess,
-    ProjectInactive,
-    ProjectSuspended,
-    RequestQuotaReached,
-    RequestTimeTooSkewed,
-    TargetNameExist,
-    TargetQuotaReached,
-    TargetStatusNotSuccess,
-    TargetStatusProcessing,
-    UnknownTarget,
+    FailError,
+    ImageTooLargeError,
+    MetadataTooLargeError,
+    ProjectHasNoAPIAccessError,
+    ProjectInactiveError,
+    ProjectSuspendedError,
+    RequestQuotaReachedError,
+    RequestTimeTooSkewedError,
+    TargetNameExistError,
+    TargetQuotaReachedError,
+    TargetStatusNotSuccessError,
+    TargetStatusProcessingError,
+    UnknownTargetError,
 )
 
 from vws_cli.options.credentials import (
@@ -53,39 +53,39 @@ from vws_cli.options.targets import (
 @beartype
 def _get_error_message(exc: Exception) -> str:
     """Get an error message from a VWS exception."""
-    if isinstance(exc, UnknownTarget):
+    if isinstance(exc, UnknownTargetError):
         return f'Error: Target "{exc.target_id}" does not exist.'
 
-    if isinstance(exc, TargetNameExist):
+    if isinstance(exc, TargetNameExistError):
         return f'Error: There is already a target named "{exc.target_name}".'
 
-    if isinstance(exc, TargetStatusNotSuccess):
+    if isinstance(exc, TargetStatusNotSuccessError):
         return (
             f'Error: The target "{exc.target_id}" cannot be updated as it is '
             "in the processing state."
         )
 
-    if isinstance(exc, TargetStatusProcessing):
+    if isinstance(exc, TargetStatusProcessingError):
         return (
             f'Error: The target "{exc.target_id}" cannot be deleted as it is '
             "in the processing state."
         )
 
     exc_type_to_message: dict[type[Exception], str] = {
-        AuthenticationFailure: "The given secret key was incorrect.",
-        BadImage: "Error: The given image is corrupted or the format is not supported.",
+        AuthenticationFailureError: "The given secret key was incorrect.",
+        BadImageError: "Error: The given image is corrupted or the format is not supported.",
         DateRangeError: "Error: There was a problem with the date details given in the request.",
-        Fail: "Error: The request made to Vuforia was invalid and could not be processed. Check the given parameters.",
-        ImageTooLarge: "Error: The given image is too large.",
-        MetadataTooLarge: "Error: The given metadata is too large.",
-        OopsAnErrorOccurredPossiblyBadName: "Error: There was an unknown error from Vuforia. This may be because there is a problem with the given name.",
-        ProjectInactive: "Error: The project associated with the given keys is inactive.",
-        RequestQuotaReached: "Error: The maximum number of API calls for this database has been reached.",
-        RequestTimeTooSkewed: "Error: Vuforia reported that the time given with this request was outside the expected range. This may be because the system clock is out of sync.",
-        TargetProcessingTimeout: "Error: The target processing time has exceeded the allowed limit.",
-        TargetQuotaReached: "Error: The maximum number of targets for this database has been reached.",
-        ProjectSuspended: "Error: The request could not be completed because this database has been suspended.",
-        ProjectHasNoAPIAccess: "Error: The request could not be completed because this database is not allowed to make API requests.",
+        FailError: "Error: The request made to Vuforia was invalid and could not be processed. Check the given parameters.",
+        ImageTooLargeError: "Error: The given image is too large.",
+        MetadataTooLargeError: "Error: The given metadata is too large.",
+        OopsAnErrorOccurredPossiblyBadNameError: "Error: There was an unknown error from Vuforia. This may be because there is a problem with the given name.",
+        ProjectInactiveError: "Error: The project associated with the given keys is inactive.",
+        RequestQuotaReachedError: "Error: The maximum number of API calls for this database has been reached.",
+        RequestTimeTooSkewedError: "Error: Vuforia reported that the time given with this request was outside the expected range. This may be because the system clock is out of sync.",
+        TargetProcessingTimeoutError: "Error: The target processing time has exceeded the allowed limit.",
+        TargetQuotaReachedError: "Error: The maximum number of targets for this database has been reached.",
+        ProjectSuspendedError: "Error: The request could not be completed because this database has been suspended.",
+        ProjectHasNoAPIAccessError: "Error: The request could not be completed because this database is not allowed to make API requests.",
     }
 
     return exc_type_to_message[type(exc)]
@@ -100,9 +100,9 @@ def handle_vws_exceptions() -> Iterator[None]:
     try:
         yield
     except (
-        VWSException,
-        OopsAnErrorOccurredPossiblyBadName,
-        TargetProcessingTimeout,
+        VWSError,
+        OopsAnErrorOccurredPossiblyBadNameError,
+        TargetProcessingTimeoutError,
     ) as exc:
         error_message = _get_error_message(exc=exc)
     else:
@@ -460,6 +460,6 @@ def wait_for_target_processed(
             seconds_between_requests=seconds_between_requests,
             timeout_seconds=timeout_seconds,
         )
-    except TargetProcessingTimeout:
+    except TargetProcessingTimeoutError:
         click.echo(f"Timeout of {timeout_seconds} seconds reached.", err=True)
         sys.exit(1)
