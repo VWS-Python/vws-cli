@@ -1,7 +1,7 @@
 Usage example
 -------------
 
-.. code:: sh
+.. code-block:: sh
 
    $ vws add-target \
        --server-access-key $SERVER_ACCESS_KEY \

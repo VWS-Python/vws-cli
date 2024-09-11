@@ -6,7 +6,7 @@ With ``pip``
 
 Requires Python 3.12+.
 
-.. code:: sh
+.. code-block:: sh
 
    pip install VWS-CLI
 
@@ -15,7 +15,7 @@ With Homebrew (macOS, Linux, WSL)
 
 Requires `Homebrew`_.
 
-.. code:: sh
+.. code-block:: sh
 
    brew tap VWS-Python/vws
    brew install vws-cli
@@ -36,7 +36,7 @@ Pre-built Linux binaries
 Shell completion
 ~~~~~~~~~~~~~~~~
 
-.. code:: sh
+.. code-block:: sh
 
   ~/Documents ~> vws get-<TAB>
   get-database-summary-report        (Get a database summary report.)
@@ -48,7 +48,7 @@ Shell completion
 
    Add this to :file:`~/.bashrc`:
 
-   .. code:: sh
+   .. code-block:: sh
 
       eval "$(_VWS_COMPLETE=bash_source vws)"
 
@@ -56,7 +56,7 @@ Shell completion
 
    Add this to :file:`~/.zshrc`:
 
-   .. code:: sh
+   .. code-block:: sh
 
       eval "$(_VWS_COMPLETE=zsh_source vws)"
 
@@ -64,7 +64,7 @@ Shell completion
 
    Run the following command:
 
-   .. code:: sh
+   .. code-block:: sh
 
       _VWS_COMPLETE=fish_source vws > ~/.config/fish/completions/vws.fish
 

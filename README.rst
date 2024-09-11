@@ -18,7 +18,7 @@ With `pip`
 
 Requires Python 3.12+.
 
-.. code:: sh
+.. code-block:: sh
 
    pip install VWS-CLI
 
@@ -27,7 +27,7 @@ With Homebrew (macOS, Linux, WSL)
 
 Requires `Homebrew`_.
 
-.. code:: sh
+.. code-block:: sh
 
    brew tap VWS-Python/vws
    brew install vws-cli
@@ -44,7 +44,7 @@ See the `full documentation`_ for details on how to install pre-built Linux bina
 Usage example
 -------------
 
-.. code:: sh
+.. code-block:: sh
 
    $ vws add-target \
        --server-access-key $SERVER_ACCESS_KEY \
