@@ -76,6 +76,7 @@ jobs:
 
       - name: Checkout the latest tag - the one we just created
         run: |
+          git fetch --tags
           git checkout ${{ steps.tag_version.outputs.new_tag }}
 
       - name: Create Linux binaries
