@@ -308,6 +308,7 @@ def delete_target(
 @handle_vws_exceptions()
 @base_vws_url_option
 def add_target(
+    *,
     server_access_key: str,
     server_secret_key: str,
     name: str,
@@ -360,6 +361,7 @@ def add_target(
 @handle_vws_exceptions()
 @base_vws_url_option
 def update_target(
+    *,
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
@@ -440,6 +442,7 @@ _TIMEOUT_SECONDS_HELP = (
 @base_vws_url_option
 @handle_vws_exceptions()
 def wait_for_target_processed(
+    *,
     server_access_key: str,
     server_secret_key: str,
     target_id: str,

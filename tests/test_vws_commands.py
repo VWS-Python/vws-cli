@@ -832,6 +832,7 @@ class TestUpdateTarget:
 
     @staticmethod
     def test_update_target(
+        *,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
