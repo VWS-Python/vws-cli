@@ -36,13 +36,17 @@ Pre-built Linux binaries
 Shell completion
 ~~~~~~~~~~~~~~~~
 
-.. code-block:: shell
+Use :kbd:`<TAB>` to complete commands and options.
 
-  ~/Documents ~> vws get-<TAB>
-  get-database-summary-report        (Get a database summary report.)
-  get-duplicate-targets  (Get a list of potential duplicate targets.)
-  get-target-record                            (Get a target record.)
-  get-target-summary-report            (Get a target summary report.)
+.. skip doccmd[shellcheck]: next
+
+.. code-block:: console
+
+   $ vws get-`TAB`
+   get-database-summary-report        (Get a database summary report.)
+   get-duplicate-targets  (Get a list of potential duplicate targets.)
+   get-target-record                            (Get a target record.)
+   get-target-summary-report            (Get a target summary report.)
 
 .. tab:: Bash
 

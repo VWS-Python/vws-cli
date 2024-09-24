@@ -44,15 +44,17 @@ See the `full documentation`_ for details on how to install pre-built Linux bina
 Usage example
 -------------
 
-.. code-block:: shell
+.. skip doccmd[shellcheck]: next
+
+.. code-block:: console
 
    $ vws add-target \
-       --server-access-key $SERVER_ACCESS_KEY \
-       --server-secret-key $SERVER_SECRET_KEY \
+       --server-access-key "$SERVER_ACCESS_KEY" \
+       --server-secret-key "$SERVER_SECRET_KEY" \
        --name my_image_name \
        --width 2 \
        --image ~/Documents/my_image.png \
-       --application-metadata $(echo "my_metadata" | base64) \
+       --application-metadata "$(echo 'my_metadata' | base64)" \
        --active-flag true
    03b99df0-78cf-4b01-b929-f1860d4f8ed1
    $ vws --help
