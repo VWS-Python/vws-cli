@@ -178,6 +178,7 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
 #
 # Click uses ``pkg_resources`` to determine the version if it is not given.
 @click.version_option(version=__version__)
+@beartype
 def vuforia_cloud_reco(
     *,
     image: Path,
