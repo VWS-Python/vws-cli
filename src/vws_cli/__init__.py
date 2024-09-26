@@ -28,13 +28,13 @@ except PackageNotFoundError:  # pragma: no cover
     from ._setuptools_scm_version import __version__
 
 
-@beartype
 @click.group(name="vws", context_settings=_CONTEXT_SETTINGS)
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
 #
 # Click uses ``pkg_resources`` to determine the version if it is not given.
 @click.version_option(version=__version__)
+@beartype
 def vws_group() -> None:
     """Manage a Vuforia Web Services cloud database."""
 

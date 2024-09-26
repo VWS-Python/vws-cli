@@ -135,6 +135,7 @@ def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @target_id_option
 @base_vws_url_option
 @handle_vws_exceptions()
+@beartype
 def get_target_record(
     server_access_key: str,
     server_secret_key: str,
@@ -163,6 +164,7 @@ def get_target_record(
 @server_secret_key_option
 @handle_vws_exceptions()
 @base_vws_url_option
+@beartype
 def list_targets(
     server_access_key: str,
     server_secret_key: str,
@@ -190,6 +192,7 @@ def list_targets(
 @target_id_option
 @handle_vws_exceptions()
 @base_vws_url_option
+@beartype
 def get_duplicate_targets(
     server_access_key: str,
     server_secret_key: str,
@@ -218,6 +221,7 @@ def get_duplicate_targets(
 @server_secret_key_option
 @handle_vws_exceptions()
 @base_vws_url_option
+@beartype
 def get_database_summary_report(
     server_access_key: str,
     server_secret_key: str,
@@ -245,6 +249,7 @@ def get_database_summary_report(
 @target_id_option
 @handle_vws_exceptions()
 @base_vws_url_option
+@beartype
 def get_target_summary_report(
     server_access_key: str,
     server_secret_key: str,
@@ -276,6 +281,7 @@ def get_target_summary_report(
 @target_id_option
 @handle_vws_exceptions()
 @base_vws_url_option
+@beartype
 def delete_target(
     server_access_key: str,
     server_secret_key: str,
@@ -307,6 +313,7 @@ def delete_target(
 @active_flag_option(allow_none=False)
 @handle_vws_exceptions()
 @base_vws_url_option
+@beartype
 def add_target(
     *,
     server_access_key: str,
@@ -360,6 +367,7 @@ def add_target(
 @target_id_option
 @handle_vws_exceptions()
 @base_vws_url_option
+@beartype
 def update_target(
     *,
     server_access_key: str,
@@ -441,6 +449,7 @@ _TIMEOUT_SECONDS_HELP = (
 @target_id_option
 @base_vws_url_option
 @handle_vws_exceptions()
+@beartype
 def wait_for_target_processed(
     *,
     server_access_key: str,
