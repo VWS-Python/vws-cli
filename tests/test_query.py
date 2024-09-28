@@ -28,7 +28,7 @@ class TestQuery:
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
-        commands: list[str] = [
+        commands = [
             str(new_file),
             "--client-access-key",
             mock_database.client_access_key,
@@ -101,7 +101,7 @@ class TestQuery:
         directory.
         """
         runner = CliRunner(mix_stderr=False)
-        commands: list[str] = [
+        commands = [
             str(tmp_path),
             "--client-access-key",
             mock_database.client_access_key,
@@ -138,7 +138,7 @@ class TestQuery:
         original_image_file = tmp_path / "foo"
         image_data = high_quality_image.getvalue()
         original_image_file.write_bytes(image_data)
-        commands: list[str] = [
+        commands = [
             str(new_filename),
             "--client-access-key",
             mock_database.client_access_key,
@@ -166,7 +166,7 @@ class TestQuery:
         """An appropriate error is given if the given image file does not exist."""
         runner = CliRunner(mix_stderr=False)
         does_not_exist_file = tmp_path / uuid.uuid4().hex
-        commands: list[str] = [
+        commands = [
             str(does_not_exist_file),
             "--client-access-key",
             mock_database.client_access_key,

@@ -23,7 +23,7 @@ def test_authentication_failure(
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
-    commands: list[str] = [
+    commands = [
         str(new_file),
         "--client-access-key",
         mock_database.client_access_key,
@@ -50,7 +50,7 @@ def test_image_too_large(
     new_file = tmp_path / uuid.uuid4().hex
     image_data = png_too_large.getvalue()
     new_file.write_bytes(data=image_data)
-    commands: list[str] = [
+    commands = [
         str(new_file),
         "--client-access-key",
         mock_database.client_access_key,
@@ -77,7 +77,7 @@ def test_bad_image(
     new_file = tmp_path / uuid.uuid4().hex
     new_file.write_bytes(data=b"Not an image")
     runner = CliRunner(mix_stderr=False)
-    commands: list[str] = [
+    commands = [
         str(new_file),
         "--client-access-key",
         mock_database.client_access_key,
