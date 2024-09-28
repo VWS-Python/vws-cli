@@ -4,13 +4,14 @@ import contextlib
 import shutil
 import subprocess
 import sys
+from collections.abc import Iterable
 from pathlib import Path
 
 from beartype import beartype
 
 
 @beartype
-def remove_existing_files(scripts: set[Path]) -> None:
+def remove_existing_files(*, scripts: Iterable[Path]) -> None:
     """Remove files created when building binaries.
 
     This is to stop interference with future builds.
