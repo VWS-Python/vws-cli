@@ -29,11 +29,10 @@ def test_linux_binaries(request: pytest.FixtureRequest) -> None:
         ),
     ]
 
-    remote_paths: list[Path] = []
-    for path in dist_dir.iterdir():
-        relative_path = path.relative_to(repo_root)
-        remote_path = remote_repo_dir / str(relative_path)
-        remote_paths.append(remote_path)
+    remote_paths = [
+        remote_repo_dir / path.relative_to(repo_root)
+        for path in dist_dir.iterdir()
+    ]
 
     client = docker.from_env()
     # We use the Python image because this is already pulled when building the

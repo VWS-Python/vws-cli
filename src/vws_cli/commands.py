@@ -4,7 +4,7 @@ import contextlib
 import dataclasses
 import io
 import sys
-from collections.abc import Callable, Iterator
+from collections.abc import Callable, Iterator, Mapping
 from pathlib import Path
 
 import click
@@ -71,7 +71,7 @@ def _get_error_message(exc: Exception) -> str:
             "in the processing state."
         )
 
-    exc_type_to_message: dict[type[Exception], str] = {
+    exc_type_to_message: Mapping[type[Exception], str] = {
         AuthenticationFailureError: "The given secret key was incorrect.",
         BadImageError: "Error: The given image is corrupted or the format is not supported.",
         DateRangeError: "Error: There was a problem with the date details given in the request.",
