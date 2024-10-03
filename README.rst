@@ -16,7 +16,7 @@ Installation
 With `pip`
 ^^^^^^^^^^
 
-Requires Python 3.12+.
+Requires Python |minimum-python-version|\+.
 
 .. code-block:: shell
 
@@ -85,3 +85,4 @@ See the `full documentation <https://vws-cli.readthedocs.io/en/latest>`__ for in
    :alt: Documentation Status
 .. |PyPI| image:: https://badge.fury.io/py/VWS-CLI.svg
    :target: https://badge.fury.io/py/VWS-CLI
+.. |minimum-python-version| replace:: 3.12

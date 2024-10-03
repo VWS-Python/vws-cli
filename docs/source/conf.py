@@ -6,6 +6,8 @@
 import datetime
 import importlib.metadata
 
+from packaging.specifiers import SpecifierSet
+
 project = "VWS-CLI"
 author = "Adam Dangoor"
 
@@ -38,6 +40,14 @@ version = importlib.metadata.version(distribution_name=project)
 _month, _day, _year, *_ = version.split(".")
 release = f"{_month}.{_day}.{_year}"
 
+
+project_metadata = importlib.metadata.metadata(distribution_name=project)
+requires_python = project_metadata["Requires-Python"]
+specifiers = SpecifierSet(specifiers=requires_python)
+(specifier,) = specifiers
+assert specifier.operator == ">="
+minimum_python_version = specifier.version
+
 language = "en"
 
 # The name of the syntax highlighting style to use.
@@ -47,7 +57,7 @@ pygments_style = "sphinx"
 htmlhelp_basename = "VWSCLIdoc"
 autoclass_content = "init"
 intersphinx_mapping = {
-    "python": ("https://docs.python.org/3.12", None),
+    "python": (f"https://docs.python.org/{minimum_python_version}", None),
 }
 nitpicky = True
 warning_is_error = True
@@ -80,6 +90,7 @@ autodoc_member_order = "bysource"
 rst_prolog = f"""
 .. |project| replace:: {project}
 .. |release| replace:: {release}
+.. |minimum-python-version| replace:: {minimum_python_version}
 .. |github-owner| replace:: VWS-Python
 .. |github-repository| replace:: vws-cli
 """
