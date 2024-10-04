@@ -29,9 +29,9 @@ Pre-built Linux binaries
    :substitutions:
 
    $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vws" -o /usr/local/bin/vws &&
-   	$ chmod +x /usr/local/bin/vws
+       chmod +x /usr/local/bin/vws
    $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vuforia-cloud-reco" -o /usr/local/bin/vuforia-cloud-reco &&
-   	$ chmod +x /usr/local/bin/vuforia-cloud-reco
+       chmod +x /usr/local/bin/vuforia-cloud-reco
 
 Shell completion
 ~~~~~~~~~~~~~~~~
@@ -42,11 +42,11 @@ Use :kbd:`<TAB>` to complete commands and options.
 
 .. code-block:: console
 
-   $ vws get-`TAB`
-   get-database-summary-report        (Get a database summary report.)
-   get-duplicate-targets  (Get a list of potential duplicate targets.)
-   get-target-record                            (Get a target record.)
-   get-target-summary-report            (Get a target summary report.)
+   $ vws get-$(TAB)
+   # get-database-summary-report        (Get a database summary report.)
+   # get-duplicate-targets  (Get a list of potential duplicate targets.)
+   # get-target-record                            (Get a target record.)
+   # get-target-summary-report            (Get a target summary report.)
 
 .. tab:: Bash
 
@@ -70,6 +70,6 @@ Use :kbd:`<TAB>` to complete commands and options.
 
    .. code-block:: shell
 
-      _VWS_COMPLETE=fish_source vws >~/.config/fish/completions/vws.fish
+      _VWS_COMPLETE=fish_source vws > ~/.config/fish/completions/vws.fish
 
 After modifying the shell configuration files, you need to start a new shell in order for the changes to be loaded.
