@@ -28,10 +28,10 @@ Pre-built Linux binaries
 .. code-block:: console
    :substitutions:
 
-   $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vws" -o /usr/local/bin/vws && \
-   $ chmod +x /usr/local/bin/vws
-   $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vuforia-cloud-reco" -o /usr/local/bin/vuforia-cloud-reco && \
-   $ chmod +x /usr/local/bin/vuforia-cloud-reco
+   $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vws" -o /usr/local/bin/vws &&
+   	$ chmod +x /usr/local/bin/vws
+   $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vuforia-cloud-reco" -o /usr/local/bin/vuforia-cloud-reco &&
+   	$ chmod +x /usr/local/bin/vuforia-cloud-reco
 
 Shell completion
 ~~~~~~~~~~~~~~~~
@@ -70,6 +70,6 @@ Use :kbd:`<TAB>` to complete commands and options.
 
    .. code-block:: shell
 
-      _VWS_COMPLETE=fish_source vws > ~/.config/fish/completions/vws.fish
+      _VWS_COMPLETE=fish_source vws >~/.config/fish/completions/vws.fish
 
 After modifying the shell configuration files, you need to start a new shell in order for the changes to be loaded.
