@@ -39,14 +39,15 @@ Shell completion
 Use :kbd:`<TAB>` to complete commands and options.
 
 .. skip doccmd[shellcheck]: next
+.. skip doccmd[shfmt]: next
 
 .. code-block:: console
 
-   $ vws get-$(TAB)
-   # get-database-summary-report        (Get a database summary report.)
-   # get-duplicate-targets  (Get a list of potential duplicate targets.)
-   # get-target-record                            (Get a target record.)
-   # get-target-summary-report            (Get a target summary report.)
+   $ vws get-`TAB`
+   get-database-summary-report        (Get a database summary report.)
+   get-duplicate-targets  (Get a list of potential duplicate targets.)
+   get-target-record                            (Get a target record.)
+   get-target-summary-report            (Get a target summary report.)
 
 .. tab:: Bash
 
