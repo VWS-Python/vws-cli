@@ -73,7 +73,7 @@ jobs:
 
       - name: Create Linux binaries
         run: |
-          PYTHONPATH=. python admin/release.py
+          PYTHONPATH=. uv run --extra=dev admin/release.py
 
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
@@ -86,8 +86,8 @@ jobs:
       - name: Build a binary wheel and a source tarball
         run: |
           sudo rm -rf dist/ build/
-          python -m build --sdist --wheel --outdir dist/ .
-          check-wheel-contents dist/*.whl
+          uv run --extra=release python -m build --sdist --wheel --outdir dist/ .
+          uv run check-wheel-contents dist/*.whl
 
       # We use PyPI trusted publishing rather than a PyPI API token.
       # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
