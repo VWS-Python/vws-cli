@@ -31,16 +31,8 @@ jobs:
           # https://github.com/stefanzweifel/git-auto-commit-action?tab=readme-ov-file#push-to-protected-branches
           token: ${{ secrets.RELEASE_PAT }}
 
-      - name: "Set up Python"
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      # We do not use the cache action as uv is faster than the cache action.
-      - name: "Install dependencies"
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          uv pip install --system --upgrade --editable .[dev]
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
 
       - name: "Calver calculate version"
         uses: StephaneBour/actions-calver@master
