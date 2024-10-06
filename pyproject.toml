@@ -81,7 +81,7 @@ optional-dependencies.dev = [
 optional-dependencies.packaging = [
     "pyinstaller==6.10.0",
 ]
-optional-dependencies.release = ["build", "check-wheel-contents"]
+optional-dependencies.release = [ "build", "check-wheel-contents" ]
 urls.Source = "https://github.com/VWS-Python/vws-cli"
 scripts.vuforia-cloud-reco = "vws_cli.query:vuforia_cloud_reco"
 scripts.vws = "vws_cli:vws_group"
