@@ -68,6 +68,7 @@ repos:
     language: python
     types_or: [python, toml]
     pass_filenames: false
+  additional_dependencies: ["uv"]
 
   - id: mypy-docs
     name: mypy-docs
@@ -82,6 +83,7 @@ repos:
     entry: uv run --extra=dev -m check_manifest .
     language: python
     pass_filenames: false
+  additional_dependencies: ["uv"]
 
   - id: pyright
     name: pyright
@@ -90,6 +92,7 @@ repos:
     language: python
     types_or: [python, toml]
     pass_filenames: false
+  additional_dependencies: ["uv"]
 
   - id: pyright-docs
     name: pyright-docs
@@ -104,6 +107,7 @@ repos:
     language: python
     types_or: [python]
     pass_filenames: false
+  additional_dependencies: ["uv"]
 
   - id: vulture-docs
     name: vulture docs
@@ -111,6 +115,7 @@ repos:
     language: python
     types_or: [python]
     pass_filenames: false
+  additional_dependencies: ["uv"]
 
   - id: pyroma
     name: pyroma
@@ -125,6 +130,7 @@ repos:
     entry: uv run --extra=dev -m deptry src/
     language: python
     pass_filenames: false
+  additional_dependencies: ["uv"]
 
   - id: pylint
     name: pylint
@@ -132,6 +138,7 @@ repos:
     language: python
     stages: [manual]
     pass_filenames: false
+  additional_dependencies: ["uv"]
 
   - id: pylint-docs
     name: pylint-docs
@@ -203,6 +210,7 @@ repos:
     types_or: [rst]
     stages: [manual]
     pass_filenames: false
+  additional_dependencies: ["uv"]
 
   - id: spelling
     name: spelling
@@ -211,6 +219,7 @@ repos:
     types_or: [rst]
     stages: [manual]
     pass_filenames: false
+  additional_dependencies: ["uv"]
 
   - id: docs
     name: Build Documentation
@@ -218,6 +227,7 @@ repos:
     language: python
     stages: [manual]
     pass_filenames: false
+  additional_dependencies: ["uv"]
 
   - id: pyright-verifytypes
     name: pyright-verifytypes
