@@ -111,7 +111,7 @@ jobs:
         with:
           timeout_seconds: 10
           max_attempts: 20
-          command: uv pip install vws-cli==${{ steps.calver.outputs.release }}
+          command: uv pip install --refresh vws-cli==${{ steps.calver.outputs.release }}
 
       - name: Create a Homebrew recipe
         id: homebrew-create
