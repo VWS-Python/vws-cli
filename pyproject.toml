@@ -267,6 +267,8 @@ make-summary-multi-line = true
 [tool.check-manifest]
 
 ignore = [
+    ".checkmake-config.ini",
+    ".yamlfmt",
     "*.enc",
     ".pre-commit-config.yaml",
     "readthedocs.yaml",
