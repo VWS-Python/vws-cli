@@ -1,4 +1,6 @@
-"""``click`` options regarding credentials."""
+"""
+``click`` options regarding credentials.
+"""
 
 from collections.abc import Callable
 
@@ -8,7 +10,9 @@ import click
 def server_access_key_option(
     command: Callable[..., None] | None = None,
 ) -> Callable[..., None]:
-    """An option decorator for the Vuforia server access key."""
+    """
+    An option decorator for the Vuforia server access key.
+    """
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -31,7 +35,9 @@ def server_access_key_option(
 def server_secret_key_option(
     command: Callable[..., None] | None = None,
 ) -> Callable[..., None]:
-    """An option decorator for the Vuforia server secret key."""
+    """
+    An option decorator for the Vuforia server secret key.
+    """
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -54,7 +60,9 @@ def server_secret_key_option(
 def client_access_key_option(
     command: Callable[..., None] | None = None,
 ) -> Callable[..., None]:
-    """An option decorator for the Vuforia client access key."""
+    """
+    An option decorator for the Vuforia client access key.
+    """
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -77,7 +85,9 @@ def client_access_key_option(
 def client_secret_key_option(
     command: Callable[..., None] | None = None,
 ) -> Callable[..., None]:
-    """An option decorator for the Vuforia client secret key."""
+    """
+    An option decorator for the Vuforia client secret key.
+    """
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
