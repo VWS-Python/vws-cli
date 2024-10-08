@@ -77,7 +77,7 @@ optional-dependencies.dev = [
     "vulture==2.13",
     "vws-python-mock==2024.8.30",
     "vws-test-fixtures==2023.3.5",
-    "docformatter==1.7.5",
+    "docformatter --in-place==1.7.5",
 ]
 optional-dependencies.packaging = [
     "pyinstaller==6.10.0",
@@ -260,6 +260,9 @@ spelling-private-dict-file = 'spelling_private_dict.txt'
 # Tells whether to store unknown words to indicated private dictionary in
 # --spelling-private-dict-file option instead of raising a message.
 spelling-store-unknown-words = 'no'
+
+[tool.docformatter]
+make-summary-multi-line = true
 
 [tool.check-manifest]
 
