@@ -1,6 +1,4 @@
-"""
-Tests for how errors from the Cloud Reco Service are handled by the CLI.
-"""
+"""Tests for how errors from the Cloud Reco Service are handled by the CLI."""
 
 import io
 import uuid
@@ -20,9 +18,7 @@ def test_authentication_failure(
     tmp_path: Path,
     high_quality_image: io.BytesIO,
 ) -> None:
-    """
-    An error is given when the secret key is incorrect.
-    """
+    """An error is given when the secret key is incorrect."""
     runner = CliRunner(mix_stderr=False)
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
@@ -49,9 +45,7 @@ def test_image_too_large(
     tmp_path: Path,
     png_too_large: io.BytesIO,
 ) -> None:
-    """
-    An error is given when the image is too large.
-    """
+    """An error is given when the image is too large."""
     runner = CliRunner(mix_stderr=False)
     new_file = tmp_path / uuid.uuid4().hex
     image_data = png_too_large.getvalue()
@@ -77,9 +71,8 @@ def test_bad_image(
     mock_database: VuforiaDatabase,
     tmp_path: Path,
 ) -> None:
-    """An error is given when Vuforia returns a ``BadImage`` error.
-
-    For example, when a corrupt image is uploaded.
+    """An error is given when Vuforia returns a ``BadImage`` error. For example,
+    when a corrupt image is uploaded.
     """
     new_file = tmp_path / uuid.uuid4().hex
     new_file.write_bytes(data=b"Not an image")
@@ -108,8 +101,7 @@ def test_inactive_project(
     high_quality_image: io.BytesIO,
     tmp_path: Path,
 ) -> None:
-    """
-    An error is given if the project is inactive and the desired action cannot
+    """An error is given if the project is inactive and the desired action cannot
     be taken because of this.
     """
     new_file = tmp_path / uuid.uuid4().hex
@@ -145,8 +137,7 @@ def test_request_time_too_skewed(
     mock_database: VuforiaDatabase,
     tmp_path: Path,
 ) -> None:
-    """
-    An error is given when the request time is more than 65 minutes different
+    """An error is given when the request time is more than 65 minutes different
     from the server time.
     """
     runner = CliRunner(mix_stderr=False)

@@ -1,6 +1,4 @@
-"""
-Tests for creating binaries.
-"""
+"""Tests for creating binaries."""
 
 import logging
 from pathlib import Path
@@ -15,9 +13,7 @@ LOGGER = logging.getLogger(name=__name__)
 
 
 def test_linux_binaries(request: pytest.FixtureRequest) -> None:
-    """
-    ``make_linux_binaries`` creates a binary which can be run on Linux.
-    """
+    """``make_linux_binaries`` creates a binary which can be run on Linux."""
     repo_root = request.config.rootpath.absolute()
     dist_dir = repo_root / "dist"
     make_linux_binaries(repo_root=repo_root)

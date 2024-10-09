@@ -1,3 +1,1 @@
-"""
-Tests for the VWS CLI.
-"""
+"""Tests for the VWS CLI."""

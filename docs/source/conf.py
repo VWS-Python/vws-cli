@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""
-Configuration for Sphinx.
-"""
+"""Configuration for Sphinx."""
 
 # pylint: disable=invalid-name
 

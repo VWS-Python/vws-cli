@@ -1,6 +1,4 @@
-"""
-A CLI for the Vuforia Cloud Recognition Service API.
-"""
+"""A CLI for the Vuforia Cloud Recognition Service API."""
 
 import contextlib
 import dataclasses
@@ -35,9 +33,7 @@ from vws_cli.options.credentials import (
 @beartype
 @contextlib.contextmanager
 def handle_vwq_exceptions() -> Iterator[None]:
-    """
-    Show error messages and catch exceptions from ``VWS-Python``.
-    """
+    """Show error messages and catch exceptions from ``VWS-Python``."""
     try:
         yield
     except BadImageError:
@@ -68,9 +64,7 @@ def handle_vwq_exceptions() -> Iterator[None]:
 
 @beartype
 def image_argument(command: Callable[..., None]) -> Callable[..., Any]:
-    """
-    An argument decorator for choosing a query image.
-    """
+    """An argument decorator for choosing a query image."""
     click_argument_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -91,9 +85,7 @@ def image_argument(command: Callable[..., None]) -> Callable[..., Any]:
 def max_num_results_option(
     command: Callable[..., None],
 ) -> Callable[..., None]:
-    """
-    An option decorator for choosing the maximum number of query results.
-    """
+    """An option decorator for choosing the maximum number of query results."""
     maximum = 50
     click_option_function: Callable[
         [Callable[..., None]],
@@ -118,9 +110,7 @@ def include_target_data_callback(
     param: click.core.Option | click.core.Parameter,
     value: str,
 ) -> CloudRecoIncludeTargetData:
-    """
-    Use as a callback for active flag options.
-    """
+    """Use as a callback for active flag options."""
     # This is to satisfy the "vulture" linter.
     assert ctx
     assert param
@@ -135,9 +125,7 @@ def include_target_data_callback(
 def include_target_data_option(
     command: Callable[..., None],
 ) -> Callable[..., None]:
-    """
-    An option decorator for choosing whether to include target data.
-    """
+    """An option decorator for choosing whether to include target data."""
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -161,9 +149,7 @@ def include_target_data_option(
 
 @beartype
 def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
-    """
-    An option decorator for choosing the base VWQ URL.
-    """
+    """An option decorator for choosing the base VWQ URL."""
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -202,9 +188,7 @@ def vuforia_cloud_reco(
     include_target_data: CloudRecoIncludeTargetData,
     base_vwq_url: str,
 ) -> None:
-    """
-    Make a request to the Vuforia Cloud Recognition Service API.
-    """
+    """Make a request to the Vuforia Cloud Recognition Service API."""
     client = CloudRecoService(
         client_access_key=client_access_key,
         client_secret_key=client_secret_key,

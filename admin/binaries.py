@@ -1,6 +1,4 @@
-"""
-Create binaries for the CLIs.
-"""
+"""Create binaries for the CLIs."""
 
 import logging
 import uuid

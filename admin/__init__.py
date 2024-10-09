@@ -1,3 +1,1 @@
-"""
-Admin tools.
-"""
+"""Admin tools."""

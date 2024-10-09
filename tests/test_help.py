@@ -1,6 +1,4 @@
-"""
-Tests for the VWS CLI help.
-"""
+"""Tests for the VWS CLI help."""
 
 import pytest
 from click.testing import CliRunner

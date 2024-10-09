@@ -1,6 +1,4 @@
-"""
-``click`` commands the VWS CLI.
-"""
+"""``click`` commands the VWS CLI."""
 
 import contextlib
 import dataclasses
@@ -54,9 +52,7 @@ from vws_cli.options.targets import (
 
 @beartype
 def _get_error_message(exc: Exception) -> str:
-    """
-    Get an error message from a VWS exception.
-    """
+    """Get an error message from a VWS exception."""
     if isinstance(exc, UnknownTargetError):
         return f'Error: Target "{exc.target_id}" does not exist.'
 
@@ -98,9 +94,7 @@ def _get_error_message(exc: Exception) -> str:
 @beartype
 @contextlib.contextmanager
 def handle_vws_exceptions() -> Iterator[None]:
-    """
-    Show error messages and catch exceptions from ``VWS-Python``.
-    """
+    """Show error messages and catch exceptions from ``VWS-Python``."""
     error_message = ""
 
     try:
@@ -119,9 +113,7 @@ def handle_vws_exceptions() -> Iterator[None]:
 
 
 def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
-    """
-    An option decorator for choosing the base VWS URL.
-    """
+    """An option decorator for choosing the base VWS URL."""
     click_option_function: Callable[
         [Callable[..., None]],
         Callable[..., None],
@@ -152,7 +144,8 @@ def get_target_record(
 ) -> None:
     """Get a target record.
 
-    \b See
+    \b
+    See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#target-record.
     """
     vws_client = VWS(
@@ -179,7 +172,8 @@ def list_targets(
 ) -> None:
     """List targets.
 
-    \b See
+    \b
+    See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#details-list.
     """
     vws_client = VWS(
@@ -207,7 +201,8 @@ def get_duplicate_targets(
 ) -> None:
     """Get a list of potential duplicate targets.
 
-    \b See
+    \b
+    See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#check.
     """
     vws_client = VWS(
@@ -234,7 +229,8 @@ def get_database_summary_report(
 ) -> None:
     """Get a database summary report.
 
-    \b See
+    \b
+    See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#summary-report.
     """
     vws_client = VWS(
@@ -262,7 +258,8 @@ def get_target_summary_report(
 ) -> None:
     """Get a target summary report.
 
-    \b See
+    \b
+    See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#retrieve-report.
     """
     vws_client = VWS(
@@ -293,7 +290,8 @@ def delete_target(
 ) -> None:
     """Delete a target.
 
-    \b See
+    \b
+    See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#delete.
     """
     vws_client = VWS(
@@ -329,7 +327,8 @@ def add_target(
 ) -> None:
     """Add a target.
 
-    \b See
+    \b
+    See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#add
     """
     vws_client = VWS(
@@ -383,7 +382,8 @@ def update_target(
 ) -> None:
     """Update a target.
 
-    \b See
+    \b
+    See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#update
     """
     vws_client = VWS(
@@ -459,10 +459,7 @@ def wait_for_target_processed(
     base_vws_url: str,
     timeout_seconds: float,
 ) -> None:
-    """Wait for a target to be "processed".
-
-    This is done by polling the VWS API.
-    """
+    """Wait for a target to be "processed". This is done by polling the VWS API."""
     vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
