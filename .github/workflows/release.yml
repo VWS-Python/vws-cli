@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.12"]
+        python-version: ['3.12']
 
     # Specifying an environment is strongly recommended by PyPI.
     # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
@@ -34,11 +34,11 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v3
 
-      - name: "Calver calculate version"
+      - name: Calver calculate version
         uses: StephaneBour/actions-calver@master
         id: calver
         with:
-          date_format: "%Y.%m.%d"
+          date_format: '%Y.%m.%d'
           release: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -49,12 +49,13 @@ jobs:
           underline="$(echo "${{ steps.calver.outputs.release }}" | tr -c '\n' '-')"
           echo "underline=${underline}" >> "$GITHUB_OUTPUT"
 
-      - name: "Update changelog"
+      - name: Update changelog
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "Next\n----"
-          replace: "Next\n----\n\n${{ steps.calver.outputs.release }}\n${{ steps.changelog_underline.outputs.underline }}"
-          include: "CHANGELOG.rst"
+          replace: "Next\n----\n\n${{ steps.calver.outputs.release }}\n${{ steps.changelog_underline.outputs.underline\
+            \ }}"
+          include: CHANGELOG.rst
           regex: false
 
       - uses: stefanzweifel/git-auto-commit-action@v5
@@ -69,7 +70,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: ${{ steps.calver.outputs.release }}
-          tag_prefix: ""
+          tag_prefix: ''
           commit_sha: ${{ steps.commit.outputs.commit_hash }}
 
       - name: Checkout the latest tag - the one we just created
@@ -84,7 +85,7 @@ jobs:
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "dist/*"
+          artifacts: dist/*
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
@@ -121,19 +122,19 @@ jobs:
           uv run --with="vws-cli==${{ steps.calver.outputs.release }}" poet --formula vws-cli > ${{ env.FILENAME }}
           echo "HOMEBREW_RECIPE_FILE=${{ env.FILENAME }}" >> "$GITHUB_OUTPUT"
 
-      - name: "Update Homebrew description"
+      - name: Update Homebrew description
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "desc \"Shiny new formula\""
-          replace: "desc \"CLI for Vuforia Web Services\""
+          find: desc "Shiny new formula"
+          replace: desc "CLI for Vuforia Web Services"
           include: ${{ steps.homebrew-create.outputs.HOMEBREW_RECIPE_FILE }}
           regex: false
 
-      - name: "Fix Homebrew class name"
+      - name: Fix Homebrew class name
         uses: jacobtomlinson/gha-find-replace@v3
         with:
-          find: "class VWSCLI"
-          replace: "class VwsCli"
+          find: class VWSCLI
+          replace: class VwsCli
           include: ${{ steps.homebrew-create.outputs.HOMEBREW_RECIPE_FILE }}
           regex: false
 
@@ -148,7 +149,7 @@ jobs:
         with:
           destination_branch: master
           source_file: ${{ steps.homebrew-create.outputs.HOMEBREW_RECIPE_FILE }}
-          destination_repo: 'VWS-Python/homebrew-vws'
-          user_email: 'adamdangoor@gmail.com'
-          user_name: 'adamtheturtle'
-          commit_message: 'Bump VWS CLI Homebrew recipe'
+          destination_repo: VWS-Python/homebrew-vws
+          user_email: adamdangoor@gmail.com
+          user_name: adamtheturtle
+          commit_message: Bump VWS CLI Homebrew recipe
