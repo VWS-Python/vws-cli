@@ -1,4 +1,6 @@
-"""``click`` options regarding targets."""
+"""
+``click`` options regarding targets.
+"""
 
 from collections.abc import Callable
 from enum import Enum
@@ -18,7 +20,9 @@ target_id_option: Callable[..., None] = click.option(
 
 @beartype
 def target_name_option(*, required: bool) -> Callable[..., None]:
-    """An option decorator for choosing a target name."""
+    """
+    An option decorator for choosing a target name.
+    """
     return click.option(
         "--name",
         type=str,
@@ -29,7 +33,9 @@ def target_name_option(*, required: bool) -> Callable[..., None]:
 
 @beartype
 def target_width_option(*, required: bool) -> Callable[..., Any]:
-    """An option decorator for choosing a target width."""
+    """
+    An option decorator for choosing a target width.
+    """
     option: Callable[..., Any] = click.option(
         "--width",
         type=float,
@@ -41,7 +47,9 @@ def target_width_option(*, required: bool) -> Callable[..., Any]:
 
 @beartype
 def target_image_option(*, required: bool) -> Callable[..., Any]:
-    """An option decorator for choosing a target image."""
+    """
+    An option decorator for choosing a target image.
+    """
     return click.option(
         "--image",
         "image_file_path",
@@ -57,7 +65,9 @@ def target_image_option(*, required: bool) -> Callable[..., Any]:
 
 
 class ActiveFlagChoice(Enum):
-    """Choices for active flag."""
+    """
+    Choices for active flag.
+    """
 
     TRUE = "true"
     FALSE = "false"
@@ -68,7 +78,9 @@ def _active_flag_choice_callback(
     param: click.core.Option | click.core.Parameter,
     value: str | None,
 ) -> ActiveFlagChoice | None:
-    """Use as a callback for active flag options."""
+    """
+    Use as a callback for active flag options.
+    """
     # This is to satisfy the "vulture" linter.
     assert ctx
     assert param
@@ -83,7 +95,9 @@ def active_flag_option(
     *,
     allow_none: bool,
 ) -> Callable[..., None]:
-    """An option decorator for setting a target's active flag."""
+    """
+    An option decorator for setting a target's active flag.
+    """
     if allow_none:
         default = None
         show_default = False

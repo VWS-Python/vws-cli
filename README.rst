@@ -13,8 +13,8 @@ A CLI for `Vuforia Web Services`_.
 Installation
 ------------
 
-With `pip`
-^^^^^^^^^^
+With ``pip``
+^^^^^^^^^^^^
 
 Requires Python |minimum-python-version|\+.
 
