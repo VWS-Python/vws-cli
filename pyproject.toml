@@ -78,6 +78,7 @@ optional-dependencies.dev = [
     "vulture==2.13",
     "vws-python-mock==2024.8.30",
     "vws-test-fixtures==2023.3.5",
+    "yamlfix==1.17.0",
 ]
 optional-dependencies.packaging = [
     "pyinstaller==6.10.0",
