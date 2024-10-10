@@ -383,7 +383,7 @@ class TestAddTarget:
 
             Error: Invalid value for '--image': File '{does_not_exist_file}' does not exist.
             """,
-        )
+        ).replace("\\", "\\\\")
         assert result.stderr == expected_stderr
 
     @staticmethod
@@ -1051,7 +1051,7 @@ class TestUpdateTarget:
 
             Error: Invalid value for '--image': File '{does_not_exist_file}' does not exist.
             """,
-        )
+        ).replace("\\", "\\\\")
         assert result.stderr == expected_stderr
 
     @staticmethod
