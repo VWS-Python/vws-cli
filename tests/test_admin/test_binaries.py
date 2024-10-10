@@ -3,6 +3,7 @@ Tests for creating binaries.
 """
 
 import logging
+import sys
 from pathlib import Path
 
 import docker
@@ -14,6 +15,14 @@ from admin.binaries import make_linux_binaries
 LOGGER = logging.getLogger(name=__name__)
 
 
+@pytest.mark.skipif(
+    condition=sys.platform == "win32",
+    reason=(
+        "GitHub Actions does not support running Linux containers on "
+        "Windows. "
+        "See https://github.com/actions/runner-images/issues/1143."
+    ),
+)
 def test_linux_binaries(request: pytest.FixtureRequest) -> None:
     """
     ``make_linux_binaries`` creates a binary which can be run on Linux.
