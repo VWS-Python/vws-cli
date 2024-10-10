@@ -377,7 +377,7 @@ class TestAddTarget:
         assert result.exit_code == expected_result_code
         assert not result.stdout
         expected_stderr = dedent(
-            text=rf"""\
+            text=f"""\
             Usage: vws add-target [OPTIONS]
             Try 'vws add-target -h' for help.
 
@@ -1045,7 +1045,7 @@ class TestUpdateTarget:
         assert result.exit_code == expected_result_code
         assert not result.stdout
         expected_stderr = dedent(
-            text=rf"""\
+            text=f"""\
             Usage: vws update-target [OPTIONS]
             Try 'vws update-target -h' for help.
 

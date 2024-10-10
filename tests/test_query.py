@@ -195,7 +195,7 @@ class TestQuery:
         assert result.exit_code == expected_result_code
         assert not result.stdout
         expected_stderr = dedent(
-            text=rf"""\
+            text=f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
             Try 'vuforia-cloud-reco --help' for help.
 
