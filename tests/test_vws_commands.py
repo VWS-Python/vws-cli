@@ -377,11 +377,11 @@ class TestAddTarget:
         assert result.exit_code == expected_result_code
         assert not result.stdout
         expected_stderr = dedent(
-            text=f"""\
+            text=rf"""\
             Usage: vws add-target [OPTIONS]
             Try 'vws add-target -h' for help.
 
-            Error: Invalid value for '--image': File '{does_not_exist_file!r}' does not exist.
+            Error: Invalid value for '--image': File '{does_not_exist_file}' does not exist.
             """,
         )
         assert result.stderr == expected_stderr
@@ -1045,11 +1045,11 @@ class TestUpdateTarget:
         assert result.exit_code == expected_result_code
         assert not result.stdout
         expected_stderr = dedent(
-            text=f"""\
+            text=rf"""\
             Usage: vws update-target [OPTIONS]
             Try 'vws update-target -h' for help.
 
-            Error: Invalid value for '--image': File '{does_not_exist_file!r}' does not exist.
+            Error: Invalid value for '--image': File '{does_not_exist_file}' does not exist.
             """,
         )
         assert result.stderr == expected_stderr
