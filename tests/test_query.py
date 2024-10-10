@@ -201,7 +201,7 @@ class TestQuery:
 
             Error: Invalid value for 'IMAGE': File '{does_not_exist_file}' does not exist.
             """,
-        )
+        ).replace("\\", "\\\\")
         assert result.stderr == expected_stderr
 
 
