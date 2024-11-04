@@ -3,7 +3,7 @@
 """
 
 from collections.abc import Callable
-from enum import Enum
+from enum import Enum, unique
 from pathlib import Path
 from typing import Any
 
@@ -64,6 +64,7 @@ def target_image_option(*, required: bool) -> Callable[..., Any]:
     )
 
 
+@unique
 class ActiveFlagChoice(Enum):
     """
     Choices for active flag.
