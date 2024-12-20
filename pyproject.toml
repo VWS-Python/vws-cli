@@ -51,7 +51,7 @@ optional-dependencies.dev = [
     "furo==2024.8.6",
     "homebrew-pypi-poet==0.10",
     "interrogate==1.7.0",
-    "mypy[faster-cache]==1.13.0",
+    "mypy[faster-cache]==1.14.0",
     "pre-commit==4.0.1",
     "pylint==3.3.2",
     "pyproject-fmt==2.5.0",
