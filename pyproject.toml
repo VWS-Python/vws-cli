@@ -114,8 +114,6 @@ lint.select = [
     "ALL",
 ]
 lint.ignore = [
-    # We are happy to manage our own "complexity".
-    "C901",
     # Ruff warns that this conflicts with the formatter.
     "COM812",
     # Allow our chosen docstring line-style - no one-line summary.
@@ -125,16 +123,14 @@ lint.ignore = [
     # Allow backslashes in a docstring.
     # See https://click.palletsprojects.com/en/8.0.x/documentation/#preventing-rewrapping.
     "D301",
-    "D415",
     # Let the formatter handle line lengths, and ignore the errors.
     "E501",
     # Ruff warns that this conflicts with the formatter.
     "ISC001",
     # Ignore "too-many-*" errors as they seem to get in the way more than
     # helping.
-    "PLR0912",
     "PLR0913",
-    # Allow 'assert' as we use it for tests.
+    # Allow 'assert' as we use it for tests and type narrowing.
     "S101",
 ]
 

@@ -83,8 +83,8 @@ def _active_flag_choice_callback(
     Use as a callback for active flag options.
     """
     # This is to satisfy the "vulture" linter.
-    assert ctx
-    assert param
+    del ctx
+    del param
 
     if value is None:
         return None
