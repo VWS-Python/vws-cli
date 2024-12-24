@@ -123,14 +123,12 @@ lint.ignore = [
     # Allow backslashes in a docstring.
     # See https://click.palletsprojects.com/en/8.0.x/documentation/#preventing-rewrapping.
     "D301",
-    "D415",
     # Let the formatter handle line lengths, and ignore the errors.
     "E501",
     # Ruff warns that this conflicts with the formatter.
     "ISC001",
     # Ignore "too-many-*" errors as they seem to get in the way more than
     # helping.
-    "PLR0912",
     "PLR0913",
     # Allow 'assert' as we use it for tests.
     "S101",
