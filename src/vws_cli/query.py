@@ -122,8 +122,8 @@ def include_target_data_callback(
     Use as a callback for active flag options.
     """
     # This is to satisfy the "vulture" linter.
-    assert ctx
-    assert param
+    del ctx
+    del param
 
     return {
         "top": CloudRecoIncludeTargetData.TOP,
