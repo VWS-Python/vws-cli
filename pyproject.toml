@@ -52,6 +52,7 @@ optional-dependencies.dev = [
     "homebrew-pypi-poet==0.10",
     "interrogate==1.7.0",
     "mypy[faster-cache]==1.14.0",
+    "mypy-strict-kwargs==2024.12.24",
     "pre-commit==4.0.1",
     "pylint==3.3.3",
     "pyproject-fmt==2.5.0",
@@ -328,6 +329,9 @@ strict = true
 files = [ "." ]
 exclude = [ "build" ]
 follow_untyped_imports = true
+plugins = [
+    "mypy_strict_kwargs",
+]
 
 [tool.pyright]
 reportUnnecessaryTypeIgnoreComment = true

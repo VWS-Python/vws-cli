@@ -28,7 +28,7 @@ def test_authentication_failure(
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
     commands = [
-        str(new_file),
+        str(object=new_file),
         "--client-access-key",
         mock_database.client_access_key,
         "--client-secret-key",
@@ -57,7 +57,7 @@ def test_image_too_large(
     image_data = png_too_large.getvalue()
     new_file.write_bytes(data=image_data)
     commands = [
-        str(new_file),
+        str(object=new_file),
         "--client-access-key",
         mock_database.client_access_key,
         "--client-secret-key",
@@ -85,7 +85,7 @@ def test_bad_image(
     new_file.write_bytes(data=b"Not an image")
     runner = CliRunner(mix_stderr=False)
     commands = [
-        str(new_file),
+        str(object=new_file),
         "--client-access-key",
         mock_database.client_access_key,
         "--client-secret-key",
@@ -120,7 +120,7 @@ def test_inactive_project(
         mock.add_database(database=database)
         runner = CliRunner(mix_stderr=False)
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--client-access-key",
             database.client_access_key,
             "--client-secret-key",
@@ -165,7 +165,7 @@ def test_request_time_too_skewed(
     # >= 1 ticks are acceptable.
     with freeze_time(auto_tick_seconds=time_difference_from_now):
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--client-access-key",
             mock_database.client_access_key,
             "--client-secret-key",

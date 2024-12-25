@@ -266,8 +266,8 @@ def test_get_duplicate_targets(
         application_metadata=None,
     )
 
-    vws_client.wait_for_target_processed(target_id)
-    vws_client.wait_for_target_processed(target_id_2)
+    vws_client.wait_for_target_processed(target_id=target_id)
+    vws_client.wait_for_target_processed(target_id=target_id_2)
 
     commands = [
         "get-duplicate-targets",
@@ -316,9 +316,9 @@ class TestAddTarget:
             "--name",
             name,
             "--width",
-            str(width),
+            str(object=width),
             "--image",
-            str(new_file),
+            str(object=new_file),
             "--server-access-key",
             mock_database.server_access_key,
             "--server-secret-key",
@@ -362,7 +362,7 @@ class TestAddTarget:
             "--width",
             "1",
             "--image",
-            str(does_not_exist_file),
+            str(object=does_not_exist_file),
             "--server-access-key",
             mock_database.server_access_key,
             "--server-secret-key",
@@ -403,7 +403,7 @@ class TestAddTarget:
             "--width",
             "1",
             "--image",
-            str(tmp_path),
+            str(object=tmp_path),
             "--server-access-key",
             mock_database.server_access_key,
             "--server-secret-key",
@@ -441,7 +441,7 @@ class TestAddTarget:
         new_filename = uuid.uuid4().hex
         original_image_file = tmp_path / "foo"
         image_data = high_quality_image.getvalue()
-        original_image_file.write_bytes(image_data)
+        original_image_file.write_bytes(data=image_data)
         name = uuid.uuid4().hex
         commands = [
             "add-target",
@@ -458,7 +458,7 @@ class TestAddTarget:
         ]
         with runner.isolated_filesystem():
             new_file = Path(new_filename)
-            new_file.symlink_to(original_image_file)
+            new_file.symlink_to(target=original_image_file)
             result = runner.invoke(
                 cli=vws_group,
                 args=commands,
@@ -486,9 +486,11 @@ class TestAddTarget:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         application_metadata = uuid.uuid4().hex
-        metadata_bytes = application_metadata.encode("ascii")
+        metadata_bytes = application_metadata.encode(encoding="ascii")
         base64_encoded_metadata_bytes = base64.b64encode(s=metadata_bytes)
-        base64_encoded_metadata = base64_encoded_metadata_bytes.decode("ascii")
+        base64_encoded_metadata = base64_encoded_metadata_bytes.decode(
+            encoding="ascii",
+        )
         commands = [
             "add-target",
             "--name",
@@ -496,7 +498,7 @@ class TestAddTarget:
             "--width",
             "0.1",
             "--image",
-            str(new_file),
+            str(object=new_file),
             "--application-metadata",
             base64_encoded_metadata,
             "--server-access-key",
@@ -520,8 +522,8 @@ class TestAddTarget:
 
     @staticmethod
     @pytest.mark.parametrize(
-        ("active_flag_given", "active_flag_expected"),
-        [
+        argnames=("active_flag_given", "active_flag_expected"),
+        argvalues=[
             ("true", True),
             ("false", False),
         ],
@@ -549,7 +551,7 @@ class TestAddTarget:
             "--width",
             "0.1",
             "--image",
-            str(new_file),
+            str(object=new_file),
             "--active-flag",
             active_flag_given,
             "--server-access-key",
@@ -912,9 +914,9 @@ class TestUpdateTarget:
             "--name",
             new_name,
             "--width",
-            str(new_width),
+            str(object=new_width),
             "--image",
-            str(new_image_file),
+            str(object=new_image_file),
             "--active-flag",
             "true",
             "--application-metadata",
@@ -1030,7 +1032,7 @@ class TestUpdateTarget:
             "--target-id",
             target_id,
             "--image",
-            str(does_not_exist_file),
+            str(object=does_not_exist_file),
             "--server-access-key",
             mock_database.server_access_key,
             "--server-secret-key",
@@ -1079,7 +1081,7 @@ class TestUpdateTarget:
             "--target-id",
             target_id,
             "--image",
-            str(tmp_path),
+            str(object=tmp_path),
             "--server-access-key",
             mock_database.server_access_key,
             "--server-secret-key",
@@ -1125,7 +1127,7 @@ class TestUpdateTarget:
         new_filename = uuid.uuid4().hex
         original_image_file = tmp_path / "foo"
         image_data = high_quality_image.getvalue()
-        original_image_file.write_bytes(image_data)
+        original_image_file.write_bytes(data=image_data)
         commands = [
             "update-target",
             "--target-id",
@@ -1140,7 +1142,7 @@ class TestUpdateTarget:
 
         with runner.isolated_filesystem():
             new_file = Path(new_filename)
-            new_file.symlink_to(original_image_file)
+            new_file.symlink_to(target=original_image_file)
             result = runner.invoke(
                 cli=vws_group,
                 args=commands,
