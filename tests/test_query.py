@@ -35,7 +35,7 @@ class TestQuery:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--client-access-key",
             mock_database.client_access_key,
             "--client-secret-key",
@@ -75,7 +75,7 @@ class TestQuery:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--client-access-key",
             mock_database.client_access_key,
             "--client-secret-key",
@@ -111,7 +111,7 @@ class TestQuery:
         """
         runner = CliRunner(mix_stderr=False)
         commands = [
-            str(tmp_path),
+            str(object=tmp_path),
             "--client-access-key",
             mock_database.client_access_key,
             "--client-secret-key",
@@ -148,9 +148,9 @@ class TestQuery:
         new_filename = uuid.uuid4().hex
         original_image_file = tmp_path / "foo"
         image_data = high_quality_image.getvalue()
-        original_image_file.write_bytes(image_data)
+        original_image_file.write_bytes(data=image_data)
         commands = [
-            str(new_filename),
+            str(object=new_filename),
             "--client-access-key",
             mock_database.client_access_key,
             "--client-secret-key",
@@ -158,7 +158,7 @@ class TestQuery:
         ]
         with runner.isolated_filesystem():
             new_file = Path(new_filename)
-            new_file.symlink_to(original_image_file)
+            new_file.symlink_to(target=original_image_file)
             result = runner.invoke(
                 cli=vuforia_cloud_reco,
                 args=commands,
@@ -180,7 +180,7 @@ class TestQuery:
         runner = CliRunner(mix_stderr=False)
         does_not_exist_file = tmp_path / uuid.uuid4().hex
         commands = [
-            str(does_not_exist_file),
+            str(object=does_not_exist_file),
             "--client-access-key",
             mock_database.client_access_key,
             "--client-secret-key",
@@ -257,7 +257,7 @@ class TestMaxNumResults:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--client-access-key",
             mock_database.client_access_key,
             "--client-secret-key",
@@ -313,9 +313,9 @@ class TestMaxNumResults:
         new_file.write_bytes(data=image_data)
         max_num_results = 2
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--max-num-results",
-            str(max_num_results),
+            str(object=max_num_results),
             "--client-access-key",
             mock_database.client_access_key,
             "--client-secret-key",
@@ -342,9 +342,9 @@ class TestMaxNumResults:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--max-num-results",
-            str(0),
+            str(object=0),
             "--client-access-key",
             mock_database.client_access_key,
             "--client-secret-key",
@@ -400,9 +400,9 @@ class TestIncludeTargetData:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--max-num-results",
-            str(2),
+            str(object=2),
             "--client-access-key",
             mock_database.client_access_key,
             "--client-secret-key",
@@ -450,9 +450,9 @@ class TestIncludeTargetData:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--max-num-results",
-            str(2),
+            str(object=2),
             "--include-target-data",
             "top",
             "--client-access-key",
@@ -502,9 +502,9 @@ class TestIncludeTargetData:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--max-num-results",
-            str(2),
+            str(object=2),
             "--include-target-data",
             "none",
             "--client-access-key",
@@ -555,9 +555,9 @@ class TestIncludeTargetData:
         new_file.write_bytes(data=image_data)
 
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--max-num-results",
-            str(2),
+            str(object=2),
             "--include-target-data",
             "all",
             "--client-access-key",
@@ -591,9 +591,9 @@ class TestIncludeTargetData:
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--max-num-results",
-            str(2),
+            str(object=2),
             "--include-target-data",
             "other",
             "--client-access-key",
@@ -643,7 +643,7 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
         vws_client.wait_for_target_processed(target_id=target_id)
 
         commands = [
-            str(new_file),
+            str(object=new_file),
             "--client-access-key",
             mock_database.client_access_key,
             "--client-secret-key",
@@ -674,7 +674,7 @@ def test_env_var_credentials(
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
-    commands = [str(new_file)]
+    commands = [str(object=new_file)]
     result = runner.invoke(
         cli=vuforia_cloud_reco,
         args=commands,

@@ -22,10 +22,10 @@ def remove_existing_files(*, scripts: Iterable[Path]) -> None:
     build_dir = Path() / "build"
 
     with contextlib.suppress(FileNotFoundError):
-        shutil.rmtree(path=str(dist_dir))
+        shutil.rmtree(path=str(object=dist_dir))
 
     with contextlib.suppress(FileNotFoundError):
-        shutil.rmtree(path=str(build_dir))
+        shutil.rmtree(path=str(object=build_dir))
 
     for script in scripts:
         path = Path(script.name + ".spec")
@@ -42,7 +42,7 @@ def create_binary(script: Path) -> None:
     """
     pyinstaller_command = [
         "pyinstaller",
-        str(script.resolve()),
+        str(object=script.resolve()),
         "--onefile",
         "--name",
         script.name + "-" + sys.platform,

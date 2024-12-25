@@ -22,7 +22,7 @@ from vws_cli.commands import (
 _CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
 try:
-    __version__ = version(__name__)
+    __version__ = version(distribution_name=__name__)
 except PackageNotFoundError:  # pragma: no cover
     # When pkg_resources and git tags are not available,
     # for example in a PyInstaller binary,
@@ -43,12 +43,12 @@ def vws_group() -> None:
     """
 
 
-vws_group.add_command(add_target)
-vws_group.add_command(delete_target)
-vws_group.add_command(get_database_summary_report)
-vws_group.add_command(get_duplicate_targets)
-vws_group.add_command(get_target_record)
-vws_group.add_command(get_target_summary_report)
-vws_group.add_command(list_targets)
-vws_group.add_command(update_target)
-vws_group.add_command(wait_for_target_processed)
+vws_group.add_command(cmd=add_target)
+vws_group.add_command(cmd=delete_target)
+vws_group.add_command(cmd=get_database_summary_report)
+vws_group.add_command(cmd=get_duplicate_targets)
+vws_group.add_command(cmd=get_target_record)
+vws_group.add_command(cmd=get_target_summary_report)
+vws_group.add_command(cmd=list_targets)
+vws_group.add_command(cmd=update_target)
+vws_group.add_command(cmd=wait_for_target_processed)
