@@ -132,7 +132,7 @@ class TestQuery:
 
             Error: Invalid value for 'IMAGE': File '{tmp_path}' is a directory.
             """,
-        )
+        ).replace("\\", "\\\\")
         assert result.stderr == expected_stderr
 
     @staticmethod
