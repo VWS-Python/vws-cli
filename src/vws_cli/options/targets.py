@@ -89,7 +89,7 @@ def _active_flag_choice_callback(
     if value is None:
         return None
 
-    return ActiveFlagChoice(value)
+    return ActiveFlagChoice(value=value)
 
 
 def active_flag_option(
