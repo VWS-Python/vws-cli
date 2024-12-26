@@ -3,7 +3,6 @@ Test for the Cloud Reco Service commands.
 """
 
 import io
-import os
 import uuid
 from pathlib import Path
 from textwrap import dedent
@@ -126,15 +125,14 @@ class TestQuery:
         expected_result_code = 2
         assert result.exit_code == expected_result_code
         assert not result.stdout
-        normalised_tmp_path = os.path.normpath(path=tmp_path)
         expected_stderr = dedent(
             text=f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
             Try 'vuforia-cloud-reco --help' for help.
 
-            Error: Invalid value for 'IMAGE': File '{normalised_tmp_path}' is a directory.
+            Error: Invalid value for 'IMAGE': File '{tmp_path}' is a directory.
             """,
-        )
+        ).replace("\\", "\\\\")
         assert result.stderr == expected_stderr
 
     @staticmethod
