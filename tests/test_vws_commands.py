@@ -424,7 +424,7 @@ class TestAddTarget:
 
             Error: Invalid value for '--image': File '{tmp_path}' is a directory.
             """,
-        )
+        ).replace("\\", "\\\\")
         assert result.stderr == expected_stderr
 
     @staticmethod
@@ -1102,7 +1102,7 @@ class TestUpdateTarget:
 
             Error: Invalid value for '--image': File '{tmp_path}' is a directory.
             """,
-        )
+        ).replace("\\", "\\\\")
         assert result.stderr == expected_stderr
 
     @staticmethod
