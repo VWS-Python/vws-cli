@@ -61,7 +61,7 @@ optional-dependencies.dev = [
     "pytest==8.3.4",
     "pytest-cov==6.0.0",
     "pytest-regressions==2.6.0",
-    "ruff==0.8.5",
+    "ruff==0.8.6",
     "setuptools-scm==8.1.0",
     # We add shellcheck-py not only for shell scripts and shell code blocks,
     # but also because having it installed means that ``actionlint-py`` will
