@@ -39,7 +39,7 @@ dependencies = [
     "vws-python==2024.9.21",
 ]
 optional-dependencies.dev = [
-    "actionlint-py==1.7.6.22",
+    "actionlint-py==1.7.7.23",
     "check-manifest==0.50",
     "check-wheel-contents==0.6.1",
     "deptry==0.22.0",
