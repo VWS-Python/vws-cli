@@ -44,7 +44,7 @@ optional-dependencies.dev = [
     "check-wheel-contents==0.6.1",
     "deptry==0.23.0",
     "doc8==1.1.2",
-    "doccmd==2025.1.11",
+    "doccmd==2025.2.17",
     "docformatter==1.7.5",
     "docker==7.1.0",
     "freezegun==1.5.1",
