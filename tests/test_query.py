@@ -45,6 +45,7 @@ class TestQuery:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         assert result.exit_code == 0
         result_data = yaml.safe_load(stream=result.stdout)
@@ -85,6 +86,7 @@ class TestQuery:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         assert result.exit_code == 0
         result_data = yaml.safe_load(stream=result.stdout)
@@ -121,6 +123,7 @@ class TestQuery:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
@@ -163,6 +166,7 @@ class TestQuery:
                 cli=vuforia_cloud_reco,
                 args=commands,
                 catch_exceptions=False,
+                color=True,
             )
 
         assert result.exit_code == 0
@@ -190,6 +194,7 @@ class TestQuery:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
@@ -215,6 +220,7 @@ def test_version() -> None:
         cli=vuforia_cloud_reco,
         args=commands,
         catch_exceptions=False,
+        color=True,
     )
     assert result.exit_code == 0
     assert result.stdout.startswith("vuforia-cloud-reco, version ")
@@ -267,6 +273,7 @@ class TestMaxNumResults:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         assert result.exit_code == 0
         result_data = yaml.safe_load(stream=result.stdout)
@@ -325,6 +332,7 @@ class TestMaxNumResults:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         assert result.exit_code == 0
         result_data = yaml.safe_load(stream=result.stdout)
@@ -354,6 +362,7 @@ class TestMaxNumResults:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
@@ -412,6 +421,7 @@ class TestIncludeTargetData:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         assert result.exit_code == 0
         matches = yaml.safe_load(stream=result.stdout)
@@ -464,6 +474,7 @@ class TestIncludeTargetData:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         assert result.exit_code == 0
         matches = yaml.safe_load(stream=result.stdout)
@@ -516,6 +527,7 @@ class TestIncludeTargetData:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         assert result.exit_code == 0
         matches = yaml.safe_load(stream=result.stdout)
@@ -569,6 +581,7 @@ class TestIncludeTargetData:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         assert result.exit_code == 0
         matches = yaml.safe_load(stream=result.stdout)
@@ -605,6 +618,7 @@ class TestIncludeTargetData:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
@@ -655,6 +669,7 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+            color=True,
         )
         assert result.exit_code == 0
 
@@ -679,6 +694,7 @@ def test_env_var_credentials(
         cli=vuforia_cloud_reco,
         args=commands,
         catch_exceptions=False,
+        color=True,
         env={
             "VUFORIA_CLIENT_ACCESS_KEY": mock_database.client_access_key,
             "VUFORIA_CLIENT_SECRET_KEY": mock_database.client_secret_key,

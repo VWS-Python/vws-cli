@@ -34,6 +34,7 @@ def test_vws_command_help(
         cli=vws_group,
         args=arguments,
         catch_exceptions=False,
+        color=True,
     )
     assert result.exit_code == 0
     file_regression.check(contents=result.output)
@@ -51,6 +52,7 @@ def test_query_help(file_regression: FileRegressionFixture) -> None:
         cli=vuforia_cloud_reco,
         args=arguments,
         catch_exceptions=False,
+        color=True,
     )
     assert result.exit_code == 0
     file_regression.check(contents=result.output)
