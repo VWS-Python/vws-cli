@@ -38,6 +38,7 @@ def test_authentication_failure(
         cli=vuforia_cloud_reco,
         args=commands,
         catch_exceptions=False,
+        color=True,
     )
     expected_stderr = "The given secret key was incorrect.\n"
     assert result.stderr == expected_stderr
@@ -67,6 +68,7 @@ def test_image_too_large(
         cli=vuforia_cloud_reco,
         args=commands,
         catch_exceptions=False,
+        color=True,
     )
     expected_stderr = "Error: The given image is too large.\n"
     assert result.stderr == expected_stderr
@@ -95,6 +97,7 @@ def test_bad_image(
         cli=vuforia_cloud_reco,
         args=commands,
         catch_exceptions=False,
+        color=True,
     )
     assert result.exit_code == 1
     expected_stderr = (
@@ -130,6 +133,7 @@ def test_inactive_project(
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+        color=True,
         )
 
     assert result.exit_code == 1
@@ -175,6 +179,7 @@ def test_request_time_too_skewed(
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
+        color=True,
         )
 
     expected_stderr = (

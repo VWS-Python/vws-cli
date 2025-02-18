@@ -16,6 +16,7 @@ def test_version() -> None:
         cli=vws_group,
         args=["--version"],
         catch_exceptions=False,
+        color=True,
     )
     assert result.exit_code == 0
     expected = "vws, version"

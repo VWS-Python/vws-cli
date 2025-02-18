@@ -175,6 +175,7 @@ def test_image_too_large(
         cli=vws_group,
         args=commands,
         catch_exceptions=False,
+        color=True,
     )
     assert result.exit_code == 1
     expected_stderr = "Error: The given image is too large.\n"
@@ -221,6 +222,7 @@ def test_target_name_exist(
         cli=vws_group,
         args=commands,
         catch_exceptions=False,
+        color=True,
     )
     assert result.exit_code == 1
     expected_stderr = 'Error: There is already a target named "foobar".\n'
@@ -260,6 +262,7 @@ def test_project_inactive(
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
+        color=True,
         )
 
     assert result.exit_code == 1
@@ -303,6 +306,7 @@ def test_unknown_vws_error(
         cli=vws_group,
         args=commands,
         catch_exceptions=False,
+        color=True,
     )
     assert result.exit_code == 1
     expected_stderr = (
@@ -345,6 +349,7 @@ def test_target_status_processing(
         cli=vws_group,
         args=commands,
         catch_exceptions=False,
+        color=True,
     )
     assert result.exit_code == 1
     expected_stderr = (
@@ -387,6 +392,7 @@ def test_target_status_not_success(
         cli=vws_group,
         args=commands,
         catch_exceptions=False,
+        color=True,
     )
     assert result.exit_code == 1
     expected_stderr = (
@@ -414,6 +420,7 @@ def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
         cli=vws_group,
         args=commands,
         catch_exceptions=False,
+        color=True,
     )
     assert result.exit_code == 1
     expected_stderr = "The given secret key was incorrect.\n"
@@ -449,6 +456,7 @@ def test_request_time_too_skewed(mock_database: VuforiaDatabase) -> None:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
+        color=True,
         )
 
     expected_stderr = (
