@@ -262,7 +262,7 @@ def test_project_inactive(
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
 
     assert result.exit_code == 1
@@ -456,7 +456,7 @@ def test_request_time_too_skewed(mock_database: VuforiaDatabase) -> None:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
 
     expected_stderr = (

@@ -334,7 +334,7 @@ class TestAddTarget:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0, result.output
 
@@ -379,7 +379,7 @@ class TestAddTarget:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
@@ -421,7 +421,7 @@ class TestAddTarget:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
@@ -472,7 +472,7 @@ class TestAddTarget:
                 cli=vws_group,
                 args=commands,
                 catch_exceptions=False,
-        color=True,
+                color=True,
             )
         assert result.exit_code == 0
         target_id = result.stdout.strip()
@@ -520,7 +520,7 @@ class TestAddTarget:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         target_id = result.stdout.strip()
@@ -574,7 +574,7 @@ class TestAddTarget:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
 
@@ -621,7 +621,7 @@ class TestWaitForTargetProcessed:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         assert not result.stdout
@@ -665,7 +665,7 @@ class TestWaitForTargetProcessed:
                 cli=vws_group,
                 args=commands,
                 catch_exceptions=False,
-        color=True,
+                color=True,
             )
             assert result.exit_code == 0
             assert not result.stdout
@@ -736,7 +736,7 @@ class TestWaitForTargetProcessed:
                 cli=vws_group,
                 args=commands,
                 catch_exceptions=False,
-        color=True,
+                color=True,
             )
             assert result.exit_code == 0
             assert not result.stdout
@@ -787,7 +787,7 @@ class TestWaitForTargetProcessed:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code != 0
         assert not result.stdout
@@ -834,7 +834,7 @@ class TestWaitForTargetProcessed:
                 cli=vws_group,
                 args=commands,
                 catch_exceptions=False,
-        color=True,
+                color=True,
             )
             assert result.exit_code != 0
             assert result.stderr == "Timeout of 0.1 seconds reached.\n"
@@ -854,7 +854,7 @@ class TestWaitForTargetProcessed:
                 cli=vws_group,
                 args=commands,
                 catch_exceptions=False,
-        color=True,
+                color=True,
             )
             assert result.exit_code == 0
             report = vws_client.get_target_summary_report(target_id=target_id)
@@ -881,7 +881,7 @@ class TestWaitForTargetProcessed:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code != 0
         expected_substring = "0.01 is not in the range x>=0.05."
@@ -949,7 +949,7 @@ class TestUpdateTarget:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         assert not result.stdout
@@ -979,7 +979,7 @@ class TestUpdateTarget:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         assert not result.stdout
@@ -1024,7 +1024,7 @@ class TestUpdateTarget:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         assert not result.stdout
@@ -1064,7 +1064,7 @@ class TestUpdateTarget:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
@@ -1114,7 +1114,7 @@ class TestUpdateTarget:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
@@ -1171,7 +1171,7 @@ class TestUpdateTarget:
                 cli=vws_group,
                 args=commands,
                 catch_exceptions=False,
-        color=True,
+                color=True,
             )
 
         assert result.exit_code == 0
@@ -1200,7 +1200,7 @@ def test_custom_base_url() -> None:
             cli=vws_group,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
 
     assert result.exit_code == 0

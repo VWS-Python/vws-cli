@@ -45,7 +45,7 @@ class TestQuery:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         result_data = yaml.safe_load(stream=result.stdout)
@@ -86,7 +86,7 @@ class TestQuery:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         result_data = yaml.safe_load(stream=result.stdout)
@@ -123,7 +123,7 @@ class TestQuery:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
@@ -166,7 +166,7 @@ class TestQuery:
                 cli=vuforia_cloud_reco,
                 args=commands,
                 catch_exceptions=False,
-        color=True,
+                color=True,
             )
 
         assert result.exit_code == 0
@@ -194,7 +194,7 @@ class TestQuery:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
@@ -273,7 +273,7 @@ class TestMaxNumResults:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         result_data = yaml.safe_load(stream=result.stdout)
@@ -332,7 +332,7 @@ class TestMaxNumResults:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         result_data = yaml.safe_load(stream=result.stdout)
@@ -362,7 +362,7 @@ class TestMaxNumResults:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
@@ -421,7 +421,7 @@ class TestIncludeTargetData:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         matches = yaml.safe_load(stream=result.stdout)
@@ -474,7 +474,7 @@ class TestIncludeTargetData:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         matches = yaml.safe_load(stream=result.stdout)
@@ -527,7 +527,7 @@ class TestIncludeTargetData:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         matches = yaml.safe_load(stream=result.stdout)
@@ -581,7 +581,7 @@ class TestIncludeTargetData:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
         matches = yaml.safe_load(stream=result.stdout)
@@ -618,7 +618,7 @@ class TestIncludeTargetData:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
@@ -669,7 +669,7 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
         assert result.exit_code == 0
 

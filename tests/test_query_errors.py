@@ -133,7 +133,7 @@ def test_inactive_project(
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
 
     assert result.exit_code == 1
@@ -179,7 +179,7 @@ def test_request_time_too_skewed(
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
-        color=True,
+            color=True,
         )
 
     expected_stderr = (
