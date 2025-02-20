@@ -151,10 +151,28 @@ jobs:
           user_name: adamtheturtle
           commit_message: Bump VWS CLI Homebrew recipe
 
-      - name: Create Linux binaries
-        run: |
-          rm -rf dist/*
-          PYTHONPATH=. uv run --extra=dev admin/release.py
+      - name: Create Linux binary for Vuforia Cloud Reco
+        uses: sayyid5416/pyinstaller@v1
+        with:
+          python_ver: '3.13'
+          pyinstaller_ver: ==6.12.0
+          spec: bin/vuforia-cloud-reco.py
+          requirements: '`echo vws-cli==${{ steps.tag_version.outputs.new_tag }} >
+            requirements.txt && echo requirements.txt`'
+          options: --onefile, --name "vuforia-cloud-reco-linux"
+          upload_exe_with_name: vuforia-cloud-reco-linux
+
+      - name: Create Linux binary for Vuforia Web Services
+        uses: sayyid5416/pyinstaller@v1
+        with:
+          python_ver: '3.13'
+          pyinstaller_ver: ==6.12.0
+          spec: bin/vuforia-web-services.py
+          requirements: '`echo vws-cli==${{ steps.tag_version.outputs.new_tag }} >
+            requirements.txt && echo requirements.txt`'
+          options: --onefile, --name "vws-linux"
+          upload_exe_with_name: vws-linux
+          clean_checkout: false
 
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
