@@ -87,6 +87,7 @@ jobs:
       - name: Create requirements file
         run: |
           uv export --no-emit-workspace > requirements.txt
+          cat requirements.txt
 
       - name: Create Linux binary for Vuforia Cloud Reco
         uses: sayyid5416/pyinstaller@v1
