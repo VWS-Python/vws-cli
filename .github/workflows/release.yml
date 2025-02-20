@@ -116,8 +116,8 @@ jobs:
       - name: Install VWS-CLI from PyPI
         uses: nick-fields/retry@v3
         with:
-          timeout_seconds: 10
-          max_attempts: 20
+          timeout_seconds: 5
+          max_attempts: 50
           command: uv pip install --refresh vws-cli==${{ steps.calver.outputs.release }}
 
       - name: Set up Homebrew filename
@@ -130,10 +130,10 @@ jobs:
         id: homebrew-create
         uses: nick-fields/retry@v3
         with:
-          timeout_seconds: 10
-          max_attempts: 20
+          timeout_seconds: 5
+          max_attempts: 50
           command: |
-            uv run --with="vws-cli==${{ steps.calver.outputs.release }}" --with="homebrew-pypi-poet==0.10" poet --formula vws-cli > ${{ steps.set-homebrew-filename.outputs.filename }}
+            uv run --no-cache --with="vws-cli==${{ steps.calver.outputs.release }}" --with="homebrew-pypi-poet==0.10" poet --formula vws-cli > ${{ steps.set-homebrew-filename.outputs.filename }}
 
       - name: Update Homebrew description
         uses: jacobtomlinson/gha-find-replace@v3
