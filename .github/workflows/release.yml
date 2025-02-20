@@ -153,6 +153,7 @@ jobs:
 
       - name: Create Linux binaries
         run: |
+          rm -rf dist/*
           PYTHONPATH=. uv run --extra=dev admin/release.py
 
       - name: Create a GitHub release
