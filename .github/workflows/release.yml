@@ -116,7 +116,8 @@ jobs:
           timeout_seconds: 10
           max_attempts: 20
           command: |
-            uv run --with="vws-cli==${{ steps.calver.outputs.release }}" --with="homebrew-pypi-poet==0.10" poet --formula vws-cli > ${{ env.FILENAME }} && echo "HOMEBREW_RECIPE_FILE=${{ env.FILENAME }}" >> "$GITHUB_OUTPUT"
+            uv run --with="vws-cli==${{ steps.calver.outputs.release }}" --with="homebrew-pypi-poet==0.10" poet --formula vws-cli > ${{ env.FILENAME }}
+            echo "HOMEBREW_RECIPE_FILE=${{ env.FILENAME }}" >> "$GITHUB_OUTPUT"
         env:
           FILENAME: vws-cli.rb
 
