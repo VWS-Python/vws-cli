@@ -117,7 +117,7 @@ jobs:
           timeout_seconds: 5
           max_attempts: 50
           command: |
-            uv run --no-cache --with="vws-cli==${{ steps.calver.outputs.release }}" --with="homebrew-pypi-poet==0.10" poet --formula vws-cli > ${{ steps.set-homebrew-filename.outputs.filename }}
+            uv run --no-cache --with="vws-cli==${{ steps.calver.outputs.release }}" --extra=release poet --formula vws-cli > ${{ steps.set-homebrew-filename.outputs.filename }}
 
       - name: Update Homebrew description
         uses: jacobtomlinson/gha-find-replace@v3
