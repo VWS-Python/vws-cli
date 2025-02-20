@@ -80,22 +80,6 @@ jobs:
           git fetch --tags
           git checkout ${{ steps.tag_version.outputs.new_tag }}
 
-      - name: Create Linux binaries
-        run: |
-          PYTHONPATH=. uv run --extra=dev admin/release.py
-
-      - name: Create a GitHub release
-        uses: ncipollo/release-action@v1
-        with:
-          # Use specific artifact names (not a glob) so that we get a clear
-          # error if the artifact does not exist for some reason.
-          artifacts: dist/vws-linux,dist/vuforia-cloud-reco-linux
-          artifactErrorsFailBuild: true
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          makeLatest: true
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
-
       - name: Build a binary wheel and a source tarball
         run: |
           sudo rm -rf dist/ build/
@@ -166,3 +150,19 @@ jobs:
           user_email: adamdangoor@gmail.com
           user_name: adamtheturtle
           commit_message: Bump VWS CLI Homebrew recipe
+
+      - name: Create Linux binaries
+        run: |
+          PYTHONPATH=. uv run --extra=dev admin/release.py
+
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          # Use specific artifact names (not a glob) so that we get a clear
+          # error if the artifact does not exist for some reason.
+          artifacts: dist/vws-linux,dist/vuforia-cloud-reco-linux
+          artifactErrorsFailBuild: true
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          makeLatest: true
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
