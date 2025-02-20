@@ -173,7 +173,9 @@ jobs:
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: dist/*
+          artifacts: dist/vws-linux,dist/vuforia-cloud-reco-linux
+          artifactErrorsFailBuild: true
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
+          makeLatest: true
