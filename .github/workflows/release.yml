@@ -89,7 +89,7 @@ jobs:
         with:
           # Use specific artifact names (not a glob) so that we get a clear
           # error if the artifact does not exist for some reason.
-          artifacts: dist/vws-linux,vuforia-cloud-reco-linux
+          artifacts: dist/vws-linux,dist/vuforia-cloud-reco-linux
           artifactErrorsFailBuild: true
           tag: ${{ steps.tag_version.outputs.new_tag }}
           makeLatest: true
