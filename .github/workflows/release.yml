@@ -113,7 +113,7 @@ jobs:
         env:
           FILENAME: vws-cli.rb
         run: |
-          uv run --with="vws-cli==${{ steps.calver.outputs.release }}" poet --formula vws-cli > ${{ env.FILENAME }}
+          uv run --with="vws-cli==${{ steps.calver.outputs.release }}" --with="homebrew-pypi-poet==0.10" poet --formula vws-cli > ${{ env.FILENAME }}
           echo "HOMEBREW_RECIPE_FILE=${{ env.FILENAME }}" >> "$GITHUB_OUTPUT"
 
       - name: Update Homebrew description
