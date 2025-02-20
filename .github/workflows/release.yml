@@ -97,12 +97,21 @@ jobs:
       # In particular, we push to PyPI and then immediately try to install
       # the pushed version.
       # Here, we give PyPI time to propagate the package.
-      - name: Install VWS-CLI from PyPI
+      - name: Install VWS-CLI from PyPI (uv)
         uses: nick-fields/retry@v3
         with:
           timeout_seconds: 5
           max_attempts: 50
           command: uv pip install --refresh vws-cli==${{ steps.calver.outputs.release }}
+
+      # Also get our package into the pip cache - it is later used to create
+      # a PyInstaller binary.
+      - name: Install VWS-CLI from PyPI (pip)
+        uses: nick-fields/retry@v3
+        with:
+          timeout_seconds: 5
+          max_attempts: 50
+          command: uv pip install pip && uv run pip install vws-cli==${{ steps.calver.outputs.release }}
 
       - name: Set up Homebrew filename
         id: set-homebrew-filename
