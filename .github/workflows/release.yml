@@ -95,7 +95,8 @@ jobs:
           python_ver: '3.13'
           pyinstaller_ver: ==6.12.0
           spec: bin/vuforia-cloud-reco.py
-          requirements: requirements.txt
+          requirements: '`uv export --no-emit-workspace > requirements.txt && echo
+            requirements.txt`'
           options: --onefile, --name "vuforia-cloud-reco-linux"
 
       - name: Create Linux binary for Vuforia Web Services
@@ -104,7 +105,8 @@ jobs:
           python_ver: '3.13'
           pyinstaller_ver: ==6.12.0
           spec: bin/vuforia-web-services.py
-          requirements: requirements.txt
+          requirements: '`uv export --no-emit-workspace > requirements.txt && echo
+            requirements.txt`'
           options: --onefile, --name "vws-linux"
 
       - name: Create a GitHub release
