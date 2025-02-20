@@ -90,8 +90,7 @@ jobs:
           python_ver: '3.13'
           pyinstaller_ver: ==6.12.0
           spec: bin/vuforia-cloud-reco.py
-          requirements: '`uv export --no-emit-workspace > requirements.txt && echo
-            requirements.txt`'
+          requirements: '`uv export > requirements.txt && echo requirements.txt`'
           options: --onefile, --name "vuforia-cloud-reco-linux"
           upload_exe_with_name: vuforia-cloud-reco-linux
 
@@ -101,8 +100,7 @@ jobs:
           python_ver: '3.13'
           pyinstaller_ver: ==6.12.0
           spec: bin/vuforia-web-services.py
-          requirements: '`uv export --no-emit-workspace > requirements.txt && echo
-            requirements.txt`'
+          requirements: '`uv export > requirements.txt && echo requirements.txt`'
           options: --onefile, --name "vws-linux"
           upload_exe_with_name: vws-linux
 
