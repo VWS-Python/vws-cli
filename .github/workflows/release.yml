@@ -162,8 +162,8 @@ jobs:
           python_ver: '3.13'
           pyinstaller_ver: ==6.12.0
           spec: bin/vuforia-cloud-reco.py
-          requirements: '`echo vws-cli==${{ steps.tag_version.outputs.new_tag }} >
-            requirements.txt && echo requirements.txt`'
+          requirements: '`echo ${{ steps.build-wheel.outputs.wheel_filename }} > requirements.txt
+            && echo requirements.txt`'
           options: --onefile, --name "vuforia-cloud-reco-linux"
           upload_exe_with_name: vuforia-cloud-reco-linux
 
