@@ -87,8 +87,6 @@ html_theme_options = {
 # Retry link checking to avoid transient network errors.
 linkcheck_retries = 5
 linkcheck_ignore = [
-    # Requires login.
-    r"https://developer.vuforia.com/targetmanager",
     # Only used for API calls
     r"https://cloudreco.vuforia.com",
     r"https://vws.vuforia.com",
