@@ -9,10 +9,6 @@ jobs:
     name: Publish a release
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        python-version: ['3.13']
-
     # Specifying an environment is strongly recommended by PyPI.
     # See https://github.com/pypa/gh-action-pypi-publish/tree/release/v1/?tab=readme-ov-file#trusted-publishing.
     environment: release
@@ -39,6 +35,9 @@ jobs:
 
       - name: Install uv
         uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          cache-dependency-glob: '**/pyproject.toml'
 
       - name: Calver calculate version
         uses: StephaneBour/actions-calver@master
@@ -69,6 +68,8 @@ jobs:
         with:
           commit_message: Bump CHANGELOG
           file_pattern: CHANGELOG.rst
+          # Error if there are no changes.
+          skip_dirty_check: true
 
       - name: Bump version and push tag
         id: tag_version
@@ -84,23 +85,16 @@ jobs:
           git fetch --tags
           git checkout ${{ steps.tag_version.outputs.new_tag }}
 
-      - name: Create Linux binaries
-        run: |
-          PYTHONPATH=. uv run --extra=dev admin/release.py
-
-      - name: Create a GitHub release
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: dist/*
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
-
       - name: Build a binary wheel and a source tarball
+        id: build-wheel
         run: |
           sudo rm -rf dist/ build/
+          git fetch --tags
+          git checkout ${{ steps.tag_version.outputs.new_tag }}
           uv build --sdist --wheel --out-dir dist/
-          uv run --extra=release check-wheel-contents dist/*.whl
+          WHEEL="$(ls dist/*.whl)"
+          uv run --extra=release check-wheel-contents "${WHEEL}"
+          echo "wheel_filename=${WHEEL}" >> "$GITHUB_OUTPUT"
 
       - name: Publish distribution 📦 to PyPI
         # We use PyPI trusted publishing rather than a PyPI API token.
@@ -113,27 +107,34 @@ jobs:
       # In particular, we push to PyPI and then immediately try to install
       # the pushed version.
       # Here, we give PyPI time to propagate the package.
-      - name: Install VWS-CLI from PyPI
+      - name: Install package from PyPI
         uses: nick-fields/retry@v3
         with:
-          timeout_seconds: 10
-          max_attempts: 20
+          timeout_seconds: 5
+          max_attempts: 50
           command: uv pip install --refresh vws-cli==${{ steps.calver.outputs.release }}
 
+      - name: Set up Homebrew filename
+        id: set-homebrew-filename
+        run: |
+          echo "filename=vws-cli.rb" >> "$GITHUB_OUTPUT"
+
+      # We still hit the race condition, so we have a retry here too.
       - name: Create a Homebrew recipe
         id: homebrew-create
-        env:
-          FILENAME: vws-cli.rb
-        run: |
-          uv run --with="vws-cli==${{ steps.calver.outputs.release }}" poet --formula vws-cli > ${{ env.FILENAME }}
-          echo "HOMEBREW_RECIPE_FILE=${{ env.FILENAME }}" >> "$GITHUB_OUTPUT"
+        uses: nick-fields/retry@v3
+        with:
+          timeout_seconds: 5
+          max_attempts: 50
+          command: |
+            uv run --no-cache --with="vws-cli==${{ steps.calver.outputs.release }}" --extra=release poet --formula vws-cli > ${{ steps.set-homebrew-filename.outputs.filename }}
 
       - name: Update Homebrew description
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: desc "Shiny new formula"
           replace: desc "CLI for Vuforia Web Services"
-          include: ${{ steps.homebrew-create.outputs.HOMEBREW_RECIPE_FILE }}
+          include: ${{ steps.set-homebrew-filename.outputs.filename }}
           regex: false
 
       - name: Fix Homebrew class name
@@ -141,7 +142,7 @@ jobs:
         with:
           find: class VWSCLI
           replace: class VwsCli
-          include: ${{ steps.homebrew-create.outputs.HOMEBREW_RECIPE_FILE }}
+          include: ${{ steps.set-homebrew-filename.outputs.filename }}
           regex: false
 
       - name: Push Homebrew Recipe
@@ -154,8 +155,44 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
         with:
           destination_branch: master
-          source_file: ${{ steps.homebrew-create.outputs.HOMEBREW_RECIPE_FILE }}
+          source_file: ${{ steps.set-homebrew-filename.outputs.filename }}
           destination_repo: VWS-Python/homebrew-vws
           user_email: adamdangoor@gmail.com
           user_name: adamtheturtle
           commit_message: Bump VWS CLI Homebrew recipe
+
+      - name: Create Linux binary for Vuforia Cloud Reco
+        uses: sayyid5416/pyinstaller@v1
+        with:
+          python_ver: '3.13'
+          pyinstaller_ver: ==6.12.0
+          spec: bin/vuforia-cloud-reco.py
+          requirements: '`echo ${{ steps.build-wheel.outputs.wheel_filename }} > requirements.txt
+            && echo requirements.txt`'
+          options: --onefile, --name "vuforia-cloud-reco-linux"
+          upload_exe_with_name: vuforia-cloud-reco-linux
+          clean_checkout: false
+
+      - name: Create Linux binary for Vuforia Web Services
+        uses: sayyid5416/pyinstaller@v1
+        with:
+          python_ver: '3.13'
+          pyinstaller_ver: ==6.12.0
+          spec: bin/vuforia-web-services.py
+          requirements: '`echo ${{ steps.build-wheel.outputs.wheel_filename }} > requirements.txt
+            && echo requirements.txt`'
+          options: --onefile, --name "vws-linux"
+          upload_exe_with_name: vws-linux
+          clean_checkout: false
+
+      - name: Create a GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          # Use specific artifact names (not a glob) so that we get a clear
+          # error if the artifact does not exist for some reason.
+          artifacts: dist/vws-linux,dist/vuforia-cloud-reco-linux
+          artifactErrorsFailBuild: true
+          tag: ${{ steps.tag_version.outputs.new_tag }}
+          makeLatest: true
+          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          body: ${{ steps.tag_version.outputs.changelog }}
