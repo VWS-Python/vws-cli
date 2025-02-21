@@ -85,4 +85,4 @@ See the `full documentation <https://vws-cli.readthedocs.io/en/latest>`__ for in
    :alt: Documentation Status
 .. |PyPI| image:: https://badge.fury.io/py/VWS-CLI.svg
    :target: https://badge.fury.io/py/VWS-CLI
-.. |minimum-python-version| replace:: 3.12
+.. |minimum-python-version| replace:: 3.13
