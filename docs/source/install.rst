@@ -22,8 +22,8 @@ Requires `Homebrew`_.
 
 .. _Homebrew: https://docs.brew.sh/Installation
 
-Pre-built Linux binaries
-~~~~~~~~~~~~~~~~~~~~~~~~
+Pre-built Linux (x86) binaries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: console
    :substitutions:
