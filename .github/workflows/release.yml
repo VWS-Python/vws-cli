@@ -166,6 +166,7 @@ jobs:
             && echo requirements.txt`'
           options: --onefile, --name "vuforia-cloud-reco-linux"
           upload_exe_with_name: vuforia-cloud-reco-linux
+          clean_checkout: false
 
       - name: Create Linux binary for Vuforia Web Services
         uses: sayyid5416/pyinstaller@v1
