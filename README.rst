@@ -1,4 +1,4 @@
-|Build Status| |codecov| |PyPI| |Documentation Status|
+|Build Status| |codecov| |PyPI|
 
 vws-cli
 =======
@@ -39,7 +39,7 @@ Pre-built Linux binaries
 
 See the `full documentation`_ for details on how to install pre-built Linux binaries.
 
-.. _full documentation: https://vws-cli.readthedocs.io/en/latest/install.html#pre-built-linux-binaries
+.. _full documentation: https://vws-python.github.io/vws-cli/install.html#pre-built-linux-x86-binaries
 
 Usage example
 -------------
@@ -69,7 +69,7 @@ Usage example
 Full documentation
 ------------------
 
-See the `full documentation <https://vws-cli.readthedocs.io/en/latest>`__ for information on:
+See the `full documentation <https://vws-python.github.io/vws-cli/>`__ for information on:
 
 * All available commands.
 * Setting up autocompletion.
@@ -80,9 +80,6 @@ See the `full documentation <https://vws-cli.readthedocs.io/en/latest>`__ for in
    :target: https://github.com/VWS-Python/vws-cli/actions
 .. |codecov| image:: https://codecov.io/gh/VWS-Python/vws-cli/branch/main/graph/badge.svg
    :target: https://codecov.io/gh/VWS-Python/vws-cli
-.. |Documentation Status| image:: https://readthedocs.org/projects/vws-cli/badge/?version=latest
-   :target: https://vws-cli.readthedocs.io/en/latest/?badge=latest
-   :alt: Documentation Status
 .. |PyPI| image:: https://badge.fury.io/py/VWS-CLI.svg
    :target: https://badge.fury.io/py/VWS-CLI
 .. |minimum-python-version| replace:: 3.13
