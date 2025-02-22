@@ -18,19 +18,19 @@ With ``pip``
 
 Requires Python |minimum-python-version|\+.
 
-.. code-block:: shell
+.. code-block:: console
 
-   pip install VWS-CLI
+   $ pip install VWS-CLI
 
 With Homebrew (macOS, Linux, WSL)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Requires `Homebrew`_.
 
-.. code-block:: shell
+.. code-block:: console
 
-   brew tap VWS-Python/vws
-   brew install vws-cli
+   $ brew tap VWS-Python/vws
+   $ brew install vws-cli
 
 .. _Homebrew: https://docs.brew.sh/Installation
 
