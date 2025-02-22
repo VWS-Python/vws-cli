@@ -4,6 +4,8 @@ name: Deploy Sphinx documentation to Pages
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   pages:
@@ -21,3 +23,5 @@ jobs:
           documentation_path: docs/source
           pyproject_extras: dev
           python_version: '3.13'
+          sphinx_build_options: -W
+          publish: ${{ github.ref_name == 'main' }}
