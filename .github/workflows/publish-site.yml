@@ -1,5 +1,5 @@
 ---
-name: Deploy Sphinx documentation to Pages
+name: Deploy documentation
 
 on:
   push:
