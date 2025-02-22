@@ -47,11 +47,12 @@ copybutton_exclude = ".linenos, .gp"
 # https://setuptools-scm.readthedocs.io/en/latest/usage/#usage-from-sphinx.
 _version_string = importlib.metadata.version(distribution_name=project)
 _version = Version(version=_version_string)
-if _version.major == 0 and _version.minor == 0:
+if _version.major == 0:
     msg = (
         f"The version is {_version_string}. "
         "This indicates that the version is not set correctly. "
-        "This is likely because the project was built without having all Git tags available."
+        "This is likely because the project was built without having all "
+        "Git tags available."
     )
     raise ValueError(msg)
 
