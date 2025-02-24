@@ -86,6 +86,7 @@ optional-dependencies.release = [
     "check-wheel-contents==0.6.1",
     "homebrew-pypi-poet==0.10.0",
 ]
+urls.Documentation = "https://vws-python.github.io/vws-cli/"
 urls.Source = "https://github.com/VWS-Python/vws-cli"
 scripts.vuforia-cloud-reco = "vws_cli.query:vuforia_cloud_reco"
 scripts.vws = "vws_cli:vws_group"
