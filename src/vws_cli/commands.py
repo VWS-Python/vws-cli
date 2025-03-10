@@ -13,7 +13,7 @@ from beartype import beartype
 from vws import VWS
 from vws.exceptions.base_exceptions import VWSError
 from vws.exceptions.custom_exceptions import (
-    OopsAnErrorOccurredPossiblyBadNameError,
+    ServerError,
     TargetProcessingTimeoutError,
 )
 from vws.exceptions.vws_exceptions import (
@@ -78,7 +78,7 @@ def _get_error_message(exc: Exception) -> str:
         FailError: "Error: The request made to Vuforia was invalid and could not be processed. Check the given parameters.",
         ImageTooLargeError: "Error: The given image is too large.",
         MetadataTooLargeError: "Error: The given metadata is too large.",
-        OopsAnErrorOccurredPossiblyBadNameError: "Error: There was an unknown error from Vuforia. This may be because there is a problem with the given name.",
+        ServerError: "Error: There was an unknown error from Vuforia. This may be because there is a problem with the given name.",
         ProjectInactiveError: "Error: The project associated with the given keys is inactive.",
         RequestQuotaReachedError: "Error: The maximum number of API calls for this database has been reached.",
         RequestTimeTooSkewedError: "Error: Vuforia reported that the time given with this request was outside the expected range. This may be because the system clock is out of sync.",
@@ -101,7 +101,7 @@ def handle_vws_exceptions() -> Iterator[None]:
         yield
     except (
         VWSError,
-        OopsAnErrorOccurredPossiblyBadNameError,
+        ServerError,
         TargetProcessingTimeoutError,
     ) as exc:
         error_message = _get_error_message(exc=exc)
