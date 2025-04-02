@@ -73,7 +73,7 @@ optional-dependencies.dev = [
     "sphinx-pyproject==0.3.0",
     "sphinx-substitution-extensions==2025.3.3",
     "sphinxcontrib-spelling==8.0.1",
-    "types-pyyaml==6.0.12.20250326",
+    "types-pyyaml==6.0.12.20250402",
     "vulture==2.14",
     "vws-python-mock==2025.3.10.1",
     "vws-test-fixtures==2023.3.5",
