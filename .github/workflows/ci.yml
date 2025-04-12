@@ -30,22 +30,11 @@ jobs:
           enable-cache: true
           cache-dependency-glob: '**/pyproject.toml'
 
-      # We require a lower coverage for Windows as we do not
-      # create binaries on Windows.
-      - id: set-min-coverage
-        run: |
-          if [ ${{ runner.os }} == 'Windows' ]; then
-            echo "min_coverage=60" >> "$GITHUB_OUTPUT"
-          else
-            echo "min_coverage=100" >> "$GITHUB_OUTPUT"
-          fi
-        shell: bash
-
       - name: Run tests
         run: |
           # Using -s is useful but also it is required to avoid
           # https://github.com/pallets/click/issues/824.
-          uv --verbose run --extra=dev pytest -s -vvv --cov-fail-under ${{ steps.set-min-coverage.outputs.min_coverage}} --cov=src/ --cov=tests . --cov-report=xml
+          uv --verbose run --extra=dev pytest -s -vvv --cov-fail-under 100 --cov=src/ --cov=tests . --cov-report=xml
         env:
           UV_PYTHON: ${{ matrix.python-version }}
 
