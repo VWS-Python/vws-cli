@@ -23,7 +23,7 @@ def test_authentication_failure(
     """
     An error is given when the secret key is incorrect.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
@@ -53,7 +53,7 @@ def test_image_too_large(
     """
     An error is given when the image is too large.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = png_too_large.getvalue()
     new_file.write_bytes(data=image_data)
@@ -85,7 +85,7 @@ def test_bad_image(
     """
     new_file = tmp_path / uuid.uuid4().hex
     new_file.write_bytes(data=b"Not an image")
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     commands = [
         str(object=new_file),
         "--client-access-key",
@@ -121,7 +121,7 @@ def test_inactive_project(
     database = VuforiaDatabase(state=States.PROJECT_INACTIVE)
     with MockVWS() as mock:
         mock.add_database(database=database)
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         commands = [
             str(object=new_file),
             "--client-access-key",
@@ -153,7 +153,7 @@ def test_request_time_too_skewed(
     An error is given when the request time is more than 65 minutes different
     from the server time.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     vwq_max_time_skew = 60 * 65
     leeway = 10
     time_difference_from_now = vwq_max_time_skew + leeway

@@ -30,7 +30,7 @@ class TestQuery:
         """
         An empty list is returned if there are no matches.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
@@ -71,7 +71,7 @@ class TestQuery:
         )
         vws_client.wait_for_target_processed(target_id=target_id)
 
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
@@ -111,7 +111,7 @@ class TestQuery:
         An appropriate error is given if the given image file path points to a
         directory.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         commands = [
             str(object=tmp_path),
             "--client-access-key",
@@ -147,7 +147,7 @@ class TestQuery:
         """
         Image file paths are resolved.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         new_filename = uuid.uuid4().hex
         original_image_file = tmp_path / "foo"
         image_data = high_quality_image.getvalue()
@@ -181,7 +181,7 @@ class TestQuery:
         """
         An appropriate error is given if the given image file does not exist.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         does_not_exist_file = tmp_path / uuid.uuid4().hex
         commands = [
             str(object=does_not_exist_file),
@@ -214,7 +214,7 @@ def test_version() -> None:
     """
     ``vuforia-cloud-reco --version`` shows the version.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     commands = ["--version"]
     result = runner.invoke(
         cli=vuforia_cloud_reco,
@@ -241,7 +241,7 @@ class TestMaxNumResults:
         """
         By default the maximum number of results is 1.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
             width=1,
@@ -289,7 +289,7 @@ class TestMaxNumResults:
         """
         It is possible to set a custom ``--max-num-results``.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
             width=1,
@@ -345,7 +345,7 @@ class TestMaxNumResults:
         mock_database: VuforiaDatabase,
     ) -> None:
         """``--max-num-results`` must be between 1 and 50."""
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
@@ -388,7 +388,7 @@ class TestIncludeTargetData:
         """
         By default, target data is only returned in the top match.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
             width=1,
@@ -439,7 +439,7 @@ class TestIncludeTargetData:
         """
         When 'top' is given, target data is only returned in the top match.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
             width=1,
@@ -492,7 +492,7 @@ class TestIncludeTargetData:
         """
         When 'none' is given, target data is not returned in any match.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
             width=1,
@@ -545,7 +545,7 @@ class TestIncludeTargetData:
         """
         When 'all' is given, target data is returned in all matches.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
             width=1,
@@ -599,7 +599,7 @@ class TestIncludeTargetData:
         When a string other than 'top', 'all', or 'none' is given, an error is
         shown.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
         new_file.write_bytes(data=image_data)
@@ -633,7 +633,7 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
     """
     It is possible to use query a target to a database under a custom VWQ URL.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     base_vwq_url = "http://example.com"
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
@@ -685,7 +685,7 @@ def test_env_var_credentials(
     """
     It is possible to use environment variables to set the credentials.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
