@@ -21,7 +21,7 @@ def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
     Commands which take a target ID show an error if that does not map to a
     target in the database.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     for command_name, command in vws_group.commands.items():
         if "target_id" in [option.name for option in command.params]:
             args = [
@@ -52,7 +52,7 @@ def test_bad_image(
     """
     new_file = tmp_path / uuid.uuid4().hex
     new_file.write_bytes(data=b"Not an image")
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     args = [
         "add-target",
         "--name",
@@ -88,7 +88,7 @@ def test_fail_bad_request(
     """
     new_file = tmp_path / uuid.uuid4().hex
     new_file.write_bytes(data=high_quality_image.getvalue())
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     args = [
         "add-target",
         "--name",
@@ -123,7 +123,7 @@ def test_metadata_too_large(
     """
     new_file = tmp_path / uuid.uuid4().hex
     new_file.write_bytes(data=high_quality_image.getvalue())
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     args = [
         "add-target",
         "--name",
@@ -154,7 +154,7 @@ def test_image_too_large(
     """
     An error is given when the given image is too large.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = png_too_large.getvalue()
     new_file.write_bytes(data=image_data)
@@ -201,7 +201,7 @@ def test_target_name_exist(
         application_metadata=None,
     )
 
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
@@ -244,7 +244,7 @@ def test_project_inactive(
     database = VuforiaDatabase(state=States.PROJECT_INACTIVE)
     with MockVWS() as mock:
         mock.add_database(database=database)
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         commands = [
             "add-target",
             "--name",
@@ -282,7 +282,7 @@ def test_unknown_vws_error(
     When an unknown VWS error is given, e.g. what is given when some bad names
     are given, an error is given.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
@@ -325,7 +325,7 @@ def test_target_status_processing(
     """
     An error is given when trying to delete a target which is processing.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
 
     target_id = vws_client.add_target(
         name="x",
@@ -369,7 +369,7 @@ def test_target_status_not_success(
     An error is given when updating a target which has a status which is not
     "Success".
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     target_id = vws_client.add_target(
         name="x",
         width=1,
@@ -407,7 +407,7 @@ def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
     """
     An error is given when the secret key is incorrect.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     commands = [
         "list-targets",
         "--server-access-key",
@@ -433,7 +433,7 @@ def test_request_time_too_skewed(mock_database: VuforiaDatabase) -> None:
     An error is given when the request time is more than 5 minutes different
     from the server time.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     vws_max_time_skew = 60 * 5
     leeway = 10
     time_difference_from_now = vws_max_time_skew + leeway

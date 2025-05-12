@@ -360,7 +360,7 @@ class TestAddTarget:
         """
         An appropriate error is given if the given image file does not exist.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         does_not_exist_file = tmp_path / uuid.uuid4().hex
         commands = [
             "add-target",
@@ -403,7 +403,7 @@ class TestAddTarget:
         An appropriate error is given if the given image file path points to a
         directory.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         commands = [
             "add-target",
             "--name",
@@ -446,7 +446,7 @@ class TestAddTarget:
         """
         Image file paths are resolved.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         new_filename = uuid.uuid4().hex
         original_image_file = tmp_path / "foo"
         image_data = high_quality_image.getvalue()
@@ -771,7 +771,7 @@ class TestWaitForTargetProcessed:
         The minimum valid value for ``--seconds-between-requests`` is 0.05
         seconds.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         commands = [
             "wait-for-target-processed",
             "--target-id",
@@ -799,7 +799,7 @@ class TestWaitForTargetProcessed:
         """
         It is possible to set a maximum timeout.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         with MockVWS(processing_time_seconds=0.5) as mock:
             mock_database = VuforiaDatabase()
             mock.add_database(database=mock_database)
@@ -865,7 +865,7 @@ class TestWaitForTargetProcessed:
         """
         The minimum valid value for ``--timeout-seconds`` is 0.05 seconds.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         commands = [
             "wait-for-target-processed",
             "--target-id",
@@ -906,7 +906,7 @@ class TestUpdateTarget:
         """
         It is possible to update a target.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         old_name = uuid.uuid4().hex
         old_width = secrets.choice(seq=range(1, 5000)) / 100
         target_id = vws_client.add_target(
@@ -999,7 +999,7 @@ class TestUpdateTarget:
         """
         It is possible to give no update fields.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         old_name = uuid.uuid4().hex
         old_width = secrets.choice(seq=range(1, 5000)) / 100
         target_id = vws_client.add_target(
@@ -1047,7 +1047,7 @@ class TestUpdateTarget:
             application_metadata=None,
         )
         vws_client.wait_for_target_processed(target_id=target_id)
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         does_not_exist_file = tmp_path / uuid.uuid4().hex
         commands = [
             "update-target",
@@ -1098,7 +1098,7 @@ class TestUpdateTarget:
             application_metadata=None,
         )
         vws_client.wait_for_target_processed(target_id=target_id)
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         commands = [
             "update-target",
             "--target-id",
@@ -1139,7 +1139,7 @@ class TestUpdateTarget:
         """
         Image file paths are resolved.
         """
-        runner = CliRunner(mix_stderr=False)
+        runner = CliRunner()
         target_id = vws_client.add_target(
             name="x",
             width=1,
@@ -1182,7 +1182,7 @@ def test_custom_base_url() -> None:
     It is possible to use the API to connect to a database under a custom VWS
     URL.
     """
-    runner = CliRunner(mix_stderr=False)
+    runner = CliRunner()
     base_vws_url = "http://example.com"
     mock_database = VuforiaDatabase()
     commands = [
