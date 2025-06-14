@@ -21,7 +21,6 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
         item.obj = beartype(obj=item.obj)
 
 
-@beartype
 @pytest.fixture(name="mock_database")
 def fixture_mock_database() -> Iterator[VuforiaDatabase]:
     """
@@ -33,7 +32,6 @@ def fixture_mock_database() -> Iterator[VuforiaDatabase]:
         yield database
 
 
-@beartype
 @pytest.fixture
 def vws_client(mock_database: VuforiaDatabase) -> VWS:
     """
