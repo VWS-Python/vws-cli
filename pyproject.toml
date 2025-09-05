@@ -55,7 +55,7 @@ optional-dependencies.dev = [
     "pyroma==5.0",
     "pytest==8.4.2",
     "pytest-cov==6.2.1",
-    "pytest-regressions==2.8.2",
+    "pytest-regressions==2.8.3",
     "ruff==0.12.12",
     "setuptools-scm==9.2.0",
     # We add shellcheck-py not only for shell scripts and shell code blocks,
