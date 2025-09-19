@@ -32,7 +32,7 @@ dynamic = [
 ]
 dependencies = [
     "beartype==0.21.0",
-    "click==8.2.1",
+    "click==8.3.0",
     "pyyaml==6.0.2",
     "vws-python==2025.3.10.1",
 ]
