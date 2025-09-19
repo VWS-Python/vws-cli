@@ -327,7 +327,8 @@ repos:
       - id: pyright-verifytypes
         name: pyright-verifytypes
         stages: [pre-push]
-        entry: uv run --extra=dev -m pyright --verifytypes vws_cli
+        # We ignore external types because of https://github.com/pallets/click/issues/3067.
+        entry: uv run --extra=dev -m pyright --ignoreexternal --verifytypes vws_cli
         language: python
         pass_filenames: false
         types_or: [python]
