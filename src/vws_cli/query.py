@@ -123,21 +123,13 @@ _include_target_data_option = click.option(
     show_default=True,
 )
 
-
-@beartype
-def _base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
-    """
-    An option decorator for choosing the base VWQ URL.
-    """
-    click_option_function = click.option(
-        "--base-vwq-url",
-        type=click.STRING,
-        default="https://cloudreco.vuforia.com",
-        help="The base URL for the VWQ API.",
-        show_default=True,
-    )
-
-    return click_option_function(command)
+_base_vwq_url_option = click.option(
+    "--base-vwq-url",
+    type=click.STRING,
+    default="https://cloudreco.vuforia.com",
+    help="The base URL for the VWQ API.",
+    show_default=True,
+)
 
 
 @click.command(name="vuforia-cloud-reco")
