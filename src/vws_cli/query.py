@@ -6,9 +6,8 @@ import contextlib
 import dataclasses
 import io
 import sys
-from collections.abc import Callable, Iterator
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Any
 
 import click
 import yaml
@@ -66,99 +65,52 @@ def _handle_vwq_exceptions() -> Iterator[None]:
     sys.exit(1)
 
 
-@beartype
-def _image_argument(command: Callable[..., None]) -> Callable[..., Any]:
-    """
-    An argument decorator for choosing a query image.
-    """
-    click_argument_function: Callable[
-        [Callable[..., None]],
-        Callable[..., None],
-    ] = click.argument(
-        "image",
-        type=click.Path(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            path_type=Path,
-        ),
-    )
+_image_argument = click.argument(
+    "image",
+    type=click.Path(
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        path_type=Path,
+    ),
+)
 
-    function: Callable[..., None] = click_argument_function(command)
-    return function
-
-
-@beartype
-def _max_num_results_option(
-    command: Callable[..., None],
-) -> Callable[..., None]:
-    """
-    An option decorator for choosing the maximum number of query results.
-    """
-    maximum = 50
-    click_option_function: Callable[
-        [Callable[..., None]],
-        Callable[..., None],
-    ] = click.option(
-        "--max-num-results",
-        type=click.IntRange(min=1, max=maximum),
-        default=1,
-        help=(
-            "The maximum number of matching targets to be returned. "
-            f"Must be <= {maximum}."
-        ),
-        show_default=True,
-    )
-
-    return click_option_function(command)
+_MAX_NUM_RESULTS_DEFAULT = 50
+_max_num_results_option = click.option(
+    "--max-num-results",
+    type=click.IntRange(min=1, max=_MAX_NUM_RESULTS_DEFAULT),
+    default=1,
+    help=(
+        "The maximum number of matching targets to be returned. "
+        f"Must be <= {_MAX_NUM_RESULTS_DEFAULT}."
+    ),
+    show_default=True,
+)
 
 
-@beartype
-def _include_target_data_option(
-    command: Callable[..., None],
-) -> Callable[..., None]:
-    """
-    An option decorator for choosing whether to include target data.
-    """
-    click_option_function: Callable[
-        [Callable[..., None]],
-        Callable[..., None],
-    ] = click.option(
-        "--include-target-data",
-        type=click.Choice(
-            choices=CloudRecoIncludeTargetData,
-            case_sensitive=False,
-        ),
-        default=CloudRecoIncludeTargetData.TOP.lower(),
-        help=(
-            "Whether target_data records shall be returned for the matched "
-            "targets. Accepted values are top (default value, only return "
-            "target_data for top ranked match), none (return no target_data), "
-            "all (for all matched targets)."
-        ),
-        show_default=True,
-    )
+_include_target_data_option = click.option(
+    "--include-target-data",
+    type=click.Choice(
+        choices=CloudRecoIncludeTargetData,
+        case_sensitive=False,
+    ),
+    default=CloudRecoIncludeTargetData.TOP.lower(),
+    help=(
+        "Whether target_data records shall be returned for the matched "
+        "targets. Accepted values are top (default value, only return "
+        "target_data for top ranked match), none (return no target_data), "
+        "all (for all matched targets)."
+    ),
+    show_default=True,
+)
 
-    return click_option_function(command)
-
-
-@beartype
-def _base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
-    """
-    An option decorator for choosing the base VWQ URL.
-    """
-    click_option_function: Callable[
-        [Callable[..., None]],
-        Callable[..., None],
-    ] = click.option(
-        "--base-vwq-url",
-        type=click.STRING,
-        default="https://cloudreco.vuforia.com",
-        help="The base URL for the VWQ API.",
-        show_default=True,
-    )
-
-    return click_option_function(command)
+_base_vwq_url_option = click.option(
+    "--base-vwq-url",
+    type=click.STRING,
+    default="https://cloudreco.vuforia.com",
+    help="The base URL for the VWQ API.",
+    show_default=True,
+)
 
 
 @click.command(name="vuforia-cloud-reco")

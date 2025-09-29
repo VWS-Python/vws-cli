@@ -93,7 +93,7 @@ def _get_error_message(exc: Exception) -> str:
 
 @beartype
 @contextlib.contextmanager
-def handle_vws_exceptions() -> Iterator[None]:
+def _handle_vws_exceptions() -> Iterator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""
     error_message = ""
 
@@ -112,12 +112,10 @@ def handle_vws_exceptions() -> Iterator[None]:
     sys.exit(1)
 
 
-def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
+@beartype
+def _base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
     """An option decorator for choosing the base VWS URL."""
-    click_option_function: Callable[
-        [Callable[..., None]],
-        Callable[..., None],
-    ] = click.option(
+    click_option_function = click.option(
         "--base-vws-url",
         type=click.STRING,
         default="https://vws.vuforia.com",
@@ -132,8 +130,8 @@ def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@base_vws_url_option
-@handle_vws_exceptions()
+@_base_vws_url_option
+@_handle_vws_exceptions()
 @beartype
 def get_target_record(
     server_access_key: str,
@@ -161,8 +159,8 @@ def get_target_record(
 @click.command(name="list-targets")
 @server_access_key_option
 @server_secret_key_option
-@handle_vws_exceptions()
-@base_vws_url_option
+@_handle_vws_exceptions()
+@_base_vws_url_option
 @beartype
 def list_targets(
     server_access_key: str,
@@ -189,8 +187,8 @@ def list_targets(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions()
-@base_vws_url_option
+@_handle_vws_exceptions()
+@_base_vws_url_option
 @beartype
 def get_duplicate_targets(
     server_access_key: str,
@@ -218,8 +216,8 @@ def get_duplicate_targets(
 @click.command(name="get-database-summary-report")
 @server_access_key_option
 @server_secret_key_option
-@handle_vws_exceptions()
-@base_vws_url_option
+@_handle_vws_exceptions()
+@_base_vws_url_option
 @beartype
 def get_database_summary_report(
     server_access_key: str,
@@ -246,8 +244,8 @@ def get_database_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions()
-@base_vws_url_option
+@_handle_vws_exceptions()
+@_base_vws_url_option
 @beartype
 def get_target_summary_report(
     server_access_key: str,
@@ -278,8 +276,8 @@ def get_target_summary_report(
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@handle_vws_exceptions()
-@base_vws_url_option
+@_handle_vws_exceptions()
+@_base_vws_url_option
 @beartype
 def delete_target(
     server_access_key: str,
@@ -310,8 +308,8 @@ def delete_target(
 @target_name_option(required=True)
 @target_image_option(required=True)
 @active_flag_option(allow_none=False)
-@handle_vws_exceptions()
-@base_vws_url_option
+@_handle_vws_exceptions()
+@_base_vws_url_option
 @beartype
 def add_target(
     *,
@@ -364,8 +362,8 @@ def add_target(
 @target_image_option(required=False)
 @active_flag_option(allow_none=True)
 @target_id_option
-@handle_vws_exceptions()
-@base_vws_url_option
+@_handle_vws_exceptions()
+@_base_vws_url_option
 @beartype
 def update_target(
     *,
@@ -446,8 +444,8 @@ _TIMEOUT_SECONDS_HELP = (
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@base_vws_url_option
-@handle_vws_exceptions()
+@_base_vws_url_option
+@_handle_vws_exceptions()
 @beartype
 def wait_for_target_processed(
     *,
