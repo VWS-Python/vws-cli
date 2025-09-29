@@ -28,8 +28,7 @@ def server_access_key_option(
         show_envvar=True,
     )
     assert command is not None
-    function: Callable[..., None] = click_option_function(command)
-    return function
+    return click_option_function(command)
 
 
 def server_secret_key_option(
@@ -53,8 +52,7 @@ def server_secret_key_option(
         show_envvar=True,
     )
     assert command is not None
-    function: Callable[..., None] = click_option_function(command)
-    return function
+    return click_option_function(command)
 
 
 def client_access_key_option(
@@ -78,8 +76,7 @@ def client_access_key_option(
         show_envvar=True,
     )
     assert command is not None
-    function: Callable[..., None] = click_option_function(command)
-    return function
+    return click_option_function(command)
 
 
 def client_secret_key_option(
@@ -103,5 +100,4 @@ def client_secret_key_option(
         show_envvar=True,
     )
     assert command is not None
-    function: Callable[..., None] = click_option_function(command)
-    return function
+    return click_option_function(command)

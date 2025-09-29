@@ -110,8 +110,7 @@ def _max_num_results_option(
         show_default=True,
     )
 
-    function: Callable[..., None] = click_option_function(command)
-    return function
+    return click_option_function(command)
 
 
 @beartype
@@ -140,8 +139,7 @@ def _include_target_data_option(
         show_default=True,
     )
 
-    function: Callable[..., None] = click_option_function(command)
-    return function
+    return click_option_function(command)
 
 
 @beartype
@@ -160,8 +158,7 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
         show_default=True,
     )
 
-    function: Callable[..., None] = click_option_function(command)
-    return function
+    return click_option_function(command)
 
 
 @click.command(name="vuforia-cloud-reco")
