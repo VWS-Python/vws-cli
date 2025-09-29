@@ -115,10 +115,7 @@ def _handle_vws_exceptions() -> Iterator[None]:
 @beartype
 def _base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
     """An option decorator for choosing the base VWS URL."""
-    click_option_function: Callable[
-        [Callable[..., None]],
-        Callable[..., None],
-    ] = click.option(
+    click_option_function = click.option(
         "--base-vws-url",
         type=click.STRING,
         default="https://vws.vuforia.com",
