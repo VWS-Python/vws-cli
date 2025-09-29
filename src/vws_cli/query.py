@@ -113,25 +113,6 @@ def max_num_results_option(
     return function
 
 
-def include_target_data_callback(
-    ctx: click.core.Context,
-    param: click.core.Option | click.core.Parameter,
-    value: str,
-) -> CloudRecoIncludeTargetData:
-    """
-    Use as a callback for active flag options.
-    """
-    # This is to satisfy the "vulture" linter.
-    del ctx
-    del param
-
-    return {
-        "top": CloudRecoIncludeTargetData.TOP,
-        "none": CloudRecoIncludeTargetData.NONE,
-        "all": CloudRecoIncludeTargetData.ALL,
-    }[value]
-
-
 def include_target_data_option(
     command: Callable[..., None],
 ) -> Callable[..., None]:
@@ -143,9 +124,11 @@ def include_target_data_option(
         Callable[..., None],
     ] = click.option(
         "--include-target-data",
-        type=click.Choice(choices=["top", "none", "all"], case_sensitive=True),
+        type=click.Choice(
+            choices=CloudRecoIncludeTargetData,
+            case_sensitive=False,
+        ),
         default="top",
-        callback=include_target_data_callback,
         help=(
             "Whether target_data records shall be returned for the matched "
             "targets. Accepted values are top (default value, only return "
