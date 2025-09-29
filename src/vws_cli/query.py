@@ -6,9 +6,8 @@ import contextlib
 import dataclasses
 import io
 import sys
-from collections.abc import Callable, Iterator
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Any
 
 import click
 import yaml
@@ -66,45 +65,27 @@ def _handle_vwq_exceptions() -> Iterator[None]:
     sys.exit(1)
 
 
-@beartype
-def _image_argument(command: Callable[..., None]) -> Callable[..., Any]:
-    """
-    An argument decorator for choosing a query image.
-    """
-    click_argument_function = click.argument(
-        "image",
-        type=click.Path(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            path_type=Path,
-        ),
-    )
+_image_argument = click.argument(
+    "image",
+    type=click.Path(
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        path_type=Path,
+    ),
+)
 
-    function: Callable[..., None] = click_argument_function(command)
-    return function
-
-
-@beartype
-def _max_num_results_option(
-    command: Callable[..., None],
-) -> Callable[..., None]:
-    """
-    An option decorator for choosing the maximum number of query results.
-    """
-    maximum = 50
-    click_option_function = click.option(
-        "--max-num-results",
-        type=click.IntRange(min=1, max=maximum),
-        default=1,
-        help=(
-            "The maximum number of matching targets to be returned. "
-            f"Must be <= {maximum}."
-        ),
-        show_default=True,
-    )
-
-    return click_option_function(command)
+_MAX_NUM_RESULTS_DEFAULT = 50
+_max_num_results_option = click.option(
+    "--max-num-results",
+    type=click.IntRange(min=1, max=_MAX_NUM_RESULTS_DEFAULT),
+    default=1,
+    help=(
+        "The maximum number of matching targets to be returned. "
+        f"Must be <= {_MAX_NUM_RESULTS_DEFAULT}."
+    ),
+    show_default=True,
+)
 
 
 _include_target_data_option = click.option(
