@@ -34,7 +34,7 @@ from vws_cli.options.credentials import (
 
 @beartype
 @contextlib.contextmanager
-def handle_vwq_exceptions() -> Iterator[None]:
+def _handle_vwq_exceptions() -> Iterator[None]:
     """
     Show error messages and catch exceptions from ``VWS-Python``.
     """
@@ -67,7 +67,7 @@ def handle_vwq_exceptions() -> Iterator[None]:
 
 
 @beartype
-def image_argument(command: Callable[..., None]) -> Callable[..., Any]:
+def _image_argument(command: Callable[..., None]) -> Callable[..., Any]:
     """
     An argument decorator for choosing a query image.
     """
@@ -88,7 +88,8 @@ def image_argument(command: Callable[..., None]) -> Callable[..., Any]:
     return function
 
 
-def max_num_results_option(
+@beartype
+def _max_num_results_option(
     command: Callable[..., None],
 ) -> Callable[..., None]:
     """
@@ -113,7 +114,8 @@ def max_num_results_option(
     return function
 
 
-def include_target_data_option(
+@beartype
+def _include_target_data_option(
     command: Callable[..., None],
 ) -> Callable[..., None]:
     """
@@ -163,13 +165,13 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
 
 
 @click.command(name="vuforia-cloud-reco")
-@image_argument
+@_image_argument
 @client_access_key_option
 @client_secret_key_option
-@include_target_data_option
-@max_num_results_option
+@_include_target_data_option
+@_max_num_results_option
 @base_vwq_url_option
-@handle_vwq_exceptions()
+@_handle_vwq_exceptions()
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
 #
