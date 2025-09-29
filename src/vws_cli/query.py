@@ -96,7 +96,10 @@ def _max_num_results_option(
     An option decorator for choosing the maximum number of query results.
     """
     maximum = 50
-    click_option_function = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         "--max-num-results",
         type=click.IntRange(min=1, max=maximum),
         default=1,
@@ -117,7 +120,10 @@ def _include_target_data_option(
     """
     An option decorator for choosing whether to include target data.
     """
-    click_option_function = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         "--include-target-data",
         type=click.Choice(
             choices=CloudRecoIncludeTargetData,
@@ -141,7 +147,10 @@ def _base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
     """
     An option decorator for choosing the base VWQ URL.
     """
-    click_option_function = click.option(
+    click_option_function: Callable[
+        [Callable[..., None]],
+        Callable[..., None],
+    ] = click.option(
         "--base-vwq-url",
         type=click.STRING,
         default="https://cloudreco.vuforia.com",
