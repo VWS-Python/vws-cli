@@ -107,30 +107,21 @@ def _max_num_results_option(
     return click_option_function(command)
 
 
-@beartype
-def _include_target_data_option(
-    command: Callable[..., None],
-) -> Callable[..., None]:
-    """
-    An option decorator for choosing whether to include target data.
-    """
-    click_option_function = click.option(
-        "--include-target-data",
-        type=click.Choice(
-            choices=CloudRecoIncludeTargetData,
-            case_sensitive=False,
-        ),
-        default=CloudRecoIncludeTargetData.TOP.lower(),
-        help=(
-            "Whether target_data records shall be returned for the matched "
-            "targets. Accepted values are top (default value, only return "
-            "target_data for top ranked match), none (return no target_data), "
-            "all (for all matched targets)."
-        ),
-        show_default=True,
-    )
-
-    return click_option_function(command)
+_include_target_data_option = click.option(
+    "--include-target-data",
+    type=click.Choice(
+        choices=CloudRecoIncludeTargetData,
+        case_sensitive=False,
+    ),
+    default=CloudRecoIncludeTargetData.TOP.lower(),
+    help=(
+        "Whether target_data records shall be returned for the matched "
+        "targets. Accepted values are top (default value, only return "
+        "target_data for top ranked match), none (return no target_data), "
+        "all (for all matched targets)."
+    ),
+    show_default=True,
+)
 
 
 @beartype
