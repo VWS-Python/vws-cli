@@ -123,7 +123,7 @@ def _include_target_data_option(
             choices=CloudRecoIncludeTargetData,
             case_sensitive=False,
         ),
-        default="top",
+        default=CloudRecoIncludeTargetData.TOP.lower(),
         help=(
             "Whether target_data records shall be returned for the matched "
             "targets. Accepted values are top (default value, only return "
