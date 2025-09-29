@@ -125,8 +125,7 @@ def base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
         show_default=True,
     )
 
-    function: Callable[..., None] = click_option_function(command)
-    return function
+    return click_option_function(command)
 
 
 @click.command(name="get-target-record")
