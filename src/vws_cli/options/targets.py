@@ -74,24 +74,6 @@ class ActiveFlagChoice(Enum):
     FALSE = "false"
 
 
-def _active_flag_choice_callback(
-    ctx: click.core.Context,
-    param: click.core.Option | click.core.Parameter,
-    value: str | None,
-) -> ActiveFlagChoice | None:
-    """
-    Use as a callback for active flag options.
-    """
-    # This is to satisfy the "vulture" linter.
-    del ctx
-    del param
-
-    if value is None:
-        return None
-
-    return ActiveFlagChoice(value=value)
-
-
 def active_flag_option(
     *,
     allow_none: bool,
@@ -110,9 +92,8 @@ def active_flag_option(
         "--active-flag",
         "active_flag_choice",
         help="Whether or not the target is active for query.",
-        type=click.Choice(choices=[item.value for item in ActiveFlagChoice]),
+        type=click.Choice(choices=ActiveFlagChoice, case_sensitive=False),
         default=default,
-        callback=_active_flag_choice_callback,
         show_default=show_default,
     )
 
