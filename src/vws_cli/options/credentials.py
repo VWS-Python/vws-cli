@@ -5,8 +5,10 @@
 from collections.abc import Callable
 
 import click
+from beartype import beartype
 
 
+@beartype
 def server_access_key_option(
     command: Callable[..., None] | None = None,
 ) -> Callable[..., None]:
@@ -31,6 +33,7 @@ def server_access_key_option(
     return click_option_function(command)
 
 
+@beartype
 def server_secret_key_option(
     command: Callable[..., None] | None = None,
 ) -> Callable[..., None]:
@@ -55,6 +58,7 @@ def server_secret_key_option(
     return click_option_function(command)
 
 
+@beartype
 def client_access_key_option(
     command: Callable[..., None] | None = None,
 ) -> Callable[..., None]:
@@ -79,6 +83,7 @@ def client_access_key_option(
     return click_option_function(command)
 
 
+@beartype
 def client_secret_key_option(
     command: Callable[..., None] | None = None,
 ) -> Callable[..., None]:

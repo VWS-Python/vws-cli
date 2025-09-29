@@ -143,7 +143,7 @@ def _include_target_data_option(
 
 
 @beartype
-def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
+def _base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
     """
     An option decorator for choosing the base VWQ URL.
     """
@@ -167,7 +167,7 @@ def base_vwq_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @client_secret_key_option
 @_include_target_data_option
 @_max_num_results_option
-@base_vwq_url_option
+@_base_vwq_url_option
 @_handle_vwq_exceptions()
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
