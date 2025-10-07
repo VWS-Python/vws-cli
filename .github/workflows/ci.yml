@@ -34,15 +34,9 @@ jobs:
         run: |
           # Using -s is useful but also it is required to avoid
           # https://github.com/pallets/click/issues/824.
-          uv --verbose run --extra=dev pytest -s -vvv --cov-fail-under 100 --cov=src/ --cov=tests . --cov-report=xml
+          uv --verbose run --extra=dev pytest -s -vvv --cov-fail-under 100 --cov=src/ --cov=tests .
         env:
           UV_PYTHON: ${{ matrix.python-version }}
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-          fail_ci_if_error: true
-          token: ${{ secrets.CODECOV_TOKEN }}
 
   completion-ci:
     needs: build
