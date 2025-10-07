@@ -1,4 +1,4 @@
-|Build Status| |codecov| |PyPI|
+|Build Status| |PyPI|
 
 vws-cli
 =======
@@ -78,8 +78,6 @@ See the `full documentation <https://vws-python.github.io/vws-cli/>`__ for infor
 
 .. |Build Status| image:: https://github.com/VWS-Python/vws-cli/actions/workflows/ci.yml/badge.svg?branch=main
    :target: https://github.com/VWS-Python/vws-cli/actions
-.. |codecov| image:: https://codecov.io/gh/VWS-Python/vws-cli/branch/main/graph/badge.svg
-   :target: https://codecov.io/gh/VWS-Python/vws-cli
 .. |PyPI| image:: https://badge.fury.io/py/VWS-CLI.svg
    :target: https://badge.fury.io/py/VWS-CLI
 .. |minimum-python-version| replace:: 3.13
