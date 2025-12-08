@@ -55,6 +55,7 @@ jobs:
           echo "underline=${underline}" >> "$GITHUB_OUTPUT"
 
       - name: Update changelog
+        id: update_changelog
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: "Next\n----"
@@ -63,6 +64,12 @@ jobs:
           include: CHANGELOG.rst
           regex: false
 
+      - name: Check Update changelog was modified
+        run: |
+          if [ "${{ steps.update_changelog.outputs.modifiedFiles }}" = "0" ]; then
+            echo "Error: No files were modified when updating changelog"
+            exit 1
+          fi
       - uses: stefanzweifel/git-auto-commit-action@v7
         id: commit
         with:
@@ -130,6 +137,7 @@ jobs:
             uv run --no-cache --with="vws-cli==${{ steps.calver.outputs.release }}" --extra=release poet --formula vws-cli > ${{ steps.set-homebrew-filename.outputs.filename }}
 
       - name: Update Homebrew description
+        id: update_homebrew_description
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: desc "Shiny new formula"
@@ -137,7 +145,14 @@ jobs:
           include: ${{ steps.set-homebrew-filename.outputs.filename }}
           regex: false
 
+      - name: Check Update Homebrew description was modified
+        run: |
+          if [ "${{ steps.update_homebrew_description.outputs.modifiedFiles }}" = "0" ]; then
+            echo "Error: No files were modified when updating Homebrew description"
+            exit 1
+          fi
       - name: Fix Homebrew class name
+        id: fix_homebrew_class_name
         uses: jacobtomlinson/gha-find-replace@v3
         with:
           find: class VWSCLI
@@ -145,6 +160,12 @@ jobs:
           include: ${{ steps.set-homebrew-filename.outputs.filename }}
           regex: false
 
+      - name: Check Fix Homebrew class name was modified
+        run: |
+          if [ "${{ steps.fix_homebrew_class_name.outputs.modifiedFiles }}" = "0" ]; then
+            echo "Error: No files were modified when fixing Homebrew class name"
+            exit 1
+          fi
       - name: Push Homebrew Recipe
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
