@@ -10,7 +10,7 @@ from typing import Any
 import click
 from beartype import beartype
 
-target_id_option: Callable[..., None] = click.option(
+target_id_option: Callable[..., Any] = click.option(
     "--target-id",
     type=str,
     help="The ID of a target in the Vuforia database.",
@@ -19,7 +19,7 @@ target_id_option: Callable[..., None] = click.option(
 
 
 @beartype
-def target_name_option(*, required: bool) -> Callable[..., None]:
+def target_name_option(*, required: bool) -> Callable[..., Any]:
     """
     An option decorator for choosing a target name.
     """
@@ -77,7 +77,7 @@ class ActiveFlagChoice(Enum):
 def active_flag_option(
     *,
     allow_none: bool,
-) -> Callable[..., None]:
+) -> Callable[..., Any]:
     """
     An option decorator for setting a target's active flag.
     """
@@ -98,7 +98,7 @@ def active_flag_option(
     )
 
 
-application_metadata_option: Callable[..., None] = click.option(
+application_metadata_option: Callable[..., Any] = click.option(
     "--application-metadata",
     type=str,
     required=False,

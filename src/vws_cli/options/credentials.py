@@ -3,6 +3,7 @@
 """
 
 from collections.abc import Callable
+from typing import Any
 
 import click
 from beartype import beartype
@@ -10,12 +11,12 @@ from beartype import beartype
 
 @beartype
 def server_access_key_option(
-    command: Callable[..., None] | None = None,
-) -> Callable[..., None]:
+    command: Callable[..., Any],
+) -> Callable[..., Any]:
     """
     An option decorator for the Vuforia server access key.
     """
-    click_option_function = click.option(
+    return click.option(
         "--server-access-key",
         type=str,
         help=(
@@ -25,19 +26,17 @@ def server_access_key_option(
         required=True,
         envvar="VUFORIA_SERVER_ACCESS_KEY",
         show_envvar=True,
-    )
-    assert command is not None
-    return click_option_function(command)
+    )(command)
 
 
 @beartype
 def server_secret_key_option(
-    command: Callable[..., None] | None = None,
-) -> Callable[..., None]:
+    command: Callable[..., Any],
+) -> Callable[..., Any]:
     """
     An option decorator for the Vuforia server secret key.
     """
-    click_option_function = click.option(
+    return click.option(
         "--server-secret-key",
         type=str,
         help=(
@@ -47,19 +46,17 @@ def server_secret_key_option(
         required=True,
         envvar="VUFORIA_SERVER_SECRET_KEY",
         show_envvar=True,
-    )
-    assert command is not None
-    return click_option_function(command)
+    )(command)
 
 
 @beartype
 def client_access_key_option(
-    command: Callable[..., None] | None = None,
-) -> Callable[..., None]:
+    command: Callable[..., Any],
+) -> Callable[..., Any]:
     """
     An option decorator for the Vuforia client access key.
     """
-    click_option_function = click.option(
+    return click.option(
         "--client-access-key",
         type=str,
         help=(
@@ -69,19 +66,17 @@ def client_access_key_option(
         required=True,
         envvar="VUFORIA_CLIENT_ACCESS_KEY",
         show_envvar=True,
-    )
-    assert command is not None
-    return click_option_function(command)
+    )(command)
 
 
 @beartype
 def client_secret_key_option(
-    command: Callable[..., None] | None = None,
-) -> Callable[..., None]:
+    command: Callable[..., Any],
+) -> Callable[..., Any]:
     """
     An option decorator for the Vuforia client secret key.
     """
-    click_option_function = click.option(
+    return click.option(
         "--client-secret-key",
         type=str,
         help=(
@@ -91,6 +86,4 @@ def client_secret_key_option(
         required=True,
         envvar="VUFORIA_CLIENT_SECRET_KEY",
         show_envvar=True,
-    )
-    assert command is not None
-    return click_option_function(command)
+    )(command)
