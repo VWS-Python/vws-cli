@@ -78,6 +78,7 @@ optional-dependencies.dev = [
     "vws-python-mock==2025.3.10.1",
     "vws-test-fixtures==2023.3.5",
     "yamlfix==1.19.1",
+    "zizmor==1.19.0",
 ]
 optional-dependencies.release = [
     "check-wheel-contents==0.6.3",
@@ -288,6 +289,7 @@ ignore = [
     "bin",
     "bin/*",
     "src/*/_setuptools_scm_version.py",
+    "zizmor.yml",
 ]
 
 [tool.deptry]

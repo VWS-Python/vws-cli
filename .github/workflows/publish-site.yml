@@ -17,10 +17,11 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - uses: actions/checkout@v6
-        # We need our tags in order to calculate the version
+      - uses: actions/checkout@v6  # We need our tags in order to calculate the version
         # in the Sphinx setup.
+
         with:
+          persist-credentials: false
           fetch-depth: 0
           fetch-tags: true
 
