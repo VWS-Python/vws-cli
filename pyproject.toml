@@ -289,6 +289,7 @@ ignore = [
     "bin",
     "bin/*",
     "src/*/_setuptools_scm_version.py",
+    "zizmor.yml",
 ]
 
 [tool.deptry]
