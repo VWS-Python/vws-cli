@@ -64,7 +64,7 @@ optional-dependencies.dev = [
     # use it to lint shell commands in GitHub workflow files.
     "shellcheck-py==0.11.0.1",
     "shfmt-py==3.12.0.2",
-    "sphinx==8.2.3",
+    "sphinx==9.0.4",
     "sphinx-click==6.2.0",
     "sphinx-copybutton==0.5.2",
     "sphinx-inline-tabs==2025.12.21.14",
