@@ -161,21 +161,6 @@ jobs:
             echo "Error: No files were modified when updating Homebrew description"
             exit 1
           fi
-      - name: Fix Homebrew class name
-        id: fix_homebrew_class_name
-        uses: jacobtomlinson/gha-find-replace@v3
-        with:
-          find: class VWSCLI
-          replace: class VwsCli
-          include: ${{ steps.set-homebrew-filename.outputs.filename }}
-          regex: false
-
-      - name: Check Fix Homebrew class name was modified
-        run: |
-          if [ "${{ steps.fix_homebrew_class_name.outputs.modifiedFiles }}" = "0" ]; then
-            echo "Error: No files were modified when fixing Homebrew class name"
-            exit 1
-          fi
       - name: Push Homebrew Recipe
         uses: dmnemec/copy_file_to_another_repo_action@main
         env:
