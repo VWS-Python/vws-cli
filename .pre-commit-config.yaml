@@ -16,6 +16,7 @@ ci:
     - linkcheck
     - mypy
     - mypy-docs
+    - nixfmt
     - pylint
     - pyproject-fmt-fix
     - pyright
@@ -414,3 +415,10 @@ repos:
         language: python
         types_or: [markdown, rst]
         additional_dependencies: [uv==0.9.5]
+
+      - id: nixfmt
+        name: nixfmt
+        entry: nixfmt
+        language: system
+        types_or: [nix]
+        stages: [pre-commit]

@@ -290,6 +290,8 @@ ignore = [
     "bin/*",
     "src/*/_setuptools_scm_version.py",
     "zizmor.yml",
+    "flake.lock",
+    "flake.nix",
 ]
 
 [tool.deptry]

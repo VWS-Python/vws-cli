@@ -22,6 +22,31 @@ Requires `Homebrew`_.
 
 .. _Homebrew: https://docs.brew.sh/Installation
 
+With Nix
+~~~~~~~~
+
+Install Nix_ and then use the development shell:
+
+.. code-block:: console
+
+   $ nix --extra-experimental-features 'nix-command flakes' develop github:VWS-Python/vws-cli
+
+Or, if you have flakes enabled permanently:
+
+.. code-block:: console
+
+   $ nix develop github:VWS-Python/vws-cli
+
+To use in another flake, add this repository as an input:
+
+.. code-block:: nix
+
+   {
+     inputs.vws-cli.url = "github:VWS-Python/vws-cli";
+   }
+
+.. _Nix: https://nixos.org
+
 Pre-built Linux (x86) binaries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

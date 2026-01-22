@@ -34,6 +34,13 @@ Requires `Homebrew`_.
 
 .. _Homebrew: https://docs.brew.sh/Installation
 
+With Nix
+^^^^^^^^
+
+.. code-block:: console
+
+   $ nix --extra-experimental-features 'nix-command flakes' develop github:VWS-Python/vws-cli
+
 Pre-built Linux binaries
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
