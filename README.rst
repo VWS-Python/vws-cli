@@ -37,9 +37,16 @@ Requires `Homebrew`_.
 With Nix
 ^^^^^^^^
 
+Requires `Nix`_.
+
 .. code-block:: console
 
    $ nix --extra-experimental-features 'nix-command flakes' develop github:VWS-Python/vws-cli
+
+To avoid passing ``--extra-experimental-features`` every time, `enable flakes`_ permanently.
+
+.. _Nix: https://nixos.org/download/
+.. _enable flakes: https://wiki.nixos.org/wiki/Flakes#Enabling_flakes_permanently
 
 Pre-built Linux binaries
 ^^^^^^^^^^^^^^^^^^^^^^^^

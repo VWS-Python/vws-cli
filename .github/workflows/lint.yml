@@ -1,5 +1,4 @@
 ---
-
 name: Lint
 
 on:
@@ -16,7 +15,6 @@ permissions: {}
 
 jobs:
   build:
-
     strategy:
       matrix:
         python-version: ['3.13']
@@ -25,7 +23,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
 
     steps:
-      - uses: actions/checkout@v6  # We need our tags in order to calculate the version
+      - uses: actions/checkout@v6 # We need our tags in order to calculate the version
         # in the Sphinx setup.
 
         with:
@@ -46,6 +44,8 @@ jobs:
           uv run --extra=dev prek run --all-files --hook-stage manual --verbose
         env:
           UV_PYTHON: ${{ matrix.python-version }}
+          # nixfmt requires Nix to be installed
+          SKIP: nixfmt
 
       - uses: pre-commit-ci/lite-action@v1.1.0
         if: always()
@@ -53,7 +53,7 @@ jobs:
   completion-lint:
     needs: build
     runs-on: ubuntu-latest
-    if: always()  # Run even if one matrix job fails
+    if: always() # Run even if one matrix job fails
     steps:
       - name: Check matrix job status
         run: |-

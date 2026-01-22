@@ -25,27 +25,28 @@ Requires `Homebrew`_.
 With Nix
 ~~~~~~~~
 
-Install Nix_ and then use the development shell:
+Requires Nix_.
+
+.. skip doccmd[shellcheck]: next
 
 .. code-block:: console
+   :substitutions:
 
-   $ nix --extra-experimental-features 'nix-command flakes' develop github:VWS-Python/vws-cli
+   $ nix --extra-experimental-features 'nix-command flakes' develop "github:|github-owner|/|github-repository|"
 
-Or, if you have flakes enabled permanently:
+To avoid passing ``--extra-experimental-features`` every time, `enable flakes`_ permanently.
 
-.. code-block:: console
+.. _Nix: https://nixos.org/download/
+.. _enable flakes: https://wiki.nixos.org/wiki/Flakes#Enabling_flakes_permanently
 
-   $ nix develop github:VWS-Python/vws-cli
-
-To use in another flake, add this repository as an input:
+Or add to your flake inputs:
 
 .. code-block:: nix
+   :substitutions:
 
    {
-     inputs.vws-cli.url = "github:VWS-Python/vws-cli";
+     inputs.vws-cli.url = "github:|github-owner|/|github-repository|";
    }
-
-.. _Nix: https://nixos.org
 
 Pre-built Linux (x86) binaries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
