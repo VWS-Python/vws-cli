@@ -14,7 +14,11 @@
       system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        python = pkgs.python313;
+        # Get Python version from .python-version file and map to nixpkgs attribute
+        pythonVersionFile = builtins.readFile ./.python-version;
+        pythonVersion = builtins.replaceStrings [ "." "\n" ] [ "" "" ] pythonVersionFile;
+        pythonAttr = "python${pythonVersion}";
+        python = pkgs.${pythonAttr};
       in
       {
         devShells.default = pkgs.mkShell {

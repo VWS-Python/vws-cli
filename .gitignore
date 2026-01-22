@@ -73,7 +73,7 @@ target/
 .ipynb_checkpoints
 
 # pyenv
-.python-version
+# .python-version is tracked for Nix flake
 
 # celery beat schedule file
 celerybeat-schedule
