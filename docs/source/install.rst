@@ -27,8 +27,6 @@ With Nix
 
 Requires Nix_.
 
-.. skip doccmd[shellcheck]: next
-
 .. code-block:: console
    :substitutions:
 
