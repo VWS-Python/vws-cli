@@ -41,12 +41,20 @@ Requires `Nix`_.
 
 .. code-block:: console
 
-   $ nix --extra-experimental-features 'nix-command flakes' develop github:VWS-Python/vws-cli
+   $ nix --extra-experimental-features 'nix-command flakes' run "github:VWS-Python/vws-cli" -- --help
 
 To avoid passing ``--extra-experimental-features`` every time, `enable flakes`_ permanently.
 
 .. _Nix: https://nixos.org/download/
 .. _enable flakes: https://wiki.nixos.org/wiki/Flakes#Enabling_flakes_permanently
+
+Or add to your flake inputs:
+
+.. code-block:: nix
+
+   {
+     inputs.vws-cli.url = "github:VWS-Python/vws-cli";
+   }
 
 Pre-built Linux binaries
 ^^^^^^^^^^^^^^^^^^^^^^^^
