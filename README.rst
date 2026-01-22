@@ -56,6 +56,19 @@ Or add to your flake inputs:
      inputs.vws-cli.url = "github:VWS-Python/vws-cli";
    }
 
+With Docker
+^^^^^^^^^^^
+
+.. code-block:: console
+
+   $ docker run --rm "ghcr.io/vws-python/vws-cli" --help
+
+To use ``vuforia-cloud-reco``:
+
+.. code-block:: console
+
+   $ docker run --rm --entrypoint vuforia-cloud-reco "ghcr.io/vws-python/vws-cli" --help
+
 Pre-built Linux binaries
 ^^^^^^^^^^^^^^^^^^^^^^^^
 

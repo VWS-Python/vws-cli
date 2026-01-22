@@ -46,6 +46,21 @@ Or add to your flake inputs:
      inputs.vws-cli.url = "github:|github-owner|/|github-repository|";
    }
 
+With Docker
+~~~~~~~~~~~
+
+.. code-block:: console
+   :substitutions:
+
+   $ docker run --rm "|docker-image|" --help
+
+To use ``vuforia-cloud-reco``:
+
+.. code-block:: console
+   :substitutions:
+
+   $ docker run --rm --entrypoint vuforia-cloud-reco "|docker-image|" --help
+
 Pre-built Linux (x86) binaries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

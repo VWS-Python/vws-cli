@@ -7,6 +7,7 @@ Outcomes
 * A new ``git`` tag available to install.
 * A new package on PyPI.
 * A new Homebrew recipe available to install.
+* A new Docker image on GitHub Container Registry.
 
 Perform a Release
 ~~~~~~~~~~~~~~~~~
