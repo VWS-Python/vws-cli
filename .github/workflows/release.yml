@@ -243,11 +243,8 @@ jobs:
         with:
           context: .
           push: true
-          tags: |
+          build-args: |
+            VWS_CLI_VERSION=${{ steps.calver.outputs.release }}
+          tags: |-
             ghcr.io/vws-python/vws-cli:${{ steps.calver.outputs.release }}
             ghcr.io/vws-python/vws-cli:latest
-          labels: |-
-            org.opencontainers.image.source=https://github.com/VWS-Python/vws-cli
-            org.opencontainers.image.description=CLI for Vuforia Web Services
-            org.opencontainers.image.licenses=MIT
-            org.opencontainers.image.version=${{ steps.calver.outputs.release }}
