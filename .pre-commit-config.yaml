@@ -48,6 +48,11 @@ ci:
 default_install_hook_types: [pre-commit, pre-push]
 
 repos:
+  - repo: https://github.com/NixOS/nixfmt
+    rev: v1.2.0
+    hooks:
+      - id: nixfmt
+        stages: [manual]
   - repo: meta
     hooks:
       - id: check-useless-excludes
@@ -134,7 +139,8 @@ repos:
 
       - id: shellcheck-docs
         name: shellcheck-docs
-        entry: uv run --extra=dev doccmd --language=shell --language=console --skip-marker=shellcheck
+        entry:
+          uv run --extra=dev doccmd --language=shell --language=console --skip-marker=shellcheck
           --command="shellcheck --shell=bash"
         language: python
         types_or: [markdown, rst]
@@ -415,10 +421,3 @@ repos:
         language: python
         types_or: [markdown, rst]
         additional_dependencies: [uv==0.9.5]
-
-      - id: nixfmt
-        name: nixfmt
-        entry: nixfmt
-        language: system
-        types_or: [nix]
-        stages: [pre-commit]
