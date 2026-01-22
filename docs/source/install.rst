@@ -22,6 +22,30 @@ Requires `Homebrew`_.
 
 .. _Homebrew: https://docs.brew.sh/Installation
 
+With Nix
+~~~~~~~~
+
+Requires Nix_.
+
+.. code-block:: console
+   :substitutions:
+
+   $ nix --extra-experimental-features 'nix-command flakes' develop "github:|github-owner|/|github-repository|"
+
+To avoid passing ``--extra-experimental-features`` every time, `enable flakes`_ permanently.
+
+.. _Nix: https://nixos.org/download/
+.. _enable flakes: https://wiki.nixos.org/wiki/Flakes#Enabling_flakes_permanently
+
+Or add to your flake inputs:
+
+.. code-block:: nix
+   :substitutions:
+
+   {
+     inputs.vws-cli.url = "github:|github-owner|/|github-repository|";
+   }
+
 Pre-built Linux (x86) binaries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

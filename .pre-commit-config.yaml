@@ -16,6 +16,7 @@ ci:
     - linkcheck
     - mypy
     - mypy-docs
+    - nixfmt
     - pylint
     - pyproject-fmt-fix
     - pyright
@@ -47,6 +48,11 @@ ci:
 default_install_hook_types: [pre-commit, pre-push]
 
 repos:
+  - repo: https://github.com/NixOS/nixfmt
+    rev: v1.2.0
+    hooks:
+      - id: nixfmt
+        stages: [manual]
   - repo: meta
     hooks:
       - id: check-useless-excludes

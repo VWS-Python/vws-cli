@@ -73,11 +73,16 @@ jobs:
             echo "Error: No files were modified when updating changelog"
             exit 1
           fi
+
+      - name: Update VERSION file for Nix flake
+        run: |
+          echo "${{ steps.calver.outputs.release }}" > VERSION
+
       - uses: stefanzweifel/git-auto-commit-action@v7
         id: commit
         with:
-          commit_message: Bump CHANGELOG
-          file_pattern: CHANGELOG.rst
+          commit_message: Bump CHANGELOG and VERSION
+          file_pattern: CHANGELOG.rst VERSION
           # Error if there are no changes.
           skip_dirty_check: true
 
