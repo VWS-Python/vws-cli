@@ -292,7 +292,6 @@ ignore = [
     "zizmor.yml",
     "flake.lock",
     "flake.nix",
-    ".python-version",
 ]
 
 [tool.deptry]

@@ -65,11 +65,7 @@
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          # Get Python version from .python-version file and map to nixpkgs attribute
-          pythonVersionFile = builtins.readFile ./.python-version;
-          pythonVersion = builtins.replaceStrings [ "." "\n" ] [ "" "" ] pythonVersionFile;
-          pythonAttr = "python${pythonVersion}";
-          python = pkgs.${pythonAttr};
+          python = pkgs.python313;
         in
         (pkgs.callPackage pyproject-nix.build.packages {
           inherit python;
