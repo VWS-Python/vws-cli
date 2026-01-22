@@ -122,4 +122,5 @@ rst_prolog = f"""
 .. |minimum-python-version| replace:: {minimum_python_version}
 .. |github-owner| replace:: VWS-Python
 .. |github-repository| replace:: vws-cli
+.. |docker-image| replace:: ghcr.io/vws-python/vws-cli
 """

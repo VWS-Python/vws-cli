@@ -50,14 +50,16 @@ With Docker
 ~~~~~~~~~~~
 
 .. code-block:: console
+   :substitutions:
 
-   $ docker run --rm ghcr.io/vws-python/vws-cli --help
+   $ docker run --rm "|docker-image|" --help
 
 To use ``vuforia-cloud-reco``:
 
 .. code-block:: console
+   :substitutions:
 
-   $ docker run --rm --entrypoint vuforia-cloud-reco ghcr.io/vws-python/vws-cli --help
+   $ docker run --rm --entrypoint vuforia-cloud-reco "|docker-image|" --help
 
 Pre-built Linux (x86) binaries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
