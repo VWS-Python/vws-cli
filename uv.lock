@@ -375,7 +375,7 @@ wheels = [
 
 [[package]]
 name = "doccmd"
-version = "2026.1.22.1"
+version = "2026.1.23.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
@@ -387,9 +387,9 @@ dependencies = [
     { name = "sybil" },
     { name = "sybil-extras" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/92/7f/0c356517189964617e9c06715c0c65632e6c5fb84652a400de75886808ef/doccmd-2026.1.22.1.tar.gz", hash = "sha256:ccaf49763a976feab424b8a3cdde8d7349f11994623c6d241a188666eeb2dbc0", size = 178859, upload-time = "2026-01-22T17:04:31.828Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/89/b3/c0dbdb5861d9bb91b88fbb4fb345638443753b7fe9522e52eb341a057330/doccmd-2026.1.23.4.tar.gz", hash = "sha256:74337971d34d8861eccaf0a0b6c8d8aa4375e05aa5d7575339276f2b4481f3fe", size = 180250, upload-time = "2026-01-23T13:40:40.703Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/aa/98/6c34237ed7629bcbb09dfc4fe7548804278ba22ad2007df9d2fb35c38a88/doccmd-2026.1.22.1-py2.py3-none-any.whl", hash = "sha256:27039d1ca229e56ce1d48a6cd7f4111db6d642d291c49d84258184e75800994a", size = 18195, upload-time = "2026-01-22T17:04:30.34Z" },
+    { url = "https://files.pythonhosted.org/packages/73/fa/fb5ceaad739d7126df95ff7f55183ce822e1695a46fc4c287781d74d6255/doccmd-2026.1.23.4-py2.py3-none-any.whl", hash = "sha256:3a17bb8deaa3b7bbee726fbe69e21036b5816e5298dac1f179e928f9c60ab3b5", size = 18398, upload-time = "2026-01-23T13:40:39.492Z" },
 ]
 
 [[package]]
@@ -2422,7 +2422,7 @@ requires-dist = [
     { name = "click", specifier = "==8.3.1" },
     { name = "deptry", marker = "extra == 'dev'", specifier = "==0.24.0" },
     { name = "doc8", marker = "extra == 'dev'", specifier = "==2.0.0" },
-    { name = "doccmd", marker = "extra == 'dev'", specifier = "==2026.1.22.1" },
+    { name = "doccmd", marker = "extra == 'dev'", specifier = "==2026.1.23.4" },
     { name = "docformatter", marker = "extra == 'dev'", specifier = "==1.7.7" },
     { name = "freezegun", marker = "extra == 'dev'", specifier = "==1.5.5" },
     { name = "furo", marker = "extra == 'dev'", specifier = "==2025.12.19" },
