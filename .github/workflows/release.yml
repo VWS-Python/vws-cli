@@ -223,14 +223,21 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # We have a race condition.
+      # In particular, we push to PyPI and then the Docker build
+      # fetches packages from PyPI inside the container.
+      # The Docker build may hit a different CDN node than the previous
+      # check, so we retry.
       - name: Build and push Docker image
-        uses: docker/build-push-action@v6
+        uses: nick-fields/retry@v3
         with:
-          context: .
-          push: true
-          platforms: linux/amd64,linux/arm64
-          build-args: |
-            VWS_CLI_VERSION=${{ steps.calver.outputs.release }}
-          tags: |-
-            ghcr.io/vws-python/vws-cli:${{ steps.calver.outputs.release }}
-            ghcr.io/vws-python/vws-cli:latest
+          timeout_minutes: 10
+          max_attempts: 5
+          command: |
+            docker buildx build \
+              --push \
+              --platform linux/amd64,linux/arm64 \
+              --build-arg VWS_CLI_VERSION=${{ steps.calver.outputs.release }} \
+              --tag ghcr.io/vws-python/vws-cli:${{ steps.calver.outputs.release }} \
+              --tag ghcr.io/vws-python/vws-cli:latest \
+              .
