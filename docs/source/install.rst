@@ -72,6 +72,13 @@ Pre-built Linux (x86) binaries
    $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vuforia-cloud-reco-linux" -o /usr/local/bin/vuforia-cloud-reco &&
        chmod +x /usr/local/bin/vuforia-cloud-reco
 
+Pre-built Windows binaries
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Download the Windows executables from the `latest release`_ and place them in a directory on your ``PATH``.
+
+.. _latest release: https://github.com/VWS-Python/vws-cli/releases/latest
+
 Shell completion
 ~~~~~~~~~~~~~~~~
 

@@ -76,6 +76,13 @@ See the `full documentation`_ for details on how to install pre-built Linux bina
 
 .. _full documentation: https://vws-python.github.io/vws-cli/install.html#pre-built-linux-x86-binaries
 
+Pre-built Windows binaries
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Download the Windows executables from the `latest release`_ and place them in a directory on your ``PATH``.
+
+.. _latest release: https://github.com/VWS-Python/vws-cli/releases/latest
+
 Usage example
 -------------
 
