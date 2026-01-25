@@ -324,11 +324,6 @@ jobs:
           fetch-depth: 0
           ref: ${{ needs.build.outputs.new_tag }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-
       # We have a race condition.
       # In particular, we push to PyPI and then immediately try to install
       # the pushed version.
