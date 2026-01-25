@@ -304,3 +304,63 @@ jobs:
         run: |-
           gh release upload ${{ needs.build.outputs.new_tag }} dist/vws-windows.exe --clobber
           gh release upload ${{ needs.build.outputs.new_tag }} dist/vuforia-cloud-reco-windows.exe --clobber
+
+  build-macos:
+    name: Build macOS binaries
+    needs: build
+    runs-on: macos-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.build.outputs.new_tag }}
+
+      # We have a race condition.
+      # In particular, we push to PyPI and then immediately try to install
+      # the pushed version.
+      # Here, we give PyPI time to propagate the package.
+      # We normalize the version (e.g., 2026.01.22 -> 2026.1.22) for PyPI lookup.
+      - name: Wait for PyPI propagation
+        uses: nick-fields/retry@v3
+        with:
+          timeout_seconds: 10
+          max_attempts: 50
+          command: |
+            normalized_version=$(echo "${{ needs.build.outputs.new_tag }}" | sed -E 's/\.0+([0-9])/.\1/g')
+            pip index versions vws-cli | grep -wq "$normalized_version"
+
+      - name: Create requirements file
+        run: echo "vws-cli==${{ needs.build.outputs.new_tag }}" > requirements.txt
+
+      - name: Create macOS binary for Vuforia Cloud Reco
+        uses: sayyid5416/pyinstaller@v1
+        with:
+          python_ver: '3.13'
+          pyinstaller_ver: ==6.12.0
+          spec: bin/vuforia-cloud-reco.py
+          requirements: requirements.txt
+          options: --onefile, --name "vuforia-cloud-reco-macos"
+          upload_exe_with_name: vuforia-cloud-reco-macos
+          clean_checkout: false
+
+      - name: Create macOS binary for Vuforia Web Services
+        uses: sayyid5416/pyinstaller@v1
+        with:
+          python_ver: '3.13'
+          pyinstaller_ver: ==6.12.0
+          spec: bin/vuforia-web-services.py
+          requirements: requirements.txt
+          options: --onefile, --name "vws-macos"
+          upload_exe_with_name: vws-macos
+          clean_checkout: false
+
+      - name: Upload macOS binaries to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |-
+          gh release upload ${{ needs.build.outputs.new_tag }} dist/vws-macos --clobber
+          gh release upload ${{ needs.build.outputs.new_tag }} dist/vuforia-cloud-reco-macos --clobber

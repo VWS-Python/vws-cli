@@ -79,6 +79,24 @@ Download the Windows executables from the `latest release`_ and place them in a 
 
 .. _latest release: https://github.com/VWS-Python/vws-cli/releases/latest
 
+Pre-built macOS (ARM) binaries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: console
+   :substitutions:
+
+   $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vws-macos" -o /usr/local/bin/vws &&
+       chmod +x /usr/local/bin/vws
+   $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vuforia-cloud-reco-macos" -o /usr/local/bin/vuforia-cloud-reco &&
+       chmod +x /usr/local/bin/vuforia-cloud-reco
+
+You may need to remove the quarantine attribute to allow the binaries to run:
+
+.. code-block:: console
+
+   $ xattr -d com.apple.quarantine /usr/local/bin/vws
+   $ xattr -d com.apple.quarantine /usr/local/bin/vuforia-cloud-reco
+
 Shell completion
 ~~~~~~~~~~~~~~~~
 

@@ -83,6 +83,11 @@ Download the Windows executables from the `latest release`_ and place them in a 
 
 .. _latest release: https://github.com/VWS-Python/vws-cli/releases/latest
 
+Pre-built macOS (ARM) binaries
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+See the `full documentation`_ for details on how to install pre-built macOS binaries.
+
 Usage example
 -------------
 
