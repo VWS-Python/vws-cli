@@ -1,6 +1,4 @@
-"""
-A CLI for Vuforia Web Services.
-"""
+"""A CLI for Vuforia Web Services."""
 
 from importlib.metadata import PackageNotFoundError, version
 
@@ -38,9 +36,7 @@ except PackageNotFoundError:  # pragma: no cover
 @click.version_option(version=__version__)
 @beartype
 def vws_group() -> None:
-    """
-    Manage a Vuforia Web Services cloud database.
-    """
+    """Manage a Vuforia Web Services cloud database."""
 
 
 vws_group.add_command(cmd=add_target)

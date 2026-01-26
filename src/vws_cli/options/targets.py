@@ -1,6 +1,4 @@
-"""
-``click`` options regarding targets.
-"""
+"""``click`` options regarding targets."""
 
 from collections.abc import Callable
 from enum import Enum, unique
@@ -20,9 +18,7 @@ target_id_option: Callable[..., Any] = click.option(
 
 @beartype
 def target_name_option(*, required: bool) -> Callable[..., Any]:
-    """
-    An option decorator for choosing a target name.
-    """
+    """An option decorator for choosing a target name."""
     return click.option(
         "--name",
         type=str,
@@ -33,9 +29,7 @@ def target_name_option(*, required: bool) -> Callable[..., Any]:
 
 @beartype
 def target_width_option(*, required: bool) -> Callable[..., Any]:
-    """
-    An option decorator for choosing a target width.
-    """
+    """An option decorator for choosing a target width."""
     option: Callable[..., Any] = click.option(
         "--width",
         type=float,
@@ -47,9 +41,7 @@ def target_width_option(*, required: bool) -> Callable[..., Any]:
 
 @beartype
 def target_image_option(*, required: bool) -> Callable[..., Any]:
-    """
-    An option decorator for choosing a target image.
-    """
+    """An option decorator for choosing a target image."""
     return click.option(
         "--image",
         "image_file_path",
@@ -66,9 +58,7 @@ def target_image_option(*, required: bool) -> Callable[..., Any]:
 
 @unique
 class ActiveFlagChoice(Enum):
-    """
-    Choices for active flag.
-    """
+    """Choices for active flag."""
 
     TRUE = "true"
     FALSE = "false"
@@ -78,9 +68,7 @@ def active_flag_option(
     *,
     allow_none: bool,
 ) -> Callable[..., Any]:
-    """
-    An option decorator for setting a target's active flag.
-    """
+    """An option decorator for setting a target's active flag."""
     if allow_none:
         default = None
         show_default = False
