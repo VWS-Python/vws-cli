@@ -1,6 +1,4 @@
-"""
-``click`` options regarding credentials.
-"""
+"""``click`` options regarding credentials."""
 
 from collections.abc import Callable
 from typing import Any
@@ -13,9 +11,7 @@ from beartype import beartype
 def server_access_key_option(
     command: Callable[..., Any],
 ) -> Callable[..., Any]:
-    """
-    An option decorator for the Vuforia server access key.
-    """
+    """An option decorator for the Vuforia server access key."""
     return click.option(
         "--server-access-key",
         type=str,
@@ -33,9 +29,7 @@ def server_access_key_option(
 def server_secret_key_option(
     command: Callable[..., Any],
 ) -> Callable[..., Any]:
-    """
-    An option decorator for the Vuforia server secret key.
-    """
+    """An option decorator for the Vuforia server secret key."""
     return click.option(
         "--server-secret-key",
         type=str,
@@ -53,9 +47,7 @@ def server_secret_key_option(
 def client_access_key_option(
     command: Callable[..., Any],
 ) -> Callable[..., Any]:
-    """
-    An option decorator for the Vuforia client access key.
-    """
+    """An option decorator for the Vuforia client access key."""
     return click.option(
         "--client-access-key",
         type=str,
@@ -73,9 +65,7 @@ def client_access_key_option(
 def client_secret_key_option(
     command: Callable[..., Any],
 ) -> Callable[..., Any]:
-    """
-    An option decorator for the Vuforia client secret key.
-    """
+    """An option decorator for the Vuforia client secret key."""
     return click.option(
         "--client-secret-key",
         type=str,

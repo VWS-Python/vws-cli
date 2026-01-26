@@ -1,6 +1,4 @@
-"""
-Tests for the VWS CLI.
-"""
+"""Tests for the VWS CLI."""
 
 from click.testing import CliRunner
 
@@ -8,9 +6,7 @@ from vws_cli import vws_group
 
 
 def test_version() -> None:
-    """
-    The CLI version is shown with ``vws --version``.
-    """
+    """The CLI version is shown with ``vws --version``."""
     runner = CliRunner()
     result = runner.invoke(
         cli=vws_group,

@@ -1,6 +1,4 @@
-"""
-A CLI for the Vuforia Cloud Recognition Service API.
-"""
+"""A CLI for the Vuforia Cloud Recognition Service API."""
 
 import contextlib
 import dataclasses
@@ -34,9 +32,7 @@ from vws_cli.options.credentials import (
 @beartype
 @contextlib.contextmanager
 def _handle_vwq_exceptions() -> Iterator[None]:
-    """
-    Show error messages and catch exceptions from ``VWS-Python``.
-    """
+    """Show error messages and catch exceptions from ``VWS-Python``."""
     try:
         yield
     except BadImageError:
@@ -136,9 +132,7 @@ def vuforia_cloud_reco(
     include_target_data: CloudRecoIncludeTargetData,
     base_vwq_url: str,
 ) -> None:
-    """
-    Make a request to the Vuforia Cloud Recognition Service API.
-    """
+    """Make a request to the Vuforia Cloud Recognition Service API."""
     client = CloudRecoService(
         client_access_key=client_access_key,
         client_secret_key=client_secret_key,

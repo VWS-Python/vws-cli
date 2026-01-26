@@ -1,7 +1,5 @@
 # pylint:disable=too-many-lines
-"""
-Tests for VWS CLI commands.
-"""
+"""Tests for VWS CLI commands."""
 
 import base64
 import io
@@ -27,9 +25,7 @@ def test_get_database_summary_report(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
-    """
-    It is possible to get a database summary report.
-    """
+    """It is possible to get a database summary report."""
     runner = CliRunner()
     for name in ("a", "b"):
         vws_client.add_target(
@@ -77,9 +73,7 @@ def test_list_targets(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
-    """
-    It is possible to get a list of targets in the database.
-    """
+    """It is possible to get a list of targets in the database."""
     runner = CliRunner()
     target_id_1 = vws_client.add_target(
         name="x1",
@@ -120,9 +114,7 @@ def test_get_target_record(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
-    """
-    It is possible to get a target record.
-    """
+    """It is possible to get a target record."""
     runner = CliRunner()
     target_id = vws_client.add_target(
         name="x",
@@ -164,9 +156,7 @@ def test_get_target_summary_report(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
-    """
-    It is possible to get a target summary report.
-    """
+    """It is possible to get a target summary report."""
     runner = CliRunner()
     upload_date = "2015-04-29"
     with freeze_time(time_to_freeze=upload_date):
@@ -214,9 +204,7 @@ def test_delete_target(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
-    """
-    It is possible to delete a target.
-    """
+    """It is possible to delete a target."""
     runner = CliRunner()
     target_id = vws_client.add_target(
         name="x",
@@ -252,9 +240,7 @@ def test_get_duplicate_targets(
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
-    """
-    It is possible to get a list of duplicate targets.
-    """
+    """It is possible to get a list of duplicate targets."""
     runner = CliRunner()
     target_id = vws_client.add_target(
         name="x",
@@ -296,9 +282,7 @@ def test_get_duplicate_targets(
 
 
 class TestAddTarget:
-    """
-    Tests for ``vws add-target``.
-    """
+    """Tests for ``vws add-target``."""
 
     @staticmethod
     def test_add_target(
@@ -308,9 +292,7 @@ class TestAddTarget:
         tmp_path: Path,
         cloud_reco_client: CloudRecoService,
     ) -> None:
-        """
-        It is possible to add a target.
-        """
+        """It is possible to add a target."""
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         name = uuid.uuid4().hex
@@ -358,7 +340,8 @@ class TestAddTarget:
         tmp_path: Path,
     ) -> None:
         """
-        An appropriate error is given if the given image file does not exist.
+        An appropriate error is given if the given image file does not
+        exist.
         """
         runner = CliRunner()
         does_not_exist_file = tmp_path / uuid.uuid4().hex
@@ -400,7 +383,8 @@ class TestAddTarget:
         tmp_path: Path,
     ) -> None:
         """
-        An appropriate error is given if the given image file path points to a
+        An appropriate error is given if the given image file path
+        points to a
         directory.
         """
         runner = CliRunner()
@@ -443,9 +427,7 @@ class TestAddTarget:
         high_quality_image: io.BytesIO,
         tmp_path: Path,
     ) -> None:
-        """
-        Image file paths are resolved.
-        """
+        """Image file paths are resolved."""
         runner = CliRunner()
         new_filename = uuid.uuid4().hex
         original_image_file = tmp_path / "foo"
@@ -487,9 +469,7 @@ class TestAddTarget:
         tmp_path: Path,
         high_quality_image: io.BytesIO,
     ) -> None:
-        """
-        Custom metadata can be given.
-        """
+        """Custom metadata can be given."""
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         name = uuid.uuid4().hex
@@ -548,9 +528,7 @@ class TestAddTarget:
         *,
         active_flag_expected: bool,
     ) -> None:
-        """
-        The Active Flag of the new target can be chosen.
-        """
+        """The Active Flag of the new target can be chosen."""
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
@@ -585,9 +563,7 @@ class TestAddTarget:
 
 
 class TestWaitForTargetProcessed:
-    """
-    Tests for ``vws wait-for-target-processed``.
-    """
+    """Tests for ``vws wait-for-target-processed``."""
 
     @staticmethod
     def test_wait_for_target_processed(
@@ -596,7 +572,8 @@ class TestWaitForTargetProcessed:
         high_quality_image: io.BytesIO,
     ) -> None:
         """
-        It is possible to use a command to wait for a target to be processed.
+        It is possible to use a command to wait for a target to be
+        processed.
         """
         runner = CliRunner()
         target_id = vws_client.add_target(
@@ -632,9 +609,7 @@ class TestWaitForTargetProcessed:
     def test_default_seconds_between_requests(
         high_quality_image: io.BytesIO,
     ) -> None:
-        """
-        By default, 0.2 seconds are waited between polling requests.
-        """
+        """By default, 0.2 seconds are waited between polling requests."""
         runner = CliRunner()
         with MockVWS(processing_time_seconds=0.5) as mock:
             mock_database = VuforiaDatabase()
@@ -702,7 +677,8 @@ class TestWaitForTargetProcessed:
         high_quality_image: io.BytesIO,
     ) -> None:
         """
-        It is possible to customize the time waited between polling requests.
+        It is possible to customize the time waited between polling
+        requests.
         """
         runner = CliRunner()
         with MockVWS(processing_time_seconds=0.5) as mock:
@@ -768,7 +744,8 @@ class TestWaitForTargetProcessed:
     @staticmethod
     def test_custom_seconds_too_small(mock_database: VuforiaDatabase) -> None:
         """
-        The minimum valid value for ``--seconds-between-requests`` is 0.05
+        The minimum valid value for ``--seconds-between-requests`` is
+        0.05
         seconds.
         """
         runner = CliRunner()
@@ -796,9 +773,7 @@ class TestWaitForTargetProcessed:
 
     @staticmethod
     def test_custom_timeout(high_quality_image: io.BytesIO) -> None:
-        """
-        It is possible to set a maximum timeout.
-        """
+        """It is possible to set a maximum timeout."""
         runner = CliRunner()
         with MockVWS(processing_time_seconds=0.5) as mock:
             mock_database = VuforiaDatabase()
@@ -863,7 +838,8 @@ class TestWaitForTargetProcessed:
     @staticmethod
     def test_custom_timeout_too_small(mock_database: VuforiaDatabase) -> None:
         """
-        The minimum valid value for ``--timeout-seconds`` is 0.05 seconds.
+        The minimum valid value for ``--timeout-seconds`` is 0.05
+        seconds.
         """
         runner = CliRunner()
         commands = [
@@ -889,9 +865,7 @@ class TestWaitForTargetProcessed:
 
 
 class TestUpdateTarget:
-    """
-    Tests for ``vws update-target``.
-    """
+    """Tests for ``vws update-target``."""
 
     @staticmethod
     def test_update_target(
@@ -903,9 +877,7 @@ class TestUpdateTarget:
         cloud_reco_client: CloudRecoService,
         different_high_quality_image: io.BytesIO,
     ) -> None:
-        """
-        It is possible to update a target.
-        """
+        """It is possible to update a target."""
         runner = CliRunner()
         old_name = uuid.uuid4().hex
         old_width = secrets.choice(seq=range(1, 5000)) / 100
@@ -996,9 +968,7 @@ class TestUpdateTarget:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
     ) -> None:
-        """
-        It is possible to give no update fields.
-        """
+        """It is possible to give no update fields."""
         runner = CliRunner()
         old_name = uuid.uuid4().hex
         old_width = secrets.choice(seq=range(1, 5000)) / 100
@@ -1037,7 +1007,8 @@ class TestUpdateTarget:
         tmp_path: Path,
     ) -> None:
         """
-        An appropriate error is given if the given image file does not exist.
+        An appropriate error is given if the given image file does not
+        exist.
         """
         target_id = vws_client.add_target(
             name="x",
@@ -1087,7 +1058,8 @@ class TestUpdateTarget:
         tmp_path: Path,
     ) -> None:
         """
-        An appropriate error is given if the given image file path points to a
+        An appropriate error is given if the given image file path
+        points to a
         directory.
         """
         target_id = vws_client.add_target(
@@ -1136,9 +1108,7 @@ class TestUpdateTarget:
         high_quality_image: io.BytesIO,
         tmp_path: Path,
     ) -> None:
-        """
-        Image file paths are resolved.
-        """
+        """Image file paths are resolved."""
         runner = CliRunner()
         target_id = vws_client.add_target(
             name="x",
@@ -1179,7 +1149,8 @@ class TestUpdateTarget:
 
 def test_custom_base_url() -> None:
     """
-    It is possible to use the API to connect to a database under a custom VWS
+    It is possible to use the API to connect to a database under a
+    custom VWS
     URL.
     """
     runner = CliRunner()

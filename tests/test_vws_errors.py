@@ -1,6 +1,4 @@
-"""
-Tests for how errors from VWS are handled by the CLI.
-"""
+"""Tests for how errors from VWS are handled by the CLI."""
 
 import io
 import uuid
@@ -18,7 +16,8 @@ from vws_cli import vws_group
 
 def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
     """
-    Commands which take a target ID show an error if that does not map to a
+    Commands which take a target ID show an error if that does not map
+    to a
     target in the database.
     """
     runner = CliRunner()
@@ -80,8 +79,10 @@ def test_fail_bad_request(
     high_quality_image: io.BytesIO,
     tmp_path: Path,
 ) -> None:
-    """An error is given when Vuforia returns a ``Fail`` error with a ``400``
-    error code. For example, when the given server access key does not exist.
+    """An error is given when Vuforia returns a ``Fail`` error with a
+    ``400``
+    error code. For example, when the given server access key does not
+    exist.
 
     With ``vws_python`` we cannot get a (guaranteed) 500 error or 422 response
     with a ``Fail`` error.
@@ -118,9 +119,7 @@ def test_metadata_too_large(
     high_quality_image: io.BytesIO,
     tmp_path: Path,
 ) -> None:
-    """
-    An error is given when the given metadata is too large.
-    """
+    """An error is given when the given metadata is too large."""
     new_file = tmp_path / uuid.uuid4().hex
     new_file.write_bytes(data=high_quality_image.getvalue())
     runner = CliRunner()
@@ -151,9 +150,7 @@ def test_image_too_large(
     png_too_large: io.BytesIO,
     tmp_path: Path,
 ) -> None:
-    """
-    An error is given when the given image is too large.
-    """
+    """An error is given when the given image is too large."""
     runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = png_too_large.getvalue()
@@ -190,7 +187,8 @@ def test_target_name_exist(
     tmp_path: Path,
 ) -> None:
     """
-    An error is given when there is already a target with the given name.
+    An error is given when there is already a target with the given
+    name.
     """
     name = "foobar"
     vws_client.add_target(
@@ -235,7 +233,8 @@ def test_project_inactive(
     tmp_path: Path,
 ) -> None:
     """
-    An error is given if the project is inactive and the desired action cannot
+    An error is given if the project is inactive and the desired action
+    cannot
     be taken because of this.
     """
     new_file = tmp_path / uuid.uuid4().hex
@@ -279,7 +278,8 @@ def test_unknown_vws_error(
     tmp_path: Path,
 ) -> None:
     """
-    When an unknown VWS error is given, e.g. what is given when some bad names
+    When an unknown VWS error is given, e.g. what is given when some bad
+    names
     are given, an error is given.
     """
     runner = CliRunner()
@@ -323,7 +323,8 @@ def test_target_status_processing(
     mock_database: VuforiaDatabase,
 ) -> None:
     """
-    An error is given when trying to delete a target which is processing.
+    An error is given when trying to delete a target which is
+    processing.
     """
     runner = CliRunner()
 
@@ -366,7 +367,8 @@ def test_target_status_not_success(
     mock_database: VuforiaDatabase,
 ) -> None:
     """
-    An error is given when updating a target which has a status which is not
+    An error is given when updating a target which has a status which is
+    not
     "Success".
     """
     runner = CliRunner()
@@ -404,9 +406,7 @@ def test_target_status_not_success(
 
 
 def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
-    """
-    An error is given when the secret key is incorrect.
-    """
+    """An error is given when the secret key is incorrect."""
     runner = CliRunner()
     commands = [
         "list-targets",
@@ -430,7 +430,8 @@ def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
 
 def test_request_time_too_skewed(mock_database: VuforiaDatabase) -> None:
     """
-    An error is given when the request time is more than 5 minutes different
+    An error is given when the request time is more than 5 minutes
+    different
     from the server time.
     """
     runner = CliRunner()
