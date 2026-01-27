@@ -133,8 +133,6 @@ repos:
         entry: uv run --extra=dev pydocstringformatter
         language: python
         types_or: [python]
-        # We exclude this file to avoid https://github.com/PyCQA/docformatter/issues/291.
-        exclude: src/vws_cli/commands.py
         additional_dependencies: [uv==0.9.5]
         stages: [pre-commit]
 
