@@ -77,6 +77,7 @@ Requires `winget`_.
 .. code-block:: console
 
    $ winget install --id VWSPython.vws-cli --source winget --exact
+   $ winget install --id VWSPython.vuforia-cloud-reco --source winget --exact
 
 .. _winget: https://docs.microsoft.com/windows/package-manager/winget/
 
