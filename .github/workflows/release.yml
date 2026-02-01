@@ -386,6 +386,7 @@ jobs:
           identifier: VWSPython.vws-cli
           version: ${{ needs.build.outputs.new_tag }}
           installers-regex: ^vws-windows\.exe$
+          token: ${{ secrets.WINGET_TOKEN }}
 
       - uses: vedantmgoyal9/winget-releaser@v2
         with:
