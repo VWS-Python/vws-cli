@@ -61,6 +61,17 @@ To use ``vuforia-cloud-reco``:
 
    $ docker run --rm --entrypoint vuforia-cloud-reco "|docker-image|" --help
 
+With winget (Windows)
+~~~~~~~~~~~~~~~~~~~~~
+
+Requires winget_.
+
+.. code-block:: console
+
+   $ winget install --id VWSPython.vws-cli --source winget --exact
+
+.. _winget: https://docs.microsoft.com/windows/package-manager/winget/
+
 Pre-built Linux (x86) binaries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
