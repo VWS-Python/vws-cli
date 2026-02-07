@@ -385,6 +385,7 @@ jobs:
         with:
           identifier: VWSPython.vws-cli
           version: ${{ needs.build.outputs.new_tag }}
+          release-tag: ${{ needs.build.outputs.new_tag }}
           installers-regex: ^vws-windows\.exe$
           token: ${{ secrets.WINGET_TOKEN }}
 
@@ -392,5 +393,6 @@ jobs:
         with:
           identifier: VWSPython.vuforia-cloud-reco
           version: ${{ needs.build.outputs.new_tag }}
+          release-tag: ${{ needs.build.outputs.new_tag }}
           installers-regex: ^vuforia-cloud-reco-windows\.exe$
           token: ${{ secrets.WINGET_TOKEN }}
