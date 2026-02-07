@@ -4,6 +4,10 @@ Changelog
 Next
 ----
 
+2026.02.07
+----------
+
+
 * Add support for installing with winget on Windows.
 
 2026.01.25.1
