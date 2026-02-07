@@ -3,6 +3,9 @@ name: Release
 
 on: workflow_dispatch
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Publish a release
@@ -369,3 +372,25 @@ jobs:
         run: |-
           gh release upload ${{ needs.build.outputs.new_tag }} dist/vws-macos --clobber
           gh release upload ${{ needs.build.outputs.new_tag }} dist/vuforia-cloud-reco-macos --clobber
+
+  publish-to-winget:
+    name: Publish to WinGet
+    needs: [build, build-windows]
+    runs-on: windows-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: vedantmgoyal9/winget-releaser@v2
+        with:
+          identifier: VWSPython.vws-cli
+          version: ${{ needs.build.outputs.new_tag }}
+          installers-regex: ^vws-windows\.exe$
+          token: ${{ secrets.WINGET_TOKEN }}
+
+      - uses: vedantmgoyal9/winget-releaser@v2
+        with:
+          identifier: VWSPython.vuforia-cloud-reco
+          version: ${{ needs.build.outputs.new_tag }}
+          installers-regex: ^vuforia-cloud-reco-windows\.exe$
+          token: ${{ secrets.WINGET_TOKEN }}

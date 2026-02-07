@@ -1,3 +1,4 @@
+Winget
 admin
 api
 args
@@ -36,3 +37,4 @@ versioned
 vuforia
 vwq
 vws
+winget

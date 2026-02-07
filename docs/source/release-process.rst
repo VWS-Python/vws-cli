@@ -8,6 +8,7 @@ Outcomes
 * A new package on PyPI.
 * A new Homebrew recipe available to install.
 * A new Docker image on GitHub Container Registry.
+* New Winget packages available to install.
 
 Perform a Release
 ~~~~~~~~~~~~~~~~~
