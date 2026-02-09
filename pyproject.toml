@@ -52,7 +52,7 @@ optional-dependencies.dev = [
     "prek==0.3.0",
     "pydocstringformatter==0.7.5",
     "pylint[spelling]==4.0.4",
-    "pyproject-fmt==2.14.0",
+    "pyproject-fmt==2.14.2",
     "pyrefly==0.51.1",
     "pyright==1.1.408",
     "pyroma==5.0.1",
@@ -61,6 +61,10 @@ optional-dependencies.dev = [
     "pytest-regressions==2.9.1",
     "ruff==0.15.0",
     "setuptools-scm==9.2.2",
+    # We add shellcheck-py not only for shell scripts and shell code blocks,
+    # but also because having it installed means that ``actionlint-py`` will
+    # use it to lint shell commands in GitHub workflow files.
+    "shellcheck-py==0.11.0.1",
     "shfmt-py==3.12.0.2",
     "sphinx==9.1.0",
     "sphinx-click==6.2.0",
@@ -75,10 +79,6 @@ optional-dependencies.dev = [
     "vulture==2.14",
     "vws-python-mock==2025.3.10.1",
     "vws-test-fixtures==2023.3.5",
-    # We add shellcheck-py not only for shell scripts and shell code blocks,
-    # but also because having it installed means that ``actionlint-py`` will
-    # use it to lint shell commands in GitHub workflow files.
-    "shellcheck-py==0.11.0.1",
     "yamlfix==1.19.1",
     "zizmor==1.22.0",
 ]
@@ -112,31 +112,31 @@ lint.select = [
     "ALL",
 ]
 lint.ignore = [
-    # Allow 'assert' as we use it for tests and type narrowing.
-    "S101",
-    # Allow backslashes in a docstring.
-    # See https://click.palletsprojects.com/en/8.0.x/documentation/#preventing-rewrapping.
-    "D301",
+    # Ruff warns that this conflicts with the formatter.
+    "COM812",
     # Allow our chosen docstring line-style - pydocstringformatter handles formatting
     # but doesn't enforce D205 (blank line after summary) or D212 (summary on first line).
     "D205",
-    # Ignore 'too-many-*' errors as they seem to get in the way more than
-    # helping.
-    "PLR0913",
+    "D212",
+    # Allow backslashes in a docstring.
+    # See https://click.palletsprojects.com/en/8.0.x/documentation/#preventing-rewrapping.
+    "D301",
     # Let the formatter handle line lengths, and ignore the errors.
     "E501",
     # Ruff warns that this conflicts with the formatter.
-    "COM812",
-    # Ruff warns that this conflicts with the formatter.
     "ISC001",
-    "D212",
+    # Ignore 'too-many-*' errors as they seem to get in the way more than
+    # helping.
+    "PLR0913",
+    # Allow 'assert' as we use it for tests and type narrowing.
+    "S101",
 ]
 lint.per-file-ignores."doccmd_*.py" = [
-    # Allow asserts in docs.
-    "S101",
     # Allow our chosen docstring line-style - pydocstringformatter handles
     # formatting but docstrings in docs may not match this style.
     "D200",
+    # Allow asserts in docs.
+    "S101",
 ]
 lint.per-file-ignores."tests/test_*.py" = [
     # Do not require tests to have a one-line summary.
