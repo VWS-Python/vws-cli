@@ -52,7 +52,7 @@ optional-dependencies.dev = [
     "prek==0.3.0",
     "pydocstringformatter==0.7.5",
     "pylint[spelling]==4.0.4",
-    "pyproject-fmt==2.14.2",
+    "pyproject-fmt==2.15.2",
     "pyrefly==0.52.0",
     "pyright==1.1.408",
     "pyroma==5.0.1",
@@ -289,12 +289,12 @@ ini_options.xfail_strict = true
 ini_options.log_cli = true
 
 [tool.coverage]
-report.exclude_also = [
-    "if TYPE_CHECKING:",
-]
 run.branch = true
 run.omit = [
     "src/vws_cli/_setuptools_scm_version.py",
+]
+report.exclude_also = [
+    "if TYPE_CHECKING:",
 ]
 
 [tool.mypy]
