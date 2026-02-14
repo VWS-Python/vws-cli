@@ -48,7 +48,9 @@ jobs:
         env:
           UV_PYTHON: ${{ matrix.python-version }}
           # hadolint is not available on Windows.
-          SKIP: ${{ runner.os == 'Windows' && 'hadolint' || '' }}
+          # nixfmt depends on the Haskell `unix` package, which is
+          # not buildable on Windows.
+          SKIP: ${{ runner.os == 'Windows' && 'hadolint,nixfmt' || '' }}
 
       - uses: pre-commit-ci/lite-action@v1.1.0
         if: always()
