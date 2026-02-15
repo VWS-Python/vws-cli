@@ -27,6 +27,10 @@ from vws_cli.options.credentials import (
     client_access_key_option,
     client_secret_key_option,
 )
+from vws_cli.options.timeout import (
+    connection_timeout_seconds_option,
+    read_timeout_seconds_option,
+)
 
 
 @beartype
@@ -116,6 +120,8 @@ _base_vwq_url_option = click.option(
 @_include_target_data_option
 @_max_num_results_option
 @_base_vwq_url_option
+@connection_timeout_seconds_option
+@read_timeout_seconds_option
 @_handle_vwq_exceptions()
 # We set the ``version`` parameter because in PyInstaller binaries,
 # ``pkg_resources`` is not available.
@@ -131,12 +137,18 @@ def vuforia_cloud_reco(
     max_num_results: int,
     include_target_data: CloudRecoIncludeTargetData,
     base_vwq_url: str,
+    connection_timeout_seconds: float,
+    read_timeout_seconds: float,
 ) -> None:
     """Make a request to the Vuforia Cloud Recognition Service API."""
     client = CloudRecoService(
         client_access_key=client_access_key,
         client_secret_key=client_secret_key,
         base_vwq_url=base_vwq_url,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
     query_result = client.query(
         image=io.BytesIO(initial_bytes=image.read_bytes()),

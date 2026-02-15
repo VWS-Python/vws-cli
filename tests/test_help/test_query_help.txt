@@ -22,5 +22,11 @@ Options:
                                   1<=x<=50]
   --base-vwq-url TEXT             The base URL for the VWQ API.  [default:
                                   https://cloudreco.vuforia.com]
+  --connection-timeout-seconds FLOAT RANGE
+                                  The connection timeout for HTTP requests, in
+                                  seconds.  [default: 30; x>=0.05]
+  --read-timeout-seconds FLOAT RANGE
+                                  The read timeout for HTTP requests, in
+                                  seconds.  [default: 30; x>=0.05]
   --version                       Show the version and exit.
   --help                          Show this message and exit.
