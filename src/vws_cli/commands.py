@@ -178,6 +178,7 @@ def get_target_record(
 @read_timeout_seconds_option
 @beartype
 def list_targets(
+    *,
     server_access_key: str,
     server_secret_key: str,
     base_vws_url: str,
@@ -252,6 +253,7 @@ def get_duplicate_targets(
 @read_timeout_seconds_option
 @beartype
 def get_database_summary_report(
+    *,
     server_access_key: str,
     server_secret_key: str,
     base_vws_url: str,
