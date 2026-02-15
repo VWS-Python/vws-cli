@@ -48,6 +48,10 @@ from vws_cli.options.targets import (
     target_name_option,
     target_width_option,
 )
+from vws_cli.options.timeout import (
+    connection_timeout_seconds_option,
+    read_timeout_seconds_option,
+)
 
 
 @beartype
@@ -131,13 +135,18 @@ def _base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @server_secret_key_option
 @target_id_option
 @_base_vws_url_option
+@connection_timeout_seconds_option
+@read_timeout_seconds_option
 @_handle_vws_exceptions()
 @beartype
 def get_target_record(
+    *,
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
     base_vws_url: str,
+    connection_timeout_seconds: float,
+    read_timeout_seconds: float,
 ) -> None:
     """Get a target record.
 
@@ -149,6 +158,10 @@ def get_target_record(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
     record = vws_client.get_target_record(target_id=target_id).target_record
 
@@ -161,11 +174,15 @@ def get_target_record(
 @server_secret_key_option
 @_handle_vws_exceptions()
 @_base_vws_url_option
+@connection_timeout_seconds_option
+@read_timeout_seconds_option
 @beartype
 def list_targets(
     server_access_key: str,
     server_secret_key: str,
     base_vws_url: str,
+    connection_timeout_seconds: float,
+    read_timeout_seconds: float,
 ) -> None:
     """List targets.
 
@@ -177,6 +194,10 @@ def list_targets(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
     targets = vws_client.list_targets()
     yaml_list = yaml.dump(data=targets)
@@ -189,12 +210,17 @@ def list_targets(
 @target_id_option
 @_handle_vws_exceptions()
 @_base_vws_url_option
+@connection_timeout_seconds_option
+@read_timeout_seconds_option
 @beartype
 def get_duplicate_targets(
+    *,
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
     base_vws_url: str,
+    connection_timeout_seconds: float,
+    read_timeout_seconds: float,
 ) -> None:
     """Get a list of potential duplicate targets.
 
@@ -206,6 +232,10 @@ def get_duplicate_targets(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
     record = vws_client.get_duplicate_targets(target_id=target_id)
 
@@ -218,11 +248,15 @@ def get_duplicate_targets(
 @server_secret_key_option
 @_handle_vws_exceptions()
 @_base_vws_url_option
+@connection_timeout_seconds_option
+@read_timeout_seconds_option
 @beartype
 def get_database_summary_report(
     server_access_key: str,
     server_secret_key: str,
     base_vws_url: str,
+    connection_timeout_seconds: float,
+    read_timeout_seconds: float,
 ) -> None:
     """Get a database summary report.
 
@@ -234,6 +268,10 @@ def get_database_summary_report(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
     report = vws_client.get_database_summary_report()
     yaml_report = yaml.dump(data=dataclasses.asdict(obj=report))
@@ -246,12 +284,17 @@ def get_database_summary_report(
 @target_id_option
 @_handle_vws_exceptions()
 @_base_vws_url_option
+@connection_timeout_seconds_option
+@read_timeout_seconds_option
 @beartype
 def get_target_summary_report(
+    *,
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
     base_vws_url: str,
+    connection_timeout_seconds: float,
+    read_timeout_seconds: float,
 ) -> None:
     """Get a target summary report.
 
@@ -263,6 +306,10 @@ def get_target_summary_report(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
     report = vws_client.get_target_summary_report(target_id=target_id)
     report_dict = dataclasses.asdict(obj=report)
@@ -278,12 +325,17 @@ def get_target_summary_report(
 @target_id_option
 @_handle_vws_exceptions()
 @_base_vws_url_option
+@connection_timeout_seconds_option
+@read_timeout_seconds_option
 @beartype
 def delete_target(
+    *,
     server_access_key: str,
     server_secret_key: str,
     target_id: str,
     base_vws_url: str,
+    connection_timeout_seconds: float,
+    read_timeout_seconds: float,
 ) -> None:
     """Delete a target.
 
@@ -295,6 +347,10 @@ def delete_target(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
 
     vws_client.delete_target(target_id=target_id)
@@ -310,6 +366,8 @@ def delete_target(
 @active_flag_option(allow_none=False)
 @_handle_vws_exceptions()
 @_base_vws_url_option
+@connection_timeout_seconds_option
+@read_timeout_seconds_option
 @beartype
 def add_target(
     *,
@@ -320,6 +378,8 @@ def add_target(
     image_file_path: Path,
     active_flag_choice: ActiveFlagChoice,
     base_vws_url: str,
+    connection_timeout_seconds: float,
+    read_timeout_seconds: float,
     application_metadata: str | None = None,
 ) -> None:
     """Add a target.
@@ -332,6 +392,10 @@ def add_target(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
 
     image_bytes = image_file_path.read_bytes()
@@ -364,6 +428,8 @@ def add_target(
 @target_id_option
 @_handle_vws_exceptions()
 @_base_vws_url_option
+@connection_timeout_seconds_option
+@read_timeout_seconds_option
 @beartype
 def update_target(
     *,
@@ -372,6 +438,8 @@ def update_target(
     target_id: str,
     image_file_path: Path | None,
     base_vws_url: str,
+    connection_timeout_seconds: float,
+    read_timeout_seconds: float,
     name: str | None = None,
     application_metadata: str | None = None,
     active_flag_choice: ActiveFlagChoice | None = None,
@@ -387,6 +455,10 @@ def update_target(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
 
     if image_file_path is None:
@@ -445,6 +517,8 @@ _TIMEOUT_SECONDS_HELP = (
 @server_secret_key_option
 @target_id_option
 @_base_vws_url_option
+@connection_timeout_seconds_option
+@read_timeout_seconds_option
 @_handle_vws_exceptions()
 @beartype
 def wait_for_target_processed(
@@ -454,6 +528,8 @@ def wait_for_target_processed(
     target_id: str,
     seconds_between_requests: float,
     base_vws_url: str,
+    connection_timeout_seconds: float,
+    read_timeout_seconds: float,
     timeout_seconds: float,
 ) -> None:
     """Wait for a target to be "processed". This is done by polling the VWS
@@ -463,6 +539,10 @@ def wait_for_target_processed(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
 
     try:

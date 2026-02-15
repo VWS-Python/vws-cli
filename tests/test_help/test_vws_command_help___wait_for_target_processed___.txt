@@ -23,4 +23,10 @@ Options:
                                   [required]
   --base-vws-url TEXT             The base URL for the VWS API.  [default:
                                   https://vws.vuforia.com]
+  --connection-timeout-seconds FLOAT RANGE
+                                  The connection timeout for HTTP requests, in
+                                  seconds.  [default: 30; x>=0.05]
+  --read-timeout-seconds FLOAT RANGE
+                                  The read timeout for HTTP requests, in
+                                  seconds.  [default: 30; x>=0.05]
   -h, --help                      Show this message and exit.

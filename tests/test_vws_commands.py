@@ -353,6 +353,108 @@ class TestDefaultRequestTimeout:
                 assert result.exit_code == 0
 
 
+class TestCustomRequestTimeout:
+    """Tests for custom request timeout options."""
+
+    @staticmethod
+    def test_custom_timeout(
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+    ) -> None:
+        """Custom connection and read timeouts are respected."""
+        runner = CliRunner()
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        with (
+            freeze_time() as frozen_datetime,
+            MockVWS(
+                response_delay_seconds=5,
+                sleep_fn=lambda seconds: (
+                    frozen_datetime.tick(
+                        delta=datetime.timedelta(seconds=seconds),
+                    ),
+                    None,
+                )[1],
+            ) as mock,
+        ):
+            database = VuforiaDatabase()
+            mock.add_database(database=database)
+            commands = [
+                "add-target",
+                "--name",
+                uuid.uuid4().hex,
+                "--width",
+                "1",
+                "--image",
+                str(object=new_file),
+                "--server-access-key",
+                database.server_access_key,
+                "--server-secret-key",
+                database.server_secret_key,
+                "--read-timeout-seconds",
+                "1",
+            ]
+
+            with pytest.raises(
+                expected_exception=requests.exceptions.Timeout,
+            ):
+                runner.invoke(
+                    cli=vws_group,
+                    args=commands,
+                    catch_exceptions=False,
+                    color=True,
+                )
+
+    @staticmethod
+    def test_custom_timeout_no_error(
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+    ) -> None:
+        """A sufficiently large timeout does not cause an error."""
+        runner = CliRunner()
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        with (
+            freeze_time() as frozen_datetime,
+            MockVWS(
+                response_delay_seconds=5,
+                sleep_fn=lambda seconds: (
+                    frozen_datetime.tick(
+                        delta=datetime.timedelta(seconds=seconds),
+                    ),
+                    None,
+                )[1],
+            ) as mock,
+        ):
+            database = VuforiaDatabase()
+            mock.add_database(database=database)
+            commands = [
+                "add-target",
+                "--name",
+                uuid.uuid4().hex,
+                "--width",
+                "1",
+                "--image",
+                str(object=new_file),
+                "--server-access-key",
+                database.server_access_key,
+                "--server-secret-key",
+                database.server_secret_key,
+                "--read-timeout-seconds",
+                "60",
+            ]
+
+            result = runner.invoke(
+                cli=vws_group,
+                args=commands,
+                catch_exceptions=False,
+                color=True,
+            )
+            assert result.exit_code == 0
+
+
 class TestAddTarget:
     """Tests for ``vws add-target``."""
 
