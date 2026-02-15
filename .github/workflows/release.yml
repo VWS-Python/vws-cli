@@ -23,8 +23,6 @@ jobs:
       id-token: write
       # This is needed for https://github.com/stefanzweifel/git-auto-commit-action.
       contents: write
-      # This is needed for pushing Docker images to ghcr.io.
-      packages: write
 
     steps:
       - uses: actions/checkout@v6
@@ -182,41 +180,85 @@ jobs:
           user_name: adamtheturtle
           commit_message: Bump VWS CLI Homebrew recipe
 
-      - name: Create Linux binary for Vuforia Cloud Reco
-        uses: sayyid5416/pyinstaller@v1
-        with:
-          python_ver: '3.13'
-          pyinstaller_ver: ==6.12.0
-          spec: bin/vuforia-cloud-reco.py
-          requirements: '`echo ${{ steps.build-wheel.outputs.wheel_filename }} > requirements.txt
-            && echo requirements.txt`'
-          options: --onefile, --name "vuforia-cloud-reco-linux"
-          upload_exe_with_name: vuforia-cloud-reco-linux
-          clean_checkout: false
-
-      - name: Create Linux binary for Vuforia Web Services
-        uses: sayyid5416/pyinstaller@v1
-        with:
-          python_ver: '3.13'
-          pyinstaller_ver: ==6.12.0
-          spec: bin/vuforia-web-services.py
-          requirements: '`echo ${{ steps.build-wheel.outputs.wheel_filename }} > requirements.txt
-            && echo requirements.txt`'
-          options: --onefile, --name "vws-linux"
-          upload_exe_with_name: vws-linux
-          clean_checkout: false
-
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
-          # Use specific artifact names (not a glob) so that we get a clear
-          # error if the artifact does not exist for some reason.
-          artifacts: dist/vws-linux,dist/vuforia-cloud-reco-linux
-          artifactErrorsFailBuild: true
           tag: ${{ steps.tag_version.outputs.new_tag }}
           makeLatest: true
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
+
+  build-linux:
+    name: Build Linux binary (${{ matrix.binary.name }})
+    needs: build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        binary:
+          - name: vuforia-cloud-reco-linux
+            spec: bin/vuforia-cloud-reco.py
+          - name: vws-linux
+            spec: bin/vuforia-web-services.py
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.build.outputs.new_tag }}
+
+      # We have a race condition.
+      # In particular, we push to PyPI and then immediately try to install
+      # the pushed version.
+      # Here, we give PyPI time to propagate the package.
+      # We normalize the version (e.g., 2026.01.22 -> 2026.1.22) for PyPI lookup.
+      - name: Wait for PyPI propagation
+        uses: nick-fields/retry@v3
+        with:
+          timeout_seconds: 10
+          max_attempts: 50
+          command: |
+            normalized_version=$(echo "${{ needs.build.outputs.new_tag }}" | sed -E 's/\.0+([0-9])/.\1/g')
+            pip index versions vws-cli | grep -wq "$normalized_version"
+
+      - name: Create requirements file
+        run: echo "vws-cli==${{ needs.build.outputs.new_tag }}" > requirements.txt
+
+      - name: Create Linux binary
+        uses: sayyid5416/pyinstaller@v1
+        with:
+          python_ver: '3.13'
+          pyinstaller_ver: ==6.12.0
+          spec: ${{ matrix.binary.spec }}
+          requirements: requirements.txt
+          options: --onefile, --name "${{ matrix.binary.name }}"
+          upload_exe_with_name: ${{ matrix.binary.name }}
+          clean_checkout: false
+
+      - name: Upload Linux binary to release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{ needs.build.outputs.new_tag }} dist/${{ matrix.binary.name }} --clobber
+
+  publish-docker:
+    name: Publish Docker image
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      # This is needed for pushing Docker images to ghcr.io.
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          ref: ${{ needs.build.outputs.new_tag }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -242,8 +284,8 @@ jobs:
             docker buildx build \
               --push \
               --platform linux/amd64,linux/arm64 \
-              --build-arg VWS_CLI_VERSION=${{ steps.calver.outputs.release }} \
-              --tag ghcr.io/vws-python/vws-cli:${{ steps.calver.outputs.release }} \
+              --build-arg VWS_CLI_VERSION=${{ needs.build.outputs.new_tag }} \
+              --tag ghcr.io/vws-python/vws-cli:${{ needs.build.outputs.new_tag }} \
               --tag ghcr.io/vws-python/vws-cli:latest \
               .
 
