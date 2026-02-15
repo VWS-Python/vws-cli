@@ -1,12 +1,16 @@
 """Test for the Cloud Reco Service commands."""
 
+import datetime
 import io
 import uuid
 from pathlib import Path
 from textwrap import dedent
 
+import pytest
+import requests
 import yaml
 from click.testing import CliRunner
+from freezegun import freeze_time
 from mock_vws import MockVWS
 from mock_vws.database import VuforiaDatabase
 from vws import VWS
@@ -200,6 +204,70 @@ class TestQuery:
             """,
         ).replace("\\", "\\\\")
         assert result.stderr == expected_stderr
+
+
+class TestDefaultRequestTimeout:
+    """Tests for the default request timeout."""
+
+    @staticmethod
+    @pytest.mark.parametrize(
+        argnames=("response_delay_seconds", "expect_timeout"),
+        argvalues=[(29, False), (31, True)],
+    )
+    def test_default_timeout(
+        high_quality_image: io.BytesIO,
+        tmp_path: Path,
+        *,
+        response_delay_seconds: int,
+        expect_timeout: bool,
+    ) -> None:
+        """At 29 seconds there is no error; at 31 seconds there is a
+        timeout.
+        """
+        runner = CliRunner()
+        new_file = tmp_path / uuid.uuid4().hex
+        image_data = high_quality_image.getvalue()
+        new_file.write_bytes(data=image_data)
+        with (
+            freeze_time() as frozen_datetime,
+            MockVWS(
+                response_delay_seconds=response_delay_seconds,
+                sleep_fn=lambda seconds: (
+                    frozen_datetime.tick(
+                        delta=datetime.timedelta(seconds=seconds),
+                    ),
+                    None,
+                )[1],
+            ) as mock,
+        ):
+            database = VuforiaDatabase()
+            mock.add_database(database=database)
+            commands = [
+                str(object=new_file),
+                "--client-access-key",
+                database.client_access_key,
+                "--client-secret-key",
+                database.client_secret_key,
+            ]
+
+            if expect_timeout:
+                with pytest.raises(
+                    expected_exception=requests.exceptions.Timeout,
+                ):
+                    runner.invoke(
+                        cli=vuforia_cloud_reco,
+                        args=commands,
+                        catch_exceptions=False,
+                        color=True,
+                    )
+            else:
+                result = runner.invoke(
+                    cli=vuforia_cloud_reco,
+                    args=commands,
+                    catch_exceptions=False,
+                    color=True,
+                )
+                assert result.exit_code == 0
 
 
 def test_version() -> None:
