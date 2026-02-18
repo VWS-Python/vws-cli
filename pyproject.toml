@@ -74,6 +74,11 @@ optional-dependencies.dev = [
     "sphinx-pyproject==0.3.0",
     "sphinx-substitution-extensions==2026.1.12",
     "sphinxcontrib-spelling==8.0.2",
+    # Listed explicitly (despite being transitive via vws-python-mock) so that
+    # [tool.uv.sources] can redirect to the CPU-only PyTorch index.
+    # See: https://vws-python.github.io/vws-python-mock/installation.html#faster-installation
+    "torch>=2.5.1",
+    "torchvision>=0.20.1",
     "ty==0.0.17",
     "types-pyyaml==6.0.12.20250915",
     "vulture==2.14",
@@ -105,6 +110,11 @@ packages.find.where = [
 # We choose a ``.py`` file so that we can read it without
 # worrying about including the file in MANIFEST.in.
 version_file = "src/vws_cli/_setuptools_scm_version.py"
+
+[tool.uv]
+sources.torch = { index = "pytorch-cpu" }
+sources.torchvision = { index = "pytorch-cpu" }
+index = [ { name = "pytorch-cpu", url = "https://download.pytorch.org/whl/cpu", explicit = true } ]
 
 [tool.ruff]
 line-length = 79
@@ -277,6 +287,13 @@ pep621_dev_dependency_groups = [
     "dev",
     "packaging",
     "release",
+]
+# torch and torchvision are listed explicitly in dev deps to allow
+# [tool.uv.sources] to redirect them to the CPU-only PyTorch index,
+# but they are not directly imported in the vws-cli source code.
+per_rule_ignores.DEP002 = [
+    "torch",
+    "torchvision",
 ]
 
 [tool.pyproject-fmt]
