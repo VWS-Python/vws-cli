@@ -9,6 +9,7 @@ Options:
 Commands:
   add-target                   Add a target.
   delete-target                Delete a target.
+  generate-vumark              Generate a VuMark instance.
   get-database-summary-report  Get a database summary report.
   get-duplicate-targets        Get a list of potential duplicate targets.
   get-target-record            Get a target record.
