@@ -16,8 +16,8 @@ Options:
                                   [required]
   --instance-id TEXT              The instance ID to encode in the VuMark.
                                   [required]
-  --format [svg|png|pdf]          The output format for the generated VuMark.
-                                  [default: svg]
+  --format [png|svg|pdf]          The output format for the generated VuMark.
+                                  [default: png]
   --output FILE                   The path to write the generated VuMark to.
                                   [required]
   --base-vws-url TEXT             The base URL for the VWS API.  [default:
