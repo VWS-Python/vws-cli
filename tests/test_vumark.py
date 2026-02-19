@@ -16,13 +16,23 @@ class TestGenerateVuMark:
     """Tests for ``vws generate-vumark``."""
 
     @staticmethod
-    def test_generate_vumark_png(
+    @pytest.mark.parametrize(
+        argnames=("format_name", "expected_prefix"),
+        argvalues=[
+            pytest.param("png", b"\x89PNG\r\n\x1a\n", id="png"),
+            pytest.param("svg", b"<", id="svg"),
+            pytest.param("pdf", b"%PDF", id="pdf"),
+        ],
+    )
+    def test_generate_vumark_format(
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
+        format_name: str,
+        expected_prefix: bytes,
     ) -> None:
-        """It is possible to generate a VuMark as PNG."""
+        """The returned file matches the requested format."""
         runner = CliRunner()
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
@@ -32,7 +42,7 @@ class TestGenerateVuMark:
             application_metadata=None,
         )
         vws_client.wait_for_target_processed(target_id=target_id)
-        output_file = tmp_path / "output.png"
+        output_file = tmp_path / f"output.{format_name}"
         commands = [
             "generate-vumark",
             "--target-id",
@@ -40,7 +50,7 @@ class TestGenerateVuMark:
             "--instance-id",
             "12345",
             "--format",
-            "png",
+            format_name,
             "--output",
             str(object=output_file),
             "--server-access-key",
@@ -55,97 +65,7 @@ class TestGenerateVuMark:
             color=True,
         )
         assert result.exit_code == 0
-        assert output_file.exists()
-        # PNG files start with the PNG magic bytes.
-        assert output_file.read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
-
-    @staticmethod
-    def test_generate_vumark_svg(
-        mock_database: VuforiaDatabase,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-    ) -> None:
-        """It is possible to generate a VuMark as SVG."""
-        runner = CliRunner()
-        target_id = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        vws_client.wait_for_target_processed(target_id=target_id)
-        output_file = tmp_path / "output.svg"
-        commands = [
-            "generate-vumark",
-            "--target-id",
-            target_id,
-            "--instance-id",
-            "12345",
-            "--format",
-            "svg",
-            "--output",
-            str(object=output_file),
-            "--server-access-key",
-            mock_database.server_access_key,
-            "--server-secret-key",
-            mock_database.server_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vws_group,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        assert result.exit_code == 0
-        assert output_file.exists()
-        # SVG files are XML starting with "<".
-        assert output_file.read_bytes().startswith(b"<")
-
-    @staticmethod
-    def test_generate_vumark_pdf(
-        mock_database: VuforiaDatabase,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-    ) -> None:
-        """It is possible to generate a VuMark as PDF."""
-        runner = CliRunner()
-        target_id = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        vws_client.wait_for_target_processed(target_id=target_id)
-        output_file = tmp_path / "output.pdf"
-        commands = [
-            "generate-vumark",
-            "--target-id",
-            target_id,
-            "--instance-id",
-            "12345",
-            "--format",
-            "pdf",
-            "--output",
-            str(object=output_file),
-            "--server-access-key",
-            mock_database.server_access_key,
-            "--server-secret-key",
-            mock_database.server_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vws_group,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        assert result.exit_code == 0
-        assert output_file.exists()
-        # PDF files start with the PDF magic bytes.
-        assert output_file.read_bytes().startswith(b"%PDF")
+        assert output_file.read_bytes().startswith(expected_prefix)
 
     @staticmethod
     def test_default_format_is_png(
