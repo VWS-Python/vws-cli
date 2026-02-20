@@ -2336,7 +2336,7 @@ requires-dist = [
     { name = "types-pyyaml", marker = "extra == 'dev'", specifier = "==6.0.12.20250915" },
     { name = "vulture", marker = "extra == 'dev'", specifier = "==2.14" },
     { name = "vws-python", specifier = "==2026.2.15" },
-    { name = "vws-python-mock", marker = "extra == 'dev'", specifier = "==2026.2.15.5" },
+    { name = "vws-python-mock", marker = "extra == 'dev'", specifier = "==2026.2.18.2" },
     { name = "vws-test-fixtures", marker = "extra == 'dev'", specifier = "==2023.3.5" },
     { name = "yamlfix", marker = "extra == 'dev'", specifier = "==1.19.1" },
     { name = "zizmor", marker = "extra == 'dev'", specifier = "==1.22.0" },
@@ -2360,7 +2360,7 @@ wheels = [
 
 [[package]]
 name = "vws-python-mock"
-version = "2026.2.15.5"
+version = "2026.2.18.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
@@ -2374,13 +2374,15 @@ dependencies = [
     { name = "torch", version = "2.10.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "sys_platform == 'darwin'" },
     { name = "torch", version = "2.10.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "sys_platform != 'darwin'" },
     { name = "torchmetrics" },
+    { name = "torchvision", version = "0.25.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "sys_platform == 'darwin'" },
+    { name = "torchvision", version = "0.25.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "sys_platform != 'darwin'" },
     { name = "tzdata", marker = "sys_platform == 'win32'" },
     { name = "vws-auth-tools" },
     { name = "werkzeug" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/bc/e5/f8fd558b01fbd19153636b0e0b58064232544fb2a688770d7078f24fa7b4/vws_python_mock-2026.2.15.5.tar.gz", hash = "sha256:940e6c089c2c94fbd97a6ddb7efcc702d8dd808bbb33eb8f69ff22062dd74256", size = 133098, upload-time = "2026-02-15T21:42:44.852Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/83/24/175ccf77f9bface58e1e123cb11452a3750697cafa8e49861ccba746f0ec/vws_python_mock-2026.2.18.2.tar.gz", hash = "sha256:3ff8da4b2852297864325c7762f8ad03f038c8f769e3d03e94599d9d7eb729a2", size = 155314, upload-time = "2026-02-18T23:28:26.783Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e1/a3/f10539e8a0968e970df25459f8f8800083e3cd29be78978d065f2b63aac2/vws_python_mock-2026.2.15.5-py2.py3-none-any.whl", hash = "sha256:5e9ff1ac1eb52cd5470535fbc0eaa59362d736a75907bc5ce16b3a42ae8a9653", size = 64161, upload-time = "2026-02-15T21:42:43.125Z" },
+    { url = "https://files.pythonhosted.org/packages/cf/dd/d7e46ccdca4549e5d88c126e5d8c7f8585d3c210aec9dfe52efcb6d0cc19/vws_python_mock-2026.2.18.2-py2.py3-none-any.whl", hash = "sha256:2027b309e1f295bf487f040bca2abea624990a189c18b76238d7d7f4b5c49abc", size = 65554, upload-time = "2026-02-18T23:28:24.753Z" },
 ]
 
 [[package]]
