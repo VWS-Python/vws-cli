@@ -8,7 +8,7 @@ from pathlib import Path
 
 import click
 from beartype import beartype
-from vws import VWS
+from vws import VuMarkService
 from vws.exceptions.base_exceptions import VWSError
 from vws.exceptions.custom_exceptions import ServerError
 from vws.exceptions.vws_exceptions import (
@@ -170,7 +170,7 @@ def generate_vumark(
     See
     https://developer.vuforia.com/library/vuforia-engine/web-api/vumark-generation-web-api/
     """
-    vws_client = VWS(
+    vumark_client = VuMarkService(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
@@ -182,7 +182,7 @@ def generate_vumark(
 
     accept = _FORMAT_CHOICE_TO_ACCEPT[format_choice]
 
-    vumark_data = vws_client.generate_vumark_instance(  # type: ignore[attr-defined]
+    vumark_data = vumark_client.generate_vumark_instance(
         target_id=target_id,
         instance_id=instance_id,
         accept=accept,
