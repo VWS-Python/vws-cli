@@ -15,6 +15,7 @@ from vws.exceptions.vws_exceptions import (
     AuthenticationFailureError,
     FailError,
     InvalidInstanceIdError,
+    InvalidTargetTypeError,
     ProjectHasNoAPIAccessError,
     ProjectInactiveError,
     ProjectSuspendedError,
@@ -69,6 +70,9 @@ def _get_vumark_error_message(exc: Exception) -> str:
 
     if isinstance(exc, InvalidInstanceIdError):
         return "Error: The given instance ID is invalid."
+
+    if isinstance(exc, InvalidTargetTypeError):
+        return "Error: The target is not a VuMark template target."
 
     exc_type_to_message: Mapping[type[Exception], str] = {
         AuthenticationFailureError: "The given secret key was incorrect.",
