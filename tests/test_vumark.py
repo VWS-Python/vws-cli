@@ -15,6 +15,7 @@ from vws.exceptions.vws_exceptions import (
     AuthenticationFailureError,
     FailError,
     InvalidInstanceIdError,
+    InvalidTargetTypeError,
     ProjectHasNoAPIAccessError,
     ProjectInactiveError,
     ProjectSuspendedError,
@@ -24,6 +25,7 @@ from vws.exceptions.vws_exceptions import (
     UnknownTargetError,
 )
 from vws.response import Response
+from vws.vumark_accept import VuMarkAccept
 
 from vws_cli import vumark as vumark_module
 
@@ -51,27 +53,42 @@ class TestGenerateVuMark:
         ],
     )
     def test_generate_vumark_format(  # pylint: disable=too-many-positional-arguments
+        monkeypatch: pytest.MonkeyPatch,
         mock_database: CloudDatabase,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
         tmp_path: Path,
         format_name: str,
         expected_prefix: bytes,
     ) -> None:
         """The returned file matches the requested format."""
-        runner = CliRunner()
-        target_id = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
+        format_to_output_bytes = {
+            VuMarkAccept.PNG: b"\x89PNG\r\n\x1a\nfake-png",
+            VuMarkAccept.SVG: b"<svg></svg>",
+            VuMarkAccept.PDF: b"%PDF-1.7\n",
+        }
+
+        def mock_generate_vumark_instance(
+            _self: object,
+            *,
+            target_id: str,
+            instance_id: str,
+            accept: VuMarkAccept,
+        ) -> bytes:
+            """Return fake bytes for the requested format."""
+            assert target_id == "some-target-id"
+            assert instance_id == "12345"
+            return format_to_output_bytes[accept]
+
+        monkeypatch.setattr(
+            target=vumark_module.VuMarkService,
+            name="generate_vumark_instance",
+            value=mock_generate_vumark_instance,
         )
-        vws_client.wait_for_target_processed(target_id=target_id)
+
+        runner = CliRunner()
         output_file = tmp_path / f"output.{format_name}"
         commands = [
             "--target-id",
-            target_id,
+            "some-target-id",
             "--instance-id",
             "12345",
             "--format",
@@ -94,25 +111,36 @@ class TestGenerateVuMark:
 
     @staticmethod
     def test_default_format_is_png(
+        monkeypatch: pytest.MonkeyPatch,
         mock_database: CloudDatabase,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
         tmp_path: Path,
     ) -> None:
         """The default output format is png."""
-        runner = CliRunner()
-        target_id = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
+
+        def mock_generate_vumark_instance(
+            _self: object,
+            *,
+            target_id: str,
+            instance_id: str,
+            accept: VuMarkAccept,
+        ) -> bytes:
+            """Return fake PNG bytes."""
+            assert target_id == "some-target-id"
+            assert instance_id == "12345"
+            assert accept is VuMarkAccept.PNG
+            return b"\x89PNG\r\n\x1a\nfake-png"
+
+        monkeypatch.setattr(
+            target=vumark_module.VuMarkService,
+            name="generate_vumark_instance",
+            value=mock_generate_vumark_instance,
         )
-        vws_client.wait_for_target_processed(target_id=target_id)
+
+        runner = CliRunner()
         output_file = tmp_path / "output.png"
         commands = [
             "--target-id",
-            target_id,
+            "some-target-id",
             "--instance-id",
             "12345",
             "--output",
@@ -170,25 +198,38 @@ class TestGenerateVuMark:
 
     @staticmethod
     def test_invalid_instance_id(
+        monkeypatch: pytest.MonkeyPatch,
         mock_database: CloudDatabase,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
         tmp_path: Path,
     ) -> None:
         """An error is shown when the instance ID is invalid."""
-        runner = CliRunner()
-        target_id = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
+
+        def mock_generate_vumark_instance(
+            _self: object,
+            *,
+            target_id: str,
+            instance_id: str,
+            accept: VuMarkAccept,
+        ) -> bytes:
+            """Raise InvalidInstanceIdError for an empty instance ID."""
+            assert target_id == "some-target-id"
+            assert instance_id == ""
+            assert accept is VuMarkAccept.PNG
+            raise InvalidInstanceIdError(
+                response=_response_for_target(target_id=target_id),
+            )
+
+        monkeypatch.setattr(
+            target=vumark_module.VuMarkService,
+            name="generate_vumark_instance",
+            value=mock_generate_vumark_instance,
         )
-        vws_client.wait_for_target_processed(target_id=target_id)
+
+        runner = CliRunner()
         output_file = tmp_path / "output.png"
         commands = [
             "--target-id",
-            target_id,
+            "some-target-id",
             "--instance-id",
             "",
             "--output",
@@ -312,6 +353,11 @@ def _response_for_target(target_id: str = "some-target-id") -> Response:
             InvalidInstanceIdError,
             "Error: The given instance ID is invalid.",
             id="invalid_instance_id",
+        ),
+        pytest.param(
+            InvalidTargetTypeError,
+            "Error: The target is not a VuMark template target.",
+            id="invalid_target_type",
         ),
         pytest.param(
             AuthenticationFailureError,
