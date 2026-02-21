@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, cast
 import pytest
 from click.testing import CliRunner
 from mock_vws.database import CloudDatabase
-from vws import VWS
+from vws import VWS, VuMarkService
 from vws.exceptions.base_exceptions import VWSError
 from vws.exceptions.custom_exceptions import ServerError
 from vws.exceptions.vws_exceptions import (
@@ -79,7 +79,7 @@ class TestGenerateVuMark:
             return format_to_output_bytes[accept]
 
         monkeypatch.setattr(
-            target=vumark_module.VuMarkService,
+            target=VuMarkService,
             name="generate_vumark_instance",
             value=mock_generate_vumark_instance,
         )
@@ -131,7 +131,7 @@ class TestGenerateVuMark:
             return b"\x89PNG\r\n\x1a\nfake-png"
 
         monkeypatch.setattr(
-            target=vumark_module.VuMarkService,
+            target=VuMarkService,
             name="generate_vumark_instance",
             value=mock_generate_vumark_instance,
         )
@@ -220,7 +220,7 @@ class TestGenerateVuMark:
             )
 
         monkeypatch.setattr(
-            target=vumark_module.VuMarkService,
+            target=VuMarkService,
             name="generate_vumark_instance",
             value=mock_generate_vumark_instance,
         )
