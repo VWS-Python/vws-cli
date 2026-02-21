@@ -21,6 +21,7 @@ from vws.exceptions.vws_exceptions import (
 )
 from vws.vumark_accept import VuMarkAccept
 
+from vws_cli import __version__
 from vws_cli.options.credentials import (
     server_access_key_option,
     server_secret_key_option,
@@ -118,7 +119,7 @@ def _base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
     return click_option_function(command)
 
 
-@click.command(name="generate-vumark")
+@click.command(name="vumark")
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
@@ -151,6 +152,7 @@ def _base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
 @_base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
+@click.version_option(version=__version__)
 @beartype
 def generate_vumark(
     *,

@@ -16,7 +16,6 @@ from vws_cli.commands import (
     update_target,
     wait_for_target_processed,
 )
-from vws_cli.vumark import generate_vumark
 
 _CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
@@ -42,7 +41,6 @@ def vws_group() -> None:
 
 vws_group.add_command(cmd=add_target)
 vws_group.add_command(cmd=delete_target)
-vws_group.add_command(cmd=generate_vumark)
 vws_group.add_command(cmd=get_database_summary_report)
 vws_group.add_command(cmd=get_duplicate_targets)
 vws_group.add_command(cmd=get_target_record)

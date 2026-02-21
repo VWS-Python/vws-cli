@@ -1,4 +1,4 @@
-Usage: vws generate-vumark [OPTIONS]
+Usage: vumark [OPTIONS]
 
   Generate a VuMark instance.
 
@@ -28,4 +28,5 @@ Options:
   --read-timeout-seconds FLOAT RANGE
                                   The read timeout for HTTP requests, in
                                   seconds.  [default: 30; x>=0.05]
-  -h, --help                      Show this message and exit.
+  --version                       Show the version and exit.
+  --help                          Show this message and exit.

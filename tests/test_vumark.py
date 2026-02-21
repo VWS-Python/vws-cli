@@ -1,4 +1,4 @@
-"""Tests for VWS CLI VuMark commands."""
+"""Tests for the ``vumark`` CLI command."""
 
 import io
 import uuid
@@ -9,11 +9,11 @@ from click.testing import CliRunner
 from mock_vws.database import VuforiaDatabase
 from vws import VWS
 
-from vws_cli import vws_group
+from vws_cli.vumark import generate_vumark
 
 
 class TestGenerateVuMark:
-    """Tests for ``vws generate-vumark``."""
+    """Tests for ``vumark``."""
 
     @staticmethod
     @pytest.mark.parametrize(
@@ -44,7 +44,6 @@ class TestGenerateVuMark:
         vws_client.wait_for_target_processed(target_id=target_id)
         output_file = tmp_path / f"output.{format_name}"
         commands = [
-            "generate-vumark",
             "--target-id",
             target_id,
             "--instance-id",
@@ -59,7 +58,7 @@ class TestGenerateVuMark:
             mock_database.server_secret_key,
         ]
         result = runner.invoke(
-            cli=vws_group,
+            cli=generate_vumark,
             args=commands,
             catch_exceptions=False,
             color=True,
@@ -86,7 +85,6 @@ class TestGenerateVuMark:
         vws_client.wait_for_target_processed(target_id=target_id)
         output_file = tmp_path / "output.png"
         commands = [
-            "generate-vumark",
             "--target-id",
             target_id,
             "--instance-id",
@@ -99,7 +97,7 @@ class TestGenerateVuMark:
             mock_database.server_secret_key,
         ]
         result = runner.invoke(
-            cli=vws_group,
+            cli=generate_vumark,
             args=commands,
             catch_exceptions=False,
             color=True,
@@ -117,7 +115,6 @@ class TestGenerateVuMark:
         runner = CliRunner()
         output_file = tmp_path / "output.png"
         commands = [
-            "generate-vumark",
             "--target-id",
             "non-existent-target-id",
             "--instance-id",
@@ -130,7 +127,7 @@ class TestGenerateVuMark:
             mock_database.server_secret_key,
         ]
         result = runner.invoke(
-            cli=vws_group,
+            cli=generate_vumark,
             args=commands,
             catch_exceptions=False,
             color=True,
@@ -160,7 +157,6 @@ class TestGenerateVuMark:
         vws_client.wait_for_target_processed(target_id=target_id)
         output_file = tmp_path / "output.png"
         commands = [
-            "generate-vumark",
             "--target-id",
             target_id,
             "--instance-id",
@@ -173,7 +169,7 @@ class TestGenerateVuMark:
             mock_database.server_secret_key,
         ]
         result = runner.invoke(
-            cli=vws_group,
+            cli=generate_vumark,
             args=commands,
             catch_exceptions=False,
             color=True,
@@ -203,7 +199,6 @@ class TestGenerateVuMark:
         # Do not wait for target to be processed - it will be in processing state.
         output_file = tmp_path / "output.png"
         commands = [
-            "generate-vumark",
             "--target-id",
             target_id,
             "--instance-id",
@@ -216,7 +211,7 @@ class TestGenerateVuMark:
             mock_database.server_secret_key,
         ]
         result = runner.invoke(
-            cli=vws_group,
+            cli=generate_vumark,
             args=commands,
             catch_exceptions=False,
             color=True,
@@ -239,7 +234,6 @@ def test_invalid_format(
     runner = CliRunner()
     output_file = tmp_path / "output"
     commands = [
-        "generate-vumark",
         "--target-id",
         "some-target-id",
         "--instance-id",
@@ -254,7 +248,7 @@ def test_invalid_format(
         mock_database.server_secret_key,
     ]
     result = runner.invoke(
-        cli=vws_group,
+        cli=generate_vumark,
         args=commands,
         catch_exceptions=False,
         color=True,
