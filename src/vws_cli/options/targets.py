@@ -64,6 +64,7 @@ class ActiveFlagChoice(Enum):
     FALSE = "false"
 
 
+@beartype
 def active_flag_option(
     *,
     allow_none: bool,
