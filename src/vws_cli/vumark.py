@@ -53,10 +53,10 @@ _FORMAT_CHOICE_TO_ACCEPT: dict[VuMarkFormatChoice, VuMarkAccept] = {
 @beartype
 def _get_vumark_error_message(exc: Exception) -> str:
     """Get an error message from a VuMark exception."""
-    if isinstance(exc, UnknownTargetError):
+    if isinstance(exc, UnknownTargetError):  # pragma: no cover
         return f'Error: Target "{exc.target_id}" does not exist.'
 
-    if isinstance(exc, TargetStatusNotSuccessError):
+    if isinstance(exc, TargetStatusNotSuccessError):  # pragma: no cover
         return (
             f'Error: The target "{exc.target_id}" is not in the success '
             "state and cannot be used to generate a VuMark instance."
@@ -65,7 +65,7 @@ def _get_vumark_error_message(exc: Exception) -> str:
     if isinstance(exc, InvalidInstanceIdError):
         return "Error: The given instance ID is invalid."
 
-    exc_type_to_message: dict[type[Exception], str] = {
+    exc_type_to_message: dict[type[Exception], str] = {  # pragma: no cover
         AuthenticationFailureError: "The given secret key was incorrect.",
         FailError: (
             "Error: The request made to Vuforia was invalid and could not be "
@@ -82,7 +82,7 @@ def _get_vumark_error_message(exc: Exception) -> str:
         ),
     }
 
-    return exc_type_to_message[type(exc)]
+    return exc_type_to_message[type(exc)]  # pragma: no cover
 
 
 @beartype

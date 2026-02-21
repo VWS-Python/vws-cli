@@ -107,6 +107,10 @@ class TestGenerateVuMark:
         assert output_file.read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
 
     @staticmethod
+    @pytest.mark.xfail(
+        reason="mock-vws does not yet handle unknown targets for VuMark",
+        strict=True,
+    )
     def test_unknown_target(
         mock_database: VuforiaDatabase,
         tmp_path: Path,
@@ -179,6 +183,10 @@ class TestGenerateVuMark:
         assert result.stderr == expected_stderr
 
     @staticmethod
+    @pytest.mark.xfail(
+        reason="mock-vws does not yet validate target status for VuMark",
+        strict=True,
+    )
     def test_target_not_in_success_state(
         mock_database: VuforiaDatabase,
         vws_client: VWS,
