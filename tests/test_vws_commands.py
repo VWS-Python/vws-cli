@@ -23,6 +23,7 @@ from vws_cli import vws_group
 
 
 def test_get_database_summary_report(
+    *,
     mock_database: VuforiaDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
@@ -71,6 +72,7 @@ def test_get_database_summary_report(
 
 
 def test_list_targets(
+    *,
     mock_database: VuforiaDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
@@ -112,6 +114,7 @@ def test_list_targets(
 
 
 def test_get_target_record(
+    *,
     mock_database: VuforiaDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
@@ -154,6 +157,7 @@ def test_get_target_record(
 
 
 def test_get_target_summary_report(
+    *,
     mock_database: VuforiaDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
@@ -202,6 +206,7 @@ def test_get_target_summary_report(
 
 
 def test_delete_target(
+    *,
     mock_database: VuforiaDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
@@ -238,6 +243,7 @@ def test_delete_target(
 
 
 def test_get_duplicate_targets(
+    *,
     mock_database: VuforiaDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
@@ -292,9 +298,9 @@ class TestDefaultRequestTimeout:
         argvalues=[(29, False), (31, True)],
     )
     def test_default_timeout(
+        *,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
-        *,
         response_delay_seconds: int,
         expect_timeout: bool,
     ) -> None:
@@ -358,6 +364,7 @@ class TestCustomRequestTimeout:
 
     @staticmethod
     def test_custom_timeout(
+        *,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
     ) -> None:
@@ -408,6 +415,7 @@ class TestCustomRequestTimeout:
 
     @staticmethod
     def test_custom_timeout_no_error(
+        *,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
     ) -> None:
@@ -460,6 +468,7 @@ class TestAddTarget:
 
     @staticmethod
     def test_add_target(
+        *,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -510,6 +519,7 @@ class TestAddTarget:
 
     @staticmethod
     def test_image_file_does_not_exist(
+        *,
         mock_database: VuforiaDatabase,
         tmp_path: Path,
     ) -> None:
@@ -553,6 +563,7 @@ class TestAddTarget:
 
     @staticmethod
     def test_image_file_is_dir(
+        *,
         mock_database: VuforiaDatabase,
         tmp_path: Path,
     ) -> None:
@@ -596,6 +607,7 @@ class TestAddTarget:
 
     @staticmethod
     def test_relative_path(
+        *,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -637,6 +649,7 @@ class TestAddTarget:
 
     @staticmethod
     def test_custom_metadata(
+        *,
         mock_database: VuforiaDatabase,
         cloud_reco_client: CloudRecoService,
         vws_client: VWS,
@@ -694,12 +707,12 @@ class TestAddTarget:
         ],
     )
     def test_custom_active_flag(
+        *,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
         active_flag_given: str,
-        *,
         active_flag_expected: bool,
     ) -> None:
         """The Active Flag of the new target can be chosen."""
@@ -741,6 +754,7 @@ class TestWaitForTargetProcessed:
 
     @staticmethod
     def test_wait_for_target_processed(
+        *,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -1138,6 +1152,7 @@ class TestUpdateTarget:
 
     @staticmethod
     def test_no_fields_given(
+        *,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -1175,6 +1190,7 @@ class TestUpdateTarget:
 
     @staticmethod
     def test_image_file_does_not_exist(
+        *,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -1226,6 +1242,7 @@ class TestUpdateTarget:
 
     @staticmethod
     def test_image_file_is_dir(
+        *,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -1277,6 +1294,7 @@ class TestUpdateTarget:
 
     @staticmethod
     def test_relative_path(
+        *,
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,

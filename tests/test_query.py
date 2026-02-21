@@ -23,6 +23,7 @@ class TestQuery:
 
     @staticmethod
     def test_no_matches(
+        *,
         mock_database: VuforiaDatabase,
         tmp_path: Path,
         high_quality_image: io.BytesIO,
@@ -51,6 +52,7 @@ class TestQuery:
 
     @staticmethod
     def test_matches(
+        *,
         tmp_path: Path,
         high_quality_image: io.BytesIO,
         vws_client: VWS,
@@ -100,6 +102,7 @@ class TestQuery:
 
     @staticmethod
     def test_image_file_is_dir(
+        *,
         tmp_path: Path,
         mock_database: VuforiaDatabase,
     ) -> None:
@@ -137,6 +140,7 @@ class TestQuery:
 
     @staticmethod
     def test_relative_path(
+        *,
         tmp_path: Path,
         mock_database: VuforiaDatabase,
         high_quality_image: io.BytesIO,
@@ -170,6 +174,7 @@ class TestQuery:
 
     @staticmethod
     def test_image_file_does_not_exist(
+        *,
         mock_database: VuforiaDatabase,
         tmp_path: Path,
     ) -> None:
@@ -215,9 +220,9 @@ class TestDefaultRequestTimeout:
         argvalues=[(29, False), (31, True)],
     )
     def test_default_timeout(
+        *,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
-        *,
         response_delay_seconds: int,
         expect_timeout: bool,
     ) -> None:
@@ -275,6 +280,7 @@ class TestCustomRequestTimeout:
 
     @staticmethod
     def test_custom_timeout(
+        *,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
     ) -> None:
@@ -319,6 +325,7 @@ class TestCustomRequestTimeout:
 
     @staticmethod
     def test_custom_timeout_no_error(
+        *,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
     ) -> None:
@@ -379,6 +386,7 @@ class TestMaxNumResults:
 
     @staticmethod
     def test_default(
+        *,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -425,6 +433,7 @@ class TestMaxNumResults:
 
     @staticmethod
     def test_custom(
+        *,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -482,6 +491,7 @@ class TestMaxNumResults:
 
     @staticmethod
     def test_out_of_range(
+        *,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
         mock_database: VuforiaDatabase,
@@ -520,6 +530,7 @@ class TestIncludeTargetData:
 
     @staticmethod
     def test_default(
+        *,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -569,6 +580,7 @@ class TestIncludeTargetData:
 
     @staticmethod
     def test_top(
+        *,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -623,6 +635,7 @@ class TestIncludeTargetData:
 
     @staticmethod
     def test_none(
+        *,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -677,6 +690,7 @@ class TestIncludeTargetData:
 
     @staticmethod
     def test_all(
+        *,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -729,6 +743,7 @@ class TestIncludeTargetData:
 
     @staticmethod
     def test_other(
+        *,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
         mock_database: VuforiaDatabase,
@@ -768,7 +783,9 @@ class TestIncludeTargetData:
         assert expected_stderr in result.stderr
 
 
-def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
+def test_base_vwq_url(
+    *, high_quality_image: io.BytesIO, tmp_path: Path
+) -> None:
     """
     It is possible to use query a target to a database under a custom
     VWQ URL.
@@ -818,6 +835,7 @@ def test_base_vwq_url(high_quality_image: io.BytesIO, tmp_path: Path) -> None:
 
 
 def test_env_var_credentials(
+    *,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
     mock_database: VuforiaDatabase,

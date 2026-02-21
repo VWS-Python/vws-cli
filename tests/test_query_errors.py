@@ -14,6 +14,7 @@ from vws_cli.query import vuforia_cloud_reco
 
 
 def test_authentication_failure(
+    *,
     mock_database: VuforiaDatabase,
     tmp_path: Path,
     high_quality_image: io.BytesIO,
@@ -42,6 +43,7 @@ def test_authentication_failure(
 
 
 def test_image_too_large(
+    *,
     mock_database: VuforiaDatabase,
     tmp_path: Path,
     png_too_large: io.BytesIO,
@@ -70,6 +72,7 @@ def test_image_too_large(
 
 
 def test_bad_image(
+    *,
     mock_database: VuforiaDatabase,
     tmp_path: Path,
 ) -> None:
@@ -102,6 +105,7 @@ def test_bad_image(
 
 
 def test_inactive_project(
+    *,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
 ) -> None:
@@ -140,6 +144,7 @@ def test_inactive_project(
 
 
 def test_request_time_too_skewed(
+    *,
     high_quality_image: io.BytesIO,
     mock_database: VuforiaDatabase,
     tmp_path: Path,
