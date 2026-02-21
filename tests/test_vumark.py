@@ -161,15 +161,32 @@ class TestGenerateVuMark:
         assert output_file.read_bytes().startswith(b"\x89PNG\r\n\x1a\n")
 
     @staticmethod
-    @pytest.mark.xfail(
-        reason="mock-vws does not yet handle unknown targets for VuMark",
-        strict=True,
-    )
     def test_unknown_target(
+        monkeypatch: pytest.MonkeyPatch,
         mock_database: CloudDatabase,
         tmp_path: Path,
     ) -> None:
         """An error is shown when the target ID does not exist."""
+
+        def mock_generate_vumark_instance(
+            _self: object,
+            *,
+            target_id: str,
+            instance_id: str,
+            accept: VuMarkAccept,
+        ) -> bytes:
+            """Raise UnknownTargetError for a non-existent target."""
+            _ = instance_id, accept
+            raise UnknownTargetError(
+                response=_response_for_target(target_id=target_id),
+            )
+
+        monkeypatch.setattr(
+            target=VuMarkService,
+            name="generate_vumark_instance",
+            value=mock_generate_vumark_instance,
+        )
+
         runner = CliRunner()
         output_file = tmp_path / "output.png"
         commands = [
