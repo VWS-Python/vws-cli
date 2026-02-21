@@ -24,7 +24,7 @@ class TestGenerateVuMark:
             pytest.param("pdf", b"%PDF", id="pdf"),
         ],
     )
-    def test_generate_vumark_format(
+    def test_generate_vumark_format(  # pylint: disable=too-many-positional-arguments
         mock_database: VuforiaDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
@@ -74,7 +74,7 @@ class TestGenerateVuMark:
         high_quality_image: io.BytesIO,
         tmp_path: Path,
     ) -> None:
-        """The default output format is PNG."""
+        """The default output format is png."""
         runner = CliRunner()
         target_id = vws_client.add_target(
             name=uuid.uuid4().hex,
@@ -235,7 +235,7 @@ def test_invalid_format(
     tmp_path: Path,
     invalid_format: str,
 ) -> None:
-    """An error is shown for an unrecognised format choice."""
+    """An error is shown for an unrecognized format choice."""
     runner = CliRunner()
     output_file = tmp_path / "output"
     commands = [
