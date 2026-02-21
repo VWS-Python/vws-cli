@@ -99,10 +99,11 @@ def _get_vumark_error_message(exc: Exception) -> str:
         ),
     }
 
-    return exc_type_to_message.get(
-        type(exc),
-        default="Error: There was an unexpected error from Vuforia.",
-    )
+    error_message = exc_type_to_message.get(type(exc))
+    if error_message is not None:
+        return error_message
+
+    return "Error: There was an unexpected error from Vuforia."
 
 
 @beartype

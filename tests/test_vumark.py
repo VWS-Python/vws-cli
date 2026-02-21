@@ -3,6 +3,7 @@
 import io
 import uuid
 from pathlib import Path
+from typing import TYPE_CHECKING, cast
 
 import pytest
 from click.testing import CliRunner
@@ -24,7 +25,17 @@ from vws.exceptions.vws_exceptions import (
 )
 from vws.response import Response
 
-from vws_cli.vumark import _get_vumark_error_message, generate_vumark
+from vws_cli import vumark as vumark_module
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+generate_vumark = vumark_module.generate_vumark
+_GET_VUMARK_ERROR_MESSAGE_NAME = "_get_vumark_error_message"
+get_vumark_error_message = cast(
+    "Callable[[Exception], str]",
+    getattr(vumark_module, _GET_VUMARK_ERROR_MESSAGE_NAME),
+)
 
 
 class TestGenerateVuMark:
@@ -366,7 +377,7 @@ def test_get_vumark_error_message(
 ) -> None:
     """Expected message is returned for mapped exceptions."""
     exc = exception_type(response=_response_for_target())
-    assert _get_vumark_error_message(exc=exc) == expected_message
+    assert get_vumark_error_message(exc) == expected_message
 
 
 def test_get_vumark_error_message_for_unknown_target() -> None:
@@ -376,7 +387,7 @@ def test_get_vumark_error_message_for_unknown_target() -> None:
         response=_response_for_target(target_id=target_id)
     )
     assert (
-        _get_vumark_error_message(exc=exc)
+        get_vumark_error_message(exc)
         == f'Error: Target "{target_id}" does not exist.'
     )
 
@@ -387,7 +398,7 @@ def test_get_vumark_error_message_for_target_not_success() -> None:
     exc = TargetStatusNotSuccessError(
         response=_response_for_target(target_id=target_id),
     )
-    assert _get_vumark_error_message(exc=exc) == (
+    assert get_vumark_error_message(exc) == (
         f'Error: The target "{target_id}" is not in the success state and '
         "cannot be used to generate a VuMark instance."
     )
@@ -401,6 +412,6 @@ def test_get_vumark_error_message_for_unexpected_vws_error() -> None:
 
     exc = UnexpectedVWSError(response=_response_for_target())
     assert (
-        _get_vumark_error_message(exc=exc)
+        get_vumark_error_message(exc)
         == "Error: There was an unexpected error from Vuforia."
     )
