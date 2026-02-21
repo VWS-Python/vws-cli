@@ -182,10 +182,10 @@ def generate_vumark(
 
     accept = _FORMAT_CHOICE_TO_ACCEPT[format_choice]
 
-    vumark_data = vws_client.generate_vumark_instance(
+    vumark_data = vws_client.generate_vumark_instance(  # type: ignore[attr-defined]
         target_id=target_id,
         instance_id=instance_id,
         accept=accept,
     )
 
-    output_file_path.write_bytes(vumark_data)
+    output_file_path.write_bytes(data=vumark_data)
