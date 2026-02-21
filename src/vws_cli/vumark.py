@@ -2,7 +2,7 @@
 
 import contextlib
 import sys
-from collections.abc import Callable, Iterator
+from collections.abc import Iterator, Mapping
 from enum import StrEnum, unique
 from pathlib import Path
 
@@ -15,6 +15,10 @@ from vws.exceptions.vws_exceptions import (
     AuthenticationFailureError,
     FailError,
     InvalidInstanceIdError,
+    ProjectHasNoAPIAccessError,
+    ProjectInactiveError,
+    ProjectSuspendedError,
+    RequestQuotaReachedError,
     RequestTimeTooSkewedError,
     TargetStatusNotSuccessError,
     UnknownTargetError,
@@ -31,6 +35,7 @@ from vws_cli.options.timeout import (
     connection_timeout_seconds_option,
     read_timeout_seconds_option,
 )
+from vws_cli.options.vws import base_vws_url_option
 
 
 @beartype
@@ -53,10 +58,10 @@ _FORMAT_CHOICE_TO_ACCEPT: dict[VuMarkFormatChoice, VuMarkAccept] = {
 @beartype
 def _get_vumark_error_message(exc: Exception) -> str:
     """Get an error message from a VuMark exception."""
-    if isinstance(exc, UnknownTargetError):  # pragma: no cover
+    if isinstance(exc, UnknownTargetError):
         return f'Error: Target "{exc.target_id}" does not exist.'
 
-    if isinstance(exc, TargetStatusNotSuccessError):  # pragma: no cover
+    if isinstance(exc, TargetStatusNotSuccessError):
         return (
             f'Error: The target "{exc.target_id}" is not in the success '
             "state and cannot be used to generate a VuMark instance."
@@ -65,7 +70,7 @@ def _get_vumark_error_message(exc: Exception) -> str:
     if isinstance(exc, InvalidInstanceIdError):
         return "Error: The given instance ID is invalid."
 
-    exc_type_to_message: dict[type[Exception], str] = {  # pragma: no cover
+    exc_type_to_message: Mapping[type[Exception], str] = {
         AuthenticationFailureError: "The given secret key was incorrect.",
         FailError: (
             "Error: The request made to Vuforia was invalid and could not be "
@@ -76,13 +81,28 @@ def _get_vumark_error_message(exc: Exception) -> str:
             "was outside the expected range. "
             "This may be because the system clock is out of sync."
         ),
-        ServerError: (
-            "Error: There was an unknown error from Vuforia. "
-            "This may be because there is a problem with the given name."
+        ServerError: "Error: There was an unknown error from Vuforia.",
+        ProjectInactiveError: (
+            "Error: The project associated with the given keys is inactive."
+        ),
+        RequestQuotaReachedError: (
+            "Error: The maximum number of API calls for this database has "
+            "been reached."
+        ),
+        ProjectSuspendedError: (
+            "Error: The request could not be completed because this "
+            "database has been suspended."
+        ),
+        ProjectHasNoAPIAccessError: (
+            "Error: The request could not be completed because this "
+            "database is not allowed to make API requests."
         ),
     }
 
-    return exc_type_to_message[type(exc)]  # pragma: no cover
+    return exc_type_to_message.get(
+        type(exc),
+        "Error: There was an unexpected error from Vuforia.",
+    )
 
 
 @beartype
@@ -103,20 +123,6 @@ def _handle_vumark_exceptions() -> Iterator[None]:
 
     click.echo(message=error_message, err=True)
     sys.exit(1)
-
-
-@beartype
-def _base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
-    """An option decorator for choosing the base VWS URL."""
-    click_option_function = click.option(
-        "--base-vws-url",
-        type=click.STRING,
-        default="https://vws.vuforia.com",
-        help="The base URL for the VWS API.",
-        show_default=True,
-    )
-
-    return click_option_function(command)
 
 
 @click.command(name="vumark")
@@ -149,7 +155,7 @@ def _base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
     help="The path to write the generated VuMark to.",
 )
 @_handle_vumark_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @click.version_option(version=__version__)
