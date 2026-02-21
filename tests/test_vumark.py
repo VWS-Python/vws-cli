@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
-from mock_vws.database import VuforiaDatabase
+from mock_vws.database import CloudDatabase
 from vws import VWS
 
 from vws_cli.vumark import generate_vumark
@@ -25,7 +25,7 @@ class TestGenerateVuMark:
         ],
     )
     def test_generate_vumark_format(  # pylint: disable=too-many-positional-arguments
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -68,7 +68,7 @@ class TestGenerateVuMark:
 
     @staticmethod
     def test_default_format_is_png(
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -112,7 +112,7 @@ class TestGenerateVuMark:
         strict=True,
     )
     def test_unknown_target(
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         tmp_path: Path,
     ) -> None:
         """An error is shown when the target ID does not exist."""
@@ -144,7 +144,7 @@ class TestGenerateVuMark:
 
     @staticmethod
     def test_invalid_instance_id(
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -188,7 +188,7 @@ class TestGenerateVuMark:
         strict=True,
     )
     def test_target_not_in_success_state(
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -234,7 +234,7 @@ class TestGenerateVuMark:
 
 @pytest.mark.parametrize(argnames="invalid_format", argvalues=["bmp", "gif"])
 def test_invalid_format(
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     tmp_path: Path,
     invalid_format: str,
 ) -> None:
