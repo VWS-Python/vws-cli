@@ -7,8 +7,9 @@ from typing import TYPE_CHECKING, cast
 
 import pytest
 from click.testing import CliRunner
-from mock_vws.database import CloudDatabase
-from vws import VWS, VuMarkService
+from mock_vws.database import CloudDatabase, VuMarkDatabase
+from mock_vws.target import VuMarkTarget
+from vws import VWS
 from vws.exceptions.base_exceptions import VWSError
 from vws.exceptions.custom_exceptions import ServerError
 from vws.exceptions.vws_exceptions import (
@@ -25,7 +26,6 @@ from vws.exceptions.vws_exceptions import (
     UnknownTargetError,
 )
 from vws.response import Response
-from vws.vumark_accept import VuMarkAccept
 
 from vws_cli import vumark as vumark_module
 
@@ -52,43 +52,19 @@ class TestGenerateVuMark:
             pytest.param("pdf", b"%PDF", id="pdf"),
         ],
     )
-    def test_generate_vumark_format(  # pylint: disable=too-many-positional-arguments
-        monkeypatch: pytest.MonkeyPatch,
-        mock_database: CloudDatabase,
+    def test_generate_vumark_format(
+        vumark_database: VuMarkDatabase,
+        vumark_target: VuMarkTarget,
         tmp_path: Path,
         format_name: str,
         expected_prefix: bytes,
     ) -> None:
         """The returned file matches the requested format."""
-        format_to_output_bytes = {
-            VuMarkAccept.PNG: b"\x89PNG\r\n\x1a\nfake-png",
-            VuMarkAccept.SVG: b"<svg></svg>",
-            VuMarkAccept.PDF: b"%PDF-1.7\n",
-        }
-
-        def mock_generate_vumark_instance(
-            _self: object,
-            *,
-            target_id: str,
-            instance_id: str,
-            accept: VuMarkAccept,
-        ) -> bytes:
-            """Return fake bytes for the requested format."""
-            assert target_id == "some-target-id"
-            assert instance_id == "12345"
-            return format_to_output_bytes[accept]
-
-        monkeypatch.setattr(
-            target=VuMarkService,
-            name="generate_vumark_instance",
-            value=mock_generate_vumark_instance,
-        )
-
         runner = CliRunner()
         output_file = tmp_path / f"output.{format_name}"
         commands = [
             "--target-id",
-            "some-target-id",
+            vumark_target.target_id,
             "--instance-id",
             "12345",
             "--format",
@@ -96,9 +72,9 @@ class TestGenerateVuMark:
             "--output",
             str(object=output_file),
             "--server-access-key",
-            mock_database.server_access_key,
+            vumark_database.server_access_key,
             "--server-secret-key",
-            mock_database.server_secret_key,
+            vumark_database.server_secret_key,
         ]
         result = runner.invoke(
             cli=generate_vumark,
@@ -111,44 +87,24 @@ class TestGenerateVuMark:
 
     @staticmethod
     def test_default_format_is_png(
-        monkeypatch: pytest.MonkeyPatch,
-        mock_database: CloudDatabase,
+        vumark_database: VuMarkDatabase,
+        vumark_target: VuMarkTarget,
         tmp_path: Path,
     ) -> None:
         """The default output format is png."""
-
-        def mock_generate_vumark_instance(
-            _self: object,
-            *,
-            target_id: str,
-            instance_id: str,
-            accept: VuMarkAccept,
-        ) -> bytes:
-            """Return fake PNG bytes."""
-            assert target_id == "some-target-id"
-            assert instance_id == "12345"
-            assert accept is VuMarkAccept.PNG
-            return b"\x89PNG\r\n\x1a\nfake-png"
-
-        monkeypatch.setattr(
-            target=VuMarkService,
-            name="generate_vumark_instance",
-            value=mock_generate_vumark_instance,
-        )
-
         runner = CliRunner()
         output_file = tmp_path / "output.png"
         commands = [
             "--target-id",
-            "some-target-id",
+            vumark_target.target_id,
             "--instance-id",
             "12345",
             "--output",
             str(object=output_file),
             "--server-access-key",
-            mock_database.server_access_key,
+            vumark_database.server_access_key,
             "--server-secret-key",
-            mock_database.server_secret_key,
+            vumark_database.server_secret_key,
         ]
         result = runner.invoke(
             cli=generate_vumark,
@@ -162,44 +118,24 @@ class TestGenerateVuMark:
 
     @staticmethod
     def test_unknown_target(
-        monkeypatch: pytest.MonkeyPatch,
-        mock_database: CloudDatabase,
+        vumark_database: VuMarkDatabase,
         tmp_path: Path,
     ) -> None:
         """An error is shown when the target ID does not exist."""
-
-        def mock_generate_vumark_instance(
-            _self: object,
-            *,
-            target_id: str,
-            instance_id: str,
-            accept: VuMarkAccept,
-        ) -> bytes:
-            """Raise UnknownTargetError for a non-existent target."""
-            _ = instance_id, accept
-            raise UnknownTargetError(
-                response=_response_for_target(target_id=target_id),
-            )
-
-        monkeypatch.setattr(
-            target=VuMarkService,
-            name="generate_vumark_instance",
-            value=mock_generate_vumark_instance,
-        )
-
+        nonexistent_target_id = uuid.uuid4().hex
         runner = CliRunner()
         output_file = tmp_path / "output.png"
         commands = [
             "--target-id",
-            "non-existent-target-id",
+            nonexistent_target_id,
             "--instance-id",
             "12345",
             "--output",
             str(object=output_file),
             "--server-access-key",
-            mock_database.server_access_key,
+            vumark_database.server_access_key,
             "--server-secret-key",
-            mock_database.server_secret_key,
+            vumark_database.server_secret_key,
         ]
         result = runner.invoke(
             cli=generate_vumark,
@@ -209,52 +145,30 @@ class TestGenerateVuMark:
         )
         assert result.exit_code == 1
         expected_stderr = (
-            'Error: Target "non-existent-target-id" does not exist.\n'
+            f'Error: Target "{nonexistent_target_id}" does not exist.\n'
         )
         assert result.stderr == expected_stderr
 
     @staticmethod
     def test_invalid_instance_id(
-        monkeypatch: pytest.MonkeyPatch,
-        mock_database: CloudDatabase,
+        vumark_database: VuMarkDatabase,
+        vumark_target: VuMarkTarget,
         tmp_path: Path,
     ) -> None:
         """An error is shown when the instance ID is invalid."""
-
-        def mock_generate_vumark_instance(
-            _self: object,
-            *,
-            target_id: str,
-            instance_id: str,
-            accept: VuMarkAccept,
-        ) -> bytes:
-            """Raise InvalidInstanceIdError for an empty instance ID."""
-            assert target_id == "some-target-id"
-            assert instance_id == ""
-            assert accept is VuMarkAccept.PNG
-            raise InvalidInstanceIdError(
-                response=_response_for_target(target_id=target_id),
-            )
-
-        monkeypatch.setattr(
-            target=VuMarkService,
-            name="generate_vumark_instance",
-            value=mock_generate_vumark_instance,
-        )
-
         runner = CliRunner()
         output_file = tmp_path / "output.png"
         commands = [
             "--target-id",
-            "some-target-id",
+            vumark_target.target_id,
             "--instance-id",
             "",
             "--output",
             str(object=output_file),
             "--server-access-key",
-            mock_database.server_access_key,
+            vumark_database.server_access_key,
             "--server-secret-key",
-            mock_database.server_secret_key,
+            vumark_database.server_secret_key,
         ]
         result = runner.invoke(
             cli=generate_vumark,

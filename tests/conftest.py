@@ -5,8 +5,9 @@ from collections.abc import Iterator
 import pytest
 from beartype import beartype
 from mock_vws import MockVWS
-from mock_vws.database import CloudDatabase
-from vws import VWS, CloudRecoService
+from mock_vws.database import CloudDatabase, VuMarkDatabase
+from mock_vws.target import VuMarkTarget
+from vws import VWS, CloudRecoService, VuMarkService
 
 
 @beartype
@@ -32,6 +33,31 @@ def vws_client(mock_database: CloudDatabase) -> VWS:
     return VWS(
         server_access_key=mock_database.server_access_key,
         server_secret_key=mock_database.server_secret_key,
+    )
+
+
+@pytest.fixture(name="vumark_database")
+def fixture_vumark_database() -> Iterator[VuMarkDatabase]:
+    """Yield a mock ``VuMarkDatabase`` with one pre-created target."""
+    vumark_target = VuMarkTarget(name="test-vumark-target")
+    database = VuMarkDatabase(vumark_targets={vumark_target})
+    with MockVWS() as mock:
+        mock.add_vumark_database(vumark_database=database)
+        yield database
+
+
+@pytest.fixture(name="vumark_target")
+def fixture_vumark_target(vumark_database: VuMarkDatabase) -> VuMarkTarget:
+    """Return the pre-created ``VuMarkTarget`` in the database."""
+    return next(iter(vumark_database.not_deleted_targets))
+
+
+@pytest.fixture(name="vumark_client")
+def fixture_vumark_client(vumark_database: VuMarkDatabase) -> VuMarkService:
+    """Return a ``VuMarkService`` client which connects to a mock database."""
+    return VuMarkService(
+        server_access_key=vumark_database.server_access_key,
+        server_secret_key=vumark_database.server_secret_key,
     )
 
 
