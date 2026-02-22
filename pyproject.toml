@@ -94,6 +94,7 @@ optional-dependencies.release = [
 urls.Documentation = "https://vws-python.github.io/vws-cli/"
 urls.Source = "https://github.com/VWS-Python/vws-cli"
 scripts.vuforia-cloud-reco = "vws_cli.query:vuforia_cloud_reco"
+scripts.vumark = "vws_cli.vumark:generate_vumark"
 scripts.vws = "vws_cli:vws_group"
 
 [tool.setuptools]
