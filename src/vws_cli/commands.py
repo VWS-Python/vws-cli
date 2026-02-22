@@ -4,7 +4,7 @@ import contextlib
 import dataclasses
 import io
 import sys
-from collections.abc import Callable, Iterator, Mapping
+from collections.abc import Iterator, Mapping
 from pathlib import Path
 
 import click
@@ -52,6 +52,7 @@ from vws_cli.options.timeout import (
     connection_timeout_seconds_option,
     read_timeout_seconds_option,
 )
+from vws_cli.options.vws import base_vws_url_option
 
 
 @beartype
@@ -116,25 +117,11 @@ def _handle_vws_exceptions() -> Iterator[None]:
     sys.exit(1)
 
 
-@beartype
-def _base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
-    """An option decorator for choosing the base VWS URL."""
-    click_option_function = click.option(
-        "--base-vws-url",
-        type=click.STRING,
-        default="https://vws.vuforia.com",
-        help="The base URL for the VWS API.",
-        show_default=True,
-    )
-
-    return click_option_function(command)
-
-
 @click.command(name="get-target-record")
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @_handle_vws_exceptions()
@@ -173,7 +160,7 @@ def get_target_record(
 @server_access_key_option
 @server_secret_key_option
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -210,7 +197,7 @@ def list_targets(
 @server_secret_key_option
 @target_id_option
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -248,7 +235,7 @@ def get_duplicate_targets(
 @server_access_key_option
 @server_secret_key_option
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -285,7 +272,7 @@ def get_database_summary_report(
 @server_secret_key_option
 @target_id_option
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -326,7 +313,7 @@ def get_target_summary_report(
 @server_secret_key_option
 @target_id_option
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -367,7 +354,7 @@ def delete_target(
 @target_image_option(required=True)
 @active_flag_option(allow_none=False)
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -429,7 +416,7 @@ def add_target(
 @active_flag_option(allow_none=True)
 @target_id_option
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -518,7 +505,7 @@ _TIMEOUT_SECONDS_HELP = (
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @_handle_vws_exceptions()
