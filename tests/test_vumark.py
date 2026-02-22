@@ -6,14 +6,9 @@ from pathlib import Path
 import click
 import pytest
 from click.testing import CliRunner
+from mock_vws import MockVWS
 from mock_vws.database import CloudDatabase, VuMarkDatabase
 from mock_vws.target import VuMarkTarget
-from vws import VuMarkService
-from vws.exceptions.vws_exceptions import (
-    AuthenticationFailureError,
-    TargetStatusNotSuccessError,
-)
-from vws.response import Response as VWSResponse
 
 from vws_cli import vumark as vumark_module
 
@@ -162,55 +157,39 @@ class TestGenerateVuMark:
 
     @staticmethod
     def test_target_not_in_success_state(
-        vumark_target: VuMarkTarget,
-        vumark_database: VuMarkDatabase,
         tmp_path: Path,
-        monkeypatch: pytest.MonkeyPatch,
     ) -> None:
         """An error is shown when the target is not in the success
         state.
         """
-        target_id = vumark_target.target_id
-        response = VWSResponse(
-            text="",
-            url=f"https://vws.vuforia.com/targets/{target_id}",
-            status_code=422,
-            headers={},
-            request_body=None,
-            tell_position=0,
-            content=b"",
+        processing_target = VuMarkTarget(
+            name="processing-target",
+            processing_time_seconds=9999,
         )
-        exc = TargetStatusNotSuccessError(response=response)
-
-        def mock_generate(*_args: object, **_kwargs: object) -> bytes:
-            """Raise a TargetStatusNotSuccessError."""
-            raise exc
-
-        monkeypatch.setattr(
-            target=VuMarkService,
-            name="generate_vumark_instance",
-            value=mock_generate,
-        )
-        runner = CliRunner()
-        output_file = tmp_path / "output.png"
-        commands = [
-            "--target-id",
-            target_id,
-            "--instance-id",
-            "12345",
-            "--output",
-            str(object=output_file),
-            "--server-access-key",
-            vumark_database.server_access_key,
-            "--server-secret-key",
-            vumark_database.server_secret_key,
-        ]
-        result = runner.invoke(
-            cli=generate_vumark,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
+        database = VuMarkDatabase(vumark_targets={processing_target})
+        with MockVWS() as mock:
+            mock.add_vumark_database(vumark_database=database)
+            target_id = processing_target.target_id
+            runner = CliRunner()
+            output_file = tmp_path / "output.png"
+            commands = [
+                "--target-id",
+                target_id,
+                "--instance-id",
+                "12345",
+                "--output",
+                str(object=output_file),
+                "--server-access-key",
+                database.server_access_key,
+                "--server-secret-key",
+                database.server_secret_key,
+            ]
+            result = runner.invoke(
+                cli=generate_vumark,
+                args=commands,
+                catch_exceptions=False,
+                color=True,
+            )
         assert result.exit_code == 1
         expected_stderr = (
             f'Error: The target "{target_id}" is not in the success '
@@ -220,32 +199,11 @@ class TestGenerateVuMark:
 
     @staticmethod
     def test_authentication_failure(
-        vumark_target: VuMarkTarget,
         vumark_database: VuMarkDatabase,
+        vumark_target: VuMarkTarget,
         tmp_path: Path,
-        monkeypatch: pytest.MonkeyPatch,
     ) -> None:
         """An error is shown on authentication failure."""
-        response = VWSResponse(
-            text="",
-            url="https://vws.vuforia.com/summary",
-            status_code=401,
-            headers={},
-            request_body=None,
-            tell_position=0,
-            content=b"",
-        )
-        exc = AuthenticationFailureError(response=response)
-
-        def mock_generate(*_args: object, **_kwargs: object) -> bytes:
-            """Raise an AuthenticationFailureError."""
-            raise exc
-
-        monkeypatch.setattr(
-            target=VuMarkService,
-            name="generate_vumark_instance",
-            value=mock_generate,
-        )
         runner = CliRunner()
         output_file = tmp_path / "output.png"
         commands = [
@@ -258,7 +216,7 @@ class TestGenerateVuMark:
             "--server-access-key",
             vumark_database.server_access_key,
             "--server-secret-key",
-            vumark_database.server_secret_key,
+            "wrong-secret-key",
         ]
         result = runner.invoke(
             cli=generate_vumark,
