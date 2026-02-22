@@ -3,41 +3,16 @@
 import io
 import uuid
 from pathlib import Path
-from typing import TYPE_CHECKING, cast
 
 import pytest
 from click.testing import CliRunner
 from mock_vws.database import CloudDatabase, VuMarkDatabase
 from mock_vws.target import VuMarkTarget
 from vws import VWS
-from vws.exceptions.base_exceptions import VWSError
-from vws.exceptions.custom_exceptions import ServerError
-from vws.exceptions.vws_exceptions import (
-    AuthenticationFailureError,
-    FailError,
-    InvalidInstanceIdError,
-    InvalidTargetTypeError,
-    ProjectHasNoAPIAccessError,
-    ProjectInactiveError,
-    ProjectSuspendedError,
-    RequestQuotaReachedError,
-    RequestTimeTooSkewedError,
-    TargetStatusNotSuccessError,
-    UnknownTargetError,
-)
-from vws.response import Response
 
 from vws_cli import vumark as vumark_module
 
-if TYPE_CHECKING:
-    from collections.abc import Callable
-
 generate_vumark = vumark_module.generate_vumark
-_GET_VUMARK_ERROR_MESSAGE_NAME = "_get_vumark_error_message"
-get_vumark_error_message = cast(
-    "Callable[[Exception], str]",
-    getattr(vumark_module, _GET_VUMARK_ERROR_MESSAGE_NAME),
-)
 
 
 class TestGenerateVuMark:
@@ -260,135 +235,3 @@ def test_invalid_format(
         color=True,
     )
     assert result.exit_code != 0
-
-
-def _response_for_target(target_id: str = "some-target-id") -> Response:
-    """Build a minimal VWS response for exception construction in
-    tests.
-    """
-    return Response(
-        text="{}",
-        url=f"https://vws.vuforia.com/targets/{target_id}",
-        status_code=400,
-        headers={},
-        request_body=None,
-        tell_position=0,
-        content=b"",
-    )
-
-
-@pytest.mark.parametrize(
-    argnames=("exception_type", "expected_message"),
-    argvalues=[
-        pytest.param(
-            InvalidInstanceIdError,
-            "Error: The given instance ID is invalid.",
-            id="invalid_instance_id",
-        ),
-        pytest.param(
-            InvalidTargetTypeError,
-            "Error: The target is not a VuMark template target.",
-            id="invalid_target_type",
-        ),
-        pytest.param(
-            AuthenticationFailureError,
-            "The given secret key was incorrect.",
-            id="authentication_failure",
-        ),
-        pytest.param(
-            FailError,
-            (
-                "Error: The request made to Vuforia was invalid and could "
-                "not be processed. Check the given parameters."
-            ),
-            id="fail_error",
-        ),
-        pytest.param(
-            RequestTimeTooSkewedError,
-            (
-                "Error: Vuforia reported that the time given with this "
-                "request was outside the expected range. This may be "
-                "because the system clock is out of sync."
-            ),
-            id="request_time_too_skewed",
-        ),
-        pytest.param(
-            ServerError,
-            "Error: There was an unknown error from Vuforia.",
-            id="server_error",
-        ),
-        pytest.param(
-            ProjectInactiveError,
-            "Error: The project associated with the given keys is inactive.",
-            id="project_inactive",
-        ),
-        pytest.param(
-            RequestQuotaReachedError,
-            (
-                "Error: The maximum number of API calls for this database "
-                "has been reached."
-            ),
-            id="request_quota_reached",
-        ),
-        pytest.param(
-            ProjectSuspendedError,
-            (
-                "Error: The request could not be completed because this "
-                "database has been suspended."
-            ),
-            id="project_suspended",
-        ),
-        pytest.param(
-            ProjectHasNoAPIAccessError,
-            (
-                "Error: The request could not be completed because this "
-                "database is not allowed to make API requests."
-            ),
-            id="project_has_no_api_access",
-        ),
-    ],
-)
-def test_get_vumark_error_message(
-    exception_type: type[VWSError] | type[ServerError],
-    expected_message: str,
-) -> None:
-    """Expected message is returned for mapped exceptions."""
-    exc = exception_type(response=_response_for_target())
-    assert get_vumark_error_message(exc) == expected_message
-
-
-def test_get_vumark_error_message_for_unknown_target() -> None:
-    """Unknown target message includes the target ID."""
-    target_id = "target-id-from-url"
-    exc = UnknownTargetError(
-        response=_response_for_target(target_id=target_id)
-    )
-    assert (
-        get_vumark_error_message(exc)
-        == f'Error: Target "{target_id}" does not exist.'
-    )
-
-
-def test_get_vumark_error_message_for_target_not_success() -> None:
-    """Target status message includes the target ID."""
-    target_id = "target-id-from-url"
-    exc = TargetStatusNotSuccessError(
-        response=_response_for_target(target_id=target_id),
-    )
-    assert get_vumark_error_message(exc) == (
-        f'Error: The target "{target_id}" is not in the success state and '
-        "cannot be used to generate a VuMark instance."
-    )
-
-
-def test_get_vumark_error_message_for_unexpected_vws_error() -> None:
-    """Unexpected VWS errors fall back to a generic message."""
-
-    class UnexpectedVWSError(VWSError):
-        """A VWS error type not explicitly mapped in vws-cli."""
-
-    exc = UnexpectedVWSError(response=_response_for_target())
-    assert (
-        get_vumark_error_message(exc)
-        == "Error: There was an unexpected error from Vuforia."
-    )

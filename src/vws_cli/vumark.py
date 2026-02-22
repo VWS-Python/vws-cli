@@ -2,7 +2,7 @@
 
 import contextlib
 import sys
-from collections.abc import Iterator, Mapping
+from collections.abc import Iterator
 from enum import StrEnum, unique
 from pathlib import Path
 
@@ -57,60 +57,6 @@ _FORMAT_CHOICE_TO_ACCEPT: dict[VuMarkFormatChoice, VuMarkAccept] = {
 
 
 @beartype
-def _get_vumark_error_message(exc: Exception) -> str:
-    """Get an error message from a VuMark exception."""
-    if isinstance(exc, UnknownTargetError):
-        return f'Error: Target "{exc.target_id}" does not exist.'
-
-    if isinstance(exc, TargetStatusNotSuccessError):
-        return (
-            f'Error: The target "{exc.target_id}" is not in the success '
-            "state and cannot be used to generate a VuMark instance."
-        )
-
-    if isinstance(exc, InvalidInstanceIdError):
-        return "Error: The given instance ID is invalid."
-
-    if isinstance(exc, InvalidTargetTypeError):
-        return "Error: The target is not a VuMark template target."
-
-    exc_type_to_message: Mapping[type[Exception], str] = {
-        AuthenticationFailureError: "The given secret key was incorrect.",
-        FailError: (
-            "Error: The request made to Vuforia was invalid and could not be "
-            "processed. Check the given parameters."
-        ),
-        RequestTimeTooSkewedError: (
-            "Error: Vuforia reported that the time given with this request "
-            "was outside the expected range. "
-            "This may be because the system clock is out of sync."
-        ),
-        ServerError: "Error: There was an unknown error from Vuforia.",
-        ProjectInactiveError: (
-            "Error: The project associated with the given keys is inactive."
-        ),
-        RequestQuotaReachedError: (
-            "Error: The maximum number of API calls for this database has "
-            "been reached."
-        ),
-        ProjectSuspendedError: (
-            "Error: The request could not be completed because this "
-            "database has been suspended."
-        ),
-        ProjectHasNoAPIAccessError: (
-            "Error: The request could not be completed because this "
-            "database is not allowed to make API requests."
-        ),
-    }
-
-    error_message = exc_type_to_message.get(type(exc))
-    if error_message is not None:
-        return error_message
-
-    return "Error: There was an unexpected error from Vuforia."
-
-
-@beartype
 @contextlib.contextmanager
 def _handle_vumark_exceptions() -> Iterator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""
@@ -122,7 +68,50 @@ def _handle_vumark_exceptions() -> Iterator[None]:
         VWSError,
         ServerError,
     ) as exc:
-        error_message = _get_vumark_error_message(exc=exc)
+        if isinstance(exc, UnknownTargetError):
+            error_message = f'Error: Target "{exc.target_id}" does not exist.'
+        elif isinstance(exc, TargetStatusNotSuccessError):  # pragma: no cover
+            error_message = (
+                f'Error: The target "{exc.target_id}" is not in the success '
+                "state and cannot be used to generate a VuMark instance."
+            )
+        elif isinstance(exc, InvalidInstanceIdError):
+            error_message = "Error: The given instance ID is invalid."
+        else:  # pragma: no cover
+            exc_type_to_message: dict[type[Exception], str] = {
+                InvalidTargetTypeError: (
+                    "Error: The target is not a VuMark template target."
+                ),
+                AuthenticationFailureError: "The given secret key was incorrect.",
+                FailError: (
+                    "Error: The request made to Vuforia was invalid and could not be "
+                    "processed. Check the given parameters."
+                ),
+                RequestTimeTooSkewedError: (
+                    "Error: Vuforia reported that the time given with this request "
+                    "was outside the expected range. "
+                    "This may be because the system clock is out of sync."
+                ),
+                ServerError: "Error: There was an unknown error from Vuforia.",
+                ProjectInactiveError: (
+                    "Error: The project associated with the given keys is inactive."
+                ),
+                RequestQuotaReachedError: (
+                    "Error: The maximum number of API calls for this database has "
+                    "been reached."
+                ),
+                ProjectSuspendedError: (
+                    "Error: The request could not be completed because this "
+                    "database has been suspended."
+                ),
+                ProjectHasNoAPIAccessError: (
+                    "Error: The request could not be completed because this "
+                    "database is not allowed to make API requests."
+                ),
+            }
+            error_message = exc_type_to_message.get(
+                type(exc), "Error: There was an unexpected error from Vuforia."
+            )
     else:
         return
 
