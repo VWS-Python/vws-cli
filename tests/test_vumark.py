@@ -1,6 +1,5 @@
 """Tests for the ``vumark`` CLI command."""
 
-import io
 import uuid
 from pathlib import Path
 
@@ -9,7 +8,12 @@ import pytest
 from click.testing import CliRunner
 from mock_vws.database import CloudDatabase, VuMarkDatabase
 from mock_vws.target import VuMarkTarget
-from vws import VWS
+from vws import VuMarkService
+from vws.exceptions.vws_exceptions import (
+    AuthenticationFailureError,
+    TargetStatusNotSuccessError,
+)
+from vws.response import Response as VWSResponse
 
 from vws_cli import vumark as vumark_module
 
@@ -157,28 +161,37 @@ class TestGenerateVuMark:
         assert result.stderr == expected_stderr
 
     @staticmethod
-    @pytest.mark.xfail(
-        reason="mock-vws does not yet validate target status for VuMark",
-        strict=True,
-    )
     def test_target_not_in_success_state(
-        mock_database: CloudDatabase,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
+        vumark_target: VuMarkTarget,
+        vumark_database: VuMarkDatabase,
         tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
     ) -> None:
         """An error is shown when the target is not in the success
         state.
         """
-        runner = CliRunner()
-        target_id = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
+        target_id = vumark_target.target_id
+        response = VWSResponse(
+            text="",
+            url=f"https://vws.vuforia.com/targets/{target_id}",
+            status_code=422,
+            headers={},
+            request_body=None,
+            tell_position=0,
+            content=b"",
         )
-        # Do not wait for target to be processed - it will be in processing state.
+        exc = TargetStatusNotSuccessError(response=response)
+
+        def mock_generate(*_args: object, **_kwargs: object) -> bytes:
+            """Raise a TargetStatusNotSuccessError."""
+            raise exc
+
+        monkeypatch.setattr(
+            target=VuMarkService,
+            name="generate_vumark_instance",
+            value=mock_generate,
+        )
+        runner = CliRunner()
         output_file = tmp_path / "output.png"
         commands = [
             "--target-id",
@@ -188,9 +201,9 @@ class TestGenerateVuMark:
             "--output",
             str(object=output_file),
             "--server-access-key",
-            mock_database.server_access_key,
+            vumark_database.server_access_key,
             "--server-secret-key",
-            mock_database.server_secret_key,
+            vumark_database.server_secret_key,
         ]
         result = runner.invoke(
             cli=generate_vumark,
@@ -203,6 +216,58 @@ class TestGenerateVuMark:
             f'Error: The target "{target_id}" is not in the success '
             "state and cannot be used to generate a VuMark instance.\n"
         )
+        assert result.stderr == expected_stderr
+
+    @staticmethod
+    def test_authentication_failure(
+        vumark_target: VuMarkTarget,
+        vumark_database: VuMarkDatabase,
+        tmp_path: Path,
+        monkeypatch: pytest.MonkeyPatch,
+    ) -> None:
+        """An error is shown on authentication failure."""
+        response = VWSResponse(
+            text="",
+            url="https://vws.vuforia.com/summary",
+            status_code=401,
+            headers={},
+            request_body=None,
+            tell_position=0,
+            content=b"",
+        )
+        exc = AuthenticationFailureError(response=response)
+
+        def mock_generate(*_args: object, **_kwargs: object) -> bytes:
+            """Raise an AuthenticationFailureError."""
+            raise exc
+
+        monkeypatch.setattr(
+            target=VuMarkService,
+            name="generate_vumark_instance",
+            value=mock_generate,
+        )
+        runner = CliRunner()
+        output_file = tmp_path / "output.png"
+        commands = [
+            "--target-id",
+            vumark_target.target_id,
+            "--instance-id",
+            "12345",
+            "--output",
+            str(object=output_file),
+            "--server-access-key",
+            vumark_database.server_access_key,
+            "--server-secret-key",
+            vumark_database.server_secret_key,
+        ]
+        result = runner.invoke(
+            cli=generate_vumark,
+            args=commands,
+            catch_exceptions=False,
+            color=True,
+        )
+        assert result.exit_code == 1
+        expected_stderr = "The given secret key was incorrect.\n"
         assert result.stderr == expected_stderr
 
 
