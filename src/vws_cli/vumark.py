@@ -27,6 +27,7 @@ from vws.exceptions.vws_exceptions import (
 from vws.vumark_accept import VuMarkAccept
 
 from vws_cli import __version__
+from vws_cli._error_handling import get_error_message
 from vws_cli.options.credentials import (
     server_access_key_option,
     server_secret_key_option,
@@ -78,40 +79,7 @@ def _handle_vumark_exceptions() -> Iterator[None]:
         elif isinstance(exc, InvalidInstanceIdError):
             error_message = "Error: The given instance ID is invalid."
         else:  # pragma: no cover
-            exc_type_to_message: dict[type[Exception], str] = {
-                InvalidTargetTypeError: (
-                    "Error: The target is not a VuMark template target."
-                ),
-                AuthenticationFailureError: "The given secret key was incorrect.",
-                FailError: (
-                    "Error: The request made to Vuforia was invalid and could not be "
-                    "processed. Check the given parameters."
-                ),
-                RequestTimeTooSkewedError: (
-                    "Error: Vuforia reported that the time given with this request "
-                    "was outside the expected range. "
-                    "This may be because the system clock is out of sync."
-                ),
-                ServerError: "Error: There was an unknown error from Vuforia.",
-                ProjectInactiveError: (
-                    "Error: The project associated with the given keys is inactive."
-                ),
-                RequestQuotaReachedError: (
-                    "Error: The maximum number of API calls for this database has "
-                    "been reached."
-                ),
-                ProjectSuspendedError: (
-                    "Error: The request could not be completed because this "
-                    "database has been suspended."
-                ),
-                ProjectHasNoAPIAccessError: (
-                    "Error: The request could not be completed because this "
-                    "database is not allowed to make API requests."
-                ),
-            }
-            error_message = exc_type_to_message.get(
-                type(exc), "Error: There was an unexpected error from Vuforia."
-            )
+            error_message = get_error_message(exc=exc)
     else:
         return
 
