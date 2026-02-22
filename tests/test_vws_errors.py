@@ -42,6 +42,7 @@ def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
 
 
 def test_bad_image(
+    *,
     mock_database: VuforiaDatabase,
     tmp_path: Path,
 ) -> None:
@@ -75,6 +76,7 @@ def test_bad_image(
 
 
 def test_fail_bad_request(
+    *,
     mock_database: VuforiaDatabase,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
@@ -115,6 +117,7 @@ def test_fail_bad_request(
 
 
 def test_metadata_too_large(
+    *,
     mock_database: VuforiaDatabase,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
@@ -146,6 +149,7 @@ def test_metadata_too_large(
 
 
 def test_image_too_large(
+    *,
     mock_database: VuforiaDatabase,
     png_too_large: io.BytesIO,
     tmp_path: Path,
@@ -181,6 +185,7 @@ def test_image_too_large(
 
 
 def test_target_name_exist(
+    *,
     mock_database: VuforiaDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
@@ -229,6 +234,7 @@ def test_target_name_exist(
 
 
 def test_project_inactive(
+    *,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
 ) -> None:
@@ -273,6 +279,7 @@ def test_project_inactive(
 
 
 def test_unknown_vws_error(
+    *,
     mock_database: VuforiaDatabase,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
@@ -318,6 +325,7 @@ def test_unknown_vws_error(
 
 
 def test_target_status_processing(
+    *,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
     mock_database: VuforiaDatabase,
@@ -362,6 +370,7 @@ def test_target_status_processing(
 
 
 def test_target_status_not_success(
+    *,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
     mock_database: VuforiaDatabase,

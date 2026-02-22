@@ -18,6 +18,7 @@ _COMMANDS = _BASE_COMMAND + _SUBCOMMANDS
     ids=[str(object=cmd) for cmd in _COMMANDS],
 )
 def test_vws_command_help(
+    *,
     command: list[str],
     file_regression: FileRegressionFixture,
 ) -> None:
