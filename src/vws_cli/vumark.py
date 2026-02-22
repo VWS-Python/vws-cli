@@ -69,10 +69,10 @@ def _handle_vumark_exceptions() -> Iterator[None]:
         ServerError,
     ) as exc:
         if isinstance(exc, UnknownTargetError):
-            error_message = f'Error: Target "{exc.target_id}" does not exist.'
+            error_message = f'Error: Target "{exc.target_id}" does not exist.'  # pylint: disable=no-member
         elif isinstance(exc, TargetStatusNotSuccessError):  # pragma: no cover
             error_message = (
-                f'Error: The target "{exc.target_id}" is not in the success '
+                f'Error: The target "{exc.target_id}" is not in the success '  # pylint: disable=no-member
                 "state and cannot be used to generate a VuMark instance."
             )
         elif isinstance(exc, InvalidInstanceIdError):
