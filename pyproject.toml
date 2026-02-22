@@ -94,7 +94,6 @@ optional-dependencies.release = [
 urls.Documentation = "https://vws-python.github.io/vws-cli/"
 urls.Source = "https://github.com/VWS-Python/vws-cli"
 scripts.vuforia-cloud-reco = "vws_cli.query:vuforia_cloud_reco"
-scripts.vumark = "vws_cli.vumark:generate_vumark"
 scripts.vws = "vws_cli:vws_group"
 
 [tool.setuptools]
@@ -303,9 +302,8 @@ keep_full_version = true
 max_supported_python = "3.14"
 
 [tool.pytest]
-ini_options.xfail_strict = true
-ini_options.log_cli = true
-ini_options.addopts = "--capture=no"
+xfail_strict = true
+log_cli = true
 
 [tool.coverage]
 run.branch = true
