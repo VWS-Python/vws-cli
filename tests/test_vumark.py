@@ -4,6 +4,7 @@ import io
 import uuid
 from pathlib import Path
 
+import click
 import pytest
 from click.testing import CliRunner
 from mock_vws.database import CloudDatabase, VuMarkDatabase
@@ -234,4 +235,12 @@ def test_invalid_format(
         catch_exceptions=False,
         color=True,
     )
-    assert result.exit_code != 0
+    assert result.exit_code == click.UsageError.exit_code
+    expected_output = (
+        "Usage: vumark [OPTIONS]\n"
+        "Try 'vumark --help' for help.\n"
+        "\n"
+        f"Error: Invalid value for '--format': '{invalid_format}' is not "
+        "one of 'png', 'svg', 'pdf'.\n"
+    )
+    assert result.output == expected_output
