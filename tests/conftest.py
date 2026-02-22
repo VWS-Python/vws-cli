@@ -5,7 +5,7 @@ from collections.abc import Iterator
 import pytest
 from beartype import beartype
 from mock_vws import MockVWS
-from mock_vws.database import VuforiaDatabase
+from mock_vws.database import CloudDatabase
 from vws import VWS, CloudRecoService
 
 
@@ -18,16 +18,16 @@ def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
 
 
 @pytest.fixture(name="mock_database")
-def fixture_mock_database() -> Iterator[VuforiaDatabase]:
-    """Yield a mock ``VuforiaDatabase``."""
+def fixture_mock_database() -> Iterator[CloudDatabase]:
+    """Yield a mock ``CloudDatabase``."""
     with MockVWS() as mock:
-        database = VuforiaDatabase()
-        mock.add_database(database=database)
+        database = CloudDatabase()
+        mock.add_cloud_database(cloud_database=database)
         yield database
 
 
 @pytest.fixture
-def vws_client(mock_database: VuforiaDatabase) -> VWS:
+def vws_client(mock_database: CloudDatabase) -> VWS:
     """Return a VWS client which connects to a mock database."""
     return VWS(
         server_access_key=mock_database.server_access_key,
@@ -37,7 +37,7 @@ def vws_client(mock_database: VuforiaDatabase) -> VWS:
 
 @pytest.fixture
 def cloud_reco_client(
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
 ) -> CloudRecoService:
     """
     Return a ``CloudRecoService`` client which connects to a mock

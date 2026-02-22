@@ -7,7 +7,7 @@ from pathlib import Path
 from click.testing import CliRunner
 from freezegun import freeze_time
 from mock_vws import MockVWS
-from mock_vws.database import VuforiaDatabase
+from mock_vws.database import CloudDatabase
 from mock_vws.states import States
 
 from vws_cli.query import vuforia_cloud_reco
@@ -15,7 +15,7 @@ from vws_cli.query import vuforia_cloud_reco
 
 def test_authentication_failure(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     tmp_path: Path,
     high_quality_image: io.BytesIO,
 ) -> None:
@@ -44,7 +44,7 @@ def test_authentication_failure(
 
 def test_image_too_large(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     tmp_path: Path,
     png_too_large: io.BytesIO,
 ) -> None:
@@ -73,7 +73,7 @@ def test_image_too_large(
 
 def test_bad_image(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     tmp_path: Path,
 ) -> None:
     """An error is given when Vuforia returns a ``BadImage`` error.
@@ -117,9 +117,9 @@ def test_inactive_project(
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
-    database = VuforiaDatabase(state=States.PROJECT_INACTIVE)
+    database = CloudDatabase(state=States.PROJECT_INACTIVE)
     with MockVWS() as mock:
-        mock.add_database(database=database)
+        mock.add_cloud_database(cloud_database=database)
         runner = CliRunner()
         commands = [
             str(object=new_file),
@@ -146,7 +146,7 @@ def test_inactive_project(
 def test_request_time_too_skewed(
     *,
     high_quality_image: io.BytesIO,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     tmp_path: Path,
 ) -> None:
     """

@@ -2336,7 +2336,7 @@ requires-dist = [
     { name = "types-pyyaml", marker = "extra == 'dev'", specifier = "==6.0.12.20250915" },
     { name = "vulture", marker = "extra == 'dev'", specifier = "==2.14" },
     { name = "vws-python", specifier = "==2026.2.21" },
-    { name = "vws-python-mock", marker = "extra == 'dev'", specifier = "==2026.2.18.2" },
+    { name = "vws-python-mock", marker = "extra == 'dev'", specifier = "==2026.2.21" },
     { name = "vws-test-fixtures", marker = "extra == 'dev'", specifier = "==2023.3.5" },
     { name = "yamlfix", marker = "extra == 'dev'", specifier = "==1.19.1" },
     { name = "zizmor", marker = "extra == 'dev'", specifier = "==1.22.0" },
@@ -2360,7 +2360,7 @@ wheels = [
 
 [[package]]
 name = "vws-python-mock"
-version = "2026.2.18.2"
+version = "2026.2.21"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
@@ -2380,9 +2380,9 @@ dependencies = [
     { name = "vws-auth-tools" },
     { name = "werkzeug" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/83/24/175ccf77f9bface58e1e123cb11452a3750697cafa8e49861ccba746f0ec/vws_python_mock-2026.2.18.2.tar.gz", hash = "sha256:3ff8da4b2852297864325c7762f8ad03f038c8f769e3d03e94599d9d7eb729a2", size = 155314, upload-time = "2026-02-18T23:28:26.783Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a8/c6/73e35a2c9390c2db650083c22db86e1b160b78751130d410d08a1667306d/vws_python_mock-2026.2.21.tar.gz", hash = "sha256:173d901643b8ea9fc643aad3289330d4bb3a3525a11eeb3c89b268e7c4d6b26e", size = 158586, upload-time = "2026-02-21T00:17:16.08Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cf/dd/d7e46ccdca4549e5d88c126e5d8c7f8585d3c210aec9dfe52efcb6d0cc19/vws_python_mock-2026.2.18.2-py2.py3-none-any.whl", hash = "sha256:2027b309e1f295bf487f040bca2abea624990a189c18b76238d7d7f4b5c49abc", size = 65554, upload-time = "2026-02-18T23:28:24.753Z" },
+    { url = "https://files.pythonhosted.org/packages/90/0e/67e79a88cd9bfb02d7efc20c9270dd82c02af68376ca19d30cca7f119bf7/vws_python_mock-2026.2.21-py2.py3-none-any.whl", hash = "sha256:51b24439f8ee580ff3848cc86fc9297e23f3cc6845c14af691346dad6e3ee51a", size = 67491, upload-time = "2026-02-21T00:17:14.17Z" },
 ]
 
 [[package]]
