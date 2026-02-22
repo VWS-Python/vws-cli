@@ -7,14 +7,14 @@ from pathlib import Path
 from click.testing import CliRunner
 from freezegun import freeze_time
 from mock_vws import MockVWS
-from mock_vws.database import VuforiaDatabase
+from mock_vws.database import CloudDatabase
 from mock_vws.states import States
 from vws import VWS
 
 from vws_cli import vws_group
 
 
-def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
+def test_target_id_does_not_exist(mock_database: CloudDatabase) -> None:
     """
     Commands which take a target ID show an error if that does not map
     to a
@@ -43,7 +43,7 @@ def test_target_id_does_not_exist(mock_database: VuforiaDatabase) -> None:
 
 def test_bad_image(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     tmp_path: Path,
 ) -> None:
     """An error is given when Vuforia returns a ``BadImage`` error.
@@ -77,7 +77,7 @@ def test_bad_image(
 
 def test_fail_bad_request(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
 ) -> None:
@@ -118,7 +118,7 @@ def test_fail_bad_request(
 
 def test_metadata_too_large(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
 ) -> None:
@@ -150,7 +150,7 @@ def test_metadata_too_large(
 
 def test_image_too_large(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     png_too_large: io.BytesIO,
     tmp_path: Path,
 ) -> None:
@@ -186,7 +186,7 @@ def test_image_too_large(
 
 def test_target_name_exist(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
@@ -246,9 +246,9 @@ def test_project_inactive(
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
-    database = VuforiaDatabase(state=States.PROJECT_INACTIVE)
+    database = CloudDatabase(state=States.PROJECT_INACTIVE)
     with MockVWS() as mock:
-        mock.add_database(database=database)
+        mock.add_cloud_database(cloud_database=database)
         runner = CliRunner()
         commands = [
             "add-target",
@@ -280,7 +280,7 @@ def test_project_inactive(
 
 def test_unknown_vws_error(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
 ) -> None:
@@ -328,7 +328,7 @@ def test_target_status_processing(
     *,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
 ) -> None:
     """
     An error is given when trying to delete a target which is
@@ -373,7 +373,7 @@ def test_target_status_not_success(
     *,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
 ) -> None:
     """
     An error is given when updating a target which has a status which is
@@ -414,7 +414,7 @@ def test_target_status_not_success(
     assert not result.stdout
 
 
-def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
+def test_authentication_failure(mock_database: CloudDatabase) -> None:
     """An error is given when the secret key is incorrect."""
     runner = CliRunner()
     commands = [
@@ -437,7 +437,7 @@ def test_authentication_failure(mock_database: VuforiaDatabase) -> None:
     assert not result.stdout
 
 
-def test_request_time_too_skewed(mock_database: VuforiaDatabase) -> None:
+def test_request_time_too_skewed(mock_database: CloudDatabase) -> None:
     """
     An error is given when the request time is more than 5 minutes
     different

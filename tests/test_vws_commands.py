@@ -15,7 +15,7 @@ import yaml
 from click.testing import CliRunner
 from freezegun import freeze_time
 from mock_vws import MockVWS
-from mock_vws.database import VuforiaDatabase
+from mock_vws.database import CloudDatabase
 from vws import VWS, CloudRecoService
 from vws.reports import TargetStatuses
 
@@ -24,7 +24,7 @@ from vws_cli import vws_group
 
 def test_get_database_summary_report(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
@@ -73,7 +73,7 @@ def test_get_database_summary_report(
 
 def test_list_targets(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
@@ -115,7 +115,7 @@ def test_list_targets(
 
 def test_get_target_record(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
@@ -158,7 +158,7 @@ def test_get_target_record(
 
 def test_get_target_summary_report(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
@@ -207,7 +207,7 @@ def test_get_target_summary_report(
 
 def test_delete_target(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
@@ -244,7 +244,7 @@ def test_delete_target(
 
 def test_get_duplicate_targets(
     *,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
     vws_client: VWS,
     high_quality_image: io.BytesIO,
 ) -> None:
@@ -323,8 +323,8 @@ class TestDefaultRequestTimeout:
                 )[1],
             ) as mock,
         ):
-            database = VuforiaDatabase()
-            mock.add_database(database=database)
+            database = CloudDatabase()
+            mock.add_cloud_database(cloud_database=database)
             commands = [
                 "add-target",
                 "--name",
@@ -385,8 +385,8 @@ class TestCustomRequestTimeout:
                 )[1],
             ) as mock,
         ):
-            database = VuforiaDatabase()
-            mock.add_database(database=database)
+            database = CloudDatabase()
+            mock.add_cloud_database(cloud_database=database)
             commands = [
                 "add-target",
                 "--name",
@@ -436,8 +436,8 @@ class TestCustomRequestTimeout:
                 )[1],
             ) as mock,
         ):
-            database = VuforiaDatabase()
-            mock.add_database(database=database)
+            database = CloudDatabase()
+            mock.add_cloud_database(cloud_database=database)
             commands = [
                 "add-target",
                 "--name",
@@ -469,7 +469,7 @@ class TestAddTarget:
     @staticmethod
     def test_add_target(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -520,7 +520,7 @@ class TestAddTarget:
     @staticmethod
     def test_image_file_does_not_exist(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         tmp_path: Path,
     ) -> None:
         """
@@ -564,7 +564,7 @@ class TestAddTarget:
     @staticmethod
     def test_image_file_is_dir(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         tmp_path: Path,
     ) -> None:
         """
@@ -608,7 +608,7 @@ class TestAddTarget:
     @staticmethod
     def test_relative_path(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -650,7 +650,7 @@ class TestAddTarget:
     @staticmethod
     def test_custom_metadata(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         cloud_reco_client: CloudRecoService,
         vws_client: VWS,
         tmp_path: Path,
@@ -708,7 +708,7 @@ class TestAddTarget:
     )
     def test_custom_active_flag(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -755,7 +755,7 @@ class TestWaitForTargetProcessed:
     @staticmethod
     def test_wait_for_target_processed(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
     ) -> None:
@@ -800,8 +800,8 @@ class TestWaitForTargetProcessed:
         """By default, 0.2 seconds are waited between polling requests."""
         runner = CliRunner()
         with MockVWS(processing_time_seconds=0.5) as mock:
-            mock_database = VuforiaDatabase()
-            mock.add_database(database=mock_database)
+            mock_database = CloudDatabase()
+            mock.add_cloud_database(cloud_database=mock_database)
             vws_client = VWS(
                 server_access_key=mock_database.server_access_key,
                 server_secret_key=mock_database.server_secret_key,
@@ -870,8 +870,8 @@ class TestWaitForTargetProcessed:
         """
         runner = CliRunner()
         with MockVWS(processing_time_seconds=0.5) as mock:
-            mock_database = VuforiaDatabase()
-            mock.add_database(database=mock_database)
+            mock_database = CloudDatabase()
+            mock.add_cloud_database(cloud_database=mock_database)
             vws_client = VWS(
                 server_access_key=mock_database.server_access_key,
                 server_secret_key=mock_database.server_secret_key,
@@ -930,7 +930,7 @@ class TestWaitForTargetProcessed:
             assert report.request_usage == expected_requests
 
     @staticmethod
-    def test_custom_seconds_too_small(mock_database: VuforiaDatabase) -> None:
+    def test_custom_seconds_too_small(mock_database: CloudDatabase) -> None:
         """
         The minimum valid value for ``--seconds-between-requests`` is
         0.05
@@ -964,8 +964,8 @@ class TestWaitForTargetProcessed:
         """It is possible to set a maximum timeout."""
         runner = CliRunner()
         with MockVWS(processing_time_seconds=0.5) as mock:
-            mock_database = VuforiaDatabase()
-            mock.add_database(database=mock_database)
+            mock_database = CloudDatabase()
+            mock.add_cloud_database(cloud_database=mock_database)
             vws_client = VWS(
                 server_access_key=mock_database.server_access_key,
                 server_secret_key=mock_database.server_secret_key,
@@ -1024,7 +1024,7 @@ class TestWaitForTargetProcessed:
             assert report.status != TargetStatuses.PROCESSING
 
     @staticmethod
-    def test_custom_timeout_too_small(mock_database: VuforiaDatabase) -> None:
+    def test_custom_timeout_too_small(mock_database: CloudDatabase) -> None:
         """
         The minimum valid value for ``--timeout-seconds`` is 0.05
         seconds.
@@ -1058,7 +1058,7 @@ class TestUpdateTarget:
     @staticmethod
     def test_update_target(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -1153,7 +1153,7 @@ class TestUpdateTarget:
     @staticmethod
     def test_no_fields_given(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
     ) -> None:
@@ -1191,7 +1191,7 @@ class TestUpdateTarget:
     @staticmethod
     def test_image_file_does_not_exist(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -1243,7 +1243,7 @@ class TestUpdateTarget:
     @staticmethod
     def test_image_file_is_dir(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -1295,7 +1295,7 @@ class TestUpdateTarget:
     @staticmethod
     def test_relative_path(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
@@ -1347,7 +1347,7 @@ def test_custom_base_url() -> None:
     """
     runner = CliRunner()
     base_vws_url = "http://example.com"
-    mock_database = VuforiaDatabase()
+    mock_database = CloudDatabase()
     commands = [
         "list-targets",
         "--server-access-key",
@@ -1358,7 +1358,7 @@ def test_custom_base_url() -> None:
         base_vws_url,
     ]
     with MockVWS(base_vws_url=base_vws_url) as mock:
-        mock.add_database(database=mock_database)
+        mock.add_cloud_database(cloud_database=mock_database)
         result = runner.invoke(
             cli=vws_group,
             args=commands,

@@ -12,7 +12,7 @@ import yaml
 from click.testing import CliRunner
 from freezegun import freeze_time
 from mock_vws import MockVWS
-from mock_vws.database import VuforiaDatabase
+from mock_vws.database import CloudDatabase
 from vws import VWS
 
 from vws_cli.query import vuforia_cloud_reco
@@ -24,7 +24,7 @@ class TestQuery:
     @staticmethod
     def test_no_matches(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         tmp_path: Path,
         high_quality_image: io.BytesIO,
     ) -> None:
@@ -56,7 +56,7 @@ class TestQuery:
         tmp_path: Path,
         high_quality_image: io.BytesIO,
         vws_client: VWS,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
     ) -> None:
         """Details of matching targets are shown."""
         name = uuid.uuid4().hex
@@ -104,7 +104,7 @@ class TestQuery:
     def test_image_file_is_dir(
         *,
         tmp_path: Path,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
     ) -> None:
         """
         An appropriate error is given if the given image file path
@@ -142,7 +142,7 @@ class TestQuery:
     def test_relative_path(
         *,
         tmp_path: Path,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         high_quality_image: io.BytesIO,
     ) -> None:
         """Image file paths are resolved."""
@@ -175,7 +175,7 @@ class TestQuery:
     @staticmethod
     def test_image_file_does_not_exist(
         *,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
         tmp_path: Path,
     ) -> None:
         """
@@ -245,8 +245,8 @@ class TestDefaultRequestTimeout:
                 )[1],
             ) as mock,
         ):
-            database = VuforiaDatabase()
-            mock.add_database(database=database)
+            database = CloudDatabase()
+            mock.add_cloud_database(cloud_database=database)
             commands = [
                 str(object=new_file),
                 "--client-access-key",
@@ -301,8 +301,8 @@ class TestCustomRequestTimeout:
                 )[1],
             ) as mock,
         ):
-            database = VuforiaDatabase()
-            mock.add_database(database=database)
+            database = CloudDatabase()
+            mock.add_cloud_database(cloud_database=database)
             commands = [
                 str(object=new_file),
                 "--client-access-key",
@@ -346,8 +346,8 @@ class TestCustomRequestTimeout:
                 )[1],
             ) as mock,
         ):
-            database = VuforiaDatabase()
-            mock.add_database(database=database)
+            database = CloudDatabase()
+            mock.add_cloud_database(cloud_database=database)
             commands = [
                 str(object=new_file),
                 "--client-access-key",
@@ -390,7 +390,7 @@ class TestMaxNumResults:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
     ) -> None:
         """By default the maximum number of results is 1."""
         runner = CliRunner()
@@ -437,7 +437,7 @@ class TestMaxNumResults:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
     ) -> None:
         """It is possible to set a custom ``--max-num-results``."""
         runner = CliRunner()
@@ -494,7 +494,7 @@ class TestMaxNumResults:
         *,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
     ) -> None:
         """``--max-num-results`` must be between 1 and 50."""
         runner = CliRunner()
@@ -534,7 +534,7 @@ class TestIncludeTargetData:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
     ) -> None:
         """By default, target data is only returned in the top match."""
         runner = CliRunner()
@@ -584,7 +584,7 @@ class TestIncludeTargetData:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
     ) -> None:
         """
         When 'top' is given, target data is only returned in the top
@@ -639,7 +639,7 @@ class TestIncludeTargetData:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
     ) -> None:
         """
         When 'none' is given, target data is not returned in any
@@ -694,7 +694,7 @@ class TestIncludeTargetData:
         vws_client: VWS,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
     ) -> None:
         """When 'all' is given, target data is returned in all matches."""
         runner = CliRunner()
@@ -746,7 +746,7 @@ class TestIncludeTargetData:
         *,
         high_quality_image: io.BytesIO,
         tmp_path: Path,
-        mock_database: VuforiaDatabase,
+        mock_database: CloudDatabase,
     ) -> None:
         """
         When a string other than 'top', 'all', or 'none' is given, an
@@ -796,8 +796,8 @@ def test_base_vwq_url(
     image_data = high_quality_image.getvalue()
     new_file.write_bytes(data=image_data)
     with MockVWS(base_vwq_url=base_vwq_url) as mock:
-        mock_database = VuforiaDatabase()
-        mock.add_database(database=mock_database)
+        mock_database = CloudDatabase()
+        mock.add_cloud_database(cloud_database=mock_database)
         vws_client = VWS(
             server_access_key=mock_database.server_access_key,
             server_secret_key=mock_database.server_secret_key,
@@ -838,7 +838,7 @@ def test_env_var_credentials(
     *,
     high_quality_image: io.BytesIO,
     tmp_path: Path,
-    mock_database: VuforiaDatabase,
+    mock_database: CloudDatabase,
 ) -> None:
     """
     It is possible to use environment variables to set the
