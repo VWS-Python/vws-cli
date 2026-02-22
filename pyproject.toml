@@ -82,7 +82,7 @@ optional-dependencies.dev = [
     "ty==0.0.18",
     "types-pyyaml==6.0.12.20250915",
     "vulture==2.14",
-    "vws-python-mock==2026.2.21",
+    "vws-python-mock==2026.2.22.1",
     "vws-test-fixtures==2023.3.5",
     "yamlfix==1.19.1",
     "zizmor==1.22.0",
@@ -94,6 +94,7 @@ optional-dependencies.release = [
 urls.Documentation = "https://vws-python.github.io/vws-cli/"
 urls.Source = "https://github.com/VWS-Python/vws-cli"
 scripts.vuforia-cloud-reco = "vws_cli.query:vuforia_cloud_reco"
+scripts.vumark = "vws_cli.vumark:generate_vumark"
 scripts.vws = "vws_cli:vws_group"
 
 [tool.setuptools]
