@@ -7,7 +7,7 @@ from beartype import beartype
 from mock_vws import MockVWS
 from mock_vws.database import CloudDatabase, VuMarkDatabase
 from mock_vws.target import VuMarkTarget
-from vws import VWS, CloudRecoService, VuMarkService
+from vws import VWS, CloudRecoService
 
 
 @beartype
@@ -50,15 +50,6 @@ def fixture_vumark_database() -> Iterator[VuMarkDatabase]:
 def fixture_vumark_target(vumark_database: VuMarkDatabase) -> VuMarkTarget:
     """Return the pre-created ``VuMarkTarget`` in the database."""
     return next(iter(vumark_database.not_deleted_targets))
-
-
-@pytest.fixture(name="vumark_client")
-def fixture_vumark_client(vumark_database: VuMarkDatabase) -> VuMarkService:
-    """Return a ``VuMarkService`` client which connects to a mock database."""
-    return VuMarkService(
-        server_access_key=vumark_database.server_access_key,
-        server_secret_key=vumark_database.server_secret_key,
-    )
 
 
 @pytest.fixture
