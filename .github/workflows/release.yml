@@ -200,6 +200,8 @@ jobs:
             spec: bin/vuforia-cloud-reco.py
           - name: vws-linux
             spec: bin/vuforia-web-services.py
+          - name: vumark-linux
+            spec: bin/vumark.py
 
     permissions:
       contents: write
@@ -348,12 +350,24 @@ jobs:
           upload_exe_with_name: vws-windows
           clean_checkout: false
 
+      - name: Create Windows binary for VuMark generation
+        uses: sayyid5416/pyinstaller@v1
+        with:
+          python_ver: '3.13'
+          pyinstaller_ver: ==6.12.0
+          spec: bin/vumark.py
+          requirements: requirements.txt
+          options: --onefile, --name "vumark-windows"
+          upload_exe_with_name: vumark-windows
+          clean_checkout: false
+
       - name: Upload Windows binaries to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |-
           gh release upload ${{ needs.build.outputs.new_tag }} dist/vws-windows.exe --clobber
           gh release upload ${{ needs.build.outputs.new_tag }} dist/vuforia-cloud-reco-windows.exe --clobber
+          gh release upload ${{ needs.build.outputs.new_tag }} dist/vumark-windows.exe --clobber
 
   build-macos:
     name: Build macOS binaries
@@ -408,12 +422,24 @@ jobs:
           upload_exe_with_name: vws-macos
           clean_checkout: false
 
+      - name: Create macOS binary for VuMark generation
+        uses: sayyid5416/pyinstaller@v1
+        with:
+          python_ver: '3.13'
+          pyinstaller_ver: ==6.12.0
+          spec: bin/vumark.py
+          requirements: requirements.txt
+          options: --onefile, --name "vumark-macos"
+          upload_exe_with_name: vumark-macos
+          clean_checkout: false
+
       - name: Upload macOS binaries to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |-
           gh release upload ${{ needs.build.outputs.new_tag }} dist/vws-macos --clobber
           gh release upload ${{ needs.build.outputs.new_tag }} dist/vuforia-cloud-reco-macos --clobber
+          gh release upload ${{ needs.build.outputs.new_tag }} dist/vumark-macos --clobber
 
   publish-to-winget:
     name: Publish to WinGet
@@ -423,6 +449,9 @@ jobs:
       contents: read
 
     steps:
+      # The first PR for a new package ID must be created manually on
+      # microsoft/winget-pkgs. We intentionally do not add vumark here yet.
+      # Tracked in https://github.com/VWS-Python/vws-cli/issues/1984.
       - uses: vedantmgoyal9/winget-releaser@v2
         with:
           identifier: VWSPython.vws-cli

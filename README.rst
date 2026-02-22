@@ -69,6 +69,12 @@ To use ``vuforia-cloud-reco``:
 
    $ docker run --rm --entrypoint vuforia-cloud-reco "ghcr.io/vws-python/vws-cli" --help
 
+To use ``vumark``:
+
+.. code-block:: console
+
+   $ docker run --rm --entrypoint vumark "ghcr.io/vws-python/vws-cli" --help
+
 With winget (Windows)
 ^^^^^^^^^^^^^^^^^^^^^
 
@@ -92,6 +98,11 @@ Pre-built Windows binaries
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Download the Windows executables from the `latest release`_ and place them in a directory on your ``PATH``.
+The filenames are:
+
+* ``vws-windows.exe``
+* ``vuforia-cloud-reco-windows.exe``
+* ``vumark-windows.exe``
 
 .. _latest release: https://github.com/VWS-Python/vws-cli/releases/latest
 
