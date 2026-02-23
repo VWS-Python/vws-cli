@@ -20,6 +20,8 @@ macOS
 metadata
 noqa
 num
+pdf
+png
 pragma
 pre
 pyperclip
@@ -31,10 +33,12 @@ reportMissingTypeStubs
 reportUnknownArgumentType
 reportUnknownMemberType
 reportUnknownVariableType
+svg
 typeshed
 ubuntu
 versioned
 vuforia
+vumark
 vwq
 vws
 winget

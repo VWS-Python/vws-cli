@@ -61,6 +61,13 @@ To use ``vuforia-cloud-reco``:
 
    $ docker run --rm --entrypoint vuforia-cloud-reco "|docker-image|" --help
 
+To use ``vumark``:
+
+.. code-block:: console
+   :substitutions:
+
+   $ docker run --rm --entrypoint vumark "|docker-image|" --help
+
 With winget (Windows)
 ~~~~~~~~~~~~~~~~~~~~~
 
@@ -83,11 +90,18 @@ Pre-built Linux (x86) binaries
        chmod +x /usr/local/bin/vws
    $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vuforia-cloud-reco-linux" -o /usr/local/bin/vuforia-cloud-reco &&
        chmod +x /usr/local/bin/vuforia-cloud-reco
+   $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vumark-linux" -o /usr/local/bin/vumark &&
+       chmod +x /usr/local/bin/vumark
 
 Pre-built Windows binaries
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Download the Windows executables from the `latest release`_ and place them in a directory on your ``PATH``.
+The filenames are:
+
+* ``vws-windows.exe``
+* ``vuforia-cloud-reco-windows.exe``
+* ``vumark-windows.exe``
 
 .. _latest release: https://github.com/VWS-Python/vws-cli/releases/latest
 
@@ -101,6 +115,8 @@ Pre-built macOS (ARM) binaries
        chmod +x /usr/local/bin/vws
    $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vuforia-cloud-reco-macos" -o /usr/local/bin/vuforia-cloud-reco &&
        chmod +x /usr/local/bin/vuforia-cloud-reco
+   $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vumark-macos" -o /usr/local/bin/vumark &&
+       chmod +x /usr/local/bin/vumark
 
 You may need to remove the quarantine attribute to allow the binaries to run:
 
@@ -108,6 +124,7 @@ You may need to remove the quarantine attribute to allow the binaries to run:
 
    $ xattr -d com.apple.quarantine /usr/local/bin/vws
    $ xattr -d com.apple.quarantine /usr/local/bin/vuforia-cloud-reco
+   $ xattr -d com.apple.quarantine /usr/local/bin/vumark
 
 Shell completion
 ~~~~~~~~~~~~~~~~

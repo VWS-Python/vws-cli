@@ -6,6 +6,7 @@ from pytest_regressions.file_regression import FileRegressionFixture
 
 from vws_cli import vws_group
 from vws_cli.query import vuforia_cloud_reco
+from vws_cli.vumark import generate_vumark
 
 _SUBCOMMANDS = [[item] for item in vws_group.commands]
 _BASE_COMMAND: list[list[str]] = [[]]
@@ -31,6 +32,24 @@ def test_vws_command_help(
     arguments = [*command, "--help"]
     result = runner.invoke(
         cli=vws_group,
+        args=arguments,
+        catch_exceptions=False,
+        color=True,
+    )
+    assert result.exit_code == 0
+    file_regression.check(contents=result.output)
+
+
+def test_vumark_help(file_regression: FileRegressionFixture) -> None:
+    """Expected help text is shown for the ``vumark`` command.
+
+    This help text is defined in files.
+    To update these files, run ``pytest`` with the ``--regen-all`` flag.
+    """
+    runner = CliRunner()
+    arguments = ["--help"]
+    result = runner.invoke(
+        cli=generate_vumark,
         args=arguments,
         catch_exceptions=False,
         color=True,

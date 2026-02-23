@@ -4,7 +4,7 @@ import contextlib
 import dataclasses
 import io
 import sys
-from collections.abc import Callable, Iterator, Mapping
+from collections.abc import Iterator
 from pathlib import Path
 
 import click
@@ -16,25 +16,8 @@ from vws.exceptions.custom_exceptions import (
     ServerError,
     TargetProcessingTimeoutError,
 )
-from vws.exceptions.vws_exceptions import (
-    AuthenticationFailureError,
-    BadImageError,
-    DateRangeError,
-    FailError,
-    ImageTooLargeError,
-    MetadataTooLargeError,
-    ProjectHasNoAPIAccessError,
-    ProjectInactiveError,
-    ProjectSuspendedError,
-    RequestQuotaReachedError,
-    RequestTimeTooSkewedError,
-    TargetNameExistError,
-    TargetQuotaReachedError,
-    TargetStatusNotSuccessError,
-    TargetStatusProcessingError,
-    UnknownTargetError,
-)
 
+from vws_cli._error_handling import get_error_message
 from vws_cli.options.credentials import (
     server_access_key_option,
     server_secret_key_option,
@@ -52,68 +35,7 @@ from vws_cli.options.timeout import (
     connection_timeout_seconds_option,
     read_timeout_seconds_option,
 )
-
-
-@beartype
-def _create_vws_client(
-    *,
-    server_access_key: str,
-    server_secret_key: str,
-    base_vws_url: str,
-    connection_timeout_seconds: float,
-    read_timeout_seconds: float,
-) -> VWS:
-    """Create a VWS client with the given credentials and timeout settings."""
-    return VWS(
-        server_access_key=server_access_key,
-        server_secret_key=server_secret_key,
-        base_vws_url=base_vws_url,
-        request_timeout_seconds=(
-            connection_timeout_seconds,
-            read_timeout_seconds,
-        ),
-    )
-
-
-@beartype
-def _get_error_message(exc: Exception) -> str:
-    """Get an error message from a VWS exception."""
-    if isinstance(exc, UnknownTargetError):
-        return f'Error: Target "{exc.target_id}" does not exist.'
-
-    if isinstance(exc, TargetNameExistError):
-        return f'Error: There is already a target named "{exc.target_name}".'
-
-    if isinstance(exc, TargetStatusNotSuccessError):
-        return (
-            f'Error: The target "{exc.target_id}" cannot be updated as it is '
-            "in the processing state."
-        )
-
-    if isinstance(exc, TargetStatusProcessingError):
-        return (
-            f'Error: The target "{exc.target_id}" cannot be deleted as it is '
-            "in the processing state."
-        )
-
-    exc_type_to_message: Mapping[type[Exception], str] = {
-        AuthenticationFailureError: "The given secret key was incorrect.",
-        BadImageError: "Error: The given image is corrupted or the format is not supported.",
-        DateRangeError: "Error: There was a problem with the date details given in the request.",
-        FailError: "Error: The request made to Vuforia was invalid and could not be processed. Check the given parameters.",
-        ImageTooLargeError: "Error: The given image is too large.",
-        MetadataTooLargeError: "Error: The given metadata is too large.",
-        ServerError: "Error: There was an unknown error from Vuforia. This may be because there is a problem with the given name.",
-        ProjectInactiveError: "Error: The project associated with the given keys is inactive.",
-        RequestQuotaReachedError: "Error: The maximum number of API calls for this database has been reached.",
-        RequestTimeTooSkewedError: "Error: Vuforia reported that the time given with this request was outside the expected range. This may be because the system clock is out of sync.",
-        TargetProcessingTimeoutError: "Error: The target processing time has exceeded the allowed limit.",
-        TargetQuotaReachedError: "Error: The maximum number of targets for this database has been reached.",
-        ProjectSuspendedError: "Error: The request could not be completed because this database has been suspended.",
-        ProjectHasNoAPIAccessError: "Error: The request could not be completed because this database is not allowed to make API requests.",
-    }
-
-    return exc_type_to_message[type(exc)]
+from vws_cli.options.vws import base_vws_url_option
 
 
 @beartype
@@ -129,7 +51,7 @@ def _handle_vws_exceptions() -> Iterator[None]:
         ServerError,
         TargetProcessingTimeoutError,
     ) as exc:
-        error_message = _get_error_message(exc=exc)
+        error_message = get_error_message(exc=exc)
     else:
         return
 
@@ -137,25 +59,11 @@ def _handle_vws_exceptions() -> Iterator[None]:
     sys.exit(1)
 
 
-@beartype
-def _base_vws_url_option(command: Callable[..., None]) -> Callable[..., None]:
-    """An option decorator for choosing the base VWS URL."""
-    click_option_function = click.option(
-        "--base-vws-url",
-        type=click.STRING,
-        default="https://vws.vuforia.com",
-        help="The base URL for the VWS API.",
-        show_default=True,
-    )
-
-    return click_option_function(command)
-
-
 @click.command(name="get-target-record")
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @_handle_vws_exceptions()
@@ -175,12 +83,14 @@ def get_target_record(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#target-record.
     """
-    vws_client = _create_vws_client(
+    vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        connection_timeout_seconds=connection_timeout_seconds,
-        read_timeout_seconds=read_timeout_seconds,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
     record = vws_client.get_target_record(target_id=target_id).target_record
 
@@ -192,7 +102,7 @@ def get_target_record(
 @server_access_key_option
 @server_secret_key_option
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -210,12 +120,14 @@ def list_targets(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#details-list.
     """
-    vws_client = _create_vws_client(
+    vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        connection_timeout_seconds=connection_timeout_seconds,
-        read_timeout_seconds=read_timeout_seconds,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
     targets = vws_client.list_targets()
     yaml_list = yaml.dump(data=targets)
@@ -227,7 +139,7 @@ def list_targets(
 @server_secret_key_option
 @target_id_option
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -246,12 +158,14 @@ def get_duplicate_targets(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#check.
     """
-    vws_client = _create_vws_client(
+    vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        connection_timeout_seconds=connection_timeout_seconds,
-        read_timeout_seconds=read_timeout_seconds,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
     record = vws_client.get_duplicate_targets(target_id=target_id)
 
@@ -263,7 +177,7 @@ def get_duplicate_targets(
 @server_access_key_option
 @server_secret_key_option
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -281,12 +195,14 @@ def get_database_summary_report(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#summary-report.
     """
-    vws_client = _create_vws_client(
+    vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        connection_timeout_seconds=connection_timeout_seconds,
-        read_timeout_seconds=read_timeout_seconds,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
     report = vws_client.get_database_summary_report()
     yaml_report = yaml.dump(data=dataclasses.asdict(obj=report))
@@ -298,7 +214,7 @@ def get_database_summary_report(
 @server_secret_key_option
 @target_id_option
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -317,12 +233,14 @@ def get_target_summary_report(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#retrieve-report.
     """
-    vws_client = _create_vws_client(
+    vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        connection_timeout_seconds=connection_timeout_seconds,
-        read_timeout_seconds=read_timeout_seconds,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
     report = vws_client.get_target_summary_report(target_id=target_id)
     report_dict = dataclasses.asdict(obj=report)
@@ -337,7 +255,7 @@ def get_target_summary_report(
 @server_secret_key_option
 @target_id_option
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -356,12 +274,14 @@ def delete_target(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#delete.
     """
-    vws_client = _create_vws_client(
+    vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        connection_timeout_seconds=connection_timeout_seconds,
-        read_timeout_seconds=read_timeout_seconds,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
 
     vws_client.delete_target(target_id=target_id)
@@ -376,7 +296,7 @@ def delete_target(
 @target_image_option(required=True)
 @active_flag_option(allow_none=False)
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -399,12 +319,14 @@ def add_target(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#add
     """
-    vws_client = _create_vws_client(
+    vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        connection_timeout_seconds=connection_timeout_seconds,
-        read_timeout_seconds=read_timeout_seconds,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
 
     image_bytes = image_file_path.read_bytes()
@@ -436,7 +358,7 @@ def add_target(
 @active_flag_option(allow_none=True)
 @target_id_option
 @_handle_vws_exceptions()
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @beartype
@@ -460,12 +382,14 @@ def update_target(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#update
     """
-    vws_client = _create_vws_client(
+    vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        connection_timeout_seconds=connection_timeout_seconds,
-        read_timeout_seconds=read_timeout_seconds,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
 
     if image_file_path is None:
@@ -496,7 +420,7 @@ _SECONDS_BETWEEN_REQUESTS_HELP = (
     "The number of seconds to wait between requests made while polling the "
     "target status. "
     f"We wait {_SECONDS_BETWEEN_REQUESTS_DEFAULT} seconds by default, rather "
-    "than less than that, to decrease the number of calls made to the API, to "
+    "than less, than that to decrease the number of calls made to the API, to "
     "decrease the likelihood of hitting the request quota."
 )
 
@@ -523,7 +447,7 @@ _TIMEOUT_SECONDS_HELP = (
 @server_access_key_option
 @server_secret_key_option
 @target_id_option
-@_base_vws_url_option
+@base_vws_url_option
 @connection_timeout_seconds_option
 @read_timeout_seconds_option
 @_handle_vws_exceptions()
@@ -542,12 +466,14 @@ def wait_for_target_processed(
     """Wait for a target to be "processed". This is done by polling the VWS
     API.
     """
-    vws_client = _create_vws_client(
+    vws_client = VWS(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        connection_timeout_seconds=connection_timeout_seconds,
-        read_timeout_seconds=read_timeout_seconds,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
     )
 
     try:
