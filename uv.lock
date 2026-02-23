@@ -2396,8 +2396,8 @@ requires-dist = [
     { name = "ty", marker = "extra == 'dev'", specifier = "==0.0.18" },
     { name = "types-pyyaml", marker = "extra == 'dev'", specifier = "==6.0.12.20250915" },
     { name = "vulture", marker = "extra == 'dev'", specifier = "==2.14" },
-    { name = "vws-python", specifier = "==2026.2.21" },
-    { name = "vws-python-mock", marker = "extra == 'dev'", specifier = "==2026.2.22.1" },
+    { name = "vws-python", specifier = "==2026.2.23" },
+    { name = "vws-python-mock", marker = "extra == 'dev'", specifier = "==2026.2.22.3" },
     { name = "vws-test-fixtures", marker = "extra == 'dev'", specifier = "==2023.3.5" },
     { name = "yamlfix", marker = "extra == 'dev'", specifier = "==1.19.1" },
     { name = "zizmor", marker = "extra == 'dev'", specifier = "==1.22.0" },
@@ -2406,7 +2406,7 @@ provides-extras = ["dev", "release"]
 
 [[package]]
 name = "vws-python"
-version = "2026.2.21"
+version = "2026.2.23"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
@@ -2414,14 +2414,14 @@ dependencies = [
     { name = "urllib3" },
     { name = "vws-auth-tools" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/db/88/f9a737c1bffd5d6b14771f99c1f9066612ba30f816a4cb6a62a95b30a254/vws_python-2026.2.21.tar.gz", hash = "sha256:d7ebebd332ec99d255949251f7f45bb59043d466b1ca6ae34784be75611b8673", size = 38998, upload-time = "2026-02-21T08:32:49.331Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2a/2c/10451917b5ec72b0eadb31de43233cebbbd30a68a9174aa8352e1bd95372/vws_python-2026.2.23.tar.gz", hash = "sha256:020c1b3460bdd1aba3d303339e836ca1048b1ce53397c2240cc6f3bf04de7fb8", size = 39249, upload-time = "2026-02-23T09:11:11.652Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/4c/d9/8e2a50a1724de6a86509cabfe68311118a3220dbcafd47e960101b82ea99/vws_python-2026.2.21-py2.py3-none-any.whl", hash = "sha256:395afe8f899bc1ff51d75cd885d672a1cc0b68013e07271962a143892abe0ea7", size = 18905, upload-time = "2026-02-21T08:32:47.991Z" },
+    { url = "https://files.pythonhosted.org/packages/a9/3a/81989d23f6f9f9907d0047cb80bac6cf2f554591bf34f0dc5738fec8e862/vws_python-2026.2.23-py2.py3-none-any.whl", hash = "sha256:663269e435f4153ef4f2f4f1484d827bf858077836b4681781dffbdd6c6fb838", size = 18936, upload-time = "2026-02-23T09:11:09.977Z" },
 ]
 
 [[package]]
 name = "vws-python-mock"
-version = "2026.2.22.1"
+version = "2026.2.22.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
@@ -2443,9 +2443,9 @@ dependencies = [
     { name = "vws-auth-tools" },
     { name = "werkzeug" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b4/89/e0e4a90cfbbe6af5d6c4a04ecff5fb76335169c896336ab1d753012fcc01/vws_python_mock-2026.2.22.1.tar.gz", hash = "sha256:85f29f1d172a8c83699e518cd4e8d2dc3e680e8445f3cf2d0cb8adcd8a2d1918", size = 165249, upload-time = "2026-02-22T11:56:56.979Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/29/06/9aa217310f41a483981cfd71cc8fb5119621c62f0477aace29b82d7ea2bf/vws_python_mock-2026.2.22.3.tar.gz", hash = "sha256:67f121556b53ef195afe2b279553e7535178a81779e4e9997f34811d1ca54682", size = 164840, upload-time = "2026-02-22T22:41:41.981Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8e/a6/7cd9ee2558247ff319ff26a985d6668023d650a5f0326a59fbc2ee899b49/vws_python_mock-2026.2.22.1-py2.py3-none-any.whl", hash = "sha256:4c04f684869ef1f81800e60b7357476fc133f9e3d277ed8d106a404499480464", size = 70914, upload-time = "2026-02-22T11:56:55.356Z" },
+    { url = "https://files.pythonhosted.org/packages/f1/e8/c990d1180bf3ae4cfe3c9129879bd9daa4fb0aa57c6513f69bd26102f1cb/vws_python_mock-2026.2.22.3-py2.py3-none-any.whl", hash = "sha256:2480d61663c25d4dc2d2ca819e6a356700f665d6b904418119b1ab95e3b8353b", size = 70106, upload-time = "2026-02-22T22:41:40.012Z" },
 ]
 
 [[package]]
