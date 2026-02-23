@@ -47,7 +47,7 @@ def fixture_vumark_database() -> Iterator[VuMarkDatabase]:
 
 
 @pytest.fixture(name="vumark_target")
-def fixture_vumark_target(vumark_database: VuMarkDatabase) -> VuMarkTarget:
+def fixture_vumark_target(*, vumark_database: VuMarkDatabase) -> VuMarkTarget:
     """Return the pre-created ``VuMarkTarget`` in the database."""
     return next(iter(vumark_database.not_deleted_targets))
 
