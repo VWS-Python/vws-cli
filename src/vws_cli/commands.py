@@ -55,6 +55,27 @@ from vws_cli.options.timeout import (
 
 
 @beartype
+def _create_vws_client(
+    *,
+    server_access_key: str,
+    server_secret_key: str,
+    base_vws_url: str,
+    connection_timeout_seconds: float,
+    read_timeout_seconds: float,
+) -> VWS:
+    """Create a VWS client with the given credentials and timeout settings."""
+    return VWS(
+        server_access_key=server_access_key,
+        server_secret_key=server_secret_key,
+        base_vws_url=base_vws_url,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
+    )
+
+
+@beartype
 def _get_error_message(exc: Exception) -> str:
     """Get an error message from a VWS exception."""
     if isinstance(exc, UnknownTargetError):
@@ -154,14 +175,12 @@ def get_target_record(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#target-record.
     """
-    vws_client = VWS(
+    vws_client = _create_vws_client(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        request_timeout_seconds=(
-            connection_timeout_seconds,
-            read_timeout_seconds,
-        ),
+        connection_timeout_seconds=connection_timeout_seconds,
+        read_timeout_seconds=read_timeout_seconds,
     )
     record = vws_client.get_target_record(target_id=target_id).target_record
 
@@ -191,14 +210,12 @@ def list_targets(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#details-list.
     """
-    vws_client = VWS(
+    vws_client = _create_vws_client(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        request_timeout_seconds=(
-            connection_timeout_seconds,
-            read_timeout_seconds,
-        ),
+        connection_timeout_seconds=connection_timeout_seconds,
+        read_timeout_seconds=read_timeout_seconds,
     )
     targets = vws_client.list_targets()
     yaml_list = yaml.dump(data=targets)
@@ -229,14 +246,12 @@ def get_duplicate_targets(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#check.
     """
-    vws_client = VWS(
+    vws_client = _create_vws_client(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        request_timeout_seconds=(
-            connection_timeout_seconds,
-            read_timeout_seconds,
-        ),
+        connection_timeout_seconds=connection_timeout_seconds,
+        read_timeout_seconds=read_timeout_seconds,
     )
     record = vws_client.get_duplicate_targets(target_id=target_id)
 
@@ -266,14 +281,12 @@ def get_database_summary_report(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#summary-report.
     """
-    vws_client = VWS(
+    vws_client = _create_vws_client(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        request_timeout_seconds=(
-            connection_timeout_seconds,
-            read_timeout_seconds,
-        ),
+        connection_timeout_seconds=connection_timeout_seconds,
+        read_timeout_seconds=read_timeout_seconds,
     )
     report = vws_client.get_database_summary_report()
     yaml_report = yaml.dump(data=dataclasses.asdict(obj=report))
@@ -304,14 +317,12 @@ def get_target_summary_report(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#retrieve-report.
     """
-    vws_client = VWS(
+    vws_client = _create_vws_client(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        request_timeout_seconds=(
-            connection_timeout_seconds,
-            read_timeout_seconds,
-        ),
+        connection_timeout_seconds=connection_timeout_seconds,
+        read_timeout_seconds=read_timeout_seconds,
     )
     report = vws_client.get_target_summary_report(target_id=target_id)
     report_dict = dataclasses.asdict(obj=report)
@@ -345,14 +356,12 @@ def delete_target(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#delete.
     """
-    vws_client = VWS(
+    vws_client = _create_vws_client(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        request_timeout_seconds=(
-            connection_timeout_seconds,
-            read_timeout_seconds,
-        ),
+        connection_timeout_seconds=connection_timeout_seconds,
+        read_timeout_seconds=read_timeout_seconds,
     )
 
     vws_client.delete_target(target_id=target_id)
@@ -390,14 +399,12 @@ def add_target(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#add
     """
-    vws_client = VWS(
+    vws_client = _create_vws_client(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        request_timeout_seconds=(
-            connection_timeout_seconds,
-            read_timeout_seconds,
-        ),
+        connection_timeout_seconds=connection_timeout_seconds,
+        read_timeout_seconds=read_timeout_seconds,
     )
 
     image_bytes = image_file_path.read_bytes()
@@ -453,14 +460,12 @@ def update_target(
     See
     https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api#update
     """
-    vws_client = VWS(
+    vws_client = _create_vws_client(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        request_timeout_seconds=(
-            connection_timeout_seconds,
-            read_timeout_seconds,
-        ),
+        connection_timeout_seconds=connection_timeout_seconds,
+        read_timeout_seconds=read_timeout_seconds,
     )
 
     if image_file_path is None:
@@ -491,7 +496,7 @@ _SECONDS_BETWEEN_REQUESTS_HELP = (
     "The number of seconds to wait between requests made while polling the "
     "target status. "
     f"We wait {_SECONDS_BETWEEN_REQUESTS_DEFAULT} seconds by default, rather "
-    "than less, than that to decrease the number of calls made to the API, to "
+    "than less than that, to decrease the number of calls made to the API, to "
     "decrease the likelihood of hitting the request quota."
 )
 
@@ -537,14 +542,12 @@ def wait_for_target_processed(
     """Wait for a target to be "processed". This is done by polling the VWS
     API.
     """
-    vws_client = VWS(
+    vws_client = _create_vws_client(
         server_access_key=server_access_key,
         server_secret_key=server_secret_key,
         base_vws_url=base_vws_url,
-        request_timeout_seconds=(
-            connection_timeout_seconds,
-            read_timeout_seconds,
-        ),
+        connection_timeout_seconds=connection_timeout_seconds,
+        read_timeout_seconds=read_timeout_seconds,
     )
 
     try:

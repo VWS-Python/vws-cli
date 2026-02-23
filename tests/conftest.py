@@ -27,7 +27,7 @@ def fixture_mock_database() -> Iterator[VuforiaDatabase]:
 
 
 @pytest.fixture
-def vws_client(mock_database: VuforiaDatabase) -> VWS:
+def vws_client(*, mock_database: VuforiaDatabase) -> VWS:
     """Return a VWS client which connects to a mock database."""
     return VWS(
         server_access_key=mock_database.server_access_key,
@@ -37,6 +37,7 @@ def vws_client(mock_database: VuforiaDatabase) -> VWS:
 
 @pytest.fixture
 def cloud_reco_client(
+    *,
     mock_database: VuforiaDatabase,
 ) -> CloudRecoService:
     """
