@@ -449,9 +449,6 @@ jobs:
       contents: read
 
     steps:
-      # The first PR for a new package ID must be created manually on
-      # microsoft/winget-pkgs. We intentionally do not add vumark here yet.
-      # Tracked in https://github.com/VWS-Python/vws-cli/issues/1984.
       - uses: vedantmgoyal9/winget-releaser@v2
         with:
           identifier: VWSPython.vws-cli
@@ -466,4 +463,12 @@ jobs:
           version: ${{ needs.build.outputs.new_tag }}
           release-tag: ${{ needs.build.outputs.new_tag }}
           installers-regex: ^vuforia-cloud-reco-windows\.exe$
+          token: ${{ secrets.WINGET_TOKEN }}
+
+      - uses: vedantmgoyal9/winget-releaser@v2
+        with:
+          identifier: VWSPython.vumark
+          version: ${{ needs.build.outputs.new_tag }}
+          release-tag: ${{ needs.build.outputs.new_tag }}
+          installers-regex: ^vumark-windows\.exe$
           token: ${{ secrets.WINGET_TOKEN }}
