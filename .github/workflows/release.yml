@@ -456,7 +456,6 @@ jobs:
           version: ${{ needs.build.outputs.new_tag }}
           release-tag: ${{ needs.build.outputs.new_tag }}
           installers-regex: ^vws-windows\.exe$
-          fork-user: adamtheturtle
           token: ${{ secrets.WINGET_TOKEN }}
 
       - uses: vedantmgoyal9/winget-releaser@v2
@@ -465,7 +464,6 @@ jobs:
           version: ${{ needs.build.outputs.new_tag }}
           release-tag: ${{ needs.build.outputs.new_tag }}
           installers-regex: ^vuforia-cloud-reco-windows\.exe$
-          fork-user: adamtheturtle
           token: ${{ secrets.WINGET_TOKEN }}
 
       - uses: vedantmgoyal9/winget-releaser@v2
@@ -474,5 +472,4 @@ jobs:
           version: ${{ needs.build.outputs.new_tag }}
           release-tag: ${{ needs.build.outputs.new_tag }}
           installers-regex: ^vumark-windows\.exe$
-          fork-user: adamtheturtle
           token: ${{ secrets.WINGET_TOKEN }}
