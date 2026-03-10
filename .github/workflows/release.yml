@@ -445,6 +445,7 @@ jobs:
     name: Publish to WinGet
     needs: [build, build-windows]
     runs-on: windows-latest
+    environment: winget
     permissions:
       contents: read
 
