@@ -54,8 +54,10 @@ jobs:
 
       - name: Get the changelog underline
         id: changelog_underline
+        env:
+          RELEASE: ${{ steps.calver.outputs.release }}
         run: |
-          underline="$(echo "${{ steps.calver.outputs.release }}" | tr -c '\n' '-')"
+          underline="$(echo "$RELEASE" | tr -c '\n' '-')"
           echo "underline=${underline}" >> "$GITHUB_OUTPUT"
 
       - name: Update changelog
@@ -80,8 +82,10 @@ jobs:
           fi
 
       - name: Update VERSION file for Nix flake
+        env:
+          RELEASE: ${{ steps.calver.outputs.release }}
         run: |
-          echo "${{ steps.calver.outputs.release }}" > VERSION
+          echo "$RELEASE" > VERSION
 
       - uses: stefanzweifel/git-auto-commit-action@v7
         id: commit
@@ -101,16 +105,20 @@ jobs:
           commit_sha: ${{ steps.commit.outputs.commit_hash }}
 
       - name: Checkout the latest tag - the one we just created
+        env:
+          NEW_TAG: ${{ steps.tag_version.outputs.new_tag }}
         run: |
           git fetch --tags
-          git checkout ${{ steps.tag_version.outputs.new_tag }}
+          git checkout "$NEW_TAG"
 
       - name: Build a binary wheel and a source tarball
         id: build-wheel
+        env:
+          NEW_TAG: ${{ steps.tag_version.outputs.new_tag }}
         run: |
           sudo rm -rf dist/ build/
           git fetch --tags
-          git checkout ${{ steps.tag_version.outputs.new_tag }}
+          git checkout "$NEW_TAG"
           uv build --sdist --wheel --out-dir dist/
           WHEEL="$(ls dist/*.whl)"
           uv run --extra=release check-wheel-contents "${WHEEL}"
@@ -129,10 +137,12 @@ jobs:
       # Here, we give PyPI time to propagate the package.
       - name: Install package from PyPI
         uses: nick-fields/retry@v3
+        env:
+          RELEASE: ${{ steps.calver.outputs.release }}
         with:
           timeout_seconds: 5
           max_attempts: 50
-          command: uv pip install --refresh vws-cli==${{ steps.calver.outputs.release }}
+          command: uv pip install --refresh vws-cli=="$RELEASE"
 
       - name: Set up Homebrew filename
         id: set-homebrew-filename
@@ -143,11 +153,14 @@ jobs:
       - name: Create a Homebrew recipe
         id: homebrew-create
         uses: nick-fields/retry@v3
+        env:
+          RELEASE: ${{ steps.calver.outputs.release }}
+          HOMEBREW_FILENAME: ${{ steps.set-homebrew-filename.outputs.filename }}
         with:
           timeout_seconds: 5
           max_attempts: 50
           command: |
-            uv run --no-cache --with="vws-cli==${{ steps.calver.outputs.release }}" --extra=release poet --formula vws-cli > ${{ steps.set-homebrew-filename.outputs.filename }}
+            uv run --no-cache --with="vws-cli==$RELEASE" --extra=release poet --formula vws-cli > "$HOMEBREW_FILENAME"
 
       - name: Update Homebrew description
         id: update_homebrew_description
@@ -219,15 +232,19 @@ jobs:
       # We normalize the version (e.g., 2026.01.22 -> 2026.1.22) for PyPI lookup.
       - name: Wait for PyPI propagation
         uses: nick-fields/retry@v3
+        env:
+          NEW_TAG: ${{ needs.build.outputs.new_tag }}
         with:
           timeout_seconds: 10
           max_attempts: 50
           command: |
-            normalized_version=$(echo "${{ needs.build.outputs.new_tag }}" | sed -E 's/\.0+([0-9])/.\1/g')
+            normalized_version=$(echo "$NEW_TAG" | sed -E 's/\.0+([0-9])/.\1/g')
             curl -sf "https://pypi.org/pypi/vws-cli/${normalized_version}/json" > /dev/null
 
       - name: Create requirements file
-        run: echo "vws-cli==${{ needs.build.outputs.new_tag }}" > requirements.txt
+        env:
+          NEW_TAG: ${{ needs.build.outputs.new_tag }}
+        run: echo "vws-cli==$NEW_TAG" > requirements.txt
 
       - name: Create Linux binary
         uses: sayyid5416/pyinstaller@v1
@@ -243,8 +260,9 @@ jobs:
       - name: Upload Linux binary to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_TAG: ${{ needs.build.outputs.new_tag }}
         run: |
-          gh release upload ${{ needs.build.outputs.new_tag }} dist/${{ matrix.binary.name }} --clobber
+          gh release upload "$NEW_TAG" dist/${{ matrix.binary.name }} --clobber
 
   publish-docker:
     name: Publish Docker image
@@ -279,6 +297,8 @@ jobs:
       # check, so we retry.
       - name: Build and push Docker image
         uses: nick-fields/retry@v3
+        env:
+          NEW_TAG: ${{ needs.build.outputs.new_tag }}
         with:
           timeout_minutes: 10
           max_attempts: 5
@@ -286,8 +306,8 @@ jobs:
             docker buildx build \
               --push \
               --platform linux/amd64,linux/arm64 \
-              --build-arg VWS_CLI_VERSION=${{ needs.build.outputs.new_tag }} \
-              --tag ghcr.io/vws-python/vws-cli:${{ needs.build.outputs.new_tag }} \
+              --build-arg VWS_CLI_VERSION="$NEW_TAG" \
+              --tag ghcr.io/vws-python/vws-cli:"$NEW_TAG" \
               --tag ghcr.io/vws-python/vws-cli:latest \
               .
 
@@ -317,16 +337,20 @@ jobs:
       # We normalize the version (e.g., 2026.01.22 -> 2026.1.22) for PyPI lookup.
       - name: Wait for PyPI propagation
         uses: nick-fields/retry@v3
+        env:
+          NEW_TAG: ${{ needs.build.outputs.new_tag }}
         with:
           timeout_seconds: 10
           max_attempts: 50
           shell: bash
           command: |
-            normalized_version=$(echo "${{ needs.build.outputs.new_tag }}" | sed -E 's/\.0+([0-9])/.\1/g')
+            normalized_version=$(echo "$NEW_TAG" | sed -E 's/\.0+([0-9])/.\1/g')
             curl -sf "https://pypi.org/pypi/vws-cli/${normalized_version}/json" > /dev/null
 
       - name: Create requirements file
-        run: echo "vws-cli==${{ needs.build.outputs.new_tag }}" > requirements.txt
+        env:
+          NEW_TAG: ${{ needs.build.outputs.new_tag }}
+        run: echo "vws-cli==$NEW_TAG" > requirements.txt
 
       - name: Create Windows binary for Vuforia Cloud Reco
         uses: sayyid5416/pyinstaller@v1
@@ -364,10 +388,11 @@ jobs:
       - name: Upload Windows binaries to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_TAG: ${{ needs.build.outputs.new_tag }}
         run: |-
-          gh release upload ${{ needs.build.outputs.new_tag }} dist/vws-windows.exe --clobber
-          gh release upload ${{ needs.build.outputs.new_tag }} dist/vuforia-cloud-reco-windows.exe --clobber
-          gh release upload ${{ needs.build.outputs.new_tag }} dist/vumark-windows.exe --clobber
+          gh release upload "$NEW_TAG" dist/vws-windows.exe --clobber
+          gh release upload "$NEW_TAG" dist/vuforia-cloud-reco-windows.exe --clobber
+          gh release upload "$NEW_TAG" dist/vumark-windows.exe --clobber
 
   build-macos:
     name: Build macOS binaries
@@ -390,15 +415,19 @@ jobs:
       # We normalize the version (e.g., 2026.01.22 -> 2026.1.22) for PyPI lookup.
       - name: Wait for PyPI propagation
         uses: nick-fields/retry@v3
+        env:
+          NEW_TAG: ${{ needs.build.outputs.new_tag }}
         with:
           timeout_seconds: 10
           max_attempts: 50
           command: |
-            normalized_version=$(echo "${{ needs.build.outputs.new_tag }}" | sed -E 's/\.0+([0-9])/.\1/g')
+            normalized_version=$(echo "$NEW_TAG" | sed -E 's/\.0+([0-9])/.\1/g')
             curl -sf "https://pypi.org/pypi/vws-cli/${normalized_version}/json" > /dev/null
 
       - name: Create requirements file
-        run: echo "vws-cli==${{ needs.build.outputs.new_tag }}" > requirements.txt
+        env:
+          NEW_TAG: ${{ needs.build.outputs.new_tag }}
+        run: echo "vws-cli==$NEW_TAG" > requirements.txt
 
       - name: Create macOS binary for Vuforia Cloud Reco
         uses: sayyid5416/pyinstaller@v1
@@ -436,10 +465,11 @@ jobs:
       - name: Upload macOS binaries to release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_TAG: ${{ needs.build.outputs.new_tag }}
         run: |-
-          gh release upload ${{ needs.build.outputs.new_tag }} dist/vws-macos --clobber
-          gh release upload ${{ needs.build.outputs.new_tag }} dist/vuforia-cloud-reco-macos --clobber
-          gh release upload ${{ needs.build.outputs.new_tag }} dist/vumark-macos --clobber
+          gh release upload "$NEW_TAG" dist/vws-macos --clobber
+          gh release upload "$NEW_TAG" dist/vuforia-cloud-reco-macos --clobber
+          gh release upload "$NEW_TAG" dist/vumark-macos --clobber
 
   publish-to-winget:
     name: Publish to WinGet
