@@ -174,8 +174,10 @@ jobs:
           regex: false
 
       - name: Check Update Homebrew description was modified
+        env:
+          MODIFIED_FILES: ${{ steps.update_homebrew_description.outputs.modifiedFiles }}
         run: |
-          if [ "${{ steps.update_homebrew_description.outputs.modifiedFiles }}" = "0" ]; then
+          if [ "$MODIFIED_FILES" = "0" ]; then
             echo "Error: No files were modified when updating Homebrew description"
             exit 1
           fi
