@@ -138,7 +138,7 @@ jobs:
       # the pushed version.
       # Here, we give PyPI time to propagate the package.
       - name: Install package from PyPI
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         env:
           RELEASE: ${{ steps.calver.outputs.release }}
         with:
@@ -154,7 +154,7 @@ jobs:
       # We still hit the race condition, so we have a retry here too.
       - name: Create a Homebrew recipe
         id: homebrew-create
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         env:
           RELEASE: ${{ steps.calver.outputs.release }}
           HOMEBREW_FILENAME: ${{ steps.set-homebrew-filename.outputs.filename }}
@@ -235,7 +235,7 @@ jobs:
       # Here, we give PyPI time to propagate the package.
       # We normalize the version (e.g., 2026.01.22 -> 2026.1.22) for PyPI lookup.
       - name: Wait for PyPI propagation
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         env:
           NEW_TAG: ${{ needs.build.outputs.new_tag }}
         with:
@@ -300,7 +300,7 @@ jobs:
       # The Docker build may hit a different CDN node than the previous
       # check, so we retry.
       - name: Build and push Docker image
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         env:
           NEW_TAG: ${{ needs.build.outputs.new_tag }}
         with:
@@ -340,7 +340,7 @@ jobs:
       # Here, we give PyPI time to propagate the package.
       # We normalize the version (e.g., 2026.01.22 -> 2026.1.22) for PyPI lookup.
       - name: Wait for PyPI propagation
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         env:
           NEW_TAG: ${{ needs.build.outputs.new_tag }}
         with:
@@ -418,7 +418,7 @@ jobs:
       # Here, we give PyPI time to propagate the package.
       # We normalize the version (e.g., 2026.01.22 -> 2026.1.22) for PyPI lookup.
       - name: Wait for PyPI propagation
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         env:
           NEW_TAG: ${{ needs.build.outputs.new_tag }}
         with:
