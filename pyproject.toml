@@ -52,7 +52,7 @@ optional-dependencies.dev = [
     "prek==0.3.8",
     "pydocstringformatter==0.7.5",
     "pylint[spelling]==4.0.5",
-    "pyproject-fmt==2.18.1",
+    "pyproject-fmt==2.20.0",
     "pyrefly==0.58.0",
     "pyright==1.1.408",
     "pyroma==5.0.1",
@@ -302,20 +302,6 @@ indent = 4
 keep_full_version = true
 max_supported_python = "3.14"
 
-[tool.pytest]
-xfail_strict = true
-log_cli = true
-
-[tool.coverage]
-run.branch = true
-run.omit = [
-    "src/vws_cli/_setuptools_scm_version.py",
-]
-report.exclude_also = [
-    "if TYPE_CHECKING:",
-]
-report.show_missing = true
-
 [tool.mypy]
 strict = true
 files = [ "." ]
@@ -332,6 +318,20 @@ errors.non-exhaustive-match = "error"
 enableTypeIgnoreComments = false
 reportUnnecessaryTypeIgnoreComment = true
 typeCheckingMode = "strict"
+
+[tool.pytest]
+xfail_strict = true
+log_cli = true
+
+[tool.coverage]
+run.branch = true
+run.omit = [
+    "src/vws_cli/_setuptools_scm_version.py",
+]
+report.exclude_also = [
+    "if TYPE_CHECKING:",
+]
+report.show_missing = true
 
 [tool.pydocstringformatter]
 write = true
