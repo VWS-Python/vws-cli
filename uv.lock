@@ -370,7 +370,7 @@ wheels = [
 
 [[package]]
 name = "doccmd"
-version = "2026.3.2"
+version = "2026.3.26.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
@@ -383,9 +383,9 @@ dependencies = [
     { name = "sybil" },
     { name = "sybil-extras" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/93/0d/d6668ac96e9ecd07e58122c13e30ab4e12f74d2d2a6a18e5938dfcf40499/doccmd-2026.3.2.tar.gz", hash = "sha256:e2b90d7f17168a620778524599df7e9558b573118a0c7906f34c7bd4c5fa598f", size = 177573, upload-time = "2026-03-02T13:17:04.233Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7b/a9/2b623c6d30839e5186a3679726f53e85b80787bc86208b808dcf0b3a6688/doccmd-2026.3.26.2.tar.gz", hash = "sha256:0bcbfb7881024b2bb5b4225a1fdb26f25057dfba31a94e6fb7d582829b2cff6d", size = 179053, upload-time = "2026-03-26T10:57:14.72Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c1/7a/22f2919cfa8b13a02d5ff5c56de8f5574d1c5b0ccdc8dccb3c50a351c4ea/doccmd-2026.3.2-py2.py3-none-any.whl", hash = "sha256:7be8e787c8a7448a2a696c3d70cd5c824f137c51401e588843348d7ee7a83f7c", size = 21363, upload-time = "2026-03-02T13:17:02.528Z" },
+    { url = "https://files.pythonhosted.org/packages/39/80/7f43dae24577c1cdebf7dec574f471584aa320286846d04c39909b13851d/doccmd-2026.3.26.2-py2.py3-none-any.whl", hash = "sha256:ff507ecc4d5474e96e1793c4b657a043ff6df862ff452604955f4355cdade1ed", size = 21325, upload-time = "2026-03-26T10:57:12.7Z" },
 ]
 
 [[package]]
@@ -2369,7 +2369,7 @@ requires-dist = [
     { name = "click", specifier = "==8.3.1" },
     { name = "deptry", marker = "extra == 'dev'", specifier = "==0.25.1" },
     { name = "doc8", marker = "extra == 'dev'", specifier = "==2.0.0" },
-    { name = "doccmd", marker = "extra == 'dev'", specifier = "==2026.3.2" },
+    { name = "doccmd", marker = "extra == 'dev'", specifier = "==2026.3.26.2" },
     { name = "freezegun", marker = "extra == 'dev'", specifier = "==1.5.5" },
     { name = "furo", marker = "extra == 'dev'", specifier = "==2025.12.19" },
     { name = "hadolint-bin", marker = "sys_platform != 'win32' and extra == 'dev'", specifier = "==2.14.0" },
