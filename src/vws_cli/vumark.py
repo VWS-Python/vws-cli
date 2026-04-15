@@ -63,7 +63,7 @@ def _handle_vumark_exceptions() -> Iterator[None]:
                 error_message = (
                     f'Error: Target "{exc.target_id}" does not exist.'
                 )
-            case TargetStatusNotSuccessError():
+            case _:
                 error_message = (
                     f'Error: The target "{exc.target_id}" is not in the '
                     "success state and cannot be used to generate a "
