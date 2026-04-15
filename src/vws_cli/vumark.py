@@ -58,18 +58,23 @@ def _handle_vumark_exceptions() -> Iterator[None]:
     try:
         yield
     except (UnknownTargetError, TargetStatusNotSuccessError) as exc:
-        if isinstance(exc, UnknownTargetError):
-            error_message = f'Error: Target "{exc.target_id}" does not exist.'
-        else:
-            error_message = (
-                f'Error: The target "{exc.target_id}" is not in the success '
-                "state and cannot be used to generate a VuMark instance."
-            )
+        match exc:
+            case UnknownTargetError():
+                error_message = (
+                    f'Error: Target "{exc.target_id}" does not exist.'
+                )
+            case TargetStatusNotSuccessError():
+                error_message = (
+                    f'Error: The target "{exc.target_id}" is not in the '
+                    "success state and cannot be used to generate a "
+                    "VuMark instance."
+                )
     except (VWSError, ServerError) as exc:
-        if isinstance(exc, InvalidInstanceIdError):
-            error_message = "Error: The given instance ID is invalid."
-        else:
-            error_message = get_error_message(exc=exc)
+        match exc:
+            case InvalidInstanceIdError():
+                error_message = "Error: The given instance ID is invalid."
+            case _:
+                error_message = get_error_message(exc=exc)
     else:
         return
 
