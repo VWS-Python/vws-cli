@@ -28,24 +28,6 @@ from vws.exceptions.vws_exceptions import (
 @beartype
 def get_error_message(exc: Exception) -> str:
     """Get an error message from a VWS exception."""
-    if isinstance(exc, UnknownTargetError):
-        return f'Error: Target "{exc.target_id}" does not exist.'
-
-    if isinstance(exc, TargetNameExistError):
-        return f'Error: There is already a target named "{exc.target_name}".'
-
-    if isinstance(exc, TargetStatusNotSuccessError):
-        return (
-            f'Error: The target "{exc.target_id}" cannot be updated as it is '
-            "in the processing state."
-        )
-
-    if isinstance(exc, TargetStatusProcessingError):
-        return (
-            f'Error: The target "{exc.target_id}" cannot be deleted as it is '
-            "in the processing state."
-        )
-
     exc_type_to_message: dict[type[Exception], str] = {
         AuthenticationFailureError: "The given secret key was incorrect.",
         BadImageError: "Error: The given image is corrupted or the format is not supported.",
@@ -63,4 +45,22 @@ def get_error_message(exc: Exception) -> str:
         ProjectHasNoAPIAccessError: "Error: The request could not be completed because this database is not allowed to make API requests.",
     }
 
-    return exc_type_to_message[type(exc)]
+    match exc:
+        case UnknownTargetError():
+            return f'Error: Target "{exc.target_id}" does not exist.'
+        case TargetNameExistError():
+            return (
+                f'Error: There is already a target named "{exc.target_name}".'
+            )
+        case TargetStatusNotSuccessError():
+            return (
+                f'Error: The target "{exc.target_id}" cannot be updated as it is '
+                "in the processing state."
+            )
+        case TargetStatusProcessingError():
+            return (
+                f'Error: The target "{exc.target_id}" cannot be deleted as it is '
+                "in the processing state."
+            )
+        case _:
+            return exc_type_to_message[type(exc)]
