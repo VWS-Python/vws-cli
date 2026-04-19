@@ -57,6 +57,7 @@ optional-dependencies.dev = [
     "pyright==1.1.408",
     "pyroma==5.0.1",
     "pytest==9.0.3",
+    "pytest-beartype-tests",
     "pytest-cov==7.1.0",
     "pytest-regressions==2.10.0",
     "ruff==0.15.11",
@@ -86,7 +87,6 @@ optional-dependencies.dev = [
     "vws-test-fixtures==2023.3.5",
     "yamlfix==1.19.1",
     "zizmor==1.24.1",
-    "pytest-beartype-tests==2026.4.19.1",
 ]
 optional-dependencies.release = [
     "check-wheel-contents==0.6.3",
@@ -97,6 +97,9 @@ urls.Source = "https://github.com/VWS-Python/vws-cli"
 scripts.vuforia-cloud-reco = "vws_cli.query:vuforia_cloud_reco"
 scripts.vumark = "vws_cli.vumark:generate_vumark"
 scripts.vws = "vws_cli:vws_group"
+
+[dependency-groups]
+dev = []
 
 [tool.setuptools]
 zip-safe = false
@@ -114,6 +117,7 @@ packages.find.where = [
 version_file = "src/vws_cli/_setuptools_scm_version.py"
 
 [tool.uv]
+sources.pytest-beartype-tests = { git = "https://github.com/adamtheturtle/pytest-beartype-tests.git", rev = "bc81d99" }
 sources.torch = { index = "pytorch-cpu" }
 sources.torchvision = { index = "pytorch-cpu" }
 index = [ { name = "pytorch-cpu", url = "https://download.pytorch.org/whl/cpu", explicit = true } ]
@@ -405,6 +409,3 @@ exclude = [
 [tool.yamlfix]
 section_whitelines = 1
 whitelines = 1
-
-[dependency-groups]
-dev = []
