@@ -3,19 +3,10 @@
 from collections.abc import Iterator
 
 import pytest
-from beartype import beartype
 from mock_vws import MockVWS
 from mock_vws.database import CloudDatabase, VuMarkDatabase
 from mock_vws.target import VuMarkTarget
 from vws import VWS, CloudRecoService
-
-
-@beartype
-def pytest_collection_modifyitems(items: list[pytest.Item]) -> None:
-    """Apply the beartype decorator to all collected test functions."""
-    for item in items:
-        assert isinstance(item, pytest.Function)
-        item.obj = beartype(obj=item.obj)
 
 
 @pytest.fixture(name="mock_database")

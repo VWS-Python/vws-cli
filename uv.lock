@@ -1402,6 +1402,19 @@ wheels = [
 ]
 
 [[package]]
+name = "pytest-beartype-tests"
+version = "2026.4.19.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "beartype" },
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/4c/85/2a4abab012ea412757aee0c77a63759c9df997456ae75dc0a590071bf11d/pytest_beartype_tests-2026.4.19.1.tar.gz", hash = "sha256:02662a7c189666eac26d5994d8d750106c73b0cd31ed0d01222db59ba1cb6e5a", size = 85947, upload-time = "2026-04-19T07:56:18.409Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d2/c0/8c57af81595948ddab76b78635931ed5adac38fc46565e8419dc3a5046b3/pytest_beartype_tests-2026.4.19.1-py3-none-any.whl", hash = "sha256:20618dd92dc2c8e1cab94f5984a382c95d03376ef94558e54665908e56ad8cc4", size = 5198, upload-time = "2026-04-19T07:56:16.711Z" },
+]
+
+[[package]]
 name = "pytest-cov"
 version = "7.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2345,6 +2358,7 @@ dev = [
     { name = "pyright" },
     { name = "pyroma" },
     { name = "pytest" },
+    { name = "pytest-beartype-tests" },
     { name = "pytest-cov" },
     { name = "pytest-regressions" },
     { name = "ruff" },
@@ -2401,6 +2415,7 @@ requires-dist = [
     { name = "pyright", marker = "extra == 'dev'", specifier = "==1.1.408" },
     { name = "pyroma", marker = "extra == 'dev'", specifier = "==5.0.1" },
     { name = "pytest", marker = "extra == 'dev'", specifier = "==9.0.3" },
+    { name = "pytest-beartype-tests", marker = "extra == 'dev'", specifier = "==2026.4.19.1" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = "==7.1.0" },
     { name = "pytest-regressions", marker = "extra == 'dev'", specifier = "==2.10.0" },
     { name = "pyyaml", specifier = "==6.0.3" },
@@ -2428,6 +2443,9 @@ requires-dist = [
     { name = "zizmor", marker = "extra == 'dev'", specifier = "==1.24.1" },
 ]
 provides-extras = ["dev", "release"]
+
+[package.metadata.requires-dev]
+dev = []
 
 [[package]]
 name = "vws-python"
