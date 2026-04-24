@@ -2,7 +2,7 @@
 
 import contextlib
 import sys
-from collections.abc import Iterator
+from collections.abc import Generator
 from enum import StrEnum, unique
 from pathlib import Path
 
@@ -51,7 +51,7 @@ _FORMAT_CHOICE_TO_ACCEPT: dict[VuMarkFormatChoice, VuMarkAccept] = {
 
 @beartype
 @contextlib.contextmanager
-def _handle_vumark_exceptions() -> Iterator[None]:
+def _handle_vumark_exceptions() -> Generator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""
     error_message = ""
 

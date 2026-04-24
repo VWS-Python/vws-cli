@@ -4,7 +4,7 @@ import contextlib
 import dataclasses
 import io
 import sys
-from collections.abc import Iterator
+from collections.abc import Generator
 from pathlib import Path
 
 import click
@@ -40,7 +40,7 @@ from vws_cli.options.vws import base_vws_url_option
 
 @beartype
 @contextlib.contextmanager
-def _handle_vws_exceptions() -> Iterator[None]:
+def _handle_vws_exceptions() -> Generator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""
     error_message = ""
 
