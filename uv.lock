@@ -1405,15 +1405,15 @@ wheels = [
 
 [[package]]
 name = "pytest-beartype-tests"
-version = "2026.4.20"
+version = "2026.4.26"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
     { name = "pytest" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6a/0e/f3b3980efe46c7655ce2820fe56189490f9c1e6ed5cb42b35999b4ba8238/pytest_beartype_tests-2026.4.20.tar.gz", hash = "sha256:73b10d64c5605809444469250c3ccc8b4ddbf788772be84f0ee0ac3f58460ccf", size = 85989, upload-time = "2026-04-20T06:28:22.773Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e6/4f/14167cd06fa425dc70eb486942e5ef402c738984726703584bba55353809/pytest_beartype_tests-2026.4.26.tar.gz", hash = "sha256:a986f59466243b616606279b3c6c00e7e171ee0b5aad4702922ea20fd1a1b52c", size = 88278, upload-time = "2026-04-26T17:12:24.182Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/95/42/ee5023bf416be8ffc276a08e42eac10aee1903142a1e25ceea24cc766b73/pytest_beartype_tests-2026.4.20-py3-none-any.whl", hash = "sha256:e61e7bd87443f92c89f125cc8a7284665c5137e953ecd91031be1620ba07c1d8", size = 5215, upload-time = "2026-04-20T06:28:21.166Z" },
+    { url = "https://files.pythonhosted.org/packages/6b/2b/b9c1799582a00a9746f875deecd4449d0dc30254600c77231837bb67c6ec/pytest_beartype_tests-2026.4.26-py3-none-any.whl", hash = "sha256:e0c19a6708a14e4f97acb18ec94151550d70f736733b36d6cd621a6481cea99d", size = 5718, upload-time = "2026-04-26T17:12:22.889Z" },
 ]
 
 [[package]]
@@ -2421,7 +2421,7 @@ requires-dist = [
     { name = "pyright", marker = "extra == 'dev'", specifier = "==1.1.408" },
     { name = "pyroma", marker = "extra == 'dev'", specifier = "==5.0.1" },
     { name = "pytest", marker = "extra == 'dev'", specifier = "==9.0.3" },
-    { name = "pytest-beartype-tests", marker = "extra == 'dev'", specifier = "==2026.4.20" },
+    { name = "pytest-beartype-tests", marker = "extra == 'dev'", specifier = "==2026.4.26" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = "==7.1.0" },
     { name = "pytest-regressions", marker = "extra == 'dev'", specifier = "==2.10.0" },
     { name = "pyyaml", specifier = "==6.0.3" },
