@@ -195,9 +195,12 @@ repos:
       - id: mypy-docs
         name: mypy-docs
         stages: [pre-push]
-        entry: uv run --extra=dev doccmd --no-write-to-file --language=python --command="mypy"
+        entry: uv run --extra=dev doccmd --no-write-to-file --example-workers 4 --language=python
+          --command="mypy"
         language: python
         types_or: [markdown, rst]
+        additional_dependencies:
+          - *uv_version
 
       - id: check-manifest
         name: check-manifest
