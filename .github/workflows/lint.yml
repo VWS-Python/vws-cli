@@ -52,7 +52,8 @@ jobs:
           SKIP: ${{ runner.os == 'Windows' && 'hadolint,nixfmt' || '' }}
 
       - uses: pre-commit-ci/lite-action@v1.1.0
-        if: always()
+        # Avoid flaky cherry-pick conflicts on PRs; keep autofix on branch pushes.
+        if: always() && github.event_name == 'push'
 
   completion-lint:
     needs: build
