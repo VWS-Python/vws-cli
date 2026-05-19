@@ -33,7 +33,7 @@ dynamic = [
 ]
 dependencies = [
     "beartype==0.22.9",
-    "click==8.3.3",
+    "click==8.4.0",
     "pyyaml==6.0.3",
     "vws-python==2026.2.25.1",
 ]
@@ -42,7 +42,7 @@ optional-dependencies.dev = [
     "check-manifest==0.51",
     "deptry==0.25.1",
     "doc8==2.0.0",
-    "doccmd==2026.5.16",
+    "doccmd==2026.5.19",
     "freezegun==1.5.5",
     "furo==2025.12.19",
     "hadolint-bin==2.14.0; sys_platform!='win32'",

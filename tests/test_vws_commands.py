@@ -554,7 +554,7 @@ class TestAddTarget:
         expected_stderr = dedent(
             text=f"""\
             Usage: vws add-target [OPTIONS]
-            Try 'vws add-target -h' for help.
+            Try 'vws add-target --help' for help.
 
             Error: Invalid value for '--image': File '{does_not_exist_file}' does not exist.
             """,
@@ -598,7 +598,7 @@ class TestAddTarget:
         expected_stderr = dedent(
             text=f"""\
             Usage: vws add-target [OPTIONS]
-            Try 'vws add-target -h' for help.
+            Try 'vws add-target --help' for help.
 
             Error: Invalid value for '--image': File '{tmp_path}' is a directory.
             """,
@@ -1233,7 +1233,7 @@ class TestUpdateTarget:
         expected_stderr = dedent(
             text=f"""\
             Usage: vws update-target [OPTIONS]
-            Try 'vws update-target -h' for help.
+            Try 'vws update-target --help' for help.
 
             Error: Invalid value for '--image': File '{does_not_exist_file}' does not exist.
             """,
@@ -1285,7 +1285,7 @@ class TestUpdateTarget:
         expected_stderr = dedent(
             text=f"""\
             Usage: vws update-target [OPTIONS]
-            Try 'vws update-target -h' for help.
+            Try 'vws update-target --help' for help.
 
             Error: Invalid value for '--image': File '{tmp_path}' is a directory.
             """,
