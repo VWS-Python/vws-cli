@@ -211,6 +211,10 @@ MASTER.unsafe-load-any-extension = false
 MASTER.ignore = [
     "_setuptools_scm_version.py",
 ]
+# Return non-zero exit code if useless-suppression is emitted.
+MAIN.fail-on = [
+    "useless-suppression",
+]
 DEPRECATED_BUILTINS.bad-functions = [
     # Use Pylint until Ruff can ban bare builtin calls, or until custom rules
     # make this removable:
