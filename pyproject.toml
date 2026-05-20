@@ -96,6 +96,7 @@ optional-dependencies.dev = [
 optional-dependencies.release = [
     "check-wheel-contents==0.6.3",
     "homebrew-pypi-poet==0.10.0",
+    "towncrier==25.8.0",
 ]
 urls.Documentation = "https://vws-python.github.io/vws-cli/"
 urls.Source = "https://github.com/VWS-Python/vws-cli"
