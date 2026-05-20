@@ -2048,15 +2048,15 @@ wheels = [
 
 [[package]]
 name = "strict-kwargs"
-version = "2026.5.19.post1"
+version = "2026.5.19.post3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ty" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7e/45/9d6b7b03e9b5513dae59182bab05543409468aea77841da8c403c61d9ceb/strict_kwargs-2026.5.19.post1-py3-none-macosx_11_0_arm64.whl", hash = "sha256:35499102547c410418edd4da533f19c85f5cb1c6744c670975a6b4591e8b2bf8", size = 2191838, upload-time = "2026-05-19T11:01:16.418Z" },
-    { url = "https://files.pythonhosted.org/packages/e6/e1/edcaf1bb90ff778adb1e5613b05a7385f6a061bcd3b976718a82bc0f5fd5/strict_kwargs-2026.5.19.post1-py3-none-manylinux_2_39_x86_64.whl", hash = "sha256:cece04db61680b521d8c440f58d504e36151e2fcdba7128fbe47e9ebee8ab62b", size = 2298036, upload-time = "2026-05-19T11:01:19.372Z" },
-    { url = "https://files.pythonhosted.org/packages/6a/75/7c43d1d64d3e9e466be4b363b88feffd6bf8efcee94fb73f857e2c5f198d/strict_kwargs-2026.5.19.post1-py3-none-win_amd64.whl", hash = "sha256:f76888366373bfc68a4054b3950db62bbf5f6f0cc41105174075a1c2d5449a2f", size = 2082398, upload-time = "2026-05-19T11:01:21.467Z" },
+    { url = "https://files.pythonhosted.org/packages/23/b4/e51d972e18c777793fd6af12f8e2785521252f81967f5365a2e72e2dfc61/strict_kwargs-2026.5.19.post3-py3-none-macosx_11_0_arm64.whl", hash = "sha256:d778b7b77e7ba5a068d5a4f3bef0600be37ebebc26ae25c6355140e98103b98e", size = 2201496, upload-time = "2026-05-19T19:45:50.853Z" },
+    { url = "https://files.pythonhosted.org/packages/87/b4/09bdae71f1b1ee7a54245b67eb34cead80696e12ca6e4d83ca5d3f202ac5/strict_kwargs-2026.5.19.post3-py3-none-manylinux_2_39_x86_64.whl", hash = "sha256:133aa54e96ca3884465fef378919fcfb4bc00e94777251d6d3a5490ebef3d11a", size = 2307371, upload-time = "2026-05-19T19:45:52.579Z" },
+    { url = "https://files.pythonhosted.org/packages/ba/3f/73c489d29d7fbffc09a371e258d1bb68afc15f43861b257ce4800888692b/strict_kwargs-2026.5.19.post3-py3-none-win_amd64.whl", hash = "sha256:dbbfb69d3be9070777cb1c5350f1a120df756e19ffe9cd2080c94ec715471459", size = 2089484, upload-time = "2026-05-19T19:45:54.54Z" },
 ]
 
 [[package]]
@@ -2515,7 +2515,7 @@ requires-dist = [
     { name = "sphinx-pyproject", marker = "extra == 'dev'", specifier = "==0.3.0" },
     { name = "sphinx-substitution-extensions", marker = "extra == 'dev'", specifier = "==2026.1.12" },
     { name = "sphinxcontrib-spelling", marker = "extra == 'dev'", specifier = "==8.0.2" },
-    { name = "strict-kwargs", marker = "extra == 'dev'", specifier = "==2026.5.19.post1" },
+    { name = "strict-kwargs", marker = "extra == 'dev'", specifier = "==2026.5.19.post3" },
     { name = "torch", marker = "extra == 'dev'", specifier = ">=2.5.1", index = "https://download.pytorch.org/whl/cpu" },
     { name = "torchvision", marker = "extra == 'dev'", specifier = ">=0.20.1", index = "https://download.pytorch.org/whl/cpu" },
     { name = "ty", marker = "extra == 'dev'", specifier = "==0.0.37" },
