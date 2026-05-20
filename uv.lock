@@ -925,15 +925,14 @@ wheels = [
 
 [[package]]
 name = "mypy-strict-kwargs"
-version = "2026.1.12"
+version = "2026.5.20.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "mypy" },
-    { name = "tomli" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/8c/77/869682567b0953f3f9ea6b44639a2a520e0976679a93e4fd4a91840ac43a/mypy_strict_kwargs-2026.1.12.tar.gz", hash = "sha256:abc688be88661e14f19626e00686f42cc6ce3a959e9cd86e0523dee2b5509cac", size = 18756, upload-time = "2026-01-12T06:12:03.509Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/4e/44/43b8cbc8dd9ed89359e451f8433a071557bdeb0b51f5f211dc56d1528bf8/mypy_strict_kwargs-2026.5.20.1.tar.gz", hash = "sha256:d30eefd1b9474052594a1a414738160ee6459641e3953ec506a3009cceb40435", size = 21430, upload-time = "2026-05-20T06:37:16.489Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/af/93/918273959da1d3364478742f45e5579489acd100a6184061f57d64b37be7/mypy_strict_kwargs-2026.1.12-py2.py3-none-any.whl", hash = "sha256:54529ed7d9912be26f4aedb200e5c4d577fb592398c4038b551a3a07ea83361d", size = 7095, upload-time = "2026-01-12T06:12:01.884Z" },
+    { url = "https://files.pythonhosted.org/packages/34/64/6d7982dab4b32bd8fb3a549029fdceb74ef7ababe5793dcd7669a513dc1a/mypy_strict_kwargs-2026.5.20.1-py2.py3-none-any.whl", hash = "sha256:3fe756c3fa1de37e2745c4e74732ebdfa02a2e47a4bc70625a9d2d5a6950cef1", size = 8557, upload-time = "2026-05-20T06:37:14.959Z" },
 ]
 
 [[package]]
@@ -2490,7 +2489,7 @@ requires-dist = [
     { name = "homebrew-pypi-poet", marker = "extra == 'release'", specifier = "==0.10.0" },
     { name = "interrogate", marker = "extra == 'dev'", specifier = "==1.7.0" },
     { name = "mypy", extras = ["faster-cache"], marker = "extra == 'dev'", specifier = "==2.1.0" },
-    { name = "mypy-strict-kwargs", marker = "extra == 'dev'", specifier = "==2026.1.12" },
+    { name = "mypy-strict-kwargs", marker = "extra == 'dev'", specifier = "==2026.5.20.1" },
     { name = "prek", marker = "extra == 'dev'", specifier = "==0.4.1" },
     { name = "pydocstringformatter", marker = "extra == 'dev'", specifier = "==0.7.5" },
     { name = "pylint", extras = ["spelling"], marker = "extra == 'dev'", specifier = "==4.0.5" },
