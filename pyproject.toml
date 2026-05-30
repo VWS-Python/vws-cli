@@ -108,13 +108,13 @@ scripts.vws = "vws_cli:vws_group"
 dev = []
 
 [tool.setuptools]
-zip-safe = false
-package-data.vws_cli = [
-    "py.typed",
-]
 packages.find.where = [
     "src",
 ]
+package-data.vws_cli = [
+    "py.typed",
+]
+zip-safe = false
 
 [tool.setuptools_scm]
 # We write the version to a file so that we can import it.
@@ -173,11 +173,70 @@ lint.flake8-tidy-imports.banned-api."typing.cast".msg = "typing.cast is banned: 
 lint.pydocstyle.convention = "google"
 
 [tool.pylint]
+# Disable the message, report, category or checker with the given id(s). You
+# can either give multiple identifiers separated by comma (,) or put this
+# option multiple times (only on the command line, not in the configuration
+# file where it should appear only once).You can also use "--disable=all" to
+# disable everything first and then reenable specific checks. For example, if
+# you want to run only the similarities checker, you can use "--disable=all
+# --enable=similarities". If you want to run only the classes checker, but have
+# no Warning level messages displayed, use"--disable=all --enable=classes
+# --disable=W"
+"MESSAGES CONTROL".disable = [
+    # Too difficult to please
+    "duplicate-code",
+    # Let ruff handle long lines
+    "line-too-long",
+    "locally-disabled",
+    "missing-return-type-doc",
+    # We don't need everything to be documented because of mypy
+    "missing-type-doc",
+    "too-few-public-methods",
+    "too-many-arguments",
+    "too-many-instance-attributes",
+    "too-many-lines",
+    "too-many-locals",
+    "too-many-return-statements",
+    # Let ruff deal with sorting
+    "ungrouped-imports",
+    # Let ruff handle unused imports
+    "unused-import",
+    # Let ruff handle imports
+    "wrong-import-order",
+]
+# Enable the message, report, category or checker with the given id(s). You can
+# either give multiple identifier separated by comma (,) or put this option
+# multiple time (only on the command line, not in the configuration file where
+# it should appear only once). See also the "--disable" option for examples.
+"MESSAGES CONTROL".enable = [
+    "bad-inline-option",
+    "deprecated-pragma",
+    "file-ignored",
+    "spelling",
+    "use-symbolic-message-instead",
+    "useless-suppression",
+]
+DEPRECATED_BUILTINS.bad-functions = [
+    # Use Pylint until Ruff can ban bare builtin calls, or until custom rules
+    # make this removable:
+    # https://github.com/astral-sh/ruff/issues/10079
+    # https://github.com/astral-sh/ruff/issues/970
+    "filter",
+    "getattr",
+    "hasattr",
+    "map",
+    "setattr",
+]
 # Allow the body of an if to be on the same line as the test if there is no
 # else.
 FORMAT.single-line-if-stmt = false
-# Pickle collected data for later comparisons.
-MASTER.persistent = true
+# Return non-zero exit code if useless-suppression is emitted.
+MAIN.fail-on = [
+    "useless-suppression",
+]
+MASTER.ignore = [
+    "_setuptools_scm_version.py",
+]
 # Use multiple processes to speed up Pylint.
 MASTER.jobs = 0
 # List of plugins (as comma separated values of python modules names) to load,
@@ -205,70 +264,11 @@ MASTER.load-plugins = [
     "pylint.extensions.set_membership",
     "pylint.extensions.typing",
 ]
+# Pickle collected data for later comparisons.
+MASTER.persistent = true
 # Allow loading of arbitrary C extensions. Extensions are imported into the
 # active Python interpreter and may run arbitrary code.
 MASTER.unsafe-load-any-extension = false
-MASTER.ignore = [
-    "_setuptools_scm_version.py",
-]
-# Return non-zero exit code if useless-suppression is emitted.
-MAIN.fail-on = [
-    "useless-suppression",
-]
-DEPRECATED_BUILTINS.bad-functions = [
-    # Use Pylint until Ruff can ban bare builtin calls, or until custom rules
-    # make this removable:
-    # https://github.com/astral-sh/ruff/issues/10079
-    # https://github.com/astral-sh/ruff/issues/970
-    "filter",
-    "getattr",
-    "hasattr",
-    "map",
-    "setattr",
-]
-# Enable the message, report, category or checker with the given id(s). You can
-# either give multiple identifier separated by comma (,) or put this option
-# multiple time (only on the command line, not in the configuration file where
-# it should appear only once). See also the "--disable" option for examples.
-"MESSAGES CONTROL".enable = [
-    "bad-inline-option",
-    "deprecated-pragma",
-    "file-ignored",
-    "spelling",
-    "use-symbolic-message-instead",
-    "useless-suppression",
-]
-# Disable the message, report, category or checker with the given id(s). You
-# can either give multiple identifiers separated by comma (,) or put this
-# option multiple times (only on the command line, not in the configuration
-# file where it should appear only once).You can also use "--disable=all" to
-# disable everything first and then reenable specific checks. For example, if
-# you want to run only the similarities checker, you can use "--disable=all
-# --enable=similarities". If you want to run only the classes checker, but have
-# no Warning level messages displayed, use"--disable=all --enable=classes
-# --disable=W"
-"MESSAGES CONTROL".disable = [
-    "too-few-public-methods",
-    "too-many-locals",
-    "too-many-arguments",
-    "too-many-instance-attributes",
-    "too-many-return-statements",
-    "too-many-lines",
-    "locally-disabled",
-    # Let ruff handle long lines
-    "line-too-long",
-    # Let ruff handle unused imports
-    "unused-import",
-    # Let ruff deal with sorting
-    "ungrouped-imports",
-    # We don't need everything to be documented because of mypy
-    "missing-type-doc",
-    "missing-return-type-doc",
-    # Too difficult to please
-    "duplicate-code",
-    # Let ruff handle imports
-    "wrong-import-order",
-]
 # Spelling dictionary name. Available dictionaries: none. To make it working
 # install python-enchant package.
 SPELLING.spelling-dict = "en_US"
@@ -280,49 +280,49 @@ SPELLING.spelling-store-unknown-words = "no"
 
 [tool.check-manifest]
 ignore = [
+    "*.enc",
     ".checkmake-config.ini",
+    ".git_archival.txt",
+    ".pre-commit-config.yaml",
     ".prettierrc",
     ".yamlfmt",
-    "*.enc",
-    ".pre-commit-config.yaml",
+    "bin",
+    "bin/*",
     "CHANGELOG.rst",
-    "newsfragments",
-    "newsfragments/**",
-    "CODE_OF_CONDUCT.rst",
-    "CONTRIBUTING.rst",
-    "LICENSE",
-    "Makefile",
     "ci",
     "ci/**",
+    "CODE_OF_CONDUCT.rst",
+    "CONTRIBUTING.rst",
     "docs",
     "docs/**",
-    ".git_archival.txt",
+    "flake.lock",
+    "flake.nix",
+    "LICENSE",
+    "lint.mk",
+    "Makefile",
+    "newsfragments",
+    "newsfragments/**",
     "spelling_private_dict.txt",
+    "src/*/_setuptools_scm_version.py",
     "tests",
     "tests-pylintrc",
     "tests/**",
     "vuforia_secrets.env.example",
-    "lint.mk",
-    "bin",
-    "bin/*",
-    "src/*/_setuptools_scm_version.py",
     "zizmor.yml",
-    "flake.lock",
-    "flake.nix",
 ]
 
 [tool.deptry]
-optional_dependencies_dev_groups = [
-    "dev",
-    "packaging",
-    "release",
-]
 # torch and torchvision are listed explicitly in dev deps to allow
 # [tool.uv.sources] to redirect them to the CPU-only PyTorch index,
 # but they are not directly imported in the vws-cli source code.
 per_rule_ignores.DEP002 = [
     "torch",
     "torchvision",
+]
+optional_dependencies_dev_groups = [
+    "dev",
+    "packaging",
+    "release",
 ]
 
 [tool.pyproject-fmt]
@@ -331,10 +331,10 @@ keep_full_version = true
 max_supported_python = "3.14"
 
 [tool.mypy]
-strict = true
 files = [ "." ]
 exclude = [ "build" ]
 follow_untyped_imports = true
+strict = true
 plugins = [
     "mypy_strict_kwargs",
 ]
@@ -343,13 +343,13 @@ plugins = [
 errors.non-exhaustive-match = "error"
 
 [tool.pyright]
+typeCheckingMode = "strict"
 enableTypeIgnoreComments = false
 reportUnnecessaryTypeIgnoreComment = true
-typeCheckingMode = "strict"
 
 [tool.pytest]
-xfail_strict = true
 log_cli = true
+xfail_strict = true
 
 [tool.coverage]
 run.branch = true
@@ -373,11 +373,11 @@ filename = "CHANGELOG.rst"
 # date) followed by a flat bullet list with no per-type sub-headings.
 template = "docs/towncrier_template.rst.jinja"
 title_format = "{version}"
+issue_format = "#{issue}"
 # ``title_format`` underline first, then any nested headings.  A bare
 # version such as ``2026.05.18`` underlined with ``-`` matches every
 # pre-towncrier entry in CHANGELOG.rst.
 underlines = [ "-", "~", "^" ]
-issue_format = "#{issue}"
 type = [
     # A single, unnamed fragment type keeps the assembled output as one
     # flat bullet list, matching the historical changelog (which never
@@ -393,11 +393,11 @@ linewrap-full-docstring = true
 
 [tool.interrogate]
 fail-under = 100
-omit-covered-files = true
-verbose = 2
 exclude = [
     "src/*/_setuptools_scm_version.py",
 ]
+verbose = 2
+omit-covered-files = true
 
 [tool.doc8]
 max_line_length = 2000
@@ -411,20 +411,23 @@ ignore_path = [
 ]
 
 [tool.vulture]
+exclude = [
+    # Duplicate some of .gitignore
+    ".venv",
+    # We ignore the version file as it is generated by setuptools_scm.
+    "_setuptools_scm_version.py",
+]
 # Ideally we would limit the paths to the source code where we want to ignore names,
 # but Vulture does not enable this.
 ignore_names = [
-    # pytest configuration
-    "pytest_collect_file",
-    "pytest_plugins",
-    # pytest fixtures - we name fixtures like this for this purpose
-    "fixture_*",
     # Sphinx
     "autoclass_content",
     "autoclass_content",
     "autodoc_member_order",
     "copybutton_exclude",
     "extensions",
+    # pytest fixtures - we name fixtures like this for this purpose
+    "fixture_*",
     "html_show_copyright",
     "html_show_sourcelink",
     "html_show_sphinx",
@@ -440,20 +443,17 @@ ignore_names = [
     "nitpicky",
     "project_copyright",
     "pygments_style",
+    # pytest configuration
+    "pytest_collect_file",
+    "pytest_plugins",
     "rst_prolog",
     "source_suffix",
     "spelling_word_list_filename",
     "templates_path",
-    "warning_is_error",
     "towncrier_draft_autoversion_mode",
     "towncrier_draft_include_empty",
     "towncrier_draft_working_directory",
-]
-exclude = [
-    # Duplicate some of .gitignore
-    ".venv",
-    # We ignore the version file as it is generated by setuptools_scm.
-    "_setuptools_scm_version.py",
+    "warning_is_error",
 ]
 
 [tool.yamlfix]
