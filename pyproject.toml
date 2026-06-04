@@ -81,7 +81,7 @@ optional-dependencies.dev = [
     # Listed explicitly (despite being transitive via vws-python-mock) so that
     # [tool.uv.sources] can redirect to the CPU-only PyTorch index.
     # See: https://vws-python.github.io/vws-python-mock/installation.html#faster-installation
-    "strict-kwargs==2026.5.20",
+    "strict-kwargs==2026.6.4",
     "torch>=2.5.1",
     "torchvision>=0.20.1",
     "towncrier==25.8.0",
