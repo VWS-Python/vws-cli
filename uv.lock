@@ -2064,15 +2064,15 @@ wheels = [
 
 [[package]]
 name = "strict-kwargs"
-version = "2026.6.4"
+version = "2026.6.8.post1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "ty" },
 ]
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b5/a4/3a844da9fc063c0820915eabfdd4e835b96d531ecdd8328f274b74ee577e/strict_kwargs-2026.6.4-py3-none-macosx_11_0_arm64.whl", hash = "sha256:ae9c6216795d5d0d860c07cd8922e14fd0475d08ae161acc39e1f86502254c4d", size = 2773540, upload-time = "2026-06-04T10:50:49.565Z" },
-    { url = "https://files.pythonhosted.org/packages/4d/87/abe98cae04bc7991ad895e3f0faa53d51fb4b3fb81ee11f5b049406257c4/strict_kwargs-2026.6.4-py3-none-manylinux_2_39_x86_64.whl", hash = "sha256:6a3ebe5442ad94a6fdee04d42bce30a2c05fefbaa484fc2000519ce8b5f6e150", size = 2934887, upload-time = "2026-06-04T10:50:51.168Z" },
-    { url = "https://files.pythonhosted.org/packages/f3/f2/781b0e2fc45552f1fc860c68daa0dcbae18c758089061ad096cf53b2a4f3/strict_kwargs-2026.6.4-py3-none-win_amd64.whl", hash = "sha256:3b64d47ac7514c8e54d058fad340b2230b32253ac102f4035c23f04d656905b6", size = 2648814, upload-time = "2026-06-04T10:50:52.507Z" },
+    { url = "https://files.pythonhosted.org/packages/61/77/be5a8439df38f15ee00a93caf95b498ca2b379a73840e660c60d7eee10f5/strict_kwargs-2026.6.8.post1-py3-none-macosx_11_0_arm64.whl", hash = "sha256:9856da92bef457ce912ebf42c7b54b25d94323729e27a3f3cf22c962b3c01922", size = 2800497, upload-time = "2026-06-08T19:00:06.426Z" },
+    { url = "https://files.pythonhosted.org/packages/67/34/b28fac9d41ae163636b60b0df96c759b909f16c5c335c79cafd0d5572388/strict_kwargs-2026.6.8.post1-py3-none-manylinux_2_39_x86_64.whl", hash = "sha256:dd0e2c01f516accd748f51a103ba04b162010bdec4c869df8a16392104d9507b", size = 2963053, upload-time = "2026-06-08T19:00:08.414Z" },
+    { url = "https://files.pythonhosted.org/packages/33/92/b70c922af8a0da6ea134f0b67dbf590142995c331eecc3d5addbfa0d73ec/strict_kwargs-2026.6.8.post1-py3-none-win_amd64.whl", hash = "sha256:f515f25fe06b6cb54527d22e2b86a6811bb11617a8f12754318b1c775ff06dc2", size = 2674523, upload-time = "2026-06-08T19:00:10.171Z" },
 ]
 
 [[package]]
@@ -2539,7 +2539,7 @@ requires-dist = [
     { name = "sphinx-substitution-extensions", marker = "extra == 'dev'", specifier = "==2026.1.12" },
     { name = "sphinxcontrib-spelling", marker = "extra == 'dev'", specifier = "==8.0.2" },
     { name = "sphinxcontrib-towncrier", marker = "extra == 'dev'", specifier = "==0.5.0a0" },
-    { name = "strict-kwargs", marker = "extra == 'dev'", specifier = "==2026.6.4" },
+    { name = "strict-kwargs", marker = "extra == 'dev'", specifier = "==2026.6.8.post1" },
     { name = "torch", marker = "extra == 'dev'", specifier = ">=2.5.1", index = "https://download.pytorch.org/whl/cpu" },
     { name = "torchvision", marker = "extra == 'dev'", specifier = ">=0.20.1", index = "https://download.pytorch.org/whl/cpu" },
     { name = "towncrier", marker = "extra == 'dev'", specifier = "==25.8.0" },
