@@ -112,3 +112,6 @@ src/*/_setuptools_scm_version.py
 
 # Nix
 result
+
+# Vale styles downloaded by ``vale sync``
+styles/
