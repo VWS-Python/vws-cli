@@ -1,3 +1,4 @@
+CSV
 Winget
 admin
 api
@@ -33,6 +34,7 @@ reportMissingTypeStubs
 reportUnknownArgumentType
 reportUnknownMemberType
 reportUnknownVariableType
+stdout
 svg
 typeshed
 ubuntu

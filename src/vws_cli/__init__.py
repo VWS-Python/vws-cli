@@ -8,6 +8,7 @@ from beartype import beartype
 from vws_cli.commands import (
     add_target,
     delete_target,
+    get_database_reco_counts_report,
     get_database_summary_report,
     get_duplicate_targets,
     get_target_record,
@@ -41,6 +42,7 @@ def vws_group() -> None:
 
 vws_group.add_command(cmd=add_target)
 vws_group.add_command(cmd=delete_target)
+vws_group.add_command(cmd=get_database_reco_counts_report)
 vws_group.add_command(cmd=get_database_summary_report)
 vws_group.add_command(cmd=get_duplicate_targets)
 vws_group.add_command(cmd=get_target_record)

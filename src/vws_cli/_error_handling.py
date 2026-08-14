@@ -2,6 +2,8 @@
 
 from beartype import beartype
 from vws.exceptions.custom_exceptions import (
+    RecoCountsReportDownloadError,
+    RecoCountsReportTimeoutError,
     ServerError,
     TargetProcessingTimeoutError,
 )
@@ -35,6 +37,8 @@ def get_error_message(exc: Exception) -> str:
         FailError: "Error: The request made to Vuforia was invalid and could not be processed. Check the given parameters.",
         ImageTooLargeError: "Error: The given image is too large.",
         MetadataTooLargeError: "Error: The given metadata is too large.",
+        RecoCountsReportDownloadError: "Error: The recognition counts report could not be downloaded. This may be because the report's URL has expired.",
+        RecoCountsReportTimeoutError: "Error: The recognition counts report was not generated within the allowed limit.",
         ServerError: "Error: There was an unknown error from Vuforia. This may be because there is a problem with the given name.",
         ProjectInactiveError: "Error: The project associated with the given keys is inactive.",
         RequestQuotaReachedError: "Error: The maximum number of API calls for this database has been reached.",

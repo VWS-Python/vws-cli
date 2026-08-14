@@ -1,11 +1,14 @@
 """``click`` commands the VWS CLI."""
 
+import calendar
 import contextlib
 import dataclasses
+import datetime
 import io
 import sys
 from collections.abc import Generator
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 import click
 import yaml
@@ -13,9 +16,12 @@ from beartype import beartype
 from vws import VWS
 from vws.exceptions.base_exceptions import VWSError
 from vws.exceptions.custom_exceptions import (
+    RecoCountsReportDownloadError,
+    RecoCountsReportTimeoutError,
     ServerError,
     TargetProcessingTimeoutError,
 )
+from vws.exceptions.vws_exceptions import AuthenticationFailureError
 
 from vws_cli._error_handling import get_error_message
 from vws_cli.options.credentials import (
@@ -35,7 +41,7 @@ from vws_cli.options.timeout import (
     connection_timeout_seconds_option,
     read_timeout_seconds_option,
 )
-from vws_cli.options.vws import base_vws_url_option
+from vws_cli.options.vws import base_vws_url_option, database_id_option
 
 
 @beartype
@@ -48,6 +54,7 @@ def _handle_vws_exceptions() -> Generator[None]:
         yield
     except (
         VWSError,
+        RecoCountsReportDownloadError,
         ServerError,
         TargetProcessingTimeoutError,
     ) as exc:
@@ -488,3 +495,183 @@ def wait_for_target_processed(
             err=True,
         )
         sys.exit(1)
+
+
+_MONTH_FORMAT = "%Y-%m"
+
+_REPORT_SECONDS_BETWEEN_REQUESTS_HELP = (
+    "The number of seconds to wait between requests made while polling for "
+    "the report. "
+    f"We wait {_SECONDS_BETWEEN_REQUESTS_DEFAULT} seconds by default, rather "
+    "than less, than that to decrease the number of calls made to the API, to "
+    "decrease the likelihood of hitting the request quota."
+)
+
+_REPORT_TIMEOUT_SECONDS_HELP = (
+    "The maximum number of seconds to wait for the report to be generated."
+)
+
+
+@beartype
+def _default_month() -> str:
+    """Return the current month, in the form which ``--month`` takes."""
+    now = datetime.datetime.now(tz=ZoneInfo(key="UTC"))
+    return now.strftime(format=_MONTH_FORMAT)
+
+
+@beartype
+def _validate_month(
+    ctx: click.Context,
+    param: click.Parameter,
+    value: str,
+) -> datetime.date:
+    """Turn a ``YYYY-mm`` string into the first day of that month."""
+    # These are given by ``click``, and we do not use them.
+    del ctx
+    del param
+    try:
+        parsed = datetime.datetime.strptime(  # noqa: DTZ007
+            value,
+            _MONTH_FORMAT,
+        )
+    except ValueError as exc:
+        message = f'"{value}" is not a month in the YYYY-mm form.'
+        raise click.BadParameter(message=message) from exc
+    return parsed.date()
+
+
+@click.command(name="get-database-reco-counts-report")
+@click.option(
+    "--month",
+    type=str,
+    default=_default_month,
+    callback=_validate_month,
+    help=(
+        "The month to get recognition counts for, in the YYYY-mm form. "
+        "Vuforia accepts only the current month and the previous month."
+    ),
+    show_default="the current month",
+)
+@click.option(
+    "--output",
+    "output_file_path",
+    type=click.Path(
+        dir_okay=False,
+        writable=True,
+        path_type=Path,
+    ),
+    required=False,
+    help=(
+        "The path to write the CSV report to. By default, the report is "
+        "written to stdout."
+    ),
+)
+@click.option(
+    "--no-wait",
+    "no_wait",
+    is_flag=True,
+    default=False,
+    help=(
+        "Do not wait for the report to be generated. Instead, show the URL "
+        "to download the report from once it has been generated."
+    ),
+)
+@click.option(
+    "--seconds-between-requests",
+    type=click.FloatRange(min=0.05),
+    default=_SECONDS_BETWEEN_REQUESTS_DEFAULT,
+    help=_REPORT_SECONDS_BETWEEN_REQUESTS_HELP,
+    show_default=True,
+)
+@click.option(
+    "--timeout-seconds",
+    type=click.FloatRange(min=0.05),
+    default=300,
+    help=_REPORT_TIMEOUT_SECONDS_HELP,
+    show_default=True,
+)
+@server_access_key_option
+@server_secret_key_option
+@database_id_option
+@base_vws_url_option
+@connection_timeout_seconds_option
+@read_timeout_seconds_option
+@_handle_vws_exceptions()
+@beartype
+def get_database_reco_counts_report(
+    *,
+    server_access_key: str,
+    server_secret_key: str,
+    database_id: str,
+    month: datetime.date,
+    output_file_path: Path | None,
+    no_wait: bool,
+    seconds_between_requests: float,
+    timeout_seconds: float,
+    base_vws_url: str,
+    connection_timeout_seconds: float,
+    read_timeout_seconds: float,
+) -> None:
+    """Get a per-target recognition counts report for a database.
+
+    The report is a CSV with a ``target_id,reco_count`` header. Vuforia
+    generates the report in the background, so by default we wait for the
+    report to be generated before downloading it.
+
+    \b
+    See
+    https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api.
+    """
+    if no_wait and output_file_path is not None:
+        message = "--output cannot be used with --no-wait."
+        raise click.UsageError(message=message)
+
+    vws_client = VWS(
+        server_access_key=server_access_key,
+        server_secret_key=server_secret_key,
+        base_vws_url=base_vws_url,
+        database_id=database_id,
+        request_timeout_seconds=(
+            connection_timeout_seconds,
+            read_timeout_seconds,
+        ),
+    )
+
+    try:
+        report_request = vws_client.request_database_reco_counts_report(
+            year=month.year,
+            month=calendar.Month(value=month.month),
+        )
+    except AuthenticationFailureError:
+        click.echo(
+            message=(
+                "Error: The given secret key was incorrect, or the given "
+                "database ID is not the ID of the database which the given "
+                "server keys belong to."
+            ),
+            err=True,
+        )
+        sys.exit(1)
+
+    if no_wait:
+        click.echo(message=report_request.presigned_url)
+        return
+
+    try:
+        report = vws_client.wait_for_reco_counts_report(
+            presigned_url=report_request.presigned_url,
+            seconds_between_requests=seconds_between_requests,
+            timeout_seconds=timeout_seconds,
+        )
+    except RecoCountsReportTimeoutError:
+        click.echo(
+            message=f"Timeout of {timeout_seconds} seconds reached.",
+            err=True,
+        )
+        sys.exit(1)
+
+    if output_file_path is None:
+        click.echo(message=report.raw_csv, nl=False)
+        return
+
+    output_file_path.write_bytes(data=report.raw_csv)
