@@ -1,0 +1,1 @@
+Drop Python 3.13 support, and update VWS Python so that the documented ``ProjectHasNoApiAccess`` result code spelling gives a friendly error message.

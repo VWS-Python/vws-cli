@@ -18,14 +18,13 @@ license = "MIT"
 authors = [
     { name = "Adam Dangoor", email = "adamdangoor@gmail.com" },
 ]
-requires-python = ">=3.13"
+requires-python = ">=3.14"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Environment :: Web Environment",
     "Operating System :: Microsoft :: Windows",
     "Operating System :: POSIX",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
 ]
 dynamic = [
@@ -35,7 +34,7 @@ dependencies = [
     "beartype==0.22.9",
     "click==8.4.2",
     "pyyaml==6.0.3",
-    "vws-python==2026.2.25.1",
+    "vws-python==2026.8.14",
 ]
 optional-dependencies.dev = [
     "actionlint-py==1.7.12.24",
@@ -90,7 +89,7 @@ optional-dependencies.dev = [
     "types-pyyaml==6.0.12.20260724",
     "vale==3.13.0.0",
     "vulture==2.16",
-    "vws-python-mock==2026.2.22.3",
+    "vws-python-mock==2026.8.14",
     "vws-test-fixtures==2023.3.5",
     "yamlfix==1.19.1",
     "zizmor==1.29.0",
@@ -155,6 +154,13 @@ lint.ignore = [
     "PLR0913",
     # Allow 'assert' as we use it for tests and type narrowing.
     "S101",
+    # On Python 3.14, annotations are lazily evaluated (PEP 649), so Ruff
+    # suggests moving annotation-only imports into type-checking blocks.
+    # ``beartype`` resolves annotations at runtime, in source code and in
+    # tests, so those imports must be available at runtime.
+    "TC001",
+    "TC002",
+    "TC003",
 ]
 lint.per-file-ignores."doccmd_*.py" = [
     # Allow our chosen docstring line-style - pydocstringformatter handles
