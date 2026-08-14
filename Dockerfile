@@ -1,4 +1,4 @@
-FROM python:3.13-slim
+FROM python:3.14-slim
 
 LABEL org.opencontainers.image.source="https://github.com/VWS-Python/vws-cli"
 LABEL org.opencontainers.image.description="CLI for Vuforia Web Services"

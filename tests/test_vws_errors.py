@@ -278,6 +278,51 @@ def test_project_inactive(
     assert not result.stdout
 
 
+def test_project_has_no_api_access(
+    *,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+) -> None:
+    """
+    An error is given if the project is not allowed to make API
+    requests.
+    """
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    new_file.write_bytes(data=image_data)
+    database = CloudDatabase(state=States.PROJECT_HAS_NO_API_ACCESS)
+    with MockVWS() as mock:
+        mock.add_cloud_database(cloud_database=database)
+        runner = CliRunner()
+        commands = [
+            "add-target",
+            "--name",
+            "foo",
+            "--width",
+            "0.1",
+            "--image",
+            str(object=new_file),
+            "--server-access-key",
+            database.server_access_key,
+            "--server-secret-key",
+            database.server_secret_key,
+        ]
+        result = runner.invoke(
+            cli=vws_group,
+            args=commands,
+            catch_exceptions=False,
+            color=True,
+        )
+
+    assert result.exit_code == 1
+    expected_stderr = (
+        "Error: The request could not be completed because this database is "
+        "not allowed to make API requests.\n"
+    )
+    assert result.stderr == expected_stderr
+    assert not result.stdout
+
+
 def test_unknown_vws_error(
     *,
     mock_database: CloudDatabase,

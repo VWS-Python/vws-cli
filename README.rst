@@ -150,4 +150,4 @@ See the `full documentation <https://vws-python.github.io/vws-cli/>`__ for infor
    :target: https://github.com/VWS-Python/vws-cli/actions
 .. |PyPI| image:: https://badge.fury.io/py/VWS-CLI.svg
    :target: https://badge.fury.io/py/VWS-CLI
-.. |minimum-python-version| replace:: 3.13
+.. |minimum-python-version| replace:: 3.14

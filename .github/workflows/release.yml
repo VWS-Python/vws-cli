@@ -238,7 +238,7 @@ jobs:
       - name: Create Linux binary
         uses: sayyid5416/pyinstaller@v1
         with:
-          python_ver: '3.13'
+          python_ver: '3.14'
           pyinstaller_ver: ==6.12.0
           spec: ${{ matrix.binary.spec }}
           requirements: requirements.txt
@@ -317,7 +317,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
-          python-version: '3.13'
+          python-version: '3.14'
 
       # We have a race condition.
       # In particular, we push to PyPI and then immediately try to install
@@ -344,7 +344,7 @@ jobs:
       - name: Create Windows binary for Vuforia Cloud Reco
         uses: sayyid5416/pyinstaller@v1
         with:
-          python_ver: '3.13'
+          python_ver: '3.14'
           pyinstaller_ver: ==6.12.0
           spec: bin/vuforia-cloud-reco.py
           requirements: requirements.txt
@@ -355,7 +355,7 @@ jobs:
       - name: Create Windows binary for Vuforia Web Services
         uses: sayyid5416/pyinstaller@v1
         with:
-          python_ver: '3.13'
+          python_ver: '3.14'
           pyinstaller_ver: ==6.12.0
           spec: bin/vuforia-web-services.py
           requirements: requirements.txt
@@ -366,7 +366,7 @@ jobs:
       - name: Create Windows binary for VuMark generation
         uses: sayyid5416/pyinstaller@v1
         with:
-          python_ver: '3.13'
+          python_ver: '3.14'
           pyinstaller_ver: ==6.12.0
           spec: bin/vumark.py
           requirements: requirements.txt
@@ -421,7 +421,7 @@ jobs:
       - name: Create macOS binary for Vuforia Cloud Reco
         uses: sayyid5416/pyinstaller@v1
         with:
-          python_ver: '3.13'
+          python_ver: '3.14'
           pyinstaller_ver: ==6.12.0
           spec: bin/vuforia-cloud-reco.py
           requirements: requirements.txt
@@ -432,7 +432,7 @@ jobs:
       - name: Create macOS binary for Vuforia Web Services
         uses: sayyid5416/pyinstaller@v1
         with:
-          python_ver: '3.13'
+          python_ver: '3.14'
           pyinstaller_ver: ==6.12.0
           spec: bin/vuforia-web-services.py
           requirements: requirements.txt
@@ -443,7 +443,7 @@ jobs:
       - name: Create macOS binary for VuMark generation
         uses: sayyid5416/pyinstaller@v1
         with:
-          python_ver: '3.13'
+          python_ver: '3.14'
           pyinstaller_ver: ==6.12.0
           spec: bin/vumark.py
           requirements: requirements.txt
