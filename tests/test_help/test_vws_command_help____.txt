@@ -8,13 +8,20 @@ Options:
 
 Commands:
   add-target                      Add a target.
+  create-model-target-dataset     Create a Model Target dataset.
+  delete-model-target-dataset     Delete a Model Target dataset.
   delete-target                   Delete a target.
+  download-model-target-dataset   Download a generated Model...
   get-database-reco-counts-report
-                                  Get a per-target recognition counts...
+                                  Get a per-target recognition...
   get-database-summary-report     Get a database summary report.
-  get-duplicate-targets           Get a list of potential duplicate targets.
+  get-duplicate-targets           Get a list of potential...
+  get-model-target-dataset-status
+                                  Get the status of a Model Target...
   get-target-record               Get a target record.
   get-target-summary-report       Get a target summary report.
   list-targets                    List targets.
   update-target                   Update a target.
-  wait-for-target-processed       Wait for a target to be "processed".
+  wait-for-model-target-dataset-generated
+                                  Wait for Vuforia to finish...
+  wait-for-target-processed       Wait for a target to be...
