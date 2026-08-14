@@ -7,6 +7,14 @@ from vws.exceptions.custom_exceptions import (
     ServerError,
     TargetProcessingTimeoutError,
 )
+from vws.exceptions.model_target_exceptions import (
+    ModelTargetAuthenticationError,
+    ModelTargetDatasetNotDoneError,
+    ModelTargetError,
+    ModelTargetOAuth2Error,
+    ModelTargetValidationError,
+    UnknownModelTargetDatasetError,
+)
 from vws.exceptions.vws_exceptions import (
     AuthenticationFailureError,
     BadImageError,
@@ -68,3 +76,41 @@ def get_error_message(exc: Exception) -> str:
             )
         case _:
             return exc_type_to_message[type(exc)]
+
+
+@beartype
+def get_model_target_error_message(
+    exc: ModelTargetError | ModelTargetOAuth2Error | ServerError,
+) -> str:
+    """Get an error message from a Model Target Web API exception."""
+    match exc:
+        case ModelTargetOAuth2Error():
+            message = (
+                "Error: The given client ID and client secret are not a set "
+                "of Model Target Web API credentials."
+            )
+        case ModelTargetAuthenticationError():
+            message = "Error: The request to Vuforia was not authenticated."
+        case UnknownModelTargetDatasetError():
+            message = (
+                "Error: No Model Target dataset of the given type matches "
+                "the given UUID."
+            )
+        case ModelTargetDatasetNotDoneError():
+            message = (
+                "Error: Vuforia has not finished generating the dataset, so "
+                "the dataset cannot be downloaded."
+            )
+        case ModelTargetValidationError():
+            problems = [
+                f"{detail.code}: {detail.message}" for detail in exc.details
+            ] or [exc.message]
+            message = "\n".join(
+                ["Error: Vuforia rejected the request.", *problems],
+            )
+        case ModelTargetError():
+            message = f"Error: {exc.message or 'Vuforia returned an error.'}"
+        case _:
+            message = get_error_message(exc=exc)
+
+    return message

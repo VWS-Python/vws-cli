@@ -17,6 +17,13 @@ from vws_cli.commands import (
     update_target,
     wait_for_target_processed,
 )
+from vws_cli.model_target import (
+    create_model_target_dataset,
+    delete_model_target_dataset,
+    download_model_target_dataset,
+    get_model_target_dataset_status,
+    wait_for_model_target_dataset_generated,
+)
 
 _CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
@@ -41,12 +48,17 @@ def vws_group() -> None:
 
 
 vws_group.add_command(cmd=add_target)
+vws_group.add_command(cmd=create_model_target_dataset)
+vws_group.add_command(cmd=delete_model_target_dataset)
 vws_group.add_command(cmd=delete_target)
+vws_group.add_command(cmd=download_model_target_dataset)
 vws_group.add_command(cmd=get_database_reco_counts_report)
 vws_group.add_command(cmd=get_database_summary_report)
 vws_group.add_command(cmd=get_duplicate_targets)
+vws_group.add_command(cmd=get_model_target_dataset_status)
 vws_group.add_command(cmd=get_target_record)
 vws_group.add_command(cmd=get_target_summary_report)
 vws_group.add_command(cmd=list_targets)
 vws_group.add_command(cmd=update_target)
+vws_group.add_command(cmd=wait_for_model_target_dataset_generated)
 vws_group.add_command(cmd=wait_for_target_processed)

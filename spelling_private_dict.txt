@@ -1,7 +1,9 @@
 CSV
+OAuth
 Winget
 admin
 api
+ar
 args
 beartype
 changelog

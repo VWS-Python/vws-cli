@@ -1,0 +1,73 @@
+Usage: vws create-model-target-dataset [OPTIONS]
+
+  Create a Model Target dataset.
+
+  Vuforia generates the dataset in the background, so the dataset is not
+  available to download immediately. The UUID of the new dataset is shown.
+
+  See
+  https://developer.vuforia.com/library/vuforia-engine/web-api/model-target-web-api/
+
+Options:
+  --name TEXT                     The name of the Model Target dataset.
+                                  [required]
+  --target-sdk TEXT               The Vuforia Engine version to generate the
+                                  dataset for, for example "10.29".  [required]
+  --dataset-type [standard|advanced]
+                                  The kind of Model Target dataset. Standard and
+                                  advanced datasets are separate resources, so a
+                                  dataset created as one type is not visible to
+                                  requests for the other type.  [default:
+                                  standard]
+  --model-name TEXT               The name of the model to generate the dataset
+                                  from. This is required unless --models-file is
+                                  given.
+  --cad-data-url TEXT             A URL which Vuforia downloads the model's CAD
+                                  data from.
+  --cad-data-file FILE            The path to a file with the model's CAD data.
+                                  The file is sent to Vuforia as base64 encoded
+                                  data.
+  --automatic-coloring [always|auto|never]
+                                  Whether Vuforia colors the model
+                                  automatically.
+  --cad-data-format [dae|fbx|glb|iges|obj|pvz|stl|vrml|zip]
+                                  The format of the model's CAD data.
+  --motion-hint [adaptive|dynamic|static]
+                                  How the object which the model represents
+                                  moves.
+  --optimize-tracking-for [ar_controller|default|low_feature_objects]
+                                  What Vuforia optimizes tracking of the model
+                                  for.
+  --realistic-appearance [auto|false|true]
+                                  Whether the model looks like the object it
+                                  represents. This is documented for advanced
+                                  datasets only.
+  --simplify [always|auto|never]  Whether Vuforia simplifies the model.
+  --tracking-mode [car|default|scan]
+                                  The tracking mode to generate the dataset for.
+  --state-based-configuration-file FILE
+                                  The path to a JSON file with the model's
+                                  State-Based Model Target configuration.
+  --models-file FILE              The path to a JSON file which describes the
+                                  models to generate the dataset from, in the
+                                  form which the Model Target Web API takes. The
+                                  file holds either an array of models or an
+                                  object with a "models" array. This is the only
+                                  way to give multiple models, or to give guide
+                                  views, and it cannot be used with the other
+                                  model options.
+  --client-id TEXT                A Vuforia OAuth2 client ID to use to access
+                                  the Model Target Web API.  [env var:
+                                  VUFORIA_MODEL_TARGET_CLIENT_ID; required]
+  --client-secret TEXT            A Vuforia OAuth2 client secret to use to
+                                  access the Model Target Web API.  [env var:
+                                  VUFORIA_MODEL_TARGET_CLIENT_SECRET; required]
+  --base-vws-url TEXT             The base URL for the VWS API.  [default:
+                                  https://vws.vuforia.com]
+  --connection-timeout-seconds FLOAT RANGE
+                                  The connection timeout for HTTP requests, in
+                                  seconds.  [default: 30; x>=0.05]
+  --read-timeout-seconds FLOAT RANGE
+                                  The read timeout for HTTP requests, in
+                                  seconds.  [default: 30; x>=0.05]
+  -h, --help                      Show this message and exit.
