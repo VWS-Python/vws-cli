@@ -239,7 +239,7 @@ jobs:
         uses: sayyid5416/pyinstaller@v1
         with:
           python_ver: '3.14'
-          pyinstaller_ver: ==6.12.0
+          pyinstaller_ver: ==6.22.1
           spec: ${{ matrix.binary.spec }}
           requirements: requirements.txt
           options: --onefile, --name "${{ matrix.binary.name }}"
@@ -345,7 +345,7 @@ jobs:
         uses: sayyid5416/pyinstaller@v1
         with:
           python_ver: '3.14'
-          pyinstaller_ver: ==6.12.0
+          pyinstaller_ver: ==6.22.1
           spec: bin/vuforia-cloud-reco.py
           requirements: requirements.txt
           options: --onefile, --name "vuforia-cloud-reco-windows"
@@ -356,7 +356,7 @@ jobs:
         uses: sayyid5416/pyinstaller@v1
         with:
           python_ver: '3.14'
-          pyinstaller_ver: ==6.12.0
+          pyinstaller_ver: ==6.22.1
           spec: bin/vuforia-web-services.py
           requirements: requirements.txt
           options: --onefile, --name "vws-windows"
@@ -367,7 +367,7 @@ jobs:
         uses: sayyid5416/pyinstaller@v1
         with:
           python_ver: '3.14'
-          pyinstaller_ver: ==6.12.0
+          pyinstaller_ver: ==6.22.1
           spec: bin/vumark.py
           requirements: requirements.txt
           options: --onefile, --name "vumark-windows"
@@ -422,7 +422,7 @@ jobs:
         uses: sayyid5416/pyinstaller@v1
         with:
           python_ver: '3.14'
-          pyinstaller_ver: ==6.12.0
+          pyinstaller_ver: ==6.22.1
           spec: bin/vuforia-cloud-reco.py
           requirements: requirements.txt
           options: --onefile, --name "vuforia-cloud-reco-macos"
@@ -433,7 +433,7 @@ jobs:
         uses: sayyid5416/pyinstaller@v1
         with:
           python_ver: '3.14'
-          pyinstaller_ver: ==6.12.0
+          pyinstaller_ver: ==6.22.1
           spec: bin/vuforia-web-services.py
           requirements: requirements.txt
           options: --onefile, --name "vws-macos"
@@ -444,7 +444,7 @@ jobs:
         uses: sayyid5416/pyinstaller@v1
         with:
           python_ver: '3.14'
-          pyinstaller_ver: ==6.12.0
+          pyinstaller_ver: ==6.22.1
           spec: bin/vumark.py
           requirements: requirements.txt
           options: --onefile, --name "vumark-macos"
