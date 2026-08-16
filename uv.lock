@@ -370,7 +370,7 @@ wheels = [
 
 [[package]]
 name = "doccmd"
-version = "2026.7.19"
+version = "2026.8.16"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
@@ -383,9 +383,9 @@ dependencies = [
     { name = "sybil" },
     { name = "sybil-extras" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6d/6e/1a1c30b66d9dd37d1d12e248943a8723da79b5c7d945bba5c0e469252433/doccmd-2026.7.19.tar.gz", hash = "sha256:1bb47f9ba5a3aaa907a5b52cd42f62d718689eccef68b94740127f7b758ce573", size = 196169, upload-time = "2026-07-19T13:56:40.913Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/0d/ef/fe25cf809b3e43c4b60c741f0ee157f292cde1b194f8898c0910260d26fe/doccmd-2026.8.16.tar.gz", hash = "sha256:d05f03a3d93336deb50c7b0597d17a87c7120523bed3832e603e1951a0f174d6", size = 197087, upload-time = "2026-08-16T09:17:35.693Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ff/ef/c97a0d16c9c2f0870811e9b03548f2aa3fc3e1e39fe80b768fa8458d6d8a/doccmd-2026.7.19-py3-none-any.whl", hash = "sha256:32d1bd7dfd87ebe28b7cf7637413012b2909514e7da3400de5dcc1cb18da1235", size = 24701, upload-time = "2026-07-19T13:56:39.117Z" },
+    { url = "https://files.pythonhosted.org/packages/aa/27/2b3f5c0af2bdb77de73384b45b8368f3709b5b178d92dbd375db8e8593f3/doccmd-2026.8.16-py3-none-any.whl", hash = "sha256:40205dae37b112b233b25fb50f09b367b267f648d8a20ff95c1556d11ed53c75", size = 23645, upload-time = "2026-08-16T09:17:34.184Z" },
 ]
 
 [[package]]
@@ -1351,15 +1351,15 @@ wheels = [
 
 [[package]]
 name = "pytest-beartype-tests"
-version = "2026.4.26"
+version = "2026.8.16"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
     { name = "pytest" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e6/4f/14167cd06fa425dc70eb486942e5ef402c738984726703584bba55353809/pytest_beartype_tests-2026.4.26.tar.gz", hash = "sha256:a986f59466243b616606279b3c6c00e7e171ee0b5aad4702922ea20fd1a1b52c", size = 88278, upload-time = "2026-04-26T17:12:24.182Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/93/46/5dd36239b39d9de2b7edc45c42c5b44732e31c343fdc91a6bdfdf7a56b8f/pytest_beartype_tests-2026.8.16.tar.gz", hash = "sha256:bf5d0cf9670c717c6c72f502ae355c550edc8252f22808d86bdb445d7e646007", size = 104834, upload-time = "2026-08-16T09:17:42.005Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/6b/2b/b9c1799582a00a9746f875deecd4449d0dc30254600c77231837bb67c6ec/pytest_beartype_tests-2026.4.26-py3-none-any.whl", hash = "sha256:e0c19a6708a14e4f97acb18ec94151550d70f736733b36d6cd621a6481cea99d", size = 5718, upload-time = "2026-04-26T17:12:22.889Z" },
+    { url = "https://files.pythonhosted.org/packages/82/10/2ad06d0d521a56d979aeeb0d379bc2488c84c2ad3bd34e62b7639e08e468/pytest_beartype_tests-2026.8.16-py3-none-any.whl", hash = "sha256:c91fec8a75dba60a8cccf28f6605e71e7de9e36e845ac9f4ef820b3d06b9d391", size = 5777, upload-time = "2026-08-16T09:17:40.682Z" },
 ]
 
 [[package]]
@@ -2009,13 +2009,13 @@ resolution-markers = [
     "python_full_version < '3.15' and sys_platform == 'darwin'",
 ]
 dependencies = [
-    { name = "filelock", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "fsspec", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "jinja2", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "networkx", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "setuptools", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "sympy", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "typing-extensions", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
+    { name = "filelock" },
+    { name = "fsspec" },
+    { name = "jinja2" },
+    { name = "networkx" },
+    { name = "setuptools" },
+    { name = "sympy" },
+    { name = "typing-extensions" },
 ]
 wheels = [
     { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0-cp314-cp314-macosx_14_0_arm64.whl", hash = "sha256:d849b390e07d8d333ce8ecaf91b273c656c598379a19c9acf1318a883f6b391c", upload-time = "2026-07-08T12:26:28Z" },
@@ -2031,13 +2031,13 @@ resolution-markers = [
     "python_full_version < '3.15' and sys_platform != 'darwin'",
 ]
 dependencies = [
-    { name = "filelock", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "fsspec", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "jinja2", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "networkx", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "setuptools", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "sympy", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "typing-extensions", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
+    { name = "filelock" },
+    { name = "fsspec" },
+    { name = "jinja2" },
+    { name = "networkx" },
+    { name = "setuptools" },
+    { name = "sympy" },
+    { name = "typing-extensions" },
 ]
 wheels = [
     { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp314-cp314-linux_s390x.whl", hash = "sha256:dec241fef3984c0d1edadd1f58708e218d4eae881ceef7bc10cf9964d41b68b9", upload-time = "2026-07-08T19:30:20Z" },
@@ -2062,9 +2062,9 @@ resolution-markers = [
     "python_full_version < '3.15' and sys_platform == 'darwin'",
 ]
 dependencies = [
-    { name = "numpy", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "pillow", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "torch", version = "2.13.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
+    { name = "numpy" },
+    { name = "pillow" },
+    { name = "torch", version = "2.13.0", source = { registry = "https://download.pytorch.org/whl/cpu" } },
 ]
 wheels = [
     { url = "https://download-r2.pytorch.org/whl/cpu/torchvision-0.28.0-cp314-cp314-macosx_14_0_arm64.whl", hash = "sha256:3bd9dba55224a9db4a2d77f6feaa5651770d8c8e86d3d0ddb0fa6bec54c8712b", upload-time = "2026-07-08T12:26:40Z" },
@@ -2080,9 +2080,9 @@ resolution-markers = [
     "python_full_version < '3.15' and sys_platform != 'darwin'",
 ]
 dependencies = [
-    { name = "numpy", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "pillow", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "torch", version = "2.13.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
+    { name = "numpy" },
+    { name = "pillow" },
+    { name = "torch", version = "2.13.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" } },
 ]
 wheels = [
     { url = "https://download-r2.pytorch.org/whl/cpu/torchvision-0.28.0%2Bcpu-cp314-cp314-manylinux_2_28_aarch64.whl", hash = "sha256:3a1a76c8decb1d7bbedd3588bccc90fb269944b7321a773db181735b42115422", upload-time = "2026-07-08T12:26:39Z" },
@@ -2320,7 +2320,7 @@ requires-dist = [
     { name = "click", specifier = "==8.4.2" },
     { name = "deptry", marker = "extra == 'dev'", specifier = "==0.25.1" },
     { name = "doc8", marker = "extra == 'dev'", specifier = "==2.0.0" },
-    { name = "doccmd", marker = "extra == 'dev'", specifier = "==2026.7.19" },
+    { name = "doccmd", marker = "extra == 'dev'", specifier = "==2026.8.16" },
     { name = "freezegun", marker = "extra == 'dev'", specifier = "==1.5.5" },
     { name = "furo", marker = "extra == 'dev'", specifier = "==2025.12.19" },
     { name = "hadolint-bin", marker = "sys_platform != 'win32' and extra == 'dev'", specifier = "==2.15.1" },
@@ -2337,7 +2337,7 @@ requires-dist = [
     { name = "pyright", marker = "extra == 'dev'", specifier = "==1.1.411" },
     { name = "pyroma", marker = "extra == 'dev'", specifier = "==5.0.1" },
     { name = "pytest", marker = "extra == 'dev'", specifier = "==9.1.1" },
-    { name = "pytest-beartype-tests", marker = "extra == 'dev'", specifier = "==2026.4.26" },
+    { name = "pytest-beartype-tests", marker = "extra == 'dev'", specifier = "==2026.8.16" },
     { name = "pytest-cov", marker = "extra == 'dev'", specifier = "==7.1.0" },
     { name = "pytest-regressions", marker = "extra == 'dev'", specifier = "==2.11.0" },
     { name = "pyyaml", specifier = "==6.0.3" },
@@ -2365,7 +2365,7 @@ requires-dist = [
     { name = "vulture", marker = "extra == 'dev'", specifier = "==2.16" },
     { name = "vws-python", specifier = "==2026.8.14" },
     { name = "vws-python-mock", marker = "extra == 'dev'", specifier = "==2026.8.14" },
-    { name = "vws-test-fixtures", marker = "extra == 'dev'", specifier = "==2023.3.5" },
+    { name = "vws-test-fixtures", marker = "extra == 'dev'", specifier = "==2026.8.16" },
     { name = "yamlfix", marker = "extra == 'dev'", specifier = "==1.19.1" },
     { name = "zizmor", marker = "extra == 'dev'", specifier = "==1.29.0" },
 ]
@@ -2417,15 +2417,15 @@ wheels = [
 
 [[package]]
 name = "vws-test-fixtures"
-version = "2023.3.5"
+version = "2026.8.16"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pillow" },
     { name = "pytest" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/eb/f2/db267b21f32539d78aae06add3b31fa1e562a00a5b7d0aa1d0ee18aaadf9/vws-test-fixtures-2023.3.5.tar.gz", hash = "sha256:ba9baafb6fc8cd63338ee9c2b7c70876e6b33c6eb85edf7c4e8e88d9ab25467c", size = 61510, upload-time = "2023-03-05T17:26:04.019Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1c/62/b788605d463c8c06ff619b9e2839de073852c95eb271a166e689b1482fa2/vws_test_fixtures-2026.8.16.tar.gz", hash = "sha256:9f546e706e1d0c09ac1c1a76cfa289a879d268c206a63d30e45326ee68730b44", size = 67384, upload-time = "2026-08-16T09:17:39.223Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7f/40/e50b6c31637dfb41b13ffc41c799f210aa0fbb56853d32fee8cdfd8d9712/vws_test_fixtures-2023.3.5-py2.py3-none-any.whl", hash = "sha256:7f9f6a6be8e31bdd3ae4f290e7dea6637dc213a2da4c59d0cb6051c2054dee9f", size = 49364, upload-time = "2023-03-05T17:26:02.051Z" },
+    { url = "https://files.pythonhosted.org/packages/07/12/423093602526eeefa22e59c60f6892ed90e304ad4a5ab78d2e2f2a4e4fde/vws_test_fixtures-2026.8.16-py3-none-any.whl", hash = "sha256:eb6654a6612b7e7f44dfeea2596f4e3d1dfaa2a2867c655792c790b5fc67a984", size = 49047, upload-time = "2026-08-16T09:17:37.921Z" },
 ]
 
 [[package]]
