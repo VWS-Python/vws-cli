@@ -1,1 +1,0 @@
-Add a ``vws get-database-reco-counts-report`` command, which requests a per-target recognition counts report for a month, waits for Vuforia to generate it, and writes the CSV to stdout or to a given path.

@@ -1,1 +1,0 @@
-Add Model Target dataset commands: ``vws create-model-target-dataset``, ``vws get-model-target-dataset-status``, ``vws wait-for-model-target-dataset-generated``, ``vws download-model-target-dataset`` and ``vws delete-model-target-dataset``.
