@@ -6,7 +6,7 @@ Changelog
 2026.08.16.1
 ------------
 
-No significant changes.
+No documented changes.
 
 2026.08.16
 ----------
