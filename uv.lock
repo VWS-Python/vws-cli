@@ -2020,13 +2020,13 @@ resolution-markers = [
     "python_full_version < '3.15' and sys_platform == 'darwin'",
 ]
 dependencies = [
-    { name = "filelock", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "fsspec", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "jinja2", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "networkx", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "setuptools", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "sympy", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "typing-extensions", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
+    { name = "filelock" },
+    { name = "fsspec" },
+    { name = "jinja2" },
+    { name = "networkx" },
+    { name = "setuptools" },
+    { name = "sympy" },
+    { name = "typing-extensions" },
 ]
 wheels = [
     { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0-cp314-cp314-macosx_14_0_arm64.whl", hash = "sha256:d849b390e07d8d333ce8ecaf91b273c656c598379a19c9acf1318a883f6b391c", upload-time = "2026-07-08T12:26:28Z" },
@@ -2042,13 +2042,13 @@ resolution-markers = [
     "python_full_version < '3.15' and sys_platform != 'darwin'",
 ]
 dependencies = [
-    { name = "filelock", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "fsspec", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "jinja2", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "networkx", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "setuptools", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "sympy", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "typing-extensions", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
+    { name = "filelock" },
+    { name = "fsspec" },
+    { name = "jinja2" },
+    { name = "networkx" },
+    { name = "setuptools" },
+    { name = "sympy" },
+    { name = "typing-extensions" },
 ]
 wheels = [
     { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp314-cp314-linux_s390x.whl", hash = "sha256:dec241fef3984c0d1edadd1f58708e218d4eae881ceef7bc10cf9964d41b68b9", upload-time = "2026-07-08T19:30:20Z" },
@@ -2073,9 +2073,9 @@ resolution-markers = [
     "python_full_version < '3.15' and sys_platform == 'darwin'",
 ]
 dependencies = [
-    { name = "numpy", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "pillow", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "torch", version = "2.13.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
+    { name = "numpy" },
+    { name = "pillow" },
+    { name = "torch", version = "2.13.0", source = { registry = "https://download.pytorch.org/whl/cpu" } },
 ]
 wheels = [
     { url = "https://download-r2.pytorch.org/whl/cpu/torchvision-0.28.0-cp314-cp314-macosx_14_0_arm64.whl", hash = "sha256:3bd9dba55224a9db4a2d77f6feaa5651770d8c8e86d3d0ddb0fa6bec54c8712b", upload-time = "2026-07-08T12:26:40Z" },
@@ -2091,9 +2091,9 @@ resolution-markers = [
     "python_full_version < '3.15' and sys_platform != 'darwin'",
 ]
 dependencies = [
-    { name = "numpy", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "pillow", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "torch", version = "2.13.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
+    { name = "numpy" },
+    { name = "pillow" },
+    { name = "torch", version = "2.13.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" } },
 ]
 wheels = [
     { url = "https://download-r2.pytorch.org/whl/cpu/torchvision-0.28.0%2Bcpu-cp314-cp314-manylinux_2_28_aarch64.whl", hash = "sha256:3a1a76c8decb1d7bbedd3588bccc90fb269944b7321a773db181735b42115422", upload-time = "2026-07-08T12:26:39Z" },
@@ -2168,11 +2168,11 @@ wheels = [
 
 [[package]]
 name = "types-pyyaml"
-version = "6.0.12.20260724"
+version = "6.0.12.20260815"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/3f/6f/a28f44bcd56bebed42b028a2894c79853e2f5e6b5279e633cb3f287a05e7/types_pyyaml-6.0.12.20260724.tar.gz", hash = "sha256:3c1ce1bb73cd5ec02e90390c2b1f00e810d241d8825fd73ff359696839271b6b", size = 17893, upload-time = "2026-07-24T04:58:43.453Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/9f/72/b56089aeee6c496d969bac42376bedb6e3eeab4682e1018fa3137122f94b/types_pyyaml-6.0.12.20260815.tar.gz", hash = "sha256:28764110c9cf35846e733da32d8d734df7473c5dde9ef67c3b7332ec0e819858", size = 18545, upload-time = "2026-08-15T02:41:51.532Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8b/42/0337fefc615e20ee55d1c8f71b774a9b2b734a04669139c20753b27a2a3a/types_pyyaml-6.0.12.20260724-py3-none-any.whl", hash = "sha256:d57db930a4b2efbc57cf430ec8882765d246929432fa253092f383902329a453", size = 20312, upload-time = "2026-07-24T04:58:42.486Z" },
+    { url = "https://files.pythonhosted.org/packages/08/52/eefeba09be4ef2a1eb989eb92934561e8e502a6ee3c32654996e4be7e399/types_pyyaml-6.0.12.20260815-py3-none-any.whl", hash = "sha256:6f332212b7e191f3afd5016a713c510b6340593b7ebec573c7d5d20aa5386d3b", size = 21148, upload-time = "2026-08-15T02:41:50.555Z" },
 ]
 
 [[package]]
@@ -2371,7 +2371,7 @@ requires-dist = [
     { name = "towncrier", marker = "extra == 'dev'", specifier = "==25.8.0" },
     { name = "towncrier", marker = "extra == 'release'", specifier = "==25.8.0" },
     { name = "ty", marker = "extra == 'dev'", specifier = "==0.0.72" },
-    { name = "types-pyyaml", marker = "extra == 'dev'", specifier = "==6.0.12.20260724" },
+    { name = "types-pyyaml", marker = "extra == 'dev'", specifier = "==6.0.12.20260815" },
     { name = "vale", marker = "extra == 'dev'", specifier = "==3.13.0.0" },
     { name = "vulture", marker = "extra == 'dev'", specifier = "==2.16" },
     { name = "vws-python", specifier = "==2026.8.14" },
