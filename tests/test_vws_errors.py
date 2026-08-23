@@ -1,5 +1,6 @@
 """Tests for how errors from VWS are handled by the CLI."""
 
+import base64
 import io
 import uuid
 from pathlib import Path
@@ -78,8 +79,7 @@ def test_bad_image(
 def test_fail_bad_request(
     *,
     mock_database: CloudDatabase,
-    high_quality_image: io.BytesIO,
-    tmp_path: Path,
+    high_quality_image_path: Path,
 ) -> None:
     """An error is given when Vuforia returns a ``Fail`` error with a
     ``400``
@@ -89,8 +89,6 @@ def test_fail_bad_request(
     With ``vws_python`` we cannot get a (guaranteed) 500 error or 422 response
     with a ``Fail`` error.
     """
-    new_file = tmp_path / uuid.uuid4().hex
-    new_file.write_bytes(data=high_quality_image.getvalue())
     runner = CliRunner()
     args = [
         "add-target",
@@ -99,7 +97,7 @@ def test_fail_bad_request(
         "--width",
         "0.1",
         "--image",
-        str(object=new_file),
+        str(object=high_quality_image_path),
         "--server-access-key",
         "does_not_exist_key",
         "--server-secret-key",
@@ -119,12 +117,16 @@ def test_fail_bad_request(
 def test_metadata_too_large(
     *,
     mock_database: CloudDatabase,
-    high_quality_image: io.BytesIO,
-    tmp_path: Path,
+    high_quality_image_path: Path,
+    application_metadata_near_size_limit: str,
 ) -> None:
     """An error is given when the given metadata is too large."""
-    new_file = tmp_path / uuid.uuid4().hex
-    new_file.write_bytes(data=high_quality_image.getvalue())
+    decoded_metadata = base64.b64decode(
+        s=application_metadata_near_size_limit.encode(encoding="ascii"),
+    )
+    over_limit_metadata = base64.b64encode(
+        s=decoded_metadata + b"x",
+    ).decode(encoding="ascii")
     runner = CliRunner()
     args = [
         "add-target",
@@ -133,9 +135,9 @@ def test_metadata_too_large(
         "--width",
         "0.1",
         "--image",
-        str(object=new_file),
+        str(object=high_quality_image_path),
         "--application-metadata",
-        "a" * 1024 * 1024 * 10,
+        over_limit_metadata,
         "--server-access-key",
         mock_database.server_access_key,
         "--server-secret-key",
