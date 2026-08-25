@@ -345,12 +345,6 @@ optional_dependencies_dev_groups = [
     "release",
 ]
 
-[tool.mypy_strict_kwargs]
-ignore_names = [
-    # Decorators applied positionally (mypy-strict-kwargs 2026.8+)
-    "beartype._decor.decorcache.beartype",
-]
-
 [tool.vulture]
 exclude = [
     # Duplicate some of .gitignore
@@ -456,6 +450,12 @@ type = [
     # flat bullet list, matching the historical changelog (which never
     # grouped entries under "Features"/"Bugfixes"/... sub-headings).
     { directory = "change", name = "", showcontent = true },
+]
+
+[tool.mypy_strict_kwargs]
+ignore_names = [
+    # Decorators applied positionally (mypy-strict-kwargs 2026.8+)
+    "beartype._decor.decorcache.beartype",
 ]
 
 [tool.pydocstringformatter]
