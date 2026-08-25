@@ -1000,7 +1000,10 @@ class TestWaitForTargetProcessed:
                 color=True,
             )
             assert result.exit_code != 0
-            assert result.stderr == "Timeout of 0.1 seconds reached.\n"
+            assert result.stderr == (
+                "Error: The target processing time has exceeded the allowed "
+                "limit.\n"
+            )
 
             commands = [
                 "wait-for-target-processed",

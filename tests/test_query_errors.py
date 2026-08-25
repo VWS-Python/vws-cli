@@ -3,14 +3,64 @@
 import io
 import uuid
 from pathlib import Path
+from unittest.mock import patch
 
+import pytest
 from click.testing import CliRunner
 from freezegun import freeze_time
 from mock_vws import MockVWS
 from mock_vws.database import CloudDatabase
 from mock_vws.states import States
+from vws.exceptions.base_exceptions import CloudRecoError
+from vws.exceptions.custom_exceptions import ServerError
+from vws.response import Response
 
-from vws_cli.query import vuforia_cloud_reco
+from vws_cli.query import (
+    _handle_vwq_exceptions,  # pyright: ignore[reportPrivateUsage]
+    vuforia_cloud_reco,
+)
+
+
+def _response(*, status_code: int) -> Response:
+    """Return a response suitable for constructing a VWS exception."""
+    return Response(
+        text="error",
+        url="https://cloudreco.vuforia.com/v1/query",
+        status_code=status_code,
+        headers={},
+        request_body=None,
+        tell_position=0,
+        content=b"error",
+    )
+
+
+@pytest.mark.parametrize(
+    argnames=("exception", "expected_message"),
+    argvalues=[
+        (
+            CloudRecoError(response=_response(status_code=400)),
+            "Error: Vuforia rejected the request.",
+        ),
+        (
+            ServerError(response=_response(status_code=500)),
+            "Error: There was an unknown error from Vuforia.",
+        ),
+    ],
+)
+def test_fallback_error(
+    *,
+    exception: Exception,
+    expected_message: str,
+) -> None:
+    """Unhandled Cloud Reco errors are shown without a traceback."""
+    with (
+        pytest.raises(expected_exception=SystemExit),
+        patch(target="vws_cli.query.click.echo") as echo,
+        _handle_vwq_exceptions(),
+    ):
+        raise exception
+
+    echo.assert_called_once_with(message=expected_message, err=True)
 
 
 def test_authentication_failure(

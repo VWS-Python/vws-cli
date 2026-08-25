@@ -11,6 +11,7 @@ import click
 import yaml
 from beartype import beartype
 from vws import CloudRecoService
+from vws.exceptions.base_exceptions import CloudRecoError
 from vws.exceptions.cloud_reco_exceptions import (
     AuthenticationFailureError,
     BadImageError,
@@ -19,6 +20,7 @@ from vws.exceptions.cloud_reco_exceptions import (
 )
 from vws.exceptions.custom_exceptions import (
     RequestEntityTooLargeError,
+    ServerError,
 )
 from vws.include_target_data import CloudRecoIncludeTargetData
 
@@ -58,6 +60,10 @@ def _handle_vwq_exceptions() -> Generator[None]:
         )
     except RequestEntityTooLargeError:
         error_message = "Error: The given image is too large."
+    except ServerError:
+        error_message = "Error: There was an unknown error from Vuforia."
+    except CloudRecoError:
+        error_message = "Error: Vuforia rejected the request."
     else:
         return
 
