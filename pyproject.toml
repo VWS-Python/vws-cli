@@ -345,6 +345,12 @@ optional_dependencies_dev_groups = [
     "release",
 ]
 
+[tool.mypy_strict_kwargs]
+ignore_names = [
+    # Decorators applied positionally (mypy-strict-kwargs 2026.8+)
+    "beartype._decor.decorcache.beartype",
+]
+
 [tool.vulture]
 exclude = [
     # Duplicate some of .gitignore
@@ -359,8 +365,6 @@ ignore_names = [
     "autoclass_content",
     "autoclass_content",
     "autodoc_member_order",
-    # Decorators applied positionally (mypy-strict-kwargs 2026.8+)
-    "beartype._decor.decorcache.beartype",
     "copybutton_exclude",
     "extensions",
     # pytest fixtures - we name fixtures like this for this purpose
