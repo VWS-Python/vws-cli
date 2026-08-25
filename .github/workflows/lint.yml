@@ -41,6 +41,8 @@ jobs:
       - name: Lint
         uses: j178/prek-action@v3.0.0
         with:
+          # Avoid Windows os error 193 from corrupted prek hook cache.
+          cache: false
           prek-version: 0.4.11
           extra-args: >-
             --all-files --hook-stage ${{ matrix.hook-stage }} --verbose

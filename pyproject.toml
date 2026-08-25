@@ -47,7 +47,7 @@ optional-dependencies.dev = [
     "hadolint-bin==2.15.1; sys_platform!='win32'",
     "interrogate==1.7.0",
     "mypy[faster-cache]==2.3.1",
-    "mypy-strict-kwargs==2026.7.19.1",
+    "mypy-strict-kwargs==2026.8.20.1",
     "no-defaults==2.1.0",
     "prek==0.4.14",
     "pydocstringformatter==1.0.0",
@@ -450,6 +450,14 @@ type = [
     # flat bullet list, matching the historical changelog (which never
     # grouped entries under "Features"/"Bugfixes"/... sub-headings).
     { directory = "change", name = "", showcontent = true },
+]
+
+[tool.mypy_strict_kwargs]
+ignore_names = [
+    # Decorators applied positionally (mypy-strict-kwargs 2026.8+)
+    "beartype._decor.decorcache.beartype",
+    "_pytest.fixtures.fixture",
+    "pytest_asyncio.plugin.fixture",
 ]
 
 [tool.pydocstringformatter]
