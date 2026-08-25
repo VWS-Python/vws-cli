@@ -36,34 +36,42 @@ from vws_cli.options.timeout import (
 
 
 @beartype
+def get_cloud_reco_error_message(exc: Exception) -> str:
+    """Get an error message from a Cloud Reco exception."""
+    match exc:
+        case BadImageError():
+            message = (
+                "Error: The given image is corrupted or the format is not "
+                "supported."
+            )
+        case InactiveProjectError():
+            message = "Error: The project associated with the given keys is inactive."
+        case AuthenticationFailureError():
+            message = "The given secret key was incorrect."
+        case RequestTimeTooSkewedError():
+            message = (
+                "Error: Vuforia reported that the time given with this request "
+                "was outside the expected range. "
+                "This may be because the system clock is out of sync."
+            )
+        case RequestEntityTooLargeError():
+            message = "Error: The given image is too large."
+        case ServerError():
+            message = "Error: There was an unknown error from Vuforia."
+        case _:
+            message = "Error: Vuforia rejected the request."
+
+    return message
+
+
+@beartype
 @contextlib.contextmanager
 def _handle_vwq_exceptions() -> Generator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""
     try:
         yield
-    except BadImageError:
-        error_message = (
-            "Error: The given image is corrupted or the format is not "
-            "supported."
-        )
-    except InactiveProjectError:
-        error_message = (
-            "Error: The project associated with the given keys is inactive."
-        )
-    except AuthenticationFailureError:
-        error_message = "The given secret key was incorrect."
-    except RequestTimeTooSkewedError:
-        error_message = (
-            "Error: Vuforia reported that the time given with this request "
-            "was outside the expected range. "
-            "This may be because the system clock is out of sync."
-        )
-    except RequestEntityTooLargeError:
-        error_message = "Error: The given image is too large."
-    except ServerError:
-        error_message = "Error: There was an unknown error from Vuforia."
-    except CloudRecoError:
-        error_message = "Error: Vuforia rejected the request."
+    except (CloudRecoError, RequestEntityTooLargeError, ServerError) as exc:
+        error_message = get_cloud_reco_error_message(exc=exc)
     else:
         return
 

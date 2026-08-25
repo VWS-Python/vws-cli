@@ -3,7 +3,6 @@
 import io
 import uuid
 from pathlib import Path
-from unittest.mock import patch
 
 import pytest
 from click.testing import CliRunner
@@ -15,10 +14,7 @@ from vws.exceptions.base_exceptions import CloudRecoError
 from vws.exceptions.custom_exceptions import ServerError
 from vws.response import Response
 
-from vws_cli.query import (
-    _handle_vwq_exceptions,  # pyright: ignore[reportPrivateUsage]
-    vuforia_cloud_reco,
-)
+from vws_cli.query import get_cloud_reco_error_message, vuforia_cloud_reco
 
 
 def _response(*, status_code: int) -> Response:
@@ -52,15 +48,8 @@ def test_fallback_error(
     exception: Exception,
     expected_message: str,
 ) -> None:
-    """Unhandled Cloud Reco errors are shown without a traceback."""
-    with (
-        pytest.raises(expected_exception=SystemExit),
-        patch(target="vws_cli.query.click.echo") as echo,
-        _handle_vwq_exceptions(),
-    ):
-        raise exception
-
-    echo.assert_called_once_with(message=expected_message, err=True)
+    """Other Cloud Reco errors have a user-facing message."""
+    assert get_cloud_reco_error_message(exc=exception) == expected_message
 
 
 def test_authentication_failure(
