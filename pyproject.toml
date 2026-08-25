@@ -355,12 +355,12 @@ exclude = [
 # Ideally we would limit the paths to the source code where we want to ignore names,
 # but Vulture does not enable this.
 ignore_names = [
-    # Decorators applied positionally (mypy-strict-kwargs 2026.8+)
-    "beartype._decor.decorcache.beartype",
     # Sphinx
     "autoclass_content",
     "autoclass_content",
     "autodoc_member_order",
+    # Decorators applied positionally (mypy-strict-kwargs 2026.8+)
+    "beartype._decor.decorcache.beartype",
     "copybutton_exclude",
     "extensions",
     # pytest fixtures - we name fixtures like this for this purpose
