@@ -456,6 +456,8 @@ type = [
 ignore_names = [
     # Decorators applied positionally (mypy-strict-kwargs 2026.8+)
     "beartype._decor.decorcache.beartype",
+    "_pytest.fixtures.fixture",
+    "pytest_asyncio.plugin.fixture",
 ]
 
 [tool.pydocstringformatter]
