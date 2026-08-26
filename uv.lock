@@ -2375,7 +2375,7 @@ requires-dist = [
     { name = "vale", marker = "extra == 'dev'", specifier = "==3.17.1.0" },
     { name = "vulture", marker = "extra == 'dev'", specifier = "==2.16" },
     { name = "vws-python", specifier = "==2026.8.14" },
-    { name = "vws-python-mock", marker = "extra == 'dev'", specifier = "==2026.8.14" },
+    { name = "vws-python-mock", marker = "extra == 'dev'", specifier = "==2026.8.26" },
     { name = "vws-test-fixtures", marker = "extra == 'dev'", specifier = "==2026.8.23" },
     { name = "yamlfix", marker = "extra == 'dev'", specifier = "==1.19.1" },
     { name = "zizmor", marker = "extra == 'dev'", specifier = "==1.29.0" },
@@ -2403,7 +2403,7 @@ wheels = [
 
 [[package]]
 name = "vws-python-mock"
-version = "2026.8.14"
+version = "2026.8.26"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
@@ -2421,9 +2421,9 @@ dependencies = [
     { name = "vws-auth-tools" },
     { name = "werkzeug" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ed/4d/4502c5cf6ecedf2121afe7c018f000bae8bc178f2722f4cc1073d14a01e8/vws_python_mock-2026.8.14.tar.gz", hash = "sha256:9a8fdf265cabd8539450066b09f07185a72decfec03cd67b6594e014724d6617", size = 340205, upload-time = "2026-08-14T11:03:14.899Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/cc/b4/c1c37f518c0a88a9674085c47b546aa5e13002d0b8fdc311cb6207149a5b/vws_python_mock-2026.8.26.tar.gz", hash = "sha256:6f52824ce68df5ad915a78ddf1e233e81ab03248c9d2aba899b4b7d5838757fe", size = 358285, upload-time = "2026-08-26T09:16:42.443Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/cd/e3/c853170d8e47479523add821f88acdb863f18f73babcd66a67337b74131b/vws_python_mock-2026.8.14-py3-none-any.whl", hash = "sha256:eff8f040bf465a4799cf94072a37807672a647e04ebcc6b314817252c2fdd1d1", size = 99382, upload-time = "2026-08-14T11:03:13.102Z" },
+    { url = "https://files.pythonhosted.org/packages/6b/0e/a96cd9b9366cb5fd8e5637255bbe555ec90dddb9a42271413232a8b84992/vws_python_mock-2026.8.26-py3-none-any.whl", hash = "sha256:6c2188b0d0c674fc3531afbaa68db43198eea16353ccee9b00e2afe0b82e0652", size = 106341, upload-time = "2026-08-26T09:16:40.937Z" },
 ]
 
 [[package]]

@@ -343,6 +343,7 @@ def _model_from_json(*, value: object, path: str) -> ModelTargetModel:
                 path=f"{path}/{json_field}",
             )
 
+    model_kwargs["views"] = []
     if "views" in model_dict:
         views_items = _json_array(
             value=model_dict["views"],
@@ -604,6 +605,7 @@ def create_model_target_dataset(
                 state_based_configuration_json_string=(
                     state_based_configuration_json_string
                 ),
+                views=[],
             ),
         ]
 

@@ -36,7 +36,7 @@ from vws_cli.options.timeout import (
 
 
 @beartype
-def get_cloud_reco_error_message(exc: Exception) -> str:
+def _get_cloud_reco_error_message(exc: Exception) -> str:
     """Get an error message from a Cloud Reco exception."""
     match exc:
         case BadImageError():
@@ -71,7 +71,7 @@ def _handle_vwq_exceptions() -> Generator[None]:
     try:
         yield
     except (CloudRecoError, RequestEntityTooLargeError, ServerError) as exc:
-        error_message = get_cloud_reco_error_message(exc=exc)
+        error_message = _get_cloud_reco_error_message(exc=exc)
     else:
         return
 
