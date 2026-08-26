@@ -11,6 +11,7 @@ import click
 import yaml
 from beartype import beartype
 from vws import CloudRecoService
+from vws.exceptions.base_exceptions import CloudRecoError
 from vws.exceptions.cloud_reco_exceptions import (
     AuthenticationFailureError,
     BadImageError,
@@ -19,6 +20,7 @@ from vws.exceptions.cloud_reco_exceptions import (
 )
 from vws.exceptions.custom_exceptions import (
     RequestEntityTooLargeError,
+    ServerError,
 )
 from vws.include_target_data import CloudRecoIncludeTargetData
 
@@ -34,30 +36,42 @@ from vws_cli.options.timeout import (
 
 
 @beartype
+def _get_cloud_reco_error_message(exc: Exception) -> str:
+    """Get an error message from a Cloud Reco exception."""
+    match exc:
+        case BadImageError():
+            message = (
+                "Error: The given image is corrupted or the format is not "
+                "supported."
+            )
+        case InactiveProjectError():
+            message = "Error: The project associated with the given keys is inactive."
+        case AuthenticationFailureError():
+            message = "The given secret key was incorrect."
+        case RequestTimeTooSkewedError():
+            message = (
+                "Error: Vuforia reported that the time given with this request "
+                "was outside the expected range. "
+                "This may be because the system clock is out of sync."
+            )
+        case RequestEntityTooLargeError():
+            message = "Error: The given image is too large."
+        case ServerError():
+            message = "Error: There was an unknown error from Vuforia."
+        case _:
+            message = "Error: Vuforia rejected the request."
+
+    return message
+
+
+@beartype
 @contextlib.contextmanager
 def _handle_vwq_exceptions() -> Generator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""
     try:
         yield
-    except BadImageError:
-        error_message = (
-            "Error: The given image is corrupted or the format is not "
-            "supported."
-        )
-    except InactiveProjectError:
-        error_message = (
-            "Error: The project associated with the given keys is inactive."
-        )
-    except AuthenticationFailureError:
-        error_message = "The given secret key was incorrect."
-    except RequestTimeTooSkewedError:
-        error_message = (
-            "Error: Vuforia reported that the time given with this request "
-            "was outside the expected range. "
-            "This may be because the system clock is out of sync."
-        )
-    except RequestEntityTooLargeError:
-        error_message = "Error: The given image is too large."
+    except (CloudRecoError, RequestEntityTooLargeError, ServerError) as exc:
+        error_message = _get_cloud_reco_error_message(exc=exc)
     else:
         return
 

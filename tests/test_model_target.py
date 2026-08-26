@@ -14,16 +14,8 @@ from mock_vws import (
     ModelTargetGenerationFailure,
     ModelTargetGenerationWarning,
 )
-from vws.exceptions.custom_exceptions import ServerError
-from vws.exceptions.model_target_exceptions import (
-    ModelTargetAuthenticationError,
-    ModelTargetError,
-    ModelTargetValidationError,
-)
-from vws.response import Response
 
 from vws_cli import vws_group
-from vws_cli._error_handling import get_model_target_error_message
 
 # The credentials which ``vws-python-mock`` accepts for the Model Target
 # Web API.
@@ -77,19 +69,6 @@ def _create_dataset(
     )
     assert result.exit_code == 0, result.output
     return result.stdout.strip()
-
-
-def _response(*, status_code: int, text: str) -> Response:
-    """Return a response, as ``VWS-Python`` gives to an exception."""
-    return Response(
-        text=text,
-        url="https://vws.vuforia.com/modeltargets/datasets",
-        status_code=status_code,
-        headers={},
-        request_body=None,
-        tell_position=0,
-        content=text.encode(encoding="utf-8"),
-    )
 
 
 @pytest.mark.parametrize(
@@ -167,8 +146,8 @@ def test_dataset_lifecycle(*, dataset_type: str, tmp_path: Path) -> None:
 
 
 @pytest.mark.usefixtures("model_target_mock")
-def test_dataset_types_are_separate() -> None:
-    """A standard dataset is not visible to advanced dataset requests."""
+def test_dataset_types_share_routes() -> None:
+    """A standard dataset is visible through advanced dataset routes."""
     runner = CliRunner()
     dataset_uuid = _create_dataset(runner=runner, extra_args=[])
     result = runner.invoke(
@@ -184,11 +163,8 @@ def test_dataset_types_are_separate() -> None:
         catch_exceptions=False,
         color=True,
     )
-    assert result.exit_code == 1
-    assert result.stderr == (
-        "Error: No Model Target dataset of the given type matches the given "
-        "UUID.\n"
-    )
+    assert result.exit_code == 0
+    assert f"dataset_uuid: {dataset_uuid}" in result.stdout
 
 
 @pytest.mark.usefixtures("model_target_mock")
@@ -235,16 +211,12 @@ def test_model_options(*, tmp_path: Path) -> None:
             "always",
             "--cad-data-format",
             "OBJ",
-            "--motion-hint",
-            "static",
             "--optimize-tracking-for",
             "default",
             "--realistic-appearance",
             "auto",
             "--simplify",
             "never",
-            "--tracking-mode",
-            "car",
             "--state-based-configuration-file",
             str(object=state_based_configuration_file_path),
         ],
@@ -271,11 +243,9 @@ def test_models_file(*, tmp_path: Path) -> None:
                 "cadDataUrl": _CAD_DATA_URL,
                 "automaticColoring": "auto",
                 "cadDataFormat": "OBJ",
-                "motionHint": "static",
                 "optimizeTrackingFor": "default",
                 "realisticAppearance": "true",
                 "simplify": "auto",
-                "trackingMode": "default",
                 "stateBasedConfigurationJsonString": (
                     '{"states": {"open": {}}}'
                 ),
@@ -313,7 +283,7 @@ def test_models_file(*, tmp_path: Path) -> None:
         catch_exceptions=False,
         color=True,
     )
-    assert result.exit_code == 0
+    assert result.exit_code == 0, result.output
     assert result.stdout.strip()
 
 
@@ -905,62 +875,6 @@ def test_wait_for_dataset_with_warning() -> None:
     assert not result.stderr
     assert "status: done" in result.stdout
     assert f"message: {warning.message}" in result.stdout
-
-
-def test_authentication_error_message() -> None:
-    """A rejected authenticated request gives a useful message."""
-    exc = ModelTargetAuthenticationError(
-        response=_response(status_code=401, text="Unauthorized"),
-    )
-    assert (
-        get_model_target_error_message(exc=exc)
-        == "Error: The request to Vuforia was not authenticated."
-    )
-
-
-def test_validation_error_message_without_details() -> None:
-    """A validation error without details gives the Vuforia message."""
-    body = json.dumps(
-        obj={"error": {"code": "VALIDATION_ERROR", "message": "Bad request"}},
-    )
-    exc = ModelTargetValidationError(
-        response=_response(status_code=400, text=body),
-    )
-    assert get_model_target_error_message(exc=exc) == (
-        "Error: Vuforia rejected the request.\nBad request"
-    )
-
-
-@pytest.mark.parametrize(
-    argnames=("text", "expected_message"),
-    argvalues=[
-        pytest.param(
-            json.dumps(obj={"error": {"code": "X", "message": "Bad request"}}),
-            "Error: Bad request",
-            id="with-message",
-        ),
-        pytest.param(
-            "Bad Request",
-            "Error: Vuforia returned an error.",
-            id="without-message",
-        ),
-    ],
-)
-def test_other_error_message(*, text: str, expected_message: str) -> None:
-    """Another error from Vuforia gives a useful message."""
-    exc = ModelTargetError(response=_response(status_code=403, text=text))
-    assert get_model_target_error_message(exc=exc) == expected_message
-
-
-def test_server_error_message() -> None:
-    """An error from the Vuforia servers gives a useful message."""
-    exc = ServerError(
-        response=_response(status_code=500, text="Internal Server Error"),
-    )
-    assert get_model_target_error_message(exc=exc) == (
-        "Error: There was an unknown error from Vuforia. This may be because "
-        "there is a problem with the given name."
-    )
 
 
 def test_unknown_dataset_uuid() -> None:

@@ -21,7 +21,6 @@ from vws.exceptions.custom_exceptions import (
     ServerError,
     TargetProcessingTimeoutError,
 )
-from vws.exceptions.vws_exceptions import AuthenticationFailureError
 
 from vws_cli._error_handling import get_error_message
 from vws_cli.options.credentials import (
@@ -55,6 +54,7 @@ def _handle_vws_exceptions() -> Generator[None]:
     except (
         VWSError,
         RecoCountsReportDownloadError,
+        RecoCountsReportTimeoutError,
         ServerError,
         TargetProcessingTimeoutError,
     ) as exc:
@@ -483,18 +483,11 @@ def wait_for_target_processed(
         ),
     )
 
-    try:
-        vws_client.wait_for_target_processed(
-            target_id=target_id,
-            seconds_between_requests=seconds_between_requests,
-            timeout_seconds=timeout_seconds,
-        )
-    except TargetProcessingTimeoutError:
-        click.echo(
-            message=f"Timeout of {timeout_seconds} seconds reached.",
-            err=True,
-        )
-        sys.exit(1)
+    vws_client.wait_for_target_processed(
+        target_id=target_id,
+        seconds_between_requests=seconds_between_requests,
+        timeout_seconds=timeout_seconds,
+    )
 
 
 _MONTH_FORMAT = "%Y-%m"
@@ -637,38 +630,20 @@ def get_database_reco_counts_report(
         ),
     )
 
-    try:
-        report_request = vws_client.request_database_reco_counts_report(
-            year=month.year,
-            month=calendar.Month(value=month.month),
-        )
-    except AuthenticationFailureError:
-        click.echo(
-            message=(
-                "Error: The given secret key was incorrect, or the given "
-                "database ID is not the ID of the database which the given "
-                "server keys belong to."
-            ),
-            err=True,
-        )
-        sys.exit(1)
+    report_request = vws_client.request_database_reco_counts_report(
+        year=month.year,
+        month=calendar.Month(value=month.month),
+    )
 
     if no_wait:
         click.echo(message=report_request.presigned_url)
         return
 
-    try:
-        report = vws_client.wait_for_reco_counts_report(
-            presigned_url=report_request.presigned_url,
-            seconds_between_requests=seconds_between_requests,
-            timeout_seconds=timeout_seconds,
-        )
-    except RecoCountsReportTimeoutError:
-        click.echo(
-            message=f"Timeout of {timeout_seconds} seconds reached.",
-            err=True,
-        )
-        sys.exit(1)
+    report = vws_client.wait_for_reco_counts_report(
+        presigned_url=report_request.presigned_url,
+        seconds_between_requests=seconds_between_requests,
+        timeout_seconds=timeout_seconds,
+    )
 
     if output_file_path is None:
         click.echo(message=report.raw_csv, nl=False)

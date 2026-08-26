@@ -17,20 +17,25 @@ from vws.exceptions.model_target_exceptions import (
 )
 from vws.exceptions.vws_exceptions import (
     AuthenticationFailureError,
+    AuthorizationFailedError,
     BadImageError,
     DateRangeError,
     FailError,
     ImageTooLargeError,
+    InvalidTargetTypeError,
+    LicenseCheckFailedError,
     MetadataTooLargeError,
     ProjectHasNoAPIAccessError,
     ProjectInactiveError,
     ProjectSuspendedError,
+    QuotaExceededError,
     RequestQuotaReachedError,
     RequestTimeTooSkewedError,
     TargetNameExistError,
     TargetQuotaReachedError,
     TargetStatusNotSuccessError,
     TargetStatusProcessingError,
+    TooManyRequestsError,
     UnknownTargetError,
 )
 
@@ -40,19 +45,24 @@ def get_error_message(exc: Exception) -> str:
     """Get an error message from a VWS exception."""
     exc_type_to_message: dict[type[Exception], str] = {
         AuthenticationFailureError: "The given secret key was incorrect.",
+        AuthorizationFailedError: "Error: The request was not authorized.",
         BadImageError: "Error: The given image is corrupted or the format is not supported.",
         DateRangeError: "Error: There was a problem with the date details given in the request.",
         FailError: "Error: The request made to Vuforia was invalid and could not be processed. Check the given parameters.",
         ImageTooLargeError: "Error: The given image is too large.",
+        InvalidTargetTypeError: "Error: The target type is invalid.",
+        LicenseCheckFailedError: "Error: The Vuforia license check failed.",
         MetadataTooLargeError: "Error: The given metadata is too large.",
         RecoCountsReportDownloadError: "Error: The recognition counts report could not be downloaded. This may be because the report's URL has expired.",
         RecoCountsReportTimeoutError: "Error: The recognition counts report was not generated within the allowed limit.",
         ServerError: "Error: There was an unknown error from Vuforia. This may be because there is a problem with the given name.",
         ProjectInactiveError: "Error: The project associated with the given keys is inactive.",
+        QuotaExceededError: "Error: The request quota has been exceeded.",
         RequestQuotaReachedError: "Error: The maximum number of API calls for this database has been reached.",
         RequestTimeTooSkewedError: "Error: Vuforia reported that the time given with this request was outside the expected range. This may be because the system clock is out of sync.",
         TargetProcessingTimeoutError: "Error: The target processing time has exceeded the allowed limit.",
         TargetQuotaReachedError: "Error: The maximum number of targets for this database has been reached.",
+        TooManyRequestsError: "Error: Too many requests were made to Vuforia. Try again later.",
         ProjectSuspendedError: "Error: The request could not be completed because this database has been suspended.",
         ProjectHasNoAPIAccessError: "Error: The request could not be completed because this database is not allowed to make API requests.",
     }
@@ -67,7 +77,7 @@ def get_error_message(exc: Exception) -> str:
         case TargetStatusNotSuccessError():
             return (
                 f'Error: The target "{exc.target_id}" cannot be updated as it is '
-                "in the processing state."
+                "not in the success state."
             )
         case TargetStatusProcessingError():
             return (
@@ -75,7 +85,10 @@ def get_error_message(exc: Exception) -> str:
                 "in the processing state."
             )
         case _:
-            return exc_type_to_message[type(exc)]
+            return exc_type_to_message.get(
+                type(exc),
+                "Error: Vuforia returned an unrecognized error.",
+            )
 
 
 @beartype
@@ -89,7 +102,12 @@ def get_model_target_error_message(
                 "Error: The given client ID and client secret are not a set "
                 "of Model Target Web API credentials."
             )
-        case ModelTargetAuthenticationError():
+        # These fallbacks are retained for responses which the public mock
+        # cannot produce. Configurable failures and client coverage are
+        # tracked upstream in:
+        # https://github.com/VWS-Python/vws-python-mock/issues/3495
+        # https://github.com/VWS-Python/vws-python/issues/3169
+        case ModelTargetAuthenticationError():  # pragma: no cover
             message = "Error: The request to Vuforia was not authenticated."
         case UnknownModelTargetDatasetError():
             message = (
@@ -108,9 +126,9 @@ def get_model_target_error_message(
             message = "\n".join(
                 ["Error: Vuforia rejected the request.", *problems],
             )
-        case ModelTargetError():
+        case ModelTargetError():  # pragma: no cover
             message = f"Error: {exc.message or 'Vuforia returned an error.'}"
-        case _:
+        case _:  # pragma: no cover
             message = get_error_message(exc=exc)
 
     return message

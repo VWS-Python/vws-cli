@@ -1,0 +1,2 @@
+Handle all VWS and Cloud Reco service errors with clear CLI messages, and use
+consistent messages for target status and polling timeout errors.

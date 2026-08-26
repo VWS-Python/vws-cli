@@ -4,13 +4,64 @@ import io
 import uuid
 from pathlib import Path
 
+import pytest
 from click.testing import CliRunner
 from freezegun import freeze_time
-from mock_vws import MockVWS
+from mock_vws import CloudQueryFailureResponse, MockVWS
 from mock_vws.database import CloudDatabase
 from mock_vws.states import States
 
 from vws_cli.query import vuforia_cloud_reco
+
+
+@pytest.mark.parametrize(
+    argnames=("status_code", "expected_message"),
+    argvalues=[
+        pytest.param(
+            400,
+            "Error: Vuforia rejected the request.",
+            id="client-error",
+        ),
+        pytest.param(
+            500,
+            "Error: There was an unknown error from Vuforia.",
+            id="server-error",
+        ),
+    ],
+)
+def test_fallback_error(
+    *,
+    status_code: int,
+    expected_message: str,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+) -> None:
+    """Other Cloud Reco errors have a user-facing message."""
+    image_path = tmp_path / "image.jpg"
+    image_path.write_bytes(data=high_quality_image.getvalue())
+    failure_response = CloudQueryFailureResponse(
+        status_code=status_code,
+        headers={"Content-Type": "text/plain"},
+        body="error",
+    )
+    database = CloudDatabase()
+    with MockVWS(cloud_query_failure_response=failure_response) as mock:
+        mock.add_cloud_database(cloud_database=database)
+        result = CliRunner().invoke(
+            cli=vuforia_cloud_reco,
+            args=[
+                str(object=image_path),
+                "--client-access-key",
+                database.client_access_key,
+                "--client-secret-key",
+                database.client_secret_key,
+            ],
+            catch_exceptions=False,
+        )
+
+    assert result.exit_code == 1
+    assert result.stderr == f"{expected_message}\n"
+    assert not result.stdout
 
 
 def test_authentication_failure(

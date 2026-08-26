@@ -266,11 +266,7 @@ def test_database_id_does_not_match(
         color=True,
     )
     assert result.exit_code == 1
-    expected_stderr = (
-        "Error: The given secret key was incorrect, or the given database ID "
-        "is not the ID of the database which the given server keys belong "
-        "to.\n"
-    )
+    expected_stderr = "The given secret key was incorrect.\n"
     assert result.stderr == expected_stderr
     assert not result.stdout
 
@@ -296,5 +292,8 @@ def test_timeout_reached() -> None:
         )
 
     assert result.exit_code == 1
-    assert result.stderr == f"Timeout of {timeout_seconds} seconds reached.\n"
+    assert result.stderr == (
+        "Error: The recognition counts report was not generated within the "
+        "allowed limit.\n"
+    )
     assert not result.stdout

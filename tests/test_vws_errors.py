@@ -454,8 +454,8 @@ def test_target_status_not_success(
     )
     assert result.exit_code == 1
     expected_stderr = (
-        f'Error: The target "{target_id}" cannot be updated as it is in the '
-        "processing state.\n"
+        f'Error: The target "{target_id}" cannot be updated as it is not in '
+        "the success state.\n"
     )
     assert result.stderr == expected_stderr
     assert not result.stdout
