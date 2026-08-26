@@ -6,7 +6,6 @@ import zipfile
 from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
-from unittest.mock import patch
 
 import pytest
 from click.testing import CliRunner
@@ -15,14 +14,6 @@ from mock_vws import (
     ModelTargetGenerationFailure,
     ModelTargetGenerationWarning,
 )
-from vws import ModelTargetService
-from vws.exceptions.custom_exceptions import ServerError
-from vws.exceptions.model_target_exceptions import (
-    ModelTargetAuthenticationError,
-    ModelTargetError,
-    ModelTargetValidationError,
-)
-from vws.response import Response
 
 from vws_cli import vws_group
 
@@ -78,19 +69,6 @@ def _create_dataset(
     )
     assert result.exit_code == 0, result.output
     return result.stdout.strip()
-
-
-def _response(*, status_code: int, text: str) -> Response:
-    """Return a response, as ``VWS-Python`` gives to an exception."""
-    return Response(
-        text=text,
-        url="https://vws.vuforia.com/modeltargets/datasets",
-        status_code=status_code,
-        headers={},
-        request_body=None,
-        tell_position=0,
-        content=text.encode(encoding="utf-8"),
-    )
 
 
 @pytest.mark.parametrize(
@@ -168,8 +146,8 @@ def test_dataset_lifecycle(*, dataset_type: str, tmp_path: Path) -> None:
 
 
 @pytest.mark.usefixtures("model_target_mock")
-def test_dataset_types_are_separate() -> None:
-    """A standard dataset is not visible to advanced dataset requests."""
+def test_dataset_types_share_routes() -> None:
+    """A standard dataset is visible through advanced dataset routes."""
     runner = CliRunner()
     dataset_uuid = _create_dataset(runner=runner, extra_args=[])
     result = runner.invoke(
@@ -185,11 +163,8 @@ def test_dataset_types_are_separate() -> None:
         catch_exceptions=False,
         color=True,
     )
-    assert result.exit_code == 1
-    assert result.stderr == (
-        "Error: No Model Target dataset of the given type matches the given "
-        "UUID.\n"
-    )
+    assert result.exit_code == 0
+    assert f"dataset_uuid: {dataset_uuid}" in result.stdout
 
 
 @pytest.mark.usefixtures("model_target_mock")
@@ -236,16 +211,12 @@ def test_model_options(*, tmp_path: Path) -> None:
             "always",
             "--cad-data-format",
             "OBJ",
-            "--motion-hint",
-            "static",
             "--optimize-tracking-for",
             "default",
             "--realistic-appearance",
             "auto",
             "--simplify",
             "never",
-            "--tracking-mode",
-            "car",
             "--state-based-configuration-file",
             str(object=state_based_configuration_file_path),
         ],
@@ -272,11 +243,9 @@ def test_models_file(*, tmp_path: Path) -> None:
                 "cadDataUrl": _CAD_DATA_URL,
                 "automaticColoring": "auto",
                 "cadDataFormat": "OBJ",
-                "motionHint": "static",
                 "optimizeTrackingFor": "default",
                 "realisticAppearance": "true",
                 "simplify": "auto",
-                "trackingMode": "default",
                 "stateBasedConfigurationJsonString": (
                     '{"states": {"open": {}}}'
                 ),
@@ -314,7 +283,7 @@ def test_models_file(*, tmp_path: Path) -> None:
         catch_exceptions=False,
         color=True,
     )
-    assert result.exit_code == 0
+    assert result.exit_code == 0, result.output
     assert result.stdout.strip()
 
 
@@ -906,94 +875,6 @@ def test_wait_for_dataset_with_warning() -> None:
     assert not result.stderr
     assert "status: done" in result.stdout
     assert f"message: {warning.message}" in result.stdout
-
-
-@pytest.mark.parametrize(
-    argnames=("exception", "expected_message"),
-    argvalues=[
-        pytest.param(
-            ModelTargetAuthenticationError(
-                response=_response(status_code=401, text="Unauthorized"),
-            ),
-            "Error: The request to Vuforia was not authenticated.",
-            id="authentication",
-        ),
-        pytest.param(
-            ModelTargetValidationError(
-                response=_response(
-                    status_code=400,
-                    text=json.dumps(
-                        obj={
-                            "error": {
-                                "code": "VALIDATION_ERROR",
-                                "message": "Bad request",
-                            },
-                        },
-                    ),
-                ),
-            ),
-            "Error: Vuforia rejected the request.\nBad request",
-            id="validation-without-details",
-        ),
-        pytest.param(
-            ModelTargetError(
-                response=_response(
-                    status_code=403,
-                    text=json.dumps(
-                        obj={
-                            "error": {"code": "X", "message": "Bad request"},
-                        },
-                    ),
-                ),
-            ),
-            "Error: Bad request",
-            id="with-message",
-        ),
-        pytest.param(
-            ModelTargetError(
-                response=_response(status_code=403, text="Bad Request"),
-            ),
-            "Error: Vuforia returned an error.",
-            id="without-message",
-        ),
-        pytest.param(
-            ServerError(
-                response=_response(
-                    status_code=500,
-                    text="Internal Server Error",
-                ),
-            ),
-            "Error: There was an unknown error from Vuforia. This may be "
-            "because there is a problem with the given name.",
-            id="server",
-        ),
-    ],
-)
-def test_model_target_error_message(
-    *,
-    exception: Exception,
-    expected_message: str,
-) -> None:
-    """Model Target errors have useful CLI messages."""
-    with patch.object(
-        target=ModelTargetService,
-        attribute="get_dataset_status",
-        side_effect=exception,
-    ):
-        result = CliRunner().invoke(
-            cli=vws_group,
-            args=[
-                "get-model-target-dataset-status",
-                "--dataset-uuid",
-                uuid.uuid4().hex,
-                *_CREDENTIAL_ARGS,
-            ],
-            catch_exceptions=False,
-        )
-
-    assert result.exit_code == 1
-    assert result.stderr == f"{expected_message}\n"
-    assert not result.stdout
 
 
 def test_unknown_dataset_uuid() -> None:

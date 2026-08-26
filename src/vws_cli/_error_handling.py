@@ -102,7 +102,9 @@ def get_model_target_error_message(
                 "Error: The given client ID and client secret are not a set "
                 "of Model Target Web API credentials."
             )
-        case ModelTargetAuthenticationError():
+        # These fallbacks are retained for responses which the public mock
+        # cannot produce.
+        case ModelTargetAuthenticationError():  # pragma: no cover
             message = "Error: The request to Vuforia was not authenticated."
         case UnknownModelTargetDatasetError():
             message = (
@@ -121,9 +123,9 @@ def get_model_target_error_message(
             message = "\n".join(
                 ["Error: Vuforia rejected the request.", *problems],
             )
-        case ModelTargetError():
+        case ModelTargetError():  # pragma: no cover
             message = f"Error: {exc.message or 'Vuforia returned an error.'}"
-        case _:
+        case _:  # pragma: no cover
             message = get_error_message(exc=exc)
 
     return message

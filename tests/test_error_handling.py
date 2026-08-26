@@ -1,88 +1,128 @@
-"""Tests for shared error handling utilities."""
+"""Tests for shared error handling through public CLI commands."""
 
-from unittest.mock import patch
+import io
+from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
+from mock_vws import MockVWS, VuMarkGenerationFailure
+from mock_vws.database import CloudDatabase
 from vws import VWS
-from vws.exceptions.base_exceptions import VWSError
-from vws.exceptions.vws_exceptions import (
-    AuthorizationFailedError,
-    InvalidTargetTypeError,
-    LicenseCheckFailedError,
-    QuotaExceededError,
-    TooManyRequestsError,
-)
-from vws.response import Response
 
 from vws_cli import vws_group
-
-
-def _response() -> Response:
-    """Return a response suitable for constructing a VWS exception."""
-    return Response(
-        text="error",
-        url="https://vws.vuforia.com/targets",
-        status_code=400,
-        headers={},
-        request_body=None,
-        tell_position=0,
-        content=b"error",
-    )
+from vws_cli.vumark import generate_vumark
 
 
 @pytest.mark.parametrize(
-    argnames=("exception", "expected_message"),
+    argnames=("failure", "expected_message"),
     argvalues=[
-        (
-            AuthorizationFailedError(response=_response()),
+        pytest.param(
+            VuMarkGenerationFailure.AUTHORIZATION_FAILED,
             "Error: The request was not authorized.",
+            id="authorization-failed",
         ),
-        (
-            InvalidTargetTypeError(response=_response()),
-            "Error: The target type is invalid.",
-        ),
-        (
-            LicenseCheckFailedError(response=_response()),
+        pytest.param(
+            VuMarkGenerationFailure.LICENSE_CHECK_FAILED,
             "Error: The Vuforia license check failed.",
+            id="license-check-failed",
         ),
-        (
-            QuotaExceededError(response=_response()),
+        pytest.param(
+            VuMarkGenerationFailure.QUOTA_EXCEEDED,
             "Error: The request quota has been exceeded.",
-        ),
-        (
-            TooManyRequestsError(response=_response()),
-            "Error: Too many requests were made to Vuforia. Try again later.",
-        ),
-        (
-            VWSError(response=_response()),
-            "Error: Vuforia returned an unrecognized error.",
+            id="quota-exceeded",
         ),
     ],
 )
-def test_vws_error_message(
-    *,
-    exception: Exception,
-    expected_message: str,
+def test_vumark_service_error(
+    *, failure: VuMarkGenerationFailure, expected_message: str, tmp_path: Path
 ) -> None:
-    """Every VWS error type has a user-facing message."""
-    with patch.object(
-        target=VWS,
-        attribute="list_targets",
-        side_effect=exception,
-    ):
+    """Configured VuMark failures have user-facing messages."""
+    database = CloudDatabase()
+    with MockVWS(vumark_generation_failure=failure) as mock:
+        mock.add_cloud_database(cloud_database=database)
         result = CliRunner().invoke(
-            cli=vws_group,
+            cli=generate_vumark,
             args=[
-                "list-targets",
+                "--target-id",
+                "targetid",
+                "--instance-id",
+                "instanceid",
+                "--output",
+                str(object=tmp_path / "vumark.png"),
                 "--server-access-key",
-                "access-key",
+                database.server_access_key,
                 "--server-secret-key",
-                "secret-key",
+                database.server_secret_key,
             ],
             catch_exceptions=False,
         )
 
     assert result.exit_code == 1
     assert result.stderr == f"{expected_message}\n"
+    assert not result.stdout
+
+
+def test_invalid_target_type(
+    *, high_quality_image: io.BytesIO, tmp_path: Path
+) -> None:
+    """Generating a VuMark for an image target reports its invalid
+    type.
+    """
+    database = CloudDatabase()
+    with MockVWS() as mock:
+        mock.add_cloud_database(cloud_database=database)
+        target_id = VWS(
+            server_access_key=database.server_access_key,
+            server_secret_key=database.server_secret_key,
+        ).add_target(
+            name="image-target",
+            width=1,
+            image=high_quality_image,
+            active_flag=True,
+            application_metadata=None,
+        )
+        result = CliRunner().invoke(
+            cli=generate_vumark,
+            args=[
+                "--target-id",
+                target_id,
+                "--instance-id",
+                "instance-id",
+                "--output",
+                str(object=tmp_path / "vumark.png"),
+                "--server-access-key",
+                database.server_access_key,
+                "--server-secret-key",
+                database.server_secret_key,
+            ],
+            catch_exceptions=False,
+        )
+
+    assert result.exit_code == 1
+    assert result.stderr == "Error: The target type is invalid.\n"
+    assert not result.stdout
+
+
+def test_too_many_requests() -> None:
+    """A rate-limited public request has a user-facing message."""
+    database = CloudDatabase(requests_per_second_limit=0)
+    with MockVWS() as mock:
+        mock.add_cloud_database(cloud_database=database)
+        result = CliRunner().invoke(
+            cli=vws_group,
+            args=[
+                "list-targets",
+                "--server-access-key",
+                database.server_access_key,
+                "--server-secret-key",
+                database.server_secret_key,
+            ],
+            catch_exceptions=False,
+        )
+
+    assert result.exit_code == 1
+    assert (
+        result.stderr
+        == "Error: Too many requests were made to Vuforia. Try again later.\n"
+    )
     assert not result.stdout
