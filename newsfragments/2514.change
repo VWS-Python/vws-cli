@@ -1,0 +1,2 @@
+Test Model Target authentication, client, rate-limit, and server failures through
+public CLI commands and the configurable mock.
