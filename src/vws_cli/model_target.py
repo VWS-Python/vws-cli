@@ -20,6 +20,7 @@ from vws.exceptions.model_target_exceptions import (
     ModelTargetError,
     ModelTargetOAuth2Error,
 )
+from vws.exceptions.vws_exceptions import TooManyRequestsError
 from vws.model_target_datasets import (
     AutomaticColoring,
     CadDataFormat,
@@ -74,7 +75,12 @@ def _handle_model_target_exceptions() -> Generator[None]:
 
     try:
         yield
-    except (ModelTargetError, ModelTargetOAuth2Error, ServerError) as exc:
+    except (
+        ModelTargetError,
+        ModelTargetOAuth2Error,
+        ServerError,
+        TooManyRequestsError,
+    ) as exc:
         error_message = get_model_target_error_message(exc=exc)
     else:
         return

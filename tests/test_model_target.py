@@ -4,6 +4,7 @@ import json
 import uuid
 import zipfile
 from collections.abc import Iterator
+from http import HTTPStatus
 from pathlib import Path
 from typing import Any
 
@@ -11,6 +12,7 @@ import pytest
 from click.testing import CliRunner
 from mock_vws import (
     MockVWS,
+    ModelTargetFailureResponse,
     ModelTargetGenerationFailure,
     ModelTargetGenerationWarning,
 )
@@ -746,6 +748,77 @@ def test_authentication_failure() -> None:
         "Error: The given client ID and client secret are not a set of Model "
         "Target Web API credentials.\n"
     )
+
+
+@pytest.mark.parametrize(
+    argnames=("status_code", "body", "expected_error"),
+    argvalues=[
+        pytest.param(
+            HTTPStatus.UNAUTHORIZED,
+            '{"error":{"code":"AUTHENTICATION_ERROR","message":"No"}}',
+            "Error: The request to Vuforia was not authenticated.\n",
+            id="authentication",
+        ),
+        pytest.param(
+            HTTPStatus.FORBIDDEN,
+            '{"error":{"code":"FORBIDDEN","message":"Denied"}}',
+            "Error: Denied\n",
+            id="generic-json",
+        ),
+        pytest.param(
+            HTTPStatus.CONFLICT,
+            "not json",
+            "Error: Vuforia returned an error.\n",
+            id="generic-non-json",
+        ),
+        pytest.param(
+            HTTPStatus.TOO_MANY_REQUESTS,
+            "rate limited",
+            "Error: Too many requests were made to Vuforia. Try again later.\n",
+            id="rate-limit",
+        ),
+        pytest.param(
+            HTTPStatus.BAD_GATEWAY,
+            "server error",
+            (
+                "Error: There was an unknown error from Vuforia. This may be "
+                "because there is a problem with the given name.\n"
+            ),
+            id="server-error",
+        ),
+    ],
+)
+def test_dataset_error_response(
+    *, status_code: HTTPStatus, body: str, expected_error: str
+) -> None:
+    """Dataset response failures are shown through the public command."""
+    runner = CliRunner()
+    failure = ModelTargetFailureResponse(
+        status_code=status_code,
+        body=body,
+    )
+
+    with MockVWS(model_target_failure_response=failure):
+        result = runner.invoke(
+            cli=vws_group,
+            args=[
+                "create-model-target-dataset",
+                "--name",
+                "my-dataset",
+                "--target-sdk",
+                "10.29",
+                "--model-name",
+                "my-model",
+                "--cad-data-url",
+                _CAD_DATA_URL,
+                *_CREDENTIAL_ARGS,
+            ],
+            catch_exceptions=False,
+            color=True,
+        )
+
+    assert result.exit_code == 1
+    assert result.stderr == expected_error
 
 
 def test_status_while_processing() -> None:
