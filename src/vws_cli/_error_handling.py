@@ -103,7 +103,10 @@ def get_model_target_error_message(
                 "of Model Target Web API credentials."
             )
         # These fallbacks are retained for responses which the public mock
-        # cannot produce.
+        # cannot produce. Configurable failures and client coverage are
+        # tracked upstream in:
+        # https://github.com/VWS-Python/vws-python-mock/issues/3495
+        # https://github.com/VWS-Python/vws-python/issues/3169
         case ModelTargetAuthenticationError():  # pragma: no cover
             message = "Error: The request to Vuforia was not authenticated."
         case UnknownModelTargetDatasetError():
