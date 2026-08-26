@@ -3,6 +3,7 @@
 import io
 import uuid
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 from click.testing import CliRunner
@@ -10,11 +11,12 @@ from freezegun import freeze_time
 from mock_vws import MockVWS
 from mock_vws.database import CloudDatabase
 from mock_vws.states import States
+from vws import CloudRecoService
 from vws.exceptions.base_exceptions import CloudRecoError
 from vws.exceptions.custom_exceptions import ServerError
 from vws.response import Response
 
-from vws_cli.query import get_cloud_reco_error_message, vuforia_cloud_reco
+from vws_cli.query import vuforia_cloud_reco
 
 
 def _response(*, status_code: int) -> Response:
@@ -47,9 +49,32 @@ def test_fallback_error(
     *,
     exception: Exception,
     expected_message: str,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
 ) -> None:
     """Other Cloud Reco errors have a user-facing message."""
-    assert get_cloud_reco_error_message(exc=exception) == expected_message
+    image_path = tmp_path / "image.jpg"
+    image_path.write_bytes(data=high_quality_image.getvalue())
+    with patch.object(
+        target=CloudRecoService,
+        attribute="query",
+        side_effect=exception,
+    ):
+        result = CliRunner().invoke(
+            cli=vuforia_cloud_reco,
+            args=[
+                str(object=image_path),
+                "--client-access-key",
+                "access-key",
+                "--client-secret-key",
+                "secret-key",
+            ],
+            catch_exceptions=False,
+        )
+
+    assert result.exit_code == 1
+    assert result.stderr == f"{expected_message}\n"
+    assert not result.stdout
 
 
 def test_authentication_failure(

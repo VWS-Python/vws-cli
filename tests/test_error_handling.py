@@ -1,6 +1,10 @@
 """Tests for shared error handling utilities."""
 
+from unittest.mock import patch
+
 import pytest
+from click.testing import CliRunner
+from vws import VWS
 from vws.exceptions.base_exceptions import VWSError
 from vws.exceptions.vws_exceptions import (
     AuthorizationFailedError,
@@ -11,7 +15,7 @@ from vws.exceptions.vws_exceptions import (
 )
 from vws.response import Response
 
-from vws_cli._error_handling import get_error_message
+from vws_cli import vws_group
 
 
 def _response() -> Response:
@@ -62,4 +66,23 @@ def test_vws_error_message(
     expected_message: str,
 ) -> None:
     """Every VWS error type has a user-facing message."""
-    assert get_error_message(exc=exception) == expected_message
+    with patch.object(
+        target=VWS,
+        attribute="list_targets",
+        side_effect=exception,
+    ):
+        result = CliRunner().invoke(
+            cli=vws_group,
+            args=[
+                "list-targets",
+                "--server-access-key",
+                "access-key",
+                "--server-secret-key",
+                "secret-key",
+            ],
+            catch_exceptions=False,
+        )
+
+    assert result.exit_code == 1
+    assert result.stderr == f"{expected_message}\n"
+    assert not result.stdout

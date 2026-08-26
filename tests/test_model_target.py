@@ -6,6 +6,7 @@ import zipfile
 from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
+from unittest.mock import patch
 
 import pytest
 from click.testing import CliRunner
@@ -14,6 +15,7 @@ from mock_vws import (
     ModelTargetGenerationFailure,
     ModelTargetGenerationWarning,
 )
+from vws import ModelTargetService
 from vws.exceptions.custom_exceptions import ServerError
 from vws.exceptions.model_target_exceptions import (
     ModelTargetAuthenticationError,
@@ -23,7 +25,6 @@ from vws.exceptions.model_target_exceptions import (
 from vws.response import Response
 
 from vws_cli import vws_group
-from vws_cli._error_handling import get_model_target_error_message
 
 # The credentials which ``vws-python-mock`` accepts for the Model Target
 # Web API.
@@ -907,60 +908,92 @@ def test_wait_for_dataset_with_warning() -> None:
     assert f"message: {warning.message}" in result.stdout
 
 
-def test_authentication_error_message() -> None:
-    """A rejected authenticated request gives a useful message."""
-    exc = ModelTargetAuthenticationError(
-        response=_response(status_code=401, text="Unauthorized"),
-    )
-    assert (
-        get_model_target_error_message(exc=exc)
-        == "Error: The request to Vuforia was not authenticated."
-    )
-
-
-def test_validation_error_message_without_details() -> None:
-    """A validation error without details gives the Vuforia message."""
-    body = json.dumps(
-        obj={"error": {"code": "VALIDATION_ERROR", "message": "Bad request"}},
-    )
-    exc = ModelTargetValidationError(
-        response=_response(status_code=400, text=body),
-    )
-    assert get_model_target_error_message(exc=exc) == (
-        "Error: Vuforia rejected the request.\nBad request"
-    )
-
-
 @pytest.mark.parametrize(
-    argnames=("text", "expected_message"),
+    argnames=("exception", "expected_message"),
     argvalues=[
         pytest.param(
-            json.dumps(obj={"error": {"code": "X", "message": "Bad request"}}),
+            ModelTargetAuthenticationError(
+                response=_response(status_code=401, text="Unauthorized"),
+            ),
+            "Error: The request to Vuforia was not authenticated.",
+            id="authentication",
+        ),
+        pytest.param(
+            ModelTargetValidationError(
+                response=_response(
+                    status_code=400,
+                    text=json.dumps(
+                        obj={
+                            "error": {
+                                "code": "VALIDATION_ERROR",
+                                "message": "Bad request",
+                            },
+                        },
+                    ),
+                ),
+            ),
+            "Error: Vuforia rejected the request.\nBad request",
+            id="validation-without-details",
+        ),
+        pytest.param(
+            ModelTargetError(
+                response=_response(
+                    status_code=403,
+                    text=json.dumps(
+                        obj={
+                            "error": {"code": "X", "message": "Bad request"},
+                        },
+                    ),
+                ),
+            ),
             "Error: Bad request",
             id="with-message",
         ),
         pytest.param(
-            "Bad Request",
+            ModelTargetError(
+                response=_response(status_code=403, text="Bad Request"),
+            ),
             "Error: Vuforia returned an error.",
             id="without-message",
         ),
+        pytest.param(
+            ServerError(
+                response=_response(
+                    status_code=500,
+                    text="Internal Server Error",
+                ),
+            ),
+            "Error: There was an unknown error from Vuforia. This may be "
+            "because there is a problem with the given name.",
+            id="server",
+        ),
     ],
 )
-def test_other_error_message(*, text: str, expected_message: str) -> None:
-    """Another error from Vuforia gives a useful message."""
-    exc = ModelTargetError(response=_response(status_code=403, text=text))
-    assert get_model_target_error_message(exc=exc) == expected_message
+def test_model_target_error_message(
+    *,
+    exception: Exception,
+    expected_message: str,
+) -> None:
+    """Model Target errors have useful CLI messages."""
+    with patch.object(
+        target=ModelTargetService,
+        attribute="get_dataset_status",
+        side_effect=exception,
+    ):
+        result = CliRunner().invoke(
+            cli=vws_group,
+            args=[
+                "get-model-target-dataset-status",
+                "--dataset-uuid",
+                uuid.uuid4().hex,
+                *_CREDENTIAL_ARGS,
+            ],
+            catch_exceptions=False,
+        )
 
-
-def test_server_error_message() -> None:
-    """An error from the Vuforia servers gives a useful message."""
-    exc = ServerError(
-        response=_response(status_code=500, text="Internal Server Error"),
-    )
-    assert get_model_target_error_message(exc=exc) == (
-        "Error: There was an unknown error from Vuforia. This may be because "
-        "there is a problem with the given name."
-    )
+    assert result.exit_code == 1
+    assert result.stderr == f"{expected_message}\n"
+    assert not result.stdout
 
 
 def test_unknown_dataset_uuid() -> None:
