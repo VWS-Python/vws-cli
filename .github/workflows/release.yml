@@ -217,7 +217,7 @@ jobs:
       # We have a race condition.
       # In particular, we push to PyPI and then immediately try to install
       # the pushed version.
-      # Here, we give PyPI time to propagate the package.
+      # Here, we give PyPI's package index time to make the package installable.
       # We normalize the version (e.g., 2026.01.22 -> 2026.1.22) for PyPI lookup.
       - name: Wait for PyPI propagation
         uses: nick-fields/retry@v4
