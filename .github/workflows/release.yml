@@ -380,6 +380,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEW_TAG: ${{ needs.build.outputs.new_tag }}
+        shell: bash
         run: |-
           gh release upload "$NEW_TAG" dist/vws-windows.exe --clobber
           gh release upload "$NEW_TAG" dist/vuforia-cloud-reco-windows.exe --clobber
