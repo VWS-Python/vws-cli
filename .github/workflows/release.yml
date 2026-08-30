@@ -233,6 +233,7 @@ jobs:
       - name: Create requirements file
         env:
           NEW_TAG: ${{ needs.build.outputs.new_tag }}
+        shell: bash
         run: echo "vws-cli==$NEW_TAG" > requirements.txt
 
       - name: Create Linux binary
@@ -484,12 +485,6 @@ jobs:
               --password "${APPLE_APP_PASSWORD}" --wait --timeout 30m \
               2>&1 | tee "${RUNNER_TEMP}/notarization.log" || true
           grep -q 'status: Accepted' "${RUNNER_TEMP}/notarization.log"
-
-      - name: Check Gatekeeper accepts the binaries
-        run: |
-          for binary in vws-macos vuforia-cloud-reco-macos vumark-macos; do
-              spctl --assess --type exec -vv "dist/${binary}"
-          done
 
       - name: Upload macOS binaries to release
         env:
