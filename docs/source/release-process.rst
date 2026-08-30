@@ -12,6 +12,15 @@ Outcomes
 * New Winget packages available to install for ``vws``,
   ``vuforia-cloud-reco``, and ``vumark``.
 
+Repository secrets
+~~~~~~~~~~~~~~~~~~
+
+The macOS binaries are signed with a Developer ID Application certificate and
+notarized with Apple.  The workflow requires
+``DEVELOPER_ID_APP_CERT_P12_BASE64``,
+``DEVELOPER_ID_APP_CERT_PASSWORD``, ``APPLE_ID``, ``APPLE_TEAM_ID``, and
+``APPLE_APP_PASSWORD`` as repository secrets.
+
 Perform a Release
 ~~~~~~~~~~~~~~~~~
 
