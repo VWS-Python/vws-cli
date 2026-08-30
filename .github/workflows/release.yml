@@ -340,6 +340,7 @@ jobs:
       - name: Create requirements file
         env:
           NEW_TAG: ${{ needs.build.outputs.new_tag }}
+        shell: bash
         run: echo "vws-cli==$NEW_TAG" > requirements.txt
 
       - name: Create Windows binary for Vuforia Cloud Reco
