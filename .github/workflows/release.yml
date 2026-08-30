@@ -121,7 +121,7 @@ jobs:
       # We have a race condition.
       # In particular, we push to PyPI and then immediately try to install
       # the pushed version.
-      # Here, we give PyPI time to propagate the package.
+      # Here, we give PyPI's package index time to make the package installable.
       - name: Install package from PyPI
         uses: nick-fields/retry@v4
         env:
@@ -217,7 +217,7 @@ jobs:
       # We have a race condition.
       # In particular, we push to PyPI and then immediately try to install
       # the pushed version.
-      # Here, we give PyPI time to propagate the package.
+      # Here, we give PyPI's package index time to make the package installable.
       # We normalize the version (e.g., 2026.01.22 -> 2026.1.22) for PyPI lookup.
       - name: Wait for PyPI propagation
         uses: nick-fields/retry@v4
@@ -228,7 +228,9 @@ jobs:
           max_attempts: 50
           command: |
             normalized_version=$(echo "$NEW_TAG" | sed -E 's/\.0+([0-9])/.\1/g')
-            curl -sf "https://pypi.org/pypi/vws-cli/${normalized_version}/json" > /dev/null
+            python -m pip download --disable-pip-version-check --no-deps \
+                --dest "$RUNNER_TEMP/pypi-propagation" \
+                "vws-cli==$normalized_version"
 
       - name: Create requirements file
         env:
@@ -323,7 +325,7 @@ jobs:
       # We have a race condition.
       # In particular, we push to PyPI and then immediately try to install
       # the pushed version.
-      # Here, we give PyPI time to propagate the package.
+      # Here, we give PyPI's package index time to make the package installable.
       # We normalize the version (e.g., 2026.01.22 -> 2026.1.22) for PyPI lookup.
       - name: Wait for PyPI propagation
         uses: nick-fields/retry@v4
@@ -335,7 +337,9 @@ jobs:
           shell: bash
           command: |
             normalized_version=$(echo "$NEW_TAG" | sed -E 's/\.0+([0-9])/.\1/g')
-            curl -sf "https://pypi.org/pypi/vws-cli/${normalized_version}/json" > /dev/null
+            python -m pip download --disable-pip-version-check --no-deps \
+                --dest "$RUNNER_TEMP/pypi-propagation" \
+                "vws-cli==$normalized_version"
 
       - name: Create requirements file
         env:
@@ -403,7 +407,7 @@ jobs:
       # We have a race condition.
       # In particular, we push to PyPI and then immediately try to install
       # the pushed version.
-      # Here, we give PyPI time to propagate the package.
+      # Here, we give PyPI's package index time to make the package installable.
       # We normalize the version (e.g., 2026.01.22 -> 2026.1.22) for PyPI lookup.
       - name: Wait for PyPI propagation
         uses: nick-fields/retry@v4
@@ -414,7 +418,9 @@ jobs:
           max_attempts: 50
           command: |
             normalized_version=$(echo "$NEW_TAG" | sed -E 's/\.0+([0-9])/.\1/g')
-            curl -sf "https://pypi.org/pypi/vws-cli/${normalized_version}/json" > /dev/null
+            python -m pip download --disable-pip-version-check --no-deps \
+                --dest "$RUNNER_TEMP/pypi-propagation" \
+                "vws-cli==$normalized_version"
 
       - name: Create requirements file
         env:
