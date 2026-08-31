@@ -2020,13 +2020,13 @@ resolution-markers = [
     "python_full_version < '3.15' and sys_platform == 'darwin'",
 ]
 dependencies = [
-    { name = "filelock", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "fsspec", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "jinja2", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "networkx", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "setuptools", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "sympy", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "typing-extensions", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
+    { name = "filelock" },
+    { name = "fsspec" },
+    { name = "jinja2" },
+    { name = "networkx" },
+    { name = "setuptools" },
+    { name = "sympy" },
+    { name = "typing-extensions" },
 ]
 wheels = [
     { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0-cp314-cp314-macosx_14_0_arm64.whl", hash = "sha256:d849b390e07d8d333ce8ecaf91b273c656c598379a19c9acf1318a883f6b391c", upload-time = "2026-07-08T12:26:28Z" },
@@ -2042,13 +2042,13 @@ resolution-markers = [
     "python_full_version < '3.15' and sys_platform != 'darwin'",
 ]
 dependencies = [
-    { name = "filelock", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "fsspec", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "jinja2", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "networkx", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "setuptools", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "sympy", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "typing-extensions", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
+    { name = "filelock" },
+    { name = "fsspec" },
+    { name = "jinja2" },
+    { name = "networkx" },
+    { name = "setuptools" },
+    { name = "sympy" },
+    { name = "typing-extensions" },
 ]
 wheels = [
     { url = "https://download-r2.pytorch.org/whl/cpu/torch-2.13.0%2Bcpu-cp314-cp314-linux_s390x.whl", hash = "sha256:dec241fef3984c0d1edadd1f58708e218d4eae881ceef7bc10cf9964d41b68b9", upload-time = "2026-07-08T19:30:20Z" },
@@ -2073,9 +2073,9 @@ resolution-markers = [
     "python_full_version < '3.15' and sys_platform == 'darwin'",
 ]
 dependencies = [
-    { name = "numpy", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "pillow", marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
-    { name = "torch", version = "2.13.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "python_full_version < '3.15' and sys_platform == 'darwin'" },
+    { name = "numpy" },
+    { name = "pillow" },
+    { name = "torch", version = "2.13.0", source = { registry = "https://download.pytorch.org/whl/cpu" } },
 ]
 wheels = [
     { url = "https://download-r2.pytorch.org/whl/cpu/torchvision-0.28.0-cp314-cp314-macosx_14_0_arm64.whl", hash = "sha256:3bd9dba55224a9db4a2d77f6feaa5651770d8c8e86d3d0ddb0fa6bec54c8712b", upload-time = "2026-07-08T12:26:40Z" },
@@ -2091,9 +2091,9 @@ resolution-markers = [
     "python_full_version < '3.15' and sys_platform != 'darwin'",
 ]
 dependencies = [
-    { name = "numpy", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "pillow", marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
-    { name = "torch", version = "2.13.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "python_full_version >= '3.15' or sys_platform != 'darwin'" },
+    { name = "numpy" },
+    { name = "pillow" },
+    { name = "torch", version = "2.13.0+cpu", source = { registry = "https://download.pytorch.org/whl/cpu" } },
 ]
 wheels = [
     { url = "https://download-r2.pytorch.org/whl/cpu/torchvision-0.28.0%2Bcpu-cp314-cp314-manylinux_2_28_aarch64.whl", hash = "sha256:3a1a76c8decb1d7bbedd3588bccc90fb269944b7321a773db181735b42115422", upload-time = "2026-07-08T12:26:39Z" },
@@ -2376,7 +2376,7 @@ requires-dist = [
     { name = "vulture", marker = "extra == 'dev'", specifier = "==2.16" },
     { name = "vws-python", specifier = "==2026.8.26" },
     { name = "vws-python-mock", marker = "extra == 'dev'", specifier = "==2026.8.26.1" },
-    { name = "vws-test-fixtures", marker = "extra == 'dev'", specifier = "==2026.8.23" },
+    { name = "vws-test-fixtures", marker = "extra == 'dev'", specifier = "==2026.8.26" },
     { name = "yamlfix", marker = "extra == 'dev'", specifier = "==1.19.1" },
     { name = "zizmor", marker = "extra == 'dev'", specifier = "==1.29.0" },
 ]
@@ -2428,15 +2428,15 @@ wheels = [
 
 [[package]]
 name = "vws-test-fixtures"
-version = "2026.8.23"
+version = "2026.8.26"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pillow" },
     { name = "pytest" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/87/aa/80f6eff03d0dd13f1ca6c8ee40f0fd1da529359b42f845d2b340b7539d2f/vws_test_fixtures-2026.8.23.tar.gz", hash = "sha256:fae520031fcafdab2a8eb9ba1c8a9bf9a7dca07ce3292a8bb7ecda524459d249", size = 73440, upload-time = "2026-08-23T13:31:50.86Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2f/75/d6aa184ea27b9c941d83a20fc48d97a16315306870b84ef0bc253b7e19b0/vws_test_fixtures-2026.8.26.tar.gz", hash = "sha256:2d3528f89a14f65d701257df93b08657b597f8db94d2175da8b6cd041b1defd9", size = 73785, upload-time = "2026-08-26T14:19:48.632Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/bb/02/575819f7d3d7179b5dafb36dccc724bd2cdd848343e8d7fcad95b711503e/vws_test_fixtures-2026.8.23-py3-none-any.whl", hash = "sha256:e9f0b9c71c7fe398d8631145fe322060eb80c95efb2362a89f57520cae7ddb15", size = 52208, upload-time = "2026-08-23T13:31:49.53Z" },
+    { url = "https://files.pythonhosted.org/packages/00/9c/d7632977c082cec17db137174a7df5faf6982f430feae0511d2ca4988814/vws_test_fixtures-2026.8.26-py3-none-any.whl", hash = "sha256:b3261778ead7fd82332858bdc74c678c7c508134efc0bcf2820dd16d0d2eaa3b", size = 52395, upload-time = "2026-08-26T14:19:47.225Z" },
 ]
 
 [[package]]
