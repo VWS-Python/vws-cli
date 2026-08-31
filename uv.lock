@@ -2376,7 +2376,7 @@ requires-dist = [
     { name = "vulture", marker = "extra == 'dev'", specifier = "==2.16" },
     { name = "vws-python", specifier = "==2026.8.26" },
     { name = "vws-python-mock", marker = "extra == 'dev'", specifier = "==2026.8.26.1" },
-    { name = "vws-test-fixtures", marker = "extra == 'dev'", specifier = "==2026.8.23" },
+    { name = "vws-test-fixtures", marker = "extra == 'dev'", specifier = "==2026.8.26" },
     { name = "yamlfix", marker = "extra == 'dev'", specifier = "==1.19.1" },
     { name = "zizmor", marker = "extra == 'dev'", specifier = "==1.29.0" },
 ]
@@ -2428,15 +2428,15 @@ wheels = [
 
 [[package]]
 name = "vws-test-fixtures"
-version = "2026.8.23"
+version = "2026.8.26"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pillow" },
     { name = "pytest" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/87/aa/80f6eff03d0dd13f1ca6c8ee40f0fd1da529359b42f845d2b340b7539d2f/vws_test_fixtures-2026.8.23.tar.gz", hash = "sha256:fae520031fcafdab2a8eb9ba1c8a9bf9a7dca07ce3292a8bb7ecda524459d249", size = 73440, upload-time = "2026-08-23T13:31:50.86Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2f/75/d6aa184ea27b9c941d83a20fc48d97a16315306870b84ef0bc253b7e19b0/vws_test_fixtures-2026.8.26.tar.gz", hash = "sha256:2d3528f89a14f65d701257df93b08657b597f8db94d2175da8b6cd041b1defd9", size = 73785, upload-time = "2026-08-26T14:19:48.632Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/bb/02/575819f7d3d7179b5dafb36dccc724bd2cdd848343e8d7fcad95b711503e/vws_test_fixtures-2026.8.23-py3-none-any.whl", hash = "sha256:e9f0b9c71c7fe398d8631145fe322060eb80c95efb2362a89f57520cae7ddb15", size = 52208, upload-time = "2026-08-23T13:31:49.53Z" },
+    { url = "https://files.pythonhosted.org/packages/00/9c/d7632977c082cec17db137174a7df5faf6982f430feae0511d2ca4988814/vws_test_fixtures-2026.8.26-py3-none-any.whl", hash = "sha256:b3261778ead7fd82332858bdc74c678c7c508134efc0bcf2820dd16d0d2eaa3b", size = 52395, upload-time = "2026-08-26T14:19:47.225Z" },
 ]
 
 [[package]]
