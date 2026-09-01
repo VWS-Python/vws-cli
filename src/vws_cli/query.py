@@ -68,6 +68,7 @@ def _get_cloud_reco_error_message(exc: Exception) -> str:
 @contextlib.contextmanager
 def _handle_vwq_exceptions() -> Generator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""
+    error_stream = sys.stderr
     try:
         yield
     except (CloudRecoError, RequestEntityTooLargeError, ServerError) as exc:
@@ -75,7 +76,7 @@ def _handle_vwq_exceptions() -> Generator[None]:
     else:
         return
 
-    click.echo(message=error_message, err=True)
+    click.echo(message=error_message, file=error_stream)
     sys.exit(1)
 
 

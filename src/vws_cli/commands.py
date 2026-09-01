@@ -48,6 +48,7 @@ from vws_cli.options.vws import base_vws_url_option, database_id_option
 def _handle_vws_exceptions() -> Generator[None]:
     """Show error messages and catch exceptions from ``VWS-Python``."""
     error_message = ""
+    error_stream = sys.stderr
 
     try:
         yield
@@ -62,7 +63,7 @@ def _handle_vws_exceptions() -> Generator[None]:
     else:
         return
 
-    click.echo(message=error_message, err=True)
+    click.echo(message=error_message, file=error_stream)
     sys.exit(1)
 
 
