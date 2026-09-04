@@ -995,11 +995,11 @@ wheels = [
 
 [[package]]
 name = "packaging"
-version = "26.0"
+version = "26.3"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/65/ee/299d360cdc32edc7d2cf530f3accf79c4fca01e96ffc950d8a52213bd8e4/packaging-26.0.tar.gz", hash = "sha256:00243ae351a257117b6a241061796684b084ed1c516a08c48a3f7e147a9d80b4", size = 143416, upload-time = "2026-01-21T20:50:39.064Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/7d/fa/3944b40b07da9ce895c0e6303a5ab7d53da063554f534556b134a54d6093/packaging-26.3.tar.gz", hash = "sha256:94edc256424af38762eb31306eed28beb9f0efc50a8837492c9d6fd6004aed79", size = 313412, upload-time = "2026-08-04T18:15:28.737Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b7/b9/c538f279a4e237a006a2c98387d081e9eb060d203d8ed34467cc0f0b9b53/packaging-26.0-py3-none-any.whl", hash = "sha256:b36f1fef9334a5588b4166f8bcd26a14e521f2b55e6b9de3aaa80d3ff7a37529", size = 74366, upload-time = "2026-01-21T20:50:37.788Z" },
+    { url = "https://files.pythonhosted.org/packages/63/34/ba1c580383c9eada3711951fef0795c80b829a078d72188184bcab9dd527/packaging-26.3-py3-none-any.whl", hash = "sha256:d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c", size = 129956, upload-time = "2026-08-04T18:15:27.159Z" },
 ]
 
 [[package]]
@@ -1636,16 +1636,16 @@ wheels = [
 
 [[package]]
 name = "setuptools-scm"
-version = "10.2.1"
+version = "10.2.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "packaging" },
     { name = "setuptools" },
     { name = "vcs-versioning" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5d/b1/d0b97ffd2856a7d19c63024a89fb84813cb9d2ed7fa8fdbedf9e2f13a9ab/setuptools_scm-10.2.1.tar.gz", hash = "sha256:4fa7dd82cf8c800df59c9a288c90299b1657ff1ecfc3f5cc00287c5dbf5e27a9", size = 154237, upload-time = "2026-07-21T08:08:04.553Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/cf/0b/12b674e0e567b1ecb3b24e3dd7e98b8fff36c4f470319629717c70c66a6b/setuptools_scm-10.2.2.tar.gz", hash = "sha256:36b5dcef6bbeee0bc76b7756d1b574b3762e2138611a4f18e898f22f1aaee462", size = 67111, upload-time = "2026-09-01T22:15:45.09Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c3/b4/02ac1d9833b882c87b3a4e82703e70eac4ab33d0d15fb123e60bb01f3bc1/setuptools_scm-10.2.1-py3-none-any.whl", hash = "sha256:b7c82f4102d389ee57dc66ccdb4f9b4bca3c40ba83b43f1f63d68ccd72db2580", size = 29078, upload-time = "2026-07-21T08:08:03.293Z" },
+    { url = "https://files.pythonhosted.org/packages/9a/9d/9b504c33edf83f6f09bea186fbd74e42eec8aeaf5821a81dec43cd685478/setuptools_scm-10.2.2-py3-none-any.whl", hash = "sha256:509585ce0628ede1c64ab1e40e7464481fb880c80a388effce9067bf6b2142fe", size = 29123, upload-time = "2026-09-01T22:15:43.831Z" },
 ]
 
 [[package]]
@@ -2227,14 +2227,14 @@ wheels = [
 
 [[package]]
 name = "vcs-versioning"
-version = "2.1.2"
+version = "2.3.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "packaging" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/65/8b/4c53c4c161d484e74685fd03768f8874c0beb96c549a58011d3e456f61c9/vcs_versioning-2.1.2.tar.gz", hash = "sha256:7282122aee5de69d520a9dbe56ebac705a0be7e2cc9b1b97dde4333c45fe782c", size = 131716, upload-time = "2026-06-23T21:36:29.079Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a0/00/c883501b0c55b7d0ec33e67813e9a38563ea84bfecebce9b3347fa52d845/vcs_versioning-2.3.4.tar.gz", hash = "sha256:f3443da15a34a32755b04324e33c6166add300c7661f45902225190c9337f711", size = 149647, upload-time = "2026-09-03T13:04:31.205Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/38/62/6fe8d9f670980e9e1c879eed5653cd24b6015a892873c206b4ae3fd35526/vcs_versioning-2.1.2-py3-none-any.whl", hash = "sha256:d559440f0cb46b6672e65492c34eadd45a736d61d5b28d43ae1ad37bc4a9f06f", size = 107212, upload-time = "2026-06-23T21:36:27.881Z" },
+    { url = "https://files.pythonhosted.org/packages/a0/30/cbf2883ee604dc83ff510516ae05e93b17bfcb4d18279ae12905e13f49da/vcs_versioning-2.3.4-py3-none-any.whl", hash = "sha256:076afa0e12a42a23faba92bcb62cb016c1ce38051ceee1f302de1e2676a68bbc", size = 115414, upload-time = "2026-09-03T13:04:29.925Z" },
 ]
 
 [[package]]
@@ -2355,7 +2355,7 @@ requires-dist = [
     { name = "pytest-regressions", marker = "extra == 'dev'", specifier = "==2.11.0" },
     { name = "pyyaml", specifier = "==6.0.3" },
     { name = "ruff", marker = "extra == 'dev'", specifier = "==0.16.5" },
-    { name = "setuptools-scm", marker = "extra == 'dev'", specifier = "==10.2.1" },
+    { name = "setuptools-scm", marker = "extra == 'dev'", specifier = "==10.2.2" },
     { name = "shellcheck-py", marker = "extra == 'dev'", specifier = "==0.11.0.1" },
     { name = "shfmt-py", marker = "extra == 'dev'", specifier = "==4.1.0" },
     { name = "sphinx", marker = "extra == 'dev'", specifier = "==9.1.0" },
