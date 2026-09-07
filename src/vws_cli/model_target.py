@@ -350,7 +350,7 @@ def _model_from_json(*, value: object, path: str) -> ModelTargetModel:
                 path=f"{path}/{json_field}",
             )
 
-    model_kwargs["views"] = []
+    model_kwargs["views"] = list[ModelTargetView]()
     if "views" in model_dict:
         views_items = _json_array(
             value=model_dict["views"],
