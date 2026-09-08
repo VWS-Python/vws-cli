@@ -31,7 +31,7 @@ def test_get_database_summary_report(
     """It is possible to get a database summary report."""
     runner = CliRunner()
     for name in ("a", "b"):
-        vws_client.add_target(
+        _ = vws_client.add_target(
             name=name,
             width=1,
             image=high_quality_image,
@@ -238,7 +238,7 @@ def test_delete_target(
         color=True,
     )
     assert result.exit_code == 0
-    assert not result.stdout
+    assert not bool(result.stdout)
     assert vws_client.list_targets() == []
 
 
@@ -310,7 +310,7 @@ class TestDefaultRequestTimeout:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         with (
             freeze_time() as frozen_datetime,
             MockVWS(
@@ -343,7 +343,7 @@ class TestDefaultRequestTimeout:
                 with pytest.raises(
                     expected_exception=requests.exceptions.Timeout,
                 ):
-                    runner.invoke(
+                    _ = runner.invoke(
                         cli=vws_group,
                         args=commands,
                         catch_exceptions=False,
@@ -372,7 +372,7 @@ class TestCustomRequestTimeout:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         with (
             freeze_time() as frozen_datetime,
             MockVWS(
@@ -406,7 +406,7 @@ class TestCustomRequestTimeout:
             with pytest.raises(
                 expected_exception=requests.exceptions.Timeout,
             ):
-                runner.invoke(
+                _ = runner.invoke(
                     cli=vws_group,
                     args=commands,
                     catch_exceptions=False,
@@ -423,7 +423,7 @@ class TestCustomRequestTimeout:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         with (
             freeze_time() as frozen_datetime,
             MockVWS(
@@ -480,7 +480,7 @@ class TestAddTarget:
         new_file = tmp_path / uuid.uuid4().hex
         name = uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         width = secrets.choice(seq=range(1, 5000)) / 100
         commands = [
             "add-target",
@@ -550,7 +550,7 @@ class TestAddTarget:
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
-        assert not result.stdout
+        assert not bool(result.stdout)
         expected_stderr = dedent(
             text=f"""\
             Usage: vws add-target [OPTIONS]
@@ -594,7 +594,7 @@ class TestAddTarget:
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
-        assert not result.stdout
+        assert not bool(result.stdout)
         expected_stderr = dedent(
             text=f"""\
             Usage: vws add-target [OPTIONS]
@@ -618,7 +618,7 @@ class TestAddTarget:
         new_filename = uuid.uuid4().hex
         original_image_file = tmp_path / "foo"
         image_data = high_quality_image.getvalue()
-        original_image_file.write_bytes(data=image_data)
+        _ = original_image_file.write_bytes(data=image_data)
         name = uuid.uuid4().hex
         commands = [
             "add-target",
@@ -661,7 +661,7 @@ class TestAddTarget:
         new_file = tmp_path / uuid.uuid4().hex
         name = uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         application_metadata = uuid.uuid4().hex
         metadata_bytes = application_metadata.encode(encoding="ascii")
         base64_encoded_metadata_bytes = base64.b64encode(s=metadata_bytes)
@@ -719,7 +719,7 @@ class TestAddTarget:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         commands = [
             "add-target",
             "--name",
@@ -789,7 +789,7 @@ class TestWaitForTargetProcessed:
             color=True,
         )
         assert result.exit_code == 0
-        assert not result.stdout
+        assert not bool(result.stdout)
         report = vws_client.get_target_summary_report(target_id=target_id)
         assert report.status != TargetStatuses.PROCESSING
 
@@ -831,7 +831,7 @@ class TestWaitForTargetProcessed:
                 color=True,
             )
             assert result.exit_code == 0
-            assert not result.stdout
+            assert not bool(result.stdout)
             report = vws_client.get_database_summary_report()
             expected_requests = (
                 # Add target request
@@ -903,7 +903,7 @@ class TestWaitForTargetProcessed:
                 color=True,
             )
             assert result.exit_code == 0
-            assert not result.stdout
+            assert not bool(result.stdout)
             report = vws_client.get_database_summary_report()
             expected_requests = (
                 # Add target request
@@ -955,7 +955,7 @@ class TestWaitForTargetProcessed:
             color=True,
         )
         assert result.exit_code != 0
-        assert not result.stdout
+        assert not bool(result.stdout)
         expected_substring = "0.01 is not in the range x>=0.05."
         assert expected_substring in result.stderr
 
@@ -1087,7 +1087,7 @@ class TestUpdateTarget:
         new_width = secrets.choice(seq=range(1, 5000)) / 100
         new_image_file = tmp_path / uuid.uuid4().hex
         new_image_data = different_high_quality_image.getvalue()
-        new_image_file.write_bytes(data=new_image_data)
+        _ = new_image_file.write_bytes(data=new_image_data)
 
         commands = [
             "update-target",
@@ -1115,7 +1115,7 @@ class TestUpdateTarget:
             color=True,
         )
         assert result.exit_code == 0
-        assert not result.stdout
+        assert not bool(result.stdout)
 
         vws_client.wait_for_target_processed(target_id=target_id)
         [
@@ -1145,7 +1145,7 @@ class TestUpdateTarget:
             color=True,
         )
         assert result.exit_code == 0
-        assert not result.stdout
+        assert not bool(result.stdout)
         target_details = vws_client.get_target_record(target_id=target_id)
         target_record = target_details.target_record
         assert not target_record.active_flag
@@ -1189,7 +1189,7 @@ class TestUpdateTarget:
             color=True,
         )
         assert result.exit_code == 0
-        assert not result.stdout
+        assert not bool(result.stdout)
 
     @staticmethod
     def test_image_file_does_not_exist(
@@ -1232,7 +1232,7 @@ class TestUpdateTarget:
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
-        assert not result.stdout
+        assert not bool(result.stdout)
         expected_stderr = dedent(
             text=f"""\
             Usage: vws update-target [OPTIONS]
@@ -1284,7 +1284,7 @@ class TestUpdateTarget:
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
-        assert not result.stdout
+        assert not bool(result.stdout)
         expected_stderr = dedent(
             text=f"""\
             Usage: vws update-target [OPTIONS]
@@ -1316,7 +1316,7 @@ class TestUpdateTarget:
         new_filename = uuid.uuid4().hex
         original_image_file = tmp_path / "foo"
         image_data = high_quality_image.getvalue()
-        original_image_file.write_bytes(data=image_data)
+        _ = original_image_file.write_bytes(data=image_data)
         commands = [
             "update-target",
             "--target-id",

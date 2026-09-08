@@ -1,7 +1,6 @@
 """``click`` options regarding Model Target datasets."""
 
 from collections.abc import Callable
-from typing import Any
 
 import click
 from beartype import beartype
@@ -9,9 +8,9 @@ from vws.model_target_datasets import ModelTargetDatasetType
 
 
 @beartype
-def client_id_option(
-    command: Callable[..., Any],
-) -> Callable[..., Any]:
+def client_id_option[**P, R](
+    command: Callable[P, R],
+) -> Callable[P, R]:
     """An option decorator for the Model Target Web API client ID."""
     return click.option(
         "--client-id",
@@ -27,9 +26,9 @@ def client_id_option(
 
 
 @beartype
-def client_secret_option(
-    command: Callable[..., Any],
-) -> Callable[..., Any]:
+def client_secret_option[**P, R](
+    command: Callable[P, R],
+) -> Callable[P, R]:
     """An option decorator for the Model Target Web API client secret."""
     return click.option(
         "--client-secret",
@@ -45,9 +44,9 @@ def client_secret_option(
 
 
 @beartype
-def dataset_type_option(
-    command: Callable[..., Any],
-) -> Callable[..., Any]:
+def dataset_type_option[**P, R](
+    command: Callable[P, R],
+) -> Callable[P, R]:
     """An option decorator for the kind of Model Target dataset."""
     return click.option(
         "--dataset-type",
@@ -66,9 +65,9 @@ def dataset_type_option(
 
 
 @beartype
-def dataset_uuid_option(
-    command: Callable[..., Any],
-) -> Callable[..., Any]:
+def dataset_uuid_option[**P, R](
+    command: Callable[P, R],
+) -> Callable[P, R]:
     """An option decorator for the UUID of a Model Target dataset."""
     return click.option(
         "--dataset-uuid",

@@ -6,7 +6,6 @@ import zipfile
 from collections.abc import Iterator
 from http import HTTPStatus
 from pathlib import Path
-from typing import Any
 
 import pytest
 from click.testing import CliRunner
@@ -106,7 +105,7 @@ def test_dataset_lifecycle(*, dataset_type: str, tmp_path: Path) -> None:
         color=True,
     )
     assert wait_result.exit_code == 0
-    assert not wait_result.stderr
+    assert not bool(wait_result.stderr)
     assert "status: done" in wait_result.stdout
 
     output_file_path = tmp_path / "dataset.zip"
@@ -122,7 +121,7 @@ def test_dataset_lifecycle(*, dataset_type: str, tmp_path: Path) -> None:
         color=True,
     )
     assert download_result.exit_code == 0
-    assert not download_result.stdout
+    assert not bool(download_result.stdout)
     assert zipfile.is_zipfile(filename=output_file_path)
 
     delete_result = runner.invoke(
@@ -132,7 +131,7 @@ def test_dataset_lifecycle(*, dataset_type: str, tmp_path: Path) -> None:
         color=True,
     )
     assert delete_result.exit_code == 0
-    assert not delete_result.stdout
+    assert not bool(delete_result.stdout)
 
     deleted_status_result = runner.invoke(
         cli=vws_group,
@@ -174,7 +173,7 @@ def test_cad_data_file(*, tmp_path: Path) -> None:
     """A model's CAD data can be given as a file."""
     runner = CliRunner()
     cad_data_file_path = tmp_path / "model.obj"
-    cad_data_file_path.write_bytes(data=b"\x00cad-data")
+    _ = cad_data_file_path.write_bytes(data=b"\x00cad-data")
     result = runner.invoke(
         cli=vws_group,
         args=[
@@ -193,7 +192,7 @@ def test_cad_data_file(*, tmp_path: Path) -> None:
         color=True,
     )
     assert result.exit_code == 0
-    assert result.stdout.strip()
+    assert bool(result.stdout.strip())
 
 
 @pytest.mark.usefixtures("model_target_mock")
@@ -201,7 +200,7 @@ def test_model_options(*, tmp_path: Path) -> None:
     """The optional model settings are sent to Vuforia."""
     runner = CliRunner()
     state_based_configuration_file_path = tmp_path / "states.json"
-    state_based_configuration_file_path.write_text(
+    _ = state_based_configuration_file_path.write_text(
         data=json.dumps(obj={"states": {"open": {}}}),
     )
     dataset_uuid = _create_dataset(
@@ -223,13 +222,13 @@ def test_model_options(*, tmp_path: Path) -> None:
             str(object=state_based_configuration_file_path),
         ],
     )
-    assert dataset_uuid
+    assert bool(dataset_uuid)
 
 
 def _models_file(*, tmp_path: Path, models_json: object) -> Path:
     """Write a models file, and return its path."""
     models_file_path = tmp_path / "models.json"
-    models_file_path.write_text(data=json.dumps(obj=models_json))
+    _ = models_file_path.write_text(data=json.dumps(obj=models_json))
     return models_file_path
 
 
@@ -286,7 +285,7 @@ def test_models_file(*, tmp_path: Path) -> None:
         color=True,
     )
     assert result.exit_code == 0, result.output
-    assert result.stdout.strip()
+    assert bool(result.stdout.strip())
 
 
 @pytest.mark.usefixtures("model_target_mock")
@@ -315,7 +314,7 @@ def test_models_file_with_models_key(*, tmp_path: Path) -> None:
         color=True,
     )
     assert result.exit_code == 0
-    assert result.stdout.strip()
+    assert bool(result.stdout.strip())
 
 
 @pytest.mark.usefixtures("model_target_mock")
@@ -415,19 +414,19 @@ def test_one_cad_data_source_required(*, cad_data_args: list[str]) -> None:
     )
 
 
-_VALID_POSITION: dict[str, Any] = {
+_VALID_POSITION: dict[str, object] = {
     "rotation": [0, 0, 0, 1],
     "translation": [0, 0, -1],
 }
 
-_VALID_VIEW: dict[str, Any] = {
+_VALID_VIEW: dict[str, object] = {
     "name": "front",
     "guideViewPosition": _VALID_POSITION,
 }
 
-_EMPTY_OBJECT: dict[str, Any] = {}
+_EMPTY_OBJECT: dict[str, object] = {}
 
-_EMPTY_ARRAY: list[Any] = []
+_EMPTY_ARRAY: list[object] = []
 
 
 @pytest.mark.parametrize(
@@ -660,7 +659,7 @@ def test_models_file_is_not_json(*, tmp_path: Path) -> None:
     """An error is shown for a models file which is not JSON."""
     runner = CliRunner()
     models_file_path = tmp_path / "models.json"
-    models_file_path.write_text(data="not-json")
+    _ = models_file_path.write_text(data="not-json")
     result = runner.invoke(
         cli=vws_group,
         args=[
@@ -945,7 +944,7 @@ def test_wait_for_dataset_with_warning() -> None:
         )
 
     assert result.exit_code == 0
-    assert not result.stderr
+    assert not bool(result.stderr)
     assert "status: done" in result.stdout
     assert f"message: {warning.message}" in result.stdout
 

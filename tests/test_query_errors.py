@@ -38,7 +38,7 @@ def test_fallback_error(
 ) -> None:
     """Other Cloud Reco errors have a user-facing message."""
     image_path = tmp_path / "image.jpg"
-    image_path.write_bytes(data=high_quality_image.getvalue())
+    _ = image_path.write_bytes(data=high_quality_image.getvalue())
     failure_response = CloudQueryFailureResponse(
         status_code=status_code,
         headers={"Content-Type": "text/plain"},
@@ -61,7 +61,7 @@ def test_fallback_error(
 
     assert result.exit_code == 1
     assert result.stderr == f"{expected_message}\n"
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_authentication_failure(
@@ -74,7 +74,7 @@ def test_authentication_failure(
     runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
-    new_file.write_bytes(data=image_data)
+    _ = new_file.write_bytes(data=image_data)
     commands = [
         str(object=new_file),
         "--client-access-key",
@@ -90,7 +90,7 @@ def test_authentication_failure(
     )
     expected_stderr = "The given secret key was incorrect.\n"
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_image_too_large(
@@ -103,7 +103,7 @@ def test_image_too_large(
     runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = png_too_large.getvalue()
-    new_file.write_bytes(data=image_data)
+    _ = new_file.write_bytes(data=image_data)
     commands = [
         str(object=new_file),
         "--client-access-key",
@@ -119,7 +119,7 @@ def test_image_too_large(
     )
     expected_stderr = "Error: The given image is too large.\n"
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_bad_image(
@@ -132,7 +132,7 @@ def test_bad_image(
     For example, when a corrupt image is uploaded.
     """
     new_file = tmp_path / uuid.uuid4().hex
-    new_file.write_bytes(data=b"Not an image")
+    _ = new_file.write_bytes(data=b"Not an image")
     runner = CliRunner()
     commands = [
         str(object=new_file),
@@ -152,7 +152,7 @@ def test_bad_image(
         "Error: The given image is corrupted or the format is not supported.\n"
     )
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_inactive_project(
@@ -167,7 +167,7 @@ def test_inactive_project(
     """
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
-    new_file.write_bytes(data=image_data)
+    _ = new_file.write_bytes(data=image_data)
     database = CloudDatabase(state=States.PROJECT_INACTIVE)
     with MockVWS() as mock:
         mock.add_cloud_database(cloud_database=database)
@@ -191,7 +191,7 @@ def test_inactive_project(
         "Error: The project associated with the given keys is inactive.\n"
     )
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_request_time_too_skewed(
@@ -211,7 +211,7 @@ def test_request_time_too_skewed(
     time_difference_from_now = vwq_max_time_skew + leeway
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
-    new_file.write_bytes(data=image_data)
+    _ = new_file.write_bytes(data=image_data)
 
     # We use a custom tick because we expect the following:
     #
@@ -240,4 +240,4 @@ def test_request_time_too_skewed(
         "This may be because the system clock is out of sync.\n"
     )
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)

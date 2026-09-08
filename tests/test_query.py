@@ -32,7 +32,7 @@ class TestQuery:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         commands = [
             str(object=new_file),
             "--client-access-key",
@@ -72,7 +72,7 @@ class TestQuery:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         commands = [
             str(object=new_file),
             "--client-access-key",
@@ -89,7 +89,9 @@ class TestQuery:
         assert result.exit_code == 0
         result_data = yaml.safe_load(stream=result.stdout)
         [matching_target] = result_data
-        target_timestamp = matching_target["target_data"]["target_timestamp"]
+        target_timestamp: object = matching_target["target_data"][
+            "target_timestamp"
+        ]
         expected_result_data = {
             "target_data": {
                 "application_metadata": None,
@@ -127,7 +129,7 @@ class TestQuery:
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
-        assert not result.stdout
+        assert not bool(result.stdout)
         expected_stderr = dedent(
             text=f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
@@ -150,7 +152,7 @@ class TestQuery:
         new_filename = uuid.uuid4().hex
         original_image_file = tmp_path / "foo"
         image_data = high_quality_image.getvalue()
-        original_image_file.write_bytes(data=image_data)
+        _ = original_image_file.write_bytes(data=image_data)
         commands = [
             str(object=new_filename),
             "--client-access-key",
@@ -199,7 +201,7 @@ class TestQuery:
         )
         expected_result_code = 2
         assert result.exit_code == expected_result_code
-        assert not result.stdout
+        assert not bool(result.stdout)
         expected_stderr = dedent(
             text=f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
@@ -232,7 +234,7 @@ class TestDefaultRequestTimeout:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         with (
             freeze_time() as frozen_datetime,
             MockVWS(
@@ -259,7 +261,7 @@ class TestDefaultRequestTimeout:
                 with pytest.raises(
                     expected_exception=requests.exceptions.Timeout,
                 ):
-                    runner.invoke(
+                    _ = runner.invoke(
                         cli=vuforia_cloud_reco,
                         args=commands,
                         catch_exceptions=False,
@@ -288,7 +290,7 @@ class TestCustomRequestTimeout:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         with (
             freeze_time() as frozen_datetime,
             MockVWS(
@@ -316,7 +318,7 @@ class TestCustomRequestTimeout:
             with pytest.raises(
                 expected_exception=requests.exceptions.Timeout,
             ):
-                runner.invoke(
+                _ = runner.invoke(
                     cli=vuforia_cloud_reco,
                     args=commands,
                     catch_exceptions=False,
@@ -333,7 +335,7 @@ class TestCustomRequestTimeout:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         with (
             freeze_time() as frozen_datetime,
             MockVWS(
@@ -413,7 +415,7 @@ class TestMaxNumResults:
 
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         commands = [
             str(object=new_file),
             "--client-access-key",
@@ -468,7 +470,7 @@ class TestMaxNumResults:
 
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         max_num_results = 2
         commands = [
             str(object=new_file),
@@ -500,7 +502,7 @@ class TestMaxNumResults:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         commands = [
             str(object=new_file),
             "--max-num-results",
@@ -556,7 +558,7 @@ class TestIncludeTargetData:
         vws_client.wait_for_target_processed(target_id=target_id_2)
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         commands = [
             str(object=new_file),
             "--max-num-results",
@@ -609,7 +611,7 @@ class TestIncludeTargetData:
         vws_client.wait_for_target_processed(target_id=target_id_2)
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         commands = [
             str(object=new_file),
             "--max-num-results",
@@ -664,7 +666,7 @@ class TestIncludeTargetData:
         vws_client.wait_for_target_processed(target_id=target_id_2)
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         commands = [
             str(object=new_file),
             "--max-num-results",
@@ -716,7 +718,7 @@ class TestIncludeTargetData:
         vws_client.wait_for_target_processed(target_id=target_id_2)
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
 
         commands = [
             str(object=new_file),
@@ -756,7 +758,7 @@ class TestIncludeTargetData:
         runner = CliRunner()
         new_file = tmp_path / uuid.uuid4().hex
         image_data = high_quality_image.getvalue()
-        new_file.write_bytes(data=image_data)
+        _ = new_file.write_bytes(data=image_data)
         commands = [
             str(object=new_file),
             "--max-num-results",
@@ -794,7 +796,7 @@ def test_base_vwq_url(
     base_vwq_url = "http://example.com"
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
-    new_file.write_bytes(data=image_data)
+    _ = new_file.write_bytes(data=image_data)
     with MockVWS(base_vwq_url=base_vwq_url) as mock:
         mock_database = CloudDatabase()
         mock.add_cloud_database(cloud_database=mock_database)
@@ -847,7 +849,7 @@ def test_env_var_credentials(
     runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
-    new_file.write_bytes(data=image_data)
+    _ = new_file.write_bytes(data=image_data)
     commands = [str(object=new_file)]
     result = runner.invoke(
         cli=vuforia_cloud_reco,

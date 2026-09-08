@@ -122,12 +122,19 @@ def get_model_target_error_message(
         case ModelTargetValidationError():
             problems = [
                 f"{detail.code}: {detail.message}" for detail in exc.details
-            ] or [exc.message]
+            ]
+            if len(problems) == 0:
+                problems = [exc.message]
             message = "\n".join(
                 ["Error: Vuforia rejected the request.", *problems],
             )
         case ModelTargetError():
-            message = f"Error: {exc.message or 'Vuforia returned an error.'}"
+            error_message = (
+                exc.message
+                if exc.message != ""
+                else "Vuforia returned an error."
+            )
+            message = f"Error: {error_message}"
         case _:
             message = get_error_message(exc=exc)
 

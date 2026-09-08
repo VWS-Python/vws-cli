@@ -59,7 +59,7 @@ def test_vumark_service_error(
 
     assert result.exit_code == 1
     assert result.stderr == f"{expected_message}\n"
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_invalid_target_type(
@@ -100,7 +100,7 @@ def test_invalid_target_type(
 
     assert result.exit_code == 1
     assert result.stderr == "Error: The target type is invalid.\n"
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_too_many_requests() -> None:
@@ -125,4 +125,4 @@ def test_too_many_requests() -> None:
         result.stderr
         == "Error: Too many requests were made to Vuforia. Try again later.\n"
     )
-    assert not result.stdout
+    assert not bool(result.stdout)

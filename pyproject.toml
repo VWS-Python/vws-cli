@@ -87,6 +87,7 @@ optional-dependencies.dev = [
     "towncrier==26.9.0",
     "ty==0.0.78",
     "types-pyyaml==6.0.12.20260815",
+    "types-requests==2.33.0.20260712",
     "vale==3.20.0.0",
     "vulture==2.16",
     "vws-python-mock==2026.8.26.1",
@@ -357,6 +358,8 @@ exclude = [
 # Ideally we would limit the paths to the source code where we want to ignore names,
 # but Vulture does not enable this.
 ignore_names = [
+    # Structural Protocol member used through Click decorator objects.
+    "__call__",
     # Sphinx
     "autoclass_content",
     "autoclass_content",
@@ -410,7 +413,7 @@ plugins = [
 
 [tool.pyrefly]
 errors.non-exhaustive-match = "error"
-preset = "strict"
+preset = "all"
 
 [tool.pyright]
 typeCheckingMode = "strict"

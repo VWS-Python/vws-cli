@@ -1,14 +1,14 @@
 """``click`` options regarding targets."""
 
-from collections.abc import Callable
 from enum import Enum, unique
 from pathlib import Path
-from typing import Any
 
 import click
 from beartype import beartype
 
-target_id_option: Callable[..., Any] = click.option(
+from vws_cli.options._types import ClickOptionDecorator
+
+target_id_option: ClickOptionDecorator = click.option(
     "--target-id",
     type=str,
     help="The ID of a target in the Vuforia database.",
@@ -17,7 +17,7 @@ target_id_option: Callable[..., Any] = click.option(
 
 
 @beartype
-def target_name_option(*, required: bool) -> Callable[..., Any]:
+def target_name_option(*, required: bool) -> ClickOptionDecorator:
     """An option decorator for choosing a target name."""
     return click.option(
         "--name",
@@ -28,9 +28,9 @@ def target_name_option(*, required: bool) -> Callable[..., Any]:
 
 
 @beartype
-def target_width_option(*, required: bool) -> Callable[..., Any]:
+def target_width_option(*, required: bool) -> ClickOptionDecorator:
     """An option decorator for choosing a target width."""
-    option: Callable[..., Any] = click.option(
+    option: ClickOptionDecorator = click.option(
         "--width",
         type=float,
         help="The width of the target in the Vuforia database.",
@@ -40,7 +40,7 @@ def target_width_option(*, required: bool) -> Callable[..., Any]:
 
 
 @beartype
-def target_image_option(*, required: bool) -> Callable[..., Any]:
+def target_image_option(*, required: bool) -> ClickOptionDecorator:
     """An option decorator for choosing a target image."""
     return click.option(
         "--image",
@@ -68,7 +68,7 @@ class ActiveFlagChoice(Enum):
 def active_flag_option(
     *,
     allow_none: bool,
-) -> Callable[..., Any]:
+) -> ClickOptionDecorator:
     """An option decorator for setting a target's active flag."""
     if allow_none:
         default = None
@@ -87,7 +87,7 @@ def active_flag_option(
     )
 
 
-application_metadata_option: Callable[..., Any] = click.option(
+application_metadata_option: ClickOptionDecorator = click.option(
     "--application-metadata",
     type=str,
     required=False,

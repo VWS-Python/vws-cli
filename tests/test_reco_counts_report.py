@@ -63,7 +63,7 @@ def test_get_database_reco_counts_report(
         color=True,
     )
     assert result.exit_code == 0
-    assert not result.stderr
+    assert not bool(result.stderr)
     assert result.stdout_bytes == _EXPECTED_CSV
 
 
@@ -86,7 +86,7 @@ def test_report_is_not_available_immediately() -> None:
         assert no_wait_result.exit_code == 0
         presigned_url = no_wait_result.stdout.strip()
         with pytest.raises(expected_exception=RecoCountsReportNotReadyError):
-            vws_client.download_reco_counts_report(
+            _ = vws_client.download_reco_counts_report(
                 presigned_url=presigned_url,
             )
 
@@ -120,7 +120,7 @@ def test_output_file(*, tmp_path: Path) -> None:
         )
 
     assert result.exit_code == 0
-    assert not result.stdout
+    assert not bool(result.stdout)
     assert output_file_path.read_bytes() == _EXPECTED_CSV
 
 
@@ -239,7 +239,7 @@ def test_month_out_of_range(*, mock_database: CloudDatabase) -> None:
         "processed. Check the given parameters.\n"
     )
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_database_id_does_not_match(
@@ -268,7 +268,7 @@ def test_database_id_does_not_match(
     assert result.exit_code == 1
     expected_stderr = "The given secret key was incorrect.\n"
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_timeout_reached() -> None:
@@ -296,4 +296,4 @@ def test_timeout_reached() -> None:
         "Error: The recognition counts report was not generated within the "
         "allowed limit.\n"
     )
-    assert not result.stdout
+    assert not bool(result.stdout)
