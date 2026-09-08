@@ -1,16 +1,15 @@
 """``click`` options regarding timeouts."""
 
 from collections.abc import Callable
-from typing import Any
 
 import click
 from beartype import beartype
 
 
 @beartype
-def connection_timeout_seconds_option(
-    command: Callable[..., Any],
-) -> Callable[..., Any]:
+def connection_timeout_seconds_option[**P, R](
+    command: Callable[P, R],
+) -> Callable[P, R]:
     """An option decorator for the connection timeout."""
     return click.option(
         "--connection-timeout-seconds",
@@ -22,9 +21,9 @@ def connection_timeout_seconds_option(
 
 
 @beartype
-def read_timeout_seconds_option(
-    command: Callable[..., Any],
-) -> Callable[..., Any]:
+def read_timeout_seconds_option[**P, R](
+    command: Callable[P, R],
+) -> Callable[P, R]:
     """An option decorator for the read timeout."""
     return click.option(
         "--read-timeout-seconds",

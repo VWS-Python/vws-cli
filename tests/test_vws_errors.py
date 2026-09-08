@@ -39,7 +39,7 @@ def test_target_id_does_not_exist(mock_database: CloudDatabase) -> None:
             assert result.exit_code == 1
             expected_stderr = 'Error: Target "abc12345" does not exist.\n'
             assert result.stderr == expected_stderr
-            assert not result.stdout
+            assert not bool(result.stdout)
 
 
 def test_bad_image(
@@ -52,7 +52,7 @@ def test_bad_image(
     For example, when a corrupt image is uploaded.
     """
     new_file = tmp_path / uuid.uuid4().hex
-    new_file.write_bytes(data=b"Not an image")
+    _ = new_file.write_bytes(data=b"Not an image")
     runner = CliRunner()
     args = [
         "add-target",
@@ -73,7 +73,7 @@ def test_bad_image(
         "Error: The given image is corrupted or the format is not supported.\n"
     )
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_fail_bad_request(
@@ -111,7 +111,7 @@ def test_fail_bad_request(
         "Check the given parameters.\n"
     )
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_metadata_too_large(
@@ -147,7 +147,7 @@ def test_metadata_too_large(
     assert result.exit_code == 1
     expected_stderr = "Error: The given metadata is too large.\n"
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_image_too_large(
@@ -160,7 +160,7 @@ def test_image_too_large(
     runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = png_too_large.getvalue()
-    new_file.write_bytes(data=image_data)
+    _ = new_file.write_bytes(data=image_data)
     commands = [
         "add-target",
         "--name",
@@ -183,7 +183,7 @@ def test_image_too_large(
     assert result.exit_code == 1
     expected_stderr = "Error: The given image is too large.\n"
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_target_name_exist(
@@ -198,7 +198,7 @@ def test_target_name_exist(
     name.
     """
     name = "foobar"
-    vws_client.add_target(
+    _ = vws_client.add_target(
         name=name,
         width=1,
         image=high_quality_image,
@@ -209,7 +209,7 @@ def test_target_name_exist(
     runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
-    new_file.write_bytes(data=image_data)
+    _ = new_file.write_bytes(data=image_data)
     commands = [
         "add-target",
         "--name",
@@ -232,7 +232,7 @@ def test_target_name_exist(
     assert result.exit_code == 1
     expected_stderr = 'Error: There is already a target named "foobar".\n'
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_project_inactive(
@@ -247,7 +247,7 @@ def test_project_inactive(
     """
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
-    new_file.write_bytes(data=image_data)
+    _ = new_file.write_bytes(data=image_data)
     database = CloudDatabase(state=States.PROJECT_INACTIVE)
     with MockVWS() as mock:
         mock.add_cloud_database(cloud_database=database)
@@ -277,7 +277,7 @@ def test_project_inactive(
         "Error: The project associated with the given keys is inactive.\n"
     )
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_project_has_no_api_access(
@@ -291,7 +291,7 @@ def test_project_has_no_api_access(
     """
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
-    new_file.write_bytes(data=image_data)
+    _ = new_file.write_bytes(data=image_data)
     database = CloudDatabase(state=States.PROJECT_HAS_NO_API_ACCESS)
     with MockVWS() as mock:
         mock.add_cloud_database(cloud_database=database)
@@ -322,7 +322,7 @@ def test_project_has_no_api_access(
         "not allowed to make API requests.\n"
     )
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_unknown_vws_error(
@@ -339,7 +339,7 @@ def test_unknown_vws_error(
     runner = CliRunner()
     new_file = tmp_path / uuid.uuid4().hex
     image_data = high_quality_image.getvalue()
-    new_file.write_bytes(data=image_data)
+    _ = new_file.write_bytes(data=image_data)
     max_char_value = 65535
     bad_name = chr(max_char_value + 1)
 
@@ -368,7 +368,7 @@ def test_unknown_vws_error(
         "This may be because there is a problem with the given name.\n"
     )
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_target_status_processing(
@@ -413,7 +413,7 @@ def test_target_status_processing(
         "processing state.\n"
     )
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_target_status_not_success(
@@ -458,7 +458,7 @@ def test_target_status_not_success(
         "the success state.\n"
     )
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_authentication_failure(mock_database: CloudDatabase) -> None:
@@ -481,7 +481,7 @@ def test_authentication_failure(mock_database: CloudDatabase) -> None:
     assert result.exit_code == 1
     expected_stderr = "The given secret key was incorrect.\n"
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)
 
 
 def test_request_time_too_skewed(mock_database: CloudDatabase) -> None:
@@ -522,4 +522,4 @@ def test_request_time_too_skewed(mock_database: CloudDatabase) -> None:
         "This may be because the system clock is out of sync.\n"
     )
     assert result.stderr == expected_stderr
-    assert not result.stdout
+    assert not bool(result.stdout)

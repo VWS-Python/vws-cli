@@ -171,19 +171,21 @@ def _is_json_array(*, value: object) -> bool:
 
 
 @beartype
-def _as_json_object(*, value: object) -> dict[str, Any] | None:
+def _as_json_object(*, value: object) -> dict[str, Any] | None:  # pyrefly: ignore[explicit-any]
     """Get an object from a models file, or ``None``."""
     if not _is_json_object(value=value):
         return None
     # The value goes through a variable which is typed as ``Any`` so that
     # the keys and values of the returned object are not unknown types.
-    value_any: Any = value
-    value_dict: dict[str, Any] = value_any
+    value_any: Any = value  # pyrefly: ignore[explicit-any]
+    value_dict: dict[str, Any] = (  # pyrefly: ignore[explicit-any]
+        value_any
+    )
     return value_dict
 
 
 @beartype
-def _json_object(*, value: object, message: str) -> dict[str, Any]:
+def _json_object(*, value: object, message: str) -> dict[str, Any]:  # pyrefly: ignore[explicit-any]
     """Get an object from a models file, or raise an error."""
     value_dict = _as_json_object(value=value)
     if value_dict is None:
@@ -192,14 +194,14 @@ def _json_object(*, value: object, message: str) -> dict[str, Any]:
 
 
 @beartype
-def _json_array(*, value: object, message: str) -> list[Any]:
+def _json_array(*, value: object, message: str) -> list[Any]:  # pyrefly: ignore[explicit-any]
     """Get an array from a models file, or raise an error."""
     if not _is_json_array(value=value):
         raise _models_file_error(message=message)
     # The value goes through a variable which is typed as ``Any`` so that
     # the items of the returned array are not unknown types.
-    value_any: Any = value
-    value_list: list[Any] = value_any
+    value_any: Any = value  # pyrefly: ignore[explicit-any]
+    value_list: list[Any] = value_any  # pyrefly: ignore[explicit-any]
     return value_list
 
 
@@ -210,14 +212,14 @@ def _checked_object(
     known_fields: frozenset[str],
     required_fields: Sequence[str],
     path: str,
-) -> dict[str, Any]:
+) -> dict[str, Any]:  # pyrefly: ignore[explicit-any]
     """Get an object with known and required fields, or raise an error."""
     value_dict = _json_object(
         value=value,
         message=f"{path} must be an object.",
     )
     unknown_fields = sorted(set(value_dict) - known_fields)
-    if unknown_fields:
+    if bool(unknown_fields):
         message = f"{path} has unknown fields: {', '.join(unknown_fields)}."
         raise _models_file_error(message=message)
 
@@ -333,7 +335,7 @@ def _model_from_json(*, value: object, path: str) -> ModelTargetModel:
         path=path,
     )
 
-    model_kwargs: dict[str, Any] = {
+    model_kwargs: dict[str, Any] = {  # pyrefly: ignore[explicit-any]
         field_name: _string_value(
             value=model_dict[json_field],
             path=f"{path}/{json_field}",
@@ -566,7 +568,7 @@ def create_model_target_dataset(
             for option_name, value in model_option_values.items()
             if value is not None
         )
-        if given_model_options:
+        if bool(given_model_options):
             message = (
                 "--models-file cannot be used with "
                 f"{', '.join(given_model_options)}."
@@ -801,7 +803,7 @@ def download_model_target_dataset(
         dataset_type=dataset_type,
     )
 
-    output_file_path.write_bytes(data=dataset)
+    _ = output_file_path.write_bytes(data=dataset)
 
 
 @click.command(name="delete-model-target-dataset")

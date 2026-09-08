@@ -28,6 +28,7 @@ png
 pragma
 pre
 pyperclip
+pyrefly
 pyright
 pytest
 reco

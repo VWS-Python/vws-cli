@@ -1,16 +1,15 @@
 """``click`` options regarding credentials."""
 
 from collections.abc import Callable
-from typing import Any
 
 import click
 from beartype import beartype
 
 
 @beartype
-def server_access_key_option(
-    command: Callable[..., Any],
-) -> Callable[..., Any]:
+def server_access_key_option[**P, R](
+    command: Callable[P, R],
+) -> Callable[P, R]:
     """An option decorator for the Vuforia server access key."""
     return click.option(
         "--server-access-key",
@@ -26,9 +25,9 @@ def server_access_key_option(
 
 
 @beartype
-def server_secret_key_option(
-    command: Callable[..., Any],
-) -> Callable[..., Any]:
+def server_secret_key_option[**P, R](
+    command: Callable[P, R],
+) -> Callable[P, R]:
     """An option decorator for the Vuforia server secret key."""
     return click.option(
         "--server-secret-key",
@@ -44,9 +43,9 @@ def server_secret_key_option(
 
 
 @beartype
-def client_access_key_option(
-    command: Callable[..., Any],
-) -> Callable[..., Any]:
+def client_access_key_option[**P, R](
+    command: Callable[P, R],
+) -> Callable[P, R]:
     """An option decorator for the Vuforia client access key."""
     return click.option(
         "--client-access-key",
@@ -62,9 +61,9 @@ def client_access_key_option(
 
 
 @beartype
-def client_secret_key_option(
-    command: Callable[..., Any],
-) -> Callable[..., Any]:
+def client_secret_key_option[**P, R](
+    command: Callable[P, R],
+) -> Callable[P, R]:
     """An option decorator for the Vuforia client secret key."""
     return click.option(
         "--client-secret-key",

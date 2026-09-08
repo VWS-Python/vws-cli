@@ -154,4 +154,4 @@ def generate_vumark(
         accept=accept,
     )
 
-    output_file_path.write_bytes(data=vumark_data)
+    _ = output_file_path.write_bytes(data=vumark_data)

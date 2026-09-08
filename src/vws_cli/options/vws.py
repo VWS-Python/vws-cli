@@ -1,16 +1,15 @@
 """``click`` options for VWS API options."""
 
 from collections.abc import Callable
-from typing import Any
 
 import click
 from beartype import beartype
 
 
 @beartype
-def database_id_option(
-    command: Callable[..., Any],
-) -> Callable[..., Any]:
+def database_id_option[**P, R](
+    command: Callable[P, R],
+) -> Callable[P, R]:
     """An option decorator for the Vuforia database ID."""
     return click.option(
         "--database-id",
@@ -26,9 +25,9 @@ def database_id_option(
 
 
 @beartype
-def base_vws_url_option(
-    command: Callable[..., Any],
-) -> Callable[..., Any]:
+def base_vws_url_option[**P, R](
+    command: Callable[P, R],
+) -> Callable[P, R]:
     """An option decorator for choosing the base VWS URL."""
     return click.option(
         "--base-vws-url",

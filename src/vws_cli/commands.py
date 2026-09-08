@@ -252,8 +252,9 @@ def get_target_summary_report(
     )
     report = vws_client.get_target_summary_report(target_id=target_id)
     report_dict = dataclasses.asdict(obj=report)
-    report_dict["status"] = report_dict["status"].value
-    report_dict["upload_date"] = str(object=report_dict["upload_date"])
+    report_dict["status"] = report.status.value
+    upload_date: object = report_dict["upload_date"]
+    report_dict["upload_date"] = str(object=upload_date)
     yaml_summary_report = yaml.dump(data=report_dict)
     click.echo(message=yaml_summary_report)
 
@@ -650,4 +651,4 @@ def get_database_reco_counts_report(
         click.echo(message=report.raw_csv, nl=False)
         return
 
-    output_file_path.write_bytes(data=report.raw_csv)
+    _ = output_file_path.write_bytes(data=report.raw_csv)
