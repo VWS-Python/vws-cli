@@ -8,9 +8,29 @@ from click.testing import CliRunner
 from mock_vws import MockVWS, VuMarkGenerationFailure
 from mock_vws.database import CloudDatabase
 from vws import VWS
+from vws.exceptions.model_target_exceptions import ModelTargetValidationError
+from vws.response import Response
 
 from vws_cli import vws_group
+from vws_cli._error_handling import get_model_target_error_message
 from vws_cli.vumark import generate_vumark
+
+
+def test_model_target_validation_error_without_details() -> None:
+    """The top-level validation message is used without detail items."""
+    response = Response(
+        text='{"error": {"message": "invalid dataset"}}',
+        url="https://example.com/model-targets",
+        status_code=400,
+        headers={},
+        request_body=None,
+        tell_position=0,
+        content=b"",
+    )
+    message = get_model_target_error_message(
+        exc=ModelTargetValidationError(response=response),
+    )
+    assert message == "Error: Vuforia rejected the request.\ninvalid dataset"
 
 
 @pytest.mark.parametrize(
