@@ -9,8 +9,7 @@ Outcomes
 * A new Homebrew recipe available to install.
 * A new Docker image on GitHub Container Registry.
 * New binary assets attached to the GitHub release.
-* New Winget packages available to install for ``vws``,
-  ``vuforia-cloud-reco``, and ``vumark``.
+* New Winget packages available to install for ``vws``, ``vuforia-cloud-reco``, and ``vumark``.
 
 Repository secrets
 ~~~~~~~~~~~~~~~~~~
