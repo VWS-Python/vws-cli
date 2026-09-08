@@ -37,14 +37,11 @@ No documented changes.
 2026.08.30
 ----------
 
-- Handle all VWS and Cloud Reco service errors with clear CLI messages, and use
-  consistent messages for target status and polling timeout errors.
+- Handle all VWS and Cloud Reco service errors with clear CLI messages, and use consistent messages for target status and polling timeout errors.
 
-- Test Model Target authentication, client, rate-limit, and server failures through
-  public CLI commands and the configurable mock.
+- Test Model Target authentication, client, rate-limit, and server failures through public CLI commands and the configurable mock.
 
-- Update vws-python and vws-python-mock to their releases containing configurable
-  Model Target failure coverage.
+- Update vws-python and vws-python-mock to their releases containing configurable Model Target failure coverage.
 
 2026.08.16.1
 ------------
