@@ -1649,6 +1649,11 @@ wheels = [
 ]
 
 [[package]]
+name = "snapper-fmt"
+version = "0.11.0"
+source = { git = "https://github.com/TurtleTech-ehf/snapper.git?rev=bcd3458e27e4156ce4e0a0b55a227400328fb3b1#bcd3458e27e4156ce4e0a0b55a227400328fb3b1" }
+
+[[package]]
 name = "snowballstemmer"
 version = "3.0.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2159,6 +2164,7 @@ dev = [
     { name = "setuptools-scm" },
     { name = "shellcheck-py" },
     { name = "shfmt-py" },
+    { name = "snapper-fmt" },
     { name = "sphinx" },
     { name = "sphinx-click" },
     { name = "sphinx-copybutton" },
@@ -2223,6 +2229,7 @@ dev = [
     { name = "setuptools-scm", specifier = "==10.2.3" },
     { name = "shellcheck-py", specifier = "==0.11.0.1" },
     { name = "shfmt-py", specifier = "==4.1.0" },
+    { name = "snapper-fmt", git = "https://github.com/TurtleTech-ehf/snapper.git?rev=bcd3458e27e4156ce4e0a0b55a227400328fb3b1" },
     { name = "sphinx", specifier = "==9.1.0" },
     { name = "sphinx-click", specifier = "==6.2.0" },
     { name = "sphinx-copybutton", specifier = "==0.5.2" },
