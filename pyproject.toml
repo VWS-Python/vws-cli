@@ -323,20 +323,6 @@ ignore = [
     "zizmor.yml",
 ]
 
-[tool.deptry]
-optional_dependencies_dev_groups = [
-    "dev",
-    "packaging",
-    "release",
-]
-# torch and torchvision are listed explicitly in dev deps to allow
-# [tool.uv.sources] to redirect them to the CPU-only PyTorch index,
-# but they are not directly imported in the vws-cli source code.
-per_rule_ignores.DEP002 = [
-    "torch",
-    "torchvision",
-]
-
 [tool.vulture]
 exclude = [
     # Duplicate some of .gitignore
