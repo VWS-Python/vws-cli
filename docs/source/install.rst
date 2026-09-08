@@ -118,13 +118,8 @@ Pre-built macOS (ARM) binaries
    $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vumark-macos" -o /usr/local/bin/vumark &&
        chmod +x /usr/local/bin/vumark
 
-You may need to remove the quarantine attribute to allow the binaries to run:
-
-.. code-block:: console
-
-   $ xattr -d com.apple.quarantine /usr/local/bin/vws
-   $ xattr -d com.apple.quarantine /usr/local/bin/vuforia-cloud-reco
-   $ xattr -d com.apple.quarantine /usr/local/bin/vumark
+The binaries are signed and notarized, so they also run when downloaded with a browser.
+Gatekeeper checks the notarization online, so the first run needs a network connection.
 
 Shell completion
 ~~~~~~~~~~~~~~~~
