@@ -551,15 +551,21 @@ jobs:
               exit 1
           fi
 
-      # An accepted submission is not the same as Gatekeeper accepting the
-      # binary: ``spctl`` asks the same question a user's Mac will, and is
-      # the only check here that fails if notarization did not take
-      # effect.  Each binary gets its own ticket, so each is assessed.
-      - name: Check Gatekeeper accepts the notarized binaries
-        run: |
-          for binary in vws-macos vuforia-cloud-reco-macos vumark-macos; do
-              spctl --assess --type exec --verbose=2 "dist/${binary}"
-          done
+      # ``spctl --assess --type exec`` is intended for app bundles and
+      # rejects a bare command-line executable with "does not seem to be an
+      # app" even when it is notarized.  For standalone code, require each
+      # notarization ticket directly.  Retry because the tickets are published
+      # online and can take a short time to become available after acceptance.
+      - name: Check the notarization tickets are available
+        uses: nick-fields/retry@v4
+        with:
+          timeout_seconds: 60
+          max_attempts: 10
+          retry_wait_seconds: 30
+          command: |
+            for binary in vws-macos vuforia-cloud-reco-macos vumark-macos; do
+                codesign -vvvv -R="notarized" --check-notarization "dist/${binary}"
+            done
 
       - name: Upload macOS binaries to release
         env:
