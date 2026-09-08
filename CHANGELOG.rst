@@ -3,6 +3,12 @@ Changelog
 
 .. towncrier release notes start
 
+2026.09.08
+----------
+
+- Check that Gatekeeper accepts the signed and notarized macOS binaries during
+  the release, and remove the quarantine workaround from the install docs.
+
 2026.08.30.5
 ------------
 
