@@ -2172,6 +2172,7 @@ dev = [
     { name = "setuptools-scm" },
     { name = "shellcheck-py" },
     { name = "shfmt-py" },
+    { name = "snapper-fmt" },
     { name = "sphinx" },
     { name = "sphinx-click" },
     { name = "sphinx-copybutton" },
@@ -2197,9 +2198,6 @@ release = [
     { name = "check-wheel-contents" },
     { name = "homebrew-pypi-poet" },
     { name = "towncrier" },
-]
-snapper = [
-    { name = "snapper-fmt" },
 ]
 
 [package.metadata]
@@ -2239,6 +2237,7 @@ dev = [
     { name = "setuptools-scm", specifier = "==10.2.3" },
     { name = "shellcheck-py", specifier = "==0.11.0.1" },
     { name = "shfmt-py", specifier = "==4.1.0" },
+    { name = "snapper-fmt", specifier = "==0.11.0" },
     { name = "sphinx", specifier = "==9.1.0" },
     { name = "sphinx-click", specifier = "==6.2.0" },
     { name = "sphinx-copybutton", specifier = "==0.5.2" },
@@ -2265,7 +2264,6 @@ release = [
     { name = "homebrew-pypi-poet", specifier = "==0.10.0" },
     { name = "towncrier", specifier = "==26.9.0" },
 ]
-snapper = [{ name = "snapper-fmt", specifier = "==0.11.0" }]
 
 [[package]]
 name = "vws-python"
