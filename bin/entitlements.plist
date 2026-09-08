@@ -2,6 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <!--
+    The hardened runtime, which notarization requires, turns on library
+    validation: every library loaded into the process must carry the same
+    Team ID as the executable.  A PyInstaller one-file binary unpacks
+    its bundled libraries (``libpython3.14.dylib`` and friends) to a
+    temporary directory at startup and loads them from there, and those
+    copies keep the ad-hoc signature PyInstaller gave them.  Without this
+    exception the binary dies immediately with "mapping process and mapped
+    file (non-platform) have different Team IDs".
+
+    Signing the unpacked libraries is not an option: they only exist once
+    the binary has already started.
+    -->
     <key>com.apple.security.cs.disable-library-validation</key>
     <true/>
 </dict>
