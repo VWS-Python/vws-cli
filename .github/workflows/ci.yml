@@ -36,7 +36,7 @@ jobs:
         run: |
           # Using -s is useful but also it is required to avoid
           # https://github.com/pallets/click/issues/824.
-          uv --verbose run --extra=dev pytest -s -vvv --cov-fail-under 100 --cov=src/ --cov=tests .
+          uv --verbose run --group=dev pytest -s -vvv --cov-fail-under 100 --cov=src/ --cov=tests .
         env:
           UV_PYTHON: ${{ matrix.python-version }}
 

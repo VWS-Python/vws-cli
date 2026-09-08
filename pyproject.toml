@@ -36,7 +36,14 @@ dependencies = [
     "pyyaml==6.0.3",
     "vws-python==2026.8.26",
 ]
-optional-dependencies.dev = [
+urls.Documentation = "https://vws-python.github.io/vws-cli/"
+urls.Source = "https://github.com/VWS-Python/vws-cli"
+scripts.vuforia-cloud-reco = "vws_cli.query:vuforia_cloud_reco"
+scripts.vumark = "vws_cli.vumark:generate_vumark"
+scripts.vws = "vws_cli:vws_group"
+
+[dependency-groups]
+dev = [
     "actionlint-py==1.7.12.24",
     "check-manifest==0.51",
     "deptry==0.25.1",
@@ -90,19 +97,11 @@ optional-dependencies.dev = [
     "yamlfix==1.19.1",
     "zizmor==1.30.0",
 ]
-optional-dependencies.release = [
+release = [
     "check-wheel-contents==0.6.3",
     "homebrew-pypi-poet==0.10.0",
     "towncrier==26.9.0",
 ]
-urls.Documentation = "https://vws-python.github.io/vws-cli/"
-urls.Source = "https://github.com/VWS-Python/vws-cli"
-scripts.vuforia-cloud-reco = "vws_cli.query:vuforia_cloud_reco"
-scripts.vumark = "vws_cli.vumark:generate_vumark"
-scripts.vws = "vws_cli:vws_group"
-
-[dependency-groups]
-dev = []
 
 [tool.setuptools]
 packages.find.where = [
@@ -329,6 +328,13 @@ optional_dependencies_dev_groups = [
     "dev",
     "packaging",
     "release",
+]
+# torch and torchvision are listed explicitly in dev deps to allow
+# [tool.uv.sources] to redirect them to the CPU-only PyTorch index,
+# but they are not directly imported in the vws-cli source code.
+per_rule_ignores.DEP002 = [
+    "torch",
+    "torchvision",
 ]
 
 [tool.vulture]
