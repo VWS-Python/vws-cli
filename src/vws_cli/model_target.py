@@ -125,6 +125,10 @@ def _status_report_yaml(*, report: ModelTargetDatasetStatusReport) -> str:
 
 _MODELS_FILE_HINT = "'--models-file'"
 
+type _JSONValue = (
+    bool | int | float | str | list[_JSONValue] | dict[str, _JSONValue] | None
+)
+
 _MODEL_STRING_FIELDS = frozenset(
     {
         "cadDataBlob",
@@ -162,19 +166,19 @@ def _models_file_error(*, message: str) -> click.BadParameter:
 
 
 @beartype
-def _is_json_object(value: object, /) -> TypeIs[dict[str, object]]:
+def _is_json_object(value: object, /) -> TypeIs[dict[str, _JSONValue]]:
     """Return whether a models-file value is a string-keyed object."""
-    return TypeHint(hint=dict[str, object]).is_bearable(obj=value)
+    return TypeHint(hint=dict[str, _JSONValue]).is_bearable(obj=value)
 
 
 @beartype
-def _is_json_array(value: object, /) -> TypeIs[list[object]]:
+def _is_json_array(value: object, /) -> TypeIs[list[_JSONValue]]:
     """Return whether a models-file value is an array."""
-    return isinstance(value, list)
+    return TypeHint(hint=list[_JSONValue]).is_bearable(obj=value)
 
 
 @beartype
-def _as_json_object(*, value: object) -> dict[str, object] | None:
+def _as_json_object(*, value: object) -> dict[str, _JSONValue] | None:
     """Get an object from a models file, or ``None``."""
     if not _is_json_object(value):
         return None
@@ -182,7 +186,7 @@ def _as_json_object(*, value: object) -> dict[str, object] | None:
 
 
 @beartype
-def _json_object(*, value: object, message: str) -> dict[str, object]:
+def _json_object(*, value: object, message: str) -> dict[str, _JSONValue]:
     """Get an object from a models file, or raise an error."""
     value_dict = _as_json_object(value=value)
     if value_dict is None:
@@ -191,7 +195,7 @@ def _json_object(*, value: object, message: str) -> dict[str, object]:
 
 
 @beartype
-def _json_array(*, value: object, message: str) -> list[object]:
+def _json_array(*, value: object, message: str) -> list[_JSONValue]:
     """Get an array from a models file, or raise an error."""
     if not _is_json_array(value):
         raise _models_file_error(message=message)
@@ -205,7 +209,7 @@ def _checked_object(
     known_fields: frozenset[str],
     required_fields: Sequence[str],
     path: str,
-) -> dict[str, object]:
+) -> dict[str, _JSONValue]:
     """Get an object with known and required fields, or raise an error."""
     value_dict = _json_object(
         value=value,
