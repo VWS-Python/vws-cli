@@ -525,14 +525,11 @@ def _validate_month(
     del ctx
     del param
     try:
-        parsed = datetime.datetime.strptime(  # noqa: DTZ007
-            value,
-            _MONTH_FORMAT,
-        )
+        parsed = datetime.date.fromisoformat(f"{value}-01")
     except ValueError as exc:
         message = f'"{value}" is not a month in the YYYY-mm form.'
         raise click.BadParameter(message=message) from exc
-    return parsed.date()
+    return parsed
 
 
 @click.command(name="get-database-reco-counts-report")

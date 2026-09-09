@@ -25,6 +25,8 @@ from vws_cli.model_target import (
     wait_for_model_target_dataset_generated,
 )
 
+__all__ = ["__version__"]
+
 _CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
 try:
