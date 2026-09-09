@@ -90,7 +90,7 @@ dev = [
     "towncrier==26.9.0",
     "ty==0.0.78",
     "types-pyyaml==6.0.12.20260815",
-    "types-requests==2.33.0.20260712",
+    "types-requests==2.33.0.20260906",
     "vale==3.20.0.0",
     "vulture==2.16",
     "vws-python-mock==2026.8.26.1",
