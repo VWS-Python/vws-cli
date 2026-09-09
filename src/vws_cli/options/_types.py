@@ -14,4 +14,4 @@ class ClickOptionDecorator(Protocol):
         /,
     ) -> Callable[P, R]:
         """Decorate ``command`` without changing its signature."""
-        raise NotImplementedError  # pragma: no cover
+        return command
