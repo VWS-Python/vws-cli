@@ -8,11 +8,12 @@ import sys
 from collections.abc import Generator, Sequence
 from enum import StrEnum
 from pathlib import Path
-from typing import Any
+from typing import TypeIs
 
 import click
 import yaml
 from beartype import beartype
+from beartype.door import TypeHint
 from vws import ModelTargetService
 from vws.exceptions.custom_exceptions import ServerError
 from vws.exceptions.model_target_exceptions import (
@@ -124,24 +125,30 @@ def _status_report_yaml(*, report: ModelTargetDatasetStatusReport) -> str:
 
 _MODELS_FILE_HINT = "'--models-file'"
 
-_MODEL_STRING_FIELDS = {
-    "cadDataBlob": "cad_data_blob",
-    "cadDataUrl": "cad_data_url",
-    "name": "name",
-    "stateBasedConfigurationJsonString": (
-        "state_based_configuration_json_string"
-    ),
-}
+type _JSONValue = (
+    bool | int | float | str | list[_JSONValue] | dict[str, _JSONValue] | None
+)
 
-_MODEL_ENUM_FIELDS: dict[str, tuple[str, type[StrEnum]]] = {
-    "automaticColoring": ("automatic_coloring", AutomaticColoring),
-    "cadDataFormat": ("cad_data_format", CadDataFormat),
-    "motionHint": ("motion_hint", MotionHint),
-    "optimizeTrackingFor": ("optimize_tracking_for", OptimizeTrackingFor),
-    "realisticAppearance": ("realistic_appearance", RealisticAppearance),
-    "simplify": ("simplify", Simplify),
-    "trackingMode": ("tracking_mode", TrackingMode),
-}
+_MODEL_STRING_FIELDS = frozenset(
+    {
+        "cadDataBlob",
+        "cadDataUrl",
+        "name",
+        "stateBasedConfigurationJsonString",
+    }
+)
+
+_MODEL_ENUM_FIELDS = frozenset(
+    {
+        "automaticColoring",
+        "cadDataFormat",
+        "motionHint",
+        "optimizeTrackingFor",
+        "realisticAppearance",
+        "simplify",
+        "trackingMode",
+    }
+)
 
 _MODEL_FIELDS = frozenset(
     {*_MODEL_STRING_FIELDS, *_MODEL_ENUM_FIELDS, "views"},
@@ -159,33 +166,27 @@ def _models_file_error(*, message: str) -> click.BadParameter:
 
 
 @beartype
-def _is_json_object(*, value: object) -> bool:
-    """Get whether a value from a models file is an object."""
-    return isinstance(value, dict)
+def _is_json_object(value: object, /) -> TypeIs[dict[str, _JSONValue]]:
+    """Return whether a models-file value is a string-keyed object."""
+    return TypeHint(hint=dict[str, _JSONValue]).is_bearable(obj=value)
 
 
 @beartype
-def _is_json_array(*, value: object) -> bool:
-    """Get whether a value from a models file is an array."""
-    return isinstance(value, list)
+def _is_json_array(value: object, /) -> TypeIs[list[_JSONValue]]:
+    """Return whether a models-file value is an array."""
+    return TypeHint(hint=list[_JSONValue]).is_bearable(obj=value)
 
 
 @beartype
-def _as_json_object(*, value: object) -> dict[str, Any] | None:  # pyrefly: ignore[explicit-any]
+def _as_json_object(*, value: object) -> dict[str, _JSONValue] | None:
     """Get an object from a models file, or ``None``."""
-    if not _is_json_object(value=value):
+    if not _is_json_object(value):
         return None
-    # The value goes through a variable which is typed as ``Any`` so that
-    # the keys and values of the returned object are not unknown types.
-    value_any: Any = value  # pyrefly: ignore[explicit-any]
-    value_dict: dict[str, Any] = (  # pyrefly: ignore[explicit-any]
-        value_any
-    )
-    return value_dict
+    return value
 
 
 @beartype
-def _json_object(*, value: object, message: str) -> dict[str, Any]:  # pyrefly: ignore[explicit-any]
+def _json_object(*, value: object, message: str) -> dict[str, _JSONValue]:
     """Get an object from a models file, or raise an error."""
     value_dict = _as_json_object(value=value)
     if value_dict is None:
@@ -194,15 +195,11 @@ def _json_object(*, value: object, message: str) -> dict[str, Any]:  # pyrefly: 
 
 
 @beartype
-def _json_array(*, value: object, message: str) -> list[Any]:  # pyrefly: ignore[explicit-any]
+def _json_array(*, value: object, message: str) -> list[_JSONValue]:
     """Get an array from a models file, or raise an error."""
-    if not _is_json_array(value=value):
+    if not _is_json_array(value):
         raise _models_file_error(message=message)
-    # The value goes through a variable which is typed as ``Any`` so that
-    # the items of the returned array are not unknown types.
-    value_any: Any = value  # pyrefly: ignore[explicit-any]
-    value_list: list[Any] = value_any  # pyrefly: ignore[explicit-any]
-    return value_list
+    return value
 
 
 @beartype
@@ -212,7 +209,7 @@ def _checked_object(
     known_fields: frozenset[str],
     required_fields: Sequence[str],
     path: str,
-) -> dict[str, Any]:  # pyrefly: ignore[explicit-any]
+) -> dict[str, _JSONValue]:
     """Get an object with known and required fields, or raise an error."""
     value_dict = _json_object(
         value=value,
@@ -241,12 +238,12 @@ def _string_value(*, value: object, path: str) -> str:
 
 
 @beartype
-def _enum_value(
+def _enum_value[EnumT: StrEnum](
     *,
     value: object,
-    enum_type: type[StrEnum],
+    enum_type: type[EnumT],
     path: str,
-) -> StrEnum:
+) -> EnumT:
     """Get an enumeration member from a models file, or raise an error."""
     string_value = _string_value(value=value, path=path)
     try:
@@ -262,11 +259,13 @@ def _number_sequence(*, value: object, path: str) -> Sequence[float]:
     """Get a sequence of numbers from a models file, or raise an error."""
     message = f"{path} must be an array of numbers."
     items = _json_array(value=value, message=message)
+    numbers = list[float]()
     for item in items:
         if isinstance(item, bool) or not isinstance(item, int | float):
             raise _models_file_error(message=message)
+        numbers.append(float(item))
 
-    return [float(item) for item in items]
+    return numbers
 
 
 @beartype
@@ -335,35 +334,108 @@ def _model_from_json(*, value: object, path: str) -> ModelTargetModel:
         path=path,
     )
 
-    model_kwargs: dict[str, Any] = {  # pyrefly: ignore[explicit-any]
-        field_name: _string_value(
-            value=model_dict[json_field],
-            path=f"{path}/{json_field}",
-        )
-        for json_field, field_name in _MODEL_STRING_FIELDS.items()
-        if json_field in model_dict
-    }
-
-    for json_field, (field_name, enum_type) in _MODEL_ENUM_FIELDS.items():
-        if json_field in model_dict:
-            model_kwargs[field_name] = _enum_value(
-                value=model_dict[json_field],
-                enum_type=enum_type,
-                path=f"{path}/{json_field}",
-            )
-
-    model_kwargs["views"] = list[ModelTargetView]()
+    views = list[ModelTargetView]()
     if "views" in model_dict:
         views_items = _json_array(
             value=model_dict["views"],
             message=f"{path}/views must be an array.",
         )
-        model_kwargs["views"] = [
+        views = [
             _view_from_json(value=view_json, path=f"{path}/views({index})")
             for index, view_json in enumerate(iterable=views_items)
         ]
 
-    return ModelTargetModel(**model_kwargs)
+    return ModelTargetModel(
+        name=_string_value(value=model_dict["name"], path=f"{path}/name"),
+        cad_data_blob=(
+            _string_value(
+                value=model_dict["cadDataBlob"],
+                path=f"{path}/cadDataBlob",
+            )
+            if "cadDataBlob" in model_dict
+            else None
+        ),
+        cad_data_url=(
+            _string_value(
+                value=model_dict["cadDataUrl"],
+                path=f"{path}/cadDataUrl",
+            )
+            if "cadDataUrl" in model_dict
+            else None
+        ),
+        automatic_coloring=(
+            _enum_value(
+                value=model_dict["automaticColoring"],
+                enum_type=AutomaticColoring,
+                path=f"{path}/automaticColoring",
+            )
+            if "automaticColoring" in model_dict
+            else None
+        ),
+        cad_data_format=(
+            _enum_value(
+                value=model_dict["cadDataFormat"],
+                enum_type=CadDataFormat,
+                path=f"{path}/cadDataFormat",
+            )
+            if "cadDataFormat" in model_dict
+            else None
+        ),
+        motion_hint=(
+            _enum_value(
+                value=model_dict["motionHint"],
+                enum_type=MotionHint,
+                path=f"{path}/motionHint",
+            )
+            if "motionHint" in model_dict
+            else None
+        ),
+        optimize_tracking_for=(
+            _enum_value(
+                value=model_dict["optimizeTrackingFor"],
+                enum_type=OptimizeTrackingFor,
+                path=f"{path}/optimizeTrackingFor",
+            )
+            if "optimizeTrackingFor" in model_dict
+            else None
+        ),
+        realistic_appearance=(
+            _enum_value(
+                value=model_dict["realisticAppearance"],
+                enum_type=RealisticAppearance,
+                path=f"{path}/realisticAppearance",
+            )
+            if "realisticAppearance" in model_dict
+            else None
+        ),
+        simplify=(
+            _enum_value(
+                value=model_dict["simplify"],
+                enum_type=Simplify,
+                path=f"{path}/simplify",
+            )
+            if "simplify" in model_dict
+            else None
+        ),
+        tracking_mode=(
+            _enum_value(
+                value=model_dict["trackingMode"],
+                enum_type=TrackingMode,
+                path=f"{path}/trackingMode",
+            )
+            if "trackingMode" in model_dict
+            else None
+        ),
+        state_based_configuration_json_string=(
+            _string_value(
+                value=model_dict["stateBasedConfigurationJsonString"],
+                path=f"{path}/stateBasedConfigurationJsonString",
+            )
+            if "stateBasedConfigurationJsonString" in model_dict
+            else None
+        ),
+        views=views,
+    )
 
 
 @beartype
