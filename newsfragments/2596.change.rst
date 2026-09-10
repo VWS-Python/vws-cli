@@ -1,0 +1,2 @@
+Track whether model-target options were supplied as booleans instead of
+arbitrary objects.
