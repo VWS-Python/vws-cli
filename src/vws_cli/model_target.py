@@ -186,7 +186,7 @@ def _as_json_object(*, value: object) -> dict[str, _JSONValue] | None:
 
 
 @beartype
-def _json_object(*, value: object, message: str) -> dict[str, _JSONValue]:
+def _json_object(*, value: _JSONValue, message: str) -> dict[str, _JSONValue]:
     """Get an object from a models file, or raise an error."""
     value_dict = _as_json_object(value=value)
     if value_dict is None:
@@ -205,7 +205,7 @@ def _json_array(*, value: object, message: str) -> list[_JSONValue]:
 @beartype
 def _checked_object(
     *,
-    value: object,
+    value: _JSONValue,
     known_fields: frozenset[str],
     required_fields: Sequence[str],
     path: str,
@@ -229,7 +229,7 @@ def _checked_object(
 
 
 @beartype
-def _string_value(*, value: object, path: str) -> str:
+def _string_value(*, value: _JSONValue, path: str) -> str:
     """Get a string from a models file, or raise an error."""
     if not isinstance(value, str):
         message = f"{path} must be a string."
@@ -240,7 +240,7 @@ def _string_value(*, value: object, path: str) -> str:
 @beartype
 def _enum_value[EnumT: StrEnum](
     *,
-    value: object,
+    value: _JSONValue,
     enum_type: type[EnumT],
     path: str,
 ) -> EnumT:
@@ -255,7 +255,7 @@ def _enum_value[EnumT: StrEnum](
 
 
 @beartype
-def _number_sequence(*, value: object, path: str) -> Sequence[float]:
+def _number_sequence(*, value: _JSONValue, path: str) -> Sequence[float]:
     """Get a sequence of numbers from a models file, or raise an error."""
     message = f"{path} must be an array of numbers."
     items = _json_array(value=value, message=message)
@@ -271,7 +271,7 @@ def _number_sequence(*, value: object, path: str) -> Sequence[float]:
 @beartype
 def _guide_view_position_from_json(
     *,
-    value: object,
+    value: _JSONValue,
     path: str,
 ) -> GuideViewPosition:
     """Get a guide view position from a models file, or raise an error."""
@@ -294,7 +294,7 @@ def _guide_view_position_from_json(
 
 
 @beartype
-def _view_from_json(*, value: object, path: str) -> ModelTargetView:
+def _view_from_json(*, value: _JSONValue, path: str) -> ModelTargetView:
     """Get a guide view from a models file, or raise an error."""
     view_dict = _checked_object(
         value=value,
@@ -325,7 +325,7 @@ def _view_from_json(*, value: object, path: str) -> ModelTargetView:
 
 
 @beartype
-def _model_from_json(*, value: object, path: str) -> ModelTargetModel:
+def _model_from_json(*, value: _JSONValue, path: str) -> ModelTargetModel:
     """Get a model from a models file, or raise an error."""
     model_dict = _checked_object(
         value=value,
@@ -449,19 +449,20 @@ def _models_from_file(
     except json.JSONDecodeError as exc:
         message = f"{models_file_path} is not valid JSON."
         raise _models_file_error(message=message) from exc
-
-    models_json: object = file_json
     file_dict = _as_json_object(value=file_json)
-    if file_dict is not None:
+    if file_dict is None:
+        models_items = _json_array(
+            value=file_json,
+            message="/models must be an array.",
+        )
+    else:
         if "models" not in file_dict:
             message = "/models is required."
             raise _models_file_error(message=message)
-        models_json = file_dict["models"]
-
-    models_items = _json_array(
-        value=models_json,
-        message="/models must be an array.",
-    )
+        models_items = _json_array(
+            value=file_dict["models"],
+            message="/models must be an array.",
+        )
     return [
         _model_from_json(value=model_json, path=f"/models({index})")
         for index, model_json in enumerate(iterable=models_items)
