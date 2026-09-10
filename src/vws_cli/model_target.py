@@ -619,27 +619,27 @@ def create_model_target_dataset(
     See
     https://developer.vuforia.com/library/vuforia-engine/web-api/model-target-web-api/
     """
-    model_option_values: dict[str, object] = {
-        "--automatic-coloring": automatic_coloring,
-        "--cad-data-file": cad_data_file_path,
-        "--cad-data-format": cad_data_format,
-        "--cad-data-url": cad_data_url,
-        "--model-name": model_name,
-        "--motion-hint": motion_hint,
-        "--optimize-tracking-for": optimize_tracking_for,
-        "--realistic-appearance": realistic_appearance,
-        "--simplify": simplify,
+    model_options_given: dict[str, bool] = {
+        "--automatic-coloring": automatic_coloring is not None,
+        "--cad-data-file": cad_data_file_path is not None,
+        "--cad-data-format": cad_data_format is not None,
+        "--cad-data-url": cad_data_url is not None,
+        "--model-name": model_name is not None,
+        "--motion-hint": motion_hint is not None,
+        "--optimize-tracking-for": optimize_tracking_for is not None,
+        "--realistic-appearance": realistic_appearance is not None,
+        "--simplify": simplify is not None,
         "--state-based-configuration-file": (
-            state_based_configuration_file_path
+            state_based_configuration_file_path is not None
         ),
-        "--tracking-mode": tracking_mode,
+        "--tracking-mode": tracking_mode is not None,
     }
 
     if models_file_path is not None:
         given_model_options = sorted(
             option_name
-            for option_name, value in model_option_values.items()
-            if value is not None
+            for option_name, is_given in model_options_given.items()
+            if is_given
         )
         if bool(given_model_options):
             message = (

@@ -1,0 +1,1 @@
+Track supplied model-target options explicitly instead of storing arbitrary objects.
