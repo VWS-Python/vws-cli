@@ -2252,7 +2252,7 @@ requires-dist = [
     { name = "beartype", specifier = "==0.22.9" },
     { name = "click", specifier = "==8.5.0" },
     { name = "pyyaml", specifier = "==6.0.3" },
-    { name = "vws-python", specifier = "==2026.8.26" },
+    { name = "vws-python", specifier = "==2026.9.7" },
 ]
 
 [package.metadata.requires-dev]
@@ -2314,18 +2314,19 @@ release = [
 
 [[package]]
 name = "vws-python"
-version = "2026.8.26"
+version = "2026.9.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
     { name = "httpx" },
+    { name = "httpx2" },
     { name = "requests" },
     { name = "urllib3" },
     { name = "vws-auth-tools" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/0d/6b/89de512a99ab736c288d98181e6309419f51db5b5238209575c2612ac0e4/vws_python-2026.8.26.tar.gz", hash = "sha256:a02898c776537992fd83b11eda0df8ccf7e7341d399ca8250b99eb53c4225635", size = 81481, upload-time = "2026-08-26T10:41:23.5Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5e/39/41f1093f268965d8081ad58d6eb313d0412eb45ca5f12f6ddd2e966ff80a/vws_python-2026.9.7.tar.gz", hash = "sha256:eb72367ebc301acfcbd73c0c745f164947fd717ff1880d65716b6086ae66048b", size = 86076, upload-time = "2026-09-07T17:59:19.762Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/40/21/22384bc956aa2da75f10246fd74e5333bcbc9aeac2874f18439b9fad23a8/vws_python-2026.8.26-py3-none-any.whl", hash = "sha256:066428c51411256e9fb34e4ffcfbd5049b95b86ce1f060f36263e88c48168dd3", size = 47342, upload-time = "2026-08-26T10:41:21.847Z" },
+    { url = "https://files.pythonhosted.org/packages/18/3c/4633ca5f52d3a8a257034108173ab71c5bec5bf8c9bb097157326154dc71/vws_python-2026.9.7-py3-none-any.whl", hash = "sha256:2c47500a8ceb044995e7f3c29359ce846da152e166e720b46f41900fd502d159", size = 47986, upload-time = "2026-09-07T17:59:18.473Z" },
 ]
 
 [[package]]
