@@ -787,6 +787,18 @@ wheels = [
 ]
 
 [[package]]
+name = "mock-response-delay"
+version = "2026.9.8"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "beartype" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/d4/25/702ad4e6cf8db6faac9d632d877d9689c38d56ae98e25386bce2e50091f2/mock_response_delay-2026.9.8.tar.gz", hash = "sha256:c616ade93a1907a22911f29edd34c38bb51509c2ca4e595557699b7968640eb3", size = 151840, upload-time = "2026-09-08T12:48:47.201Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e8/52/20279230c7a53655499b6222e37513a3e640a602c00d5dd542e3757afed0/mock_response_delay-2026.9.8-py3-none-any.whl", hash = "sha256:87b55b81f33a0e4ae12cff36a79990f4fdfbc077f977e97061382e743eff1c8f", size = 9546, upload-time = "2026-09-08T12:48:46.063Z" },
+]
+
+[[package]]
 name = "mypy"
 version = "2.3.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2301,7 +2313,7 @@ dev = [
     { name = "types-requests", specifier = "==2.33.0.20260906" },
     { name = "vale", specifier = "==3.20.0.0" },
     { name = "vulture", specifier = "==2.16" },
-    { name = "vws-python-mock", specifier = "==2026.9.6" },
+    { name = "vws-python-mock", specifier = "==2026.9.8.1" },
     { name = "vws-test-fixtures", specifier = "==2026.8.26" },
     { name = "yamlfix", specifier = "==1.19.1" },
     { name = "zizmor", specifier = "==1.30.0" },
@@ -2331,13 +2343,14 @@ wheels = [
 
 [[package]]
 name = "vws-python-mock"
-version = "2026.9.6"
+version = "2026.9.8.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
     { name = "flask" },
     { name = "httpx" },
     { name = "httpx2" },
+    { name = "mock-response-delay" },
     { name = "numpy" },
     { name = "opencv-contrib-python-headless" },
     { name = "pillow" },
@@ -2351,9 +2364,9 @@ dependencies = [
     { name = "vws-auth-tools" },
     { name = "werkzeug" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/92/c5/6a8de464da46bb8e9edfb1c78062a26d0b63cff03fa88a390dff1fa26f8f/vws_python_mock-2026.9.6.tar.gz", hash = "sha256:37f646035d57db347cd965b7c3830b87365bfef159a479fcfc118163f53687b9", size = 392783, upload-time = "2026-09-06T19:46:13.728Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/09/c8/8898c2db1bdc35c619827c99c86be76a45256e48de6461ca92803b3414c7/vws_python_mock-2026.9.8.1.tar.gz", hash = "sha256:54aeb1ed0819e8cd9afb11daa59bcead194d6b516a886383b36aff5d790e9f91", size = 407306, upload-time = "2026-09-08T13:29:41.358Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/8e/43/d386b5ef08874f60b2fc4676a4651796ca4eaca97fd10b583db72cfe303a/vws_python_mock-2026.9.6-py3-none-any.whl", hash = "sha256:57707a7c90b6aaa05a625fe2c558f8ff034afe70b15800352fec609dc9def17f", size = 117123, upload-time = "2026-09-06T19:46:11.534Z" },
+    { url = "https://files.pythonhosted.org/packages/40/0f/fb2e521b8c5ce7b48ed768007be8410c5cc7f5dfb3e98fff3d86b3d6e331/vws_python_mock-2026.9.8.1-py3-none-any.whl", hash = "sha256:51a3e67bc6b68df801859f9d82431b2448e680a40a163468198292426ddf3021", size = 123977, upload-time = "2026-09-08T13:29:39.412Z" },
 ]
 
 [[package]]
