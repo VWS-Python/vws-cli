@@ -788,14 +788,14 @@ wheels = [
 
 [[package]]
 name = "mock-response-delay"
-version = "2026.9.8"
+version = "2026.9.12"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d4/25/702ad4e6cf8db6faac9d632d877d9689c38d56ae98e25386bce2e50091f2/mock_response_delay-2026.9.8.tar.gz", hash = "sha256:c616ade93a1907a22911f29edd34c38bb51509c2ca4e595557699b7968640eb3", size = 151840, upload-time = "2026-09-08T12:48:47.201Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/55/87/9639579dc4ce58953c51add29336c3fa5d0fffe8e14e6903e79e8028a74b/mock_response_delay-2026.9.12.tar.gz", hash = "sha256:c48841a7f9e6f49eadc76cd789dc9d5894d70ab2a89ae64f82567f4bc890a8bb", size = 153580, upload-time = "2026-09-12T00:12:58.571Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e8/52/20279230c7a53655499b6222e37513a3e640a602c00d5dd542e3757afed0/mock_response_delay-2026.9.8-py3-none-any.whl", hash = "sha256:87b55b81f33a0e4ae12cff36a79990f4fdfbc077f977e97061382e743eff1c8f", size = 9546, upload-time = "2026-09-08T12:48:46.063Z" },
+    { url = "https://files.pythonhosted.org/packages/82/45/41adceb85da9e1640b534ded333fb2be2d7256b6a1ef8b46d8d6bd215882/mock_response_delay-2026.9.12-py3-none-any.whl", hash = "sha256:7ba63886d202eb9c2c0508cf650d8ce314cf404e0b3f66e748ebf244a3441fc9", size = 9647, upload-time = "2026-09-12T00:12:56.734Z" },
 ]
 
 [[package]]
