@@ -2313,7 +2313,7 @@ dev = [
     { name = "types-requests", specifier = "==2.33.0.20260906" },
     { name = "vale", specifier = "==3.20.0.0" },
     { name = "vulture", specifier = "==2.16" },
-    { name = "vws-python-mock", specifier = "==2026.9.8.1" },
+    { name = "vws-python-mock", specifier = "==2026.9.12" },
     { name = "vws-test-fixtures", specifier = "==2026.8.26" },
     { name = "yamlfix", specifier = "==1.19.1" },
     { name = "zizmor", specifier = "==1.30.0" },
@@ -2343,7 +2343,7 @@ wheels = [
 
 [[package]]
 name = "vws-python-mock"
-version = "2026.9.8.1"
+version = "2026.9.12"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
@@ -2364,9 +2364,9 @@ dependencies = [
     { name = "vws-auth-tools" },
     { name = "werkzeug" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/09/c8/8898c2db1bdc35c619827c99c86be76a45256e48de6461ca92803b3414c7/vws_python_mock-2026.9.8.1.tar.gz", hash = "sha256:54aeb1ed0819e8cd9afb11daa59bcead194d6b516a886383b36aff5d790e9f91", size = 407306, upload-time = "2026-09-08T13:29:41.358Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/52/63/dbabcf9760a7f3e0534bdde76414106beb962ddd4403e5fcc886bd8a81af/vws_python_mock-2026.9.12.tar.gz", hash = "sha256:3a4b6b79cf3eb296f5e1b2a06f33890066f2e472e1d7b7d43738f5b5ad894588", size = 410521, upload-time = "2026-09-12T00:35:31.526Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/40/0f/fb2e521b8c5ce7b48ed768007be8410c5cc7f5dfb3e98fff3d86b3d6e331/vws_python_mock-2026.9.8.1-py3-none-any.whl", hash = "sha256:51a3e67bc6b68df801859f9d82431b2448e680a40a163468198292426ddf3021", size = 123977, upload-time = "2026-09-08T13:29:39.412Z" },
+    { url = "https://files.pythonhosted.org/packages/f5/a7/9fe3e38fb070c02200c0b86a37f426404fd5cd861112da1055f1c8de7fa2/vws_python_mock-2026.9.12-py3-none-any.whl", hash = "sha256:f3f4e2ff7d8837a43c7dc7b6e48bca8453736f0bf29848b1cc6e5624655e9279", size = 125115, upload-time = "2026-09-12T00:35:29.973Z" },
 ]
 
 [[package]]
