@@ -1,10 +1,9 @@
 """A CLI for Vuforia Web Services."""
 
-from importlib.metadata import PackageNotFoundError, version
-
 import click
 from beartype import beartype
 
+from vws_cli._setuptools_scm_version import __version__
 from vws_cli.commands import (
     add_target,
     delete_target,
@@ -29,20 +28,9 @@ __all__ = ["__version__"]
 
 _CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
-try:
-    __version__ = version(distribution_name=__name__)
-except PackageNotFoundError:  # pragma: no cover
-    # When pkg_resources and git tags are not available,
-    # for example in a PyInstaller binary,
-    # we write the file ``_setuptools_scm_version.py`` on ``pip install``.
-    from ._setuptools_scm_version import __version__
-
 
 @click.group(name="vws", context_settings=_CONTEXT_SETTINGS)
-# We set the ``version`` parameter because in PyInstaller binaries,
-# ``pkg_resources`` is not available.
-#
-# Click uses ``pkg_resources`` to determine the version if it is not given.
+# Supply the build version so frozen binaries need no distribution metadata.
 @click.version_option(version=__version__)
 @beartype
 def vws_group() -> None:
