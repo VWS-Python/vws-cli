@@ -16,3 +16,4 @@ class ClickOptionDecorator(Protocol):
         /,
     ) -> Callable[P, R]:
         """Decorate ``command`` without changing its signature."""
+        ...  # pylint: disable=unnecessary-ellipsis
