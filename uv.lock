@@ -1700,15 +1700,15 @@ wheels = [
 
 [[package]]
 name = "snapper-fmt"
-version = "0.11.0"
+version = "0.11.2"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/72/b7/22229f6fe3fd821fac544093acec7a56e4a31f194d174d266f4b74e03b75/snapper_fmt-0.11.0.tar.gz", hash = "sha256:43dd09debff923670e599422d100a5303db31ea12c96e2842832c37e54926ae1", size = 211613, upload-time = "2026-09-08T18:15:48.981Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/37/09/7e3b41e1af329458da2fb5ac736926f323a54c74a218e7a110e02b3d55c7/snapper_fmt-0.11.2.tar.gz", hash = "sha256:8958c536087740998760df953e95c08cf0ef13052b215d5951467ea9b6e23f47", size = 353217, upload-time = "2026-09-11T11:18:22.133Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/28/75/53d978f7ffc63e40a01d431dfb077ae6c457e1adebb37c3d32dbed42eb6e/snapper_fmt-0.11.0-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:aa760101012b9786b30bcd7ac5ffda2783beda0cfde7f98df725526130292f31", size = 16287991, upload-time = "2026-09-08T18:15:37.424Z" },
-    { url = "https://files.pythonhosted.org/packages/5e/d1/7450839bd35e192f06a75079f6099095cc6118c09106e1fc71eb2661e91b/snapper_fmt-0.11.0-py3-none-macosx_11_0_arm64.whl", hash = "sha256:54f0c231258c69c5464f7dd4247c279f6df53b1e7bb1074d90466eb69d36bbc9", size = 15218993, upload-time = "2026-09-08T18:15:40.164Z" },
-    { url = "https://files.pythonhosted.org/packages/82/f9/f495c45653e33047c9a6ade91b9145df1322db91129c7eee764ec645d373/snapper_fmt-0.11.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:802efad11aad7636e0abd16ae0fb84a75e5ecd2c3e8955b2fd22d25ef7574efd", size = 16945383, upload-time = "2026-09-08T18:15:42.158Z" },
-    { url = "https://files.pythonhosted.org/packages/bb/59/74d0b2cfd7c93e219bfb03f40b312f32155503cbbfb82f87316ba78d018a/snapper_fmt-0.11.0-py3-none-manylinux_2_28_aarch64.whl", hash = "sha256:d7c55fe52dc33d88060586323bb49dee2b47c810f7f659da4e483553fe625678", size = 15558319, upload-time = "2026-09-08T18:15:44.404Z" },
-    { url = "https://files.pythonhosted.org/packages/0e/72/ac99137b907c37d47e282e0a0e96f9d7f26bf7e4880cd2b66094bb011457/snapper_fmt-0.11.0-py3-none-win_amd64.whl", hash = "sha256:5e2ef4b5c6ecbff9449ba44c6b3057a2e54d290be1a0a180b1b0c7bf0a1ba3f5", size = 17704912, upload-time = "2026-09-08T18:15:46.981Z" },
+    { url = "https://files.pythonhosted.org/packages/dc/45/0bd4985e3f5bcd76f9b41a0ea87101fda58931fd76b255df7777fd1d47be/snapper_fmt-0.11.2-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:68a51e12ac5dce57da4e31be07655cac1cf509808188e6973bcbd28efafac012", size = 16465042, upload-time = "2026-09-11T11:18:04.073Z" },
+    { url = "https://files.pythonhosted.org/packages/7c/f4/6a787f8d14e720a53ecce50f61d05f46ad8d37cb593728450959cbc7035b/snapper_fmt-0.11.2-py3-none-macosx_11_0_arm64.whl", hash = "sha256:ea24eb7b8f9cb7a4c3bf87025d9eb0d5d5e59b9c2b4291c910f71e310cb35733", size = 15384950, upload-time = "2026-09-11T11:18:09.287Z" },
+    { url = "https://files.pythonhosted.org/packages/3c/f7/ebc34e98f2f7dba75d82bf5a084c273d037a1c3ee1f5125723b6f03239ff/snapper_fmt-0.11.2-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d109f94399a860ba1a1c26d3128d0df56147103e0b353c164565b2a8b3dadab2", size = 17125676, upload-time = "2026-09-11T11:18:12.528Z" },
+    { url = "https://files.pythonhosted.org/packages/ce/2d/0cee775ede18a3d0dab9405e6b638489aba188b1306706aa4052414c0553/snapper_fmt-0.11.2-py3-none-manylinux_2_28_aarch64.whl", hash = "sha256:c25c1da28ff7e25e7e66399e0159a33669f8c4cb6ce950d7007b55d91d8d2b32", size = 15726150, upload-time = "2026-09-11T11:18:15.807Z" },
+    { url = "https://files.pythonhosted.org/packages/fa/51/cc081cceea0ca63c9b6e79a009d2161ee3f9bd4aaea3d85dd3dc8c7a27c4/snapper_fmt-0.11.2-py3-none-win_amd64.whl", hash = "sha256:f31f8bbec4c38a626330be8236739107be0ac81a668f84a425225e425146571f", size = 17910801, upload-time = "2026-09-11T11:18:19.433Z" },
 ]
 
 [[package]]
@@ -2296,7 +2296,7 @@ dev = [
     { name = "setuptools-scm", specifier = "==10.2.3" },
     { name = "shellcheck-py", specifier = "==0.11.0.1" },
     { name = "shfmt-py", specifier = "==4.2.0" },
-    { name = "snapper-fmt", specifier = "==0.11.0" },
+    { name = "snapper-fmt", specifier = "==0.11.2" },
     { name = "sphinx", specifier = "==9.1.0" },
     { name = "sphinx-click", specifier = "==6.2.0" },
     { name = "sphinx-copybutton", specifier = "==0.5.2" },
