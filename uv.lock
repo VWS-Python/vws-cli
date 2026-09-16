@@ -243,15 +243,15 @@ wheels = [
 
 [[package]]
 name = "click-compose"
-version = "2025.10.27.3"
+version = "2026.9.16"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
     { name = "click" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/45/9f/7b380e5318643348e256ec31df1362b74dfa12733f76b1a97e1171ba74fe/click_compose-2025.10.27.3.tar.gz", hash = "sha256:6d3326a13b690ac7a0f0e99de785aa78ea81d130ba02d609e6367a7af23477a5", size = 18056, upload-time = "2025-10-27T11:49:45.228Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/e1/64/a665f6fe6c2e8fd6e2e59fd4169bc98c95851375e4d8894f3af3f95b0272/click_compose-2026.9.16.tar.gz", hash = "sha256:26dc10490e8757bf70a74f3a9401f2df1da4e9592b4040341e719f6fa1861318", size = 23406, upload-time = "2026-09-16T05:35:17.293Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/45/3a/411c2ad30f87b2e874a4a4d1578dc9fe11a6ea8f139b4e1f7ff291a934ca/click_compose-2025.10.27.3-py2.py3-none-any.whl", hash = "sha256:6821fb769067e76d2b2e9c5d4d5e8d974002137322ab71cde65b10bf9c025834", size = 4731, upload-time = "2025-10-27T11:49:43.857Z" },
+    { url = "https://files.pythonhosted.org/packages/58/0b/a42ebeebb775a1d3463630134df8e90146d2f3c2e533dec775c971a0a6b7/click_compose-2026.9.16-py3-none-any.whl", hash = "sha256:17684df7b5292a4f9fdd6faf3b29e36d426404a51152e7afa71f8e6c69eb5152", size = 4427, upload-time = "2026-09-16T05:35:16.094Z" },
 ]
 
 [[package]]
@@ -368,7 +368,7 @@ wheels = [
 
 [[package]]
 name = "doccmd"
-version = "2026.9.7"
+version = "2026.9.16"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
@@ -380,10 +380,11 @@ dependencies = [
     { name = "pygments" },
     { name = "sybil" },
     { name = "sybil-extras" },
+    { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/7f/ba/c7ab8fe1fa58faa931cca8644ad730aca853ae030260f9199265ac46d381/doccmd-2026.9.7.tar.gz", hash = "sha256:bfa74bf5962eed2d58fdbc7cf8fbc94d2aef9024ba5b3a4213f1cb9a3038ab59", size = 208546, upload-time = "2026-09-07T17:56:41.807Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/16/4e/337f63a0cbaded4ef8ebba9444bd3c5ef61423186f750252d20e0e2db88c/doccmd-2026.9.16.tar.gz", hash = "sha256:c58427a53928a8662cf6ae94ecc24571c8735fad263f429de042106765db84c7", size = 210144, upload-time = "2026-09-16T08:32:18.281Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1b/67/ea3f7a4763bb5b361676b29f1e5f48555eb1d3f0944a9e1bfe141ae02361/doccmd-2026.9.7-py3-none-any.whl", hash = "sha256:468e6de2688a4fb7be468feb20d45129cacfbaeabced310cadd6ca8b84552273", size = 23586, upload-time = "2026-09-07T17:56:40.416Z" },
+    { url = "https://files.pythonhosted.org/packages/93/65/c1c0c38d47d0525e1b4bedaacf86df38b67e6e5f456f1a37b419c337e516/doccmd-2026.9.16-py3-none-any.whl", hash = "sha256:9faad09f0f49e7106bb9db9aabae358bd4b087d69d3f1d0d84612de3cd4dc6fc", size = 23069, upload-time = "2026-09-16T08:32:16.868Z" },
 ]
 
 [[package]]
@@ -2273,7 +2274,7 @@ dev = [
     { name = "check-manifest", specifier = "==0.51" },
     { name = "deptry", specifier = "==0.25.1" },
     { name = "doc8", specifier = "==2.0.0" },
-    { name = "doccmd", specifier = "==2026.9.7" },
+    { name = "doccmd", specifier = "==2026.9.16" },
     { name = "freezegun", specifier = "==1.5.5" },
     { name = "furo", specifier = "==2025.12.19" },
     { name = "hadolint-bin", marker = "sys_platform != 'win32'", specifier = "==2.15.1" },
