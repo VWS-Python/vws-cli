@@ -414,9 +414,9 @@ analysis.strict-equality-semantics = true
 analysis.strict-generic-narrowing = true
 
 [tool.pytest]
-# Source functions already use @beartype. The package import hook adds
-# false missing generator exit branches to the 100% coverage gate.
-# https://github.com/beartype/beartype/issues/706
+# Source functions already use @beartype. Enable beartype_packages for
+# vws_cli once the import hook no longer adds false missing branches
+# to the 100% coverage gate: https://github.com/beartype/beartype/issues/706
 beartype_test_fixtures = true
 beartype_tests = true
 log_cli = true
