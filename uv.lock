@@ -909,6 +909,20 @@ wheels = [
 ]
 
 [[package]]
+name = "mypy-pytest-parametrize"
+version = "2026.10.5"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "mypy" },
+    { name = "pytest" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ae/14/5adf231330daad6ec6e5f1c3433ec181ac554d75b3e0d4bc51a54576a371/mypy_pytest_parametrize-2026.10.5.tar.gz", hash = "sha256:a4776e5b13816a40b7677b6e9d777d8fa75f49bc08e656731235b4e66071bb74", size = 27576, upload-time = "2026-10-05T11:59:42.493Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/47/3e/78fc9b9351a6b0dcf398bab37467b043928927caf78481d9d0bcbe1c9700/mypy_pytest_parametrize-2026.10.5-py3-none-any.whl", hash = "sha256:b4ac6fbae8ee9b5b4d3200d45393d322ede45bdda677030612d64bff0dfb05c0", size = 8654, upload-time = "2026-10-05T11:59:41.282Z" },
+]
+
+[[package]]
 name = "mypy-strict-kwargs"
 version = "2026.8.25.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2245,6 +2259,7 @@ dev = [
     { name = "hadolint-bin", marker = "sys_platform != 'win32'" },
     { name = "interrogate" },
     { name = "mypy" },
+    { name = "mypy-pytest-parametrize" },
     { name = "mypy-strict-kwargs" },
     { name = "no-defaults" },
     { name = "prek" },
@@ -2310,6 +2325,7 @@ dev = [
     { name = "hadolint-bin", marker = "sys_platform != 'win32'", specifier = "==2.15.1" },
     { name = "interrogate", specifier = "==1.7.0" },
     { name = "mypy", specifier = "==2.4.0" },
+    { name = "mypy-pytest-parametrize", specifier = "==2026.10.5" },
     { name = "mypy-strict-kwargs", specifier = "==2026.8.25.1" },
     { name = "no-defaults", specifier = "==2026.9.1" },
     { name = "prek", specifier = "==0.5.4" },
