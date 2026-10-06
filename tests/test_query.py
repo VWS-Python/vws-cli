@@ -17,304 +17,244 @@ from vws import VWS
 
 from vws_cli.query import vuforia_cloud_reco
 
+# Tests for making image queries.
 
-class TestQuery:
-    """Tests for making image queries."""
 
-    @staticmethod
-    def test_no_matches(
-        *,
-        mock_database: CloudDatabase,
-        tmp_path: Path,
-        high_quality_image: io.BytesIO,
-    ) -> None:
-        """An empty list is returned if there are no matches."""
-        runner = CliRunner()
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
-        commands = [
-            str(object=new_file),
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vuforia_cloud_reco,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        assert result.exit_code == 0
-        result_data = yaml.safe_load(stream=result.stdout)
-        assert result_data == []
+def test_no_matches(
+    *,
+    mock_database: CloudDatabase,
+    tmp_path: Path,
+    high_quality_image: io.BytesIO,
+) -> None:
+    """An empty list is returned if there are no matches."""
+    runner = CliRunner()
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+    commands = [
+        str(object=new_file),
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        cli=vuforia_cloud_reco,
+        args=commands,
+        catch_exceptions=False,
+        color=True,
+    )
+    assert result.exit_code == 0
+    result_data = yaml.safe_load(stream=result.stdout)
+    assert result_data == []
 
-    @staticmethod
-    def test_matches(
-        *,
-        tmp_path: Path,
-        high_quality_image: io.BytesIO,
-        vws_client: VWS,
-        mock_database: CloudDatabase,
-    ) -> None:
-        """Details of matching targets are shown."""
-        name = uuid.uuid4().hex
-        target_id = vws_client.add_target(
-            name=name,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        vws_client.wait_for_target_processed(target_id=target_id)
 
-        runner = CliRunner()
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
-        commands = [
-            str(object=new_file),
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vuforia_cloud_reco,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        assert result.exit_code == 0
-        result_data = yaml.safe_load(stream=result.stdout)
-        [matching_target] = result_data
-        target_timestamp: object = matching_target["target_data"][
-            "target_timestamp"
-        ]
-        expected_result_data = {
-            "target_data": {
-                "application_metadata": None,
-                "name": name,
-                "target_timestamp": target_timestamp,
-            },
-            "target_id": target_id,
-        }
-        assert matching_target == expected_result_data
+def test_matches(
+    *,
+    tmp_path: Path,
+    high_quality_image: io.BytesIO,
+    vws_client: VWS,
+    mock_database: CloudDatabase,
+) -> None:
+    """Details of matching targets are shown."""
+    name = uuid.uuid4().hex
+    target_id = vws_client.add_target(
+        name=name,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    vws_client.wait_for_target_processed(target_id=target_id)
 
-    @staticmethod
-    def test_image_file_is_dir(
-        *,
-        tmp_path: Path,
-        mock_database: CloudDatabase,
-    ) -> None:
-        """
-        An appropriate error is given if the given image file path
-        points to a
-        directory.
-        """
-        runner = CliRunner()
-        commands = [
-            str(object=tmp_path),
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vuforia_cloud_reco,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        expected_result_code = 2
-        assert result.exit_code == expected_result_code
-        assert not bool(result.stdout)
-        expected_stderr = dedent(
-            text=f"""\
+    runner = CliRunner()
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+    commands = [
+        str(object=new_file),
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        cli=vuforia_cloud_reco,
+        args=commands,
+        catch_exceptions=False,
+        color=True,
+    )
+    assert result.exit_code == 0
+    result_data = yaml.safe_load(stream=result.stdout)
+    [matching_target] = result_data
+    target_timestamp: object = matching_target["target_data"][
+        "target_timestamp"
+    ]
+    expected_result_data = {
+        "target_data": {
+            "application_metadata": None,
+            "name": name,
+            "target_timestamp": target_timestamp,
+        },
+        "target_id": target_id,
+    }
+    assert matching_target == expected_result_data
+
+
+def test_image_file_is_dir(
+    *,
+    tmp_path: Path,
+    mock_database: CloudDatabase,
+) -> None:
+    """
+    An appropriate error is given if the given image file path
+    points to a
+    directory.
+    """
+    runner = CliRunner()
+    commands = [
+        str(object=tmp_path),
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        cli=vuforia_cloud_reco,
+        args=commands,
+        catch_exceptions=False,
+        color=True,
+    )
+    expected_result_code = 2
+    assert result.exit_code == expected_result_code
+    assert not bool(result.stdout)
+    expected_stderr = dedent(
+        text=f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
             Try 'vuforia-cloud-reco --help' for help.
 
             Error: Invalid value for 'IMAGE': File '{tmp_path}' is a directory.
             """,
-        ).replace("\\", "\\\\")
-        assert result.stderr == expected_stderr
+    ).replace("\\", "\\\\")
+    assert result.stderr == expected_stderr
 
-    @staticmethod
-    def test_relative_path(
-        *,
-        tmp_path: Path,
-        mock_database: CloudDatabase,
-        high_quality_image: io.BytesIO,
-    ) -> None:
-        """Image file paths are resolved."""
-        runner = CliRunner()
-        new_filename = uuid.uuid4().hex
-        original_image_file = tmp_path / "foo"
-        image_data = high_quality_image.getvalue()
-        _ = original_image_file.write_bytes(data=image_data)
-        commands = [
-            str(object=new_filename),
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
-        with runner.isolated_filesystem():
-            new_file = Path(new_filename)
-            new_file.symlink_to(target=original_image_file)
-            result = runner.invoke(
-                cli=vuforia_cloud_reco,
-                args=commands,
-                catch_exceptions=False,
-                color=True,
-            )
 
-        assert result.exit_code == 0
-        result_data = yaml.safe_load(stream=result.stdout)
-        assert result_data == []
-
-    @staticmethod
-    def test_image_file_does_not_exist(
-        *,
-        mock_database: CloudDatabase,
-        tmp_path: Path,
-    ) -> None:
-        """
-        An appropriate error is given if the given image file does not
-        exist.
-        """
-        runner = CliRunner()
-        does_not_exist_file = tmp_path / uuid.uuid4().hex
-        commands = [
-            str(object=does_not_exist_file),
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
+def test_relative_path(
+    *,
+    tmp_path: Path,
+    mock_database: CloudDatabase,
+    high_quality_image: io.BytesIO,
+) -> None:
+    """Image file paths are resolved."""
+    runner = CliRunner()
+    new_filename = uuid.uuid4().hex
+    original_image_file = tmp_path / "foo"
+    image_data = high_quality_image.getvalue()
+    _ = original_image_file.write_bytes(data=image_data)
+    commands = [
+        str(object=new_filename),
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    with runner.isolated_filesystem():
+        new_file = Path(new_filename)
+        new_file.symlink_to(target=original_image_file)
         result = runner.invoke(
             cli=vuforia_cloud_reco,
             args=commands,
             catch_exceptions=False,
             color=True,
         )
-        expected_result_code = 2
-        assert result.exit_code == expected_result_code
-        assert not bool(result.stdout)
-        expected_stderr = dedent(
-            text=f"""\
+
+    assert result.exit_code == 0
+    result_data = yaml.safe_load(stream=result.stdout)
+    assert result_data == []
+
+
+def test_image_file_does_not_exist(
+    *,
+    mock_database: CloudDatabase,
+    tmp_path: Path,
+) -> None:
+    """
+    An appropriate error is given if the given image file does not
+    exist.
+    """
+    runner = CliRunner()
+    does_not_exist_file = tmp_path / uuid.uuid4().hex
+    commands = [
+        str(object=does_not_exist_file),
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        cli=vuforia_cloud_reco,
+        args=commands,
+        catch_exceptions=False,
+        color=True,
+    )
+    expected_result_code = 2
+    assert result.exit_code == expected_result_code
+    assert not bool(result.stdout)
+    expected_stderr = dedent(
+        text=f"""\
             Usage: vuforia-cloud-reco [OPTIONS] IMAGE
             Try 'vuforia-cloud-reco --help' for help.
 
             Error: Invalid value for 'IMAGE': File '{does_not_exist_file}' does not exist.
             """,
-        ).replace("\\", "\\\\")
-        assert result.stderr == expected_stderr
+    ).replace("\\", "\\\\")
+    assert result.stderr == expected_stderr
 
 
-class TestDefaultRequestTimeout:
-    """Tests for the default request timeout."""
-
-    @staticmethod
-    @pytest.mark.parametrize(
-        argnames=("response_delay_seconds", "expect_timeout"),
-        argvalues=[(29, False), (31, True)],
-    )
-    def test_default_timeout(
-        *,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-        response_delay_seconds: int,
-        expect_timeout: bool,
-    ) -> None:
-        """At 29 seconds there is no error; at 31 seconds there is a
-        timeout.
-        """
-        runner = CliRunner()
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
-        with (
-            freeze_time() as frozen_datetime,
-            MockVWS(
-                response_delay_seconds=response_delay_seconds,
-                sleep_fn=lambda seconds: (
-                    frozen_datetime.tick(
-                        delta=datetime.timedelta(seconds=seconds),
-                    ),
-                    None,
-                )[1],
-            ) as mock,
-        ):
-            database = CloudDatabase()
-            mock.add_cloud_database(cloud_database=database)
-            commands = [
-                str(object=new_file),
-                "--client-access-key",
-                database.client_access_key,
-                "--client-secret-key",
-                database.client_secret_key,
-            ]
-
-            if expect_timeout:
-                with pytest.raises(
-                    expected_exception=requests.exceptions.Timeout,
-                ):
-                    _ = runner.invoke(
-                        cli=vuforia_cloud_reco,
-                        args=commands,
-                        catch_exceptions=False,
-                        color=True,
-                    )
-            else:
-                result = runner.invoke(
-                    cli=vuforia_cloud_reco,
-                    args=commands,
-                    catch_exceptions=False,
-                    color=True,
-                )
-                assert result.exit_code == 0
+# Tests for the default request timeout.
 
 
-class TestCustomRequestTimeout:
-    """Tests for custom request timeout options."""
+@pytest.mark.parametrize(
+    argnames=("response_delay_seconds", "expect_timeout"),
+    argvalues=[(29, False), (31, True)],
+)
+def test_default_timeout(
+    *,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+    response_delay_seconds: int,
+    expect_timeout: bool,
+) -> None:
+    """At 29 seconds there is no error; at 31 seconds there is a
+    timeout.
+    """
+    runner = CliRunner()
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+    with (
+        freeze_time() as frozen_datetime,
+        MockVWS(
+            response_delay_seconds=response_delay_seconds,
+            sleep_fn=lambda seconds: (
+                frozen_datetime.tick(
+                    delta=datetime.timedelta(seconds=seconds),
+                ),
+                None,
+            )[1],
+        ) as mock,
+    ):
+        database = CloudDatabase()
+        mock.add_cloud_database(cloud_database=database)
+        commands = [
+            str(object=new_file),
+            "--client-access-key",
+            database.client_access_key,
+            "--client-secret-key",
+            database.client_secret_key,
+        ]
 
-    @staticmethod
-    def test_custom_timeout(
-        *,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-    ) -> None:
-        """Custom connection and read timeouts are respected."""
-        runner = CliRunner()
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
-        with (
-            freeze_time() as frozen_datetime,
-            MockVWS(
-                response_delay_seconds=5,
-                sleep_fn=lambda seconds: (
-                    frozen_datetime.tick(
-                        delta=datetime.timedelta(seconds=seconds),
-                    ),
-                    None,
-                )[1],
-            ) as mock,
-        ):
-            database = CloudDatabase()
-            mock.add_cloud_database(cloud_database=database)
-            commands = [
-                str(object=new_file),
-                "--client-access-key",
-                database.client_access_key,
-                "--client-secret-key",
-                database.client_secret_key,
-                "--read-timeout-seconds",
-                "1",
-            ]
-
+        if expect_timeout:
             with pytest.raises(
                 expected_exception=requests.exceptions.Timeout,
             ):
@@ -324,42 +264,7 @@ class TestCustomRequestTimeout:
                     catch_exceptions=False,
                     color=True,
                 )
-
-    @staticmethod
-    def test_custom_timeout_no_error(
-        *,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-    ) -> None:
-        """A sufficiently large timeout does not cause an error."""
-        runner = CliRunner()
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
-        with (
-            freeze_time() as frozen_datetime,
-            MockVWS(
-                response_delay_seconds=5,
-                sleep_fn=lambda seconds: (
-                    frozen_datetime.tick(
-                        delta=datetime.timedelta(seconds=seconds),
-                    ),
-                    None,
-                )[1],
-            ) as mock,
-        ):
-            database = CloudDatabase()
-            mock.add_cloud_database(cloud_database=database)
-            commands = [
-                str(object=new_file),
-                "--client-access-key",
-                database.client_access_key,
-                "--client-secret-key",
-                database.client_secret_key,
-                "--read-timeout-seconds",
-                "60",
-            ]
-
+        else:
             result = runner.invoke(
                 cli=vuforia_cloud_reco,
                 args=commands,
@@ -367,6 +272,97 @@ class TestCustomRequestTimeout:
                 color=True,
             )
             assert result.exit_code == 0
+
+
+# Tests for custom request timeout options.
+
+
+def test_custom_timeout(
+    *,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+) -> None:
+    """Custom connection and read timeouts are respected."""
+    runner = CliRunner()
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+    with (
+        freeze_time() as frozen_datetime,
+        MockVWS(
+            response_delay_seconds=5,
+            sleep_fn=lambda seconds: (
+                frozen_datetime.tick(
+                    delta=datetime.timedelta(seconds=seconds),
+                ),
+                None,
+            )[1],
+        ) as mock,
+    ):
+        database = CloudDatabase()
+        mock.add_cloud_database(cloud_database=database)
+        commands = [
+            str(object=new_file),
+            "--client-access-key",
+            database.client_access_key,
+            "--client-secret-key",
+            database.client_secret_key,
+            "--read-timeout-seconds",
+            "1",
+        ]
+
+        with pytest.raises(
+            expected_exception=requests.exceptions.Timeout,
+        ):
+            _ = runner.invoke(
+                cli=vuforia_cloud_reco,
+                args=commands,
+                catch_exceptions=False,
+                color=True,
+            )
+
+
+def test_custom_timeout_no_error(
+    *,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+) -> None:
+    """A sufficiently large timeout does not cause an error."""
+    runner = CliRunner()
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+    with (
+        freeze_time() as frozen_datetime,
+        MockVWS(
+            response_delay_seconds=5,
+            sleep_fn=lambda seconds: (
+                frozen_datetime.tick(
+                    delta=datetime.timedelta(seconds=seconds),
+                ),
+                None,
+            )[1],
+        ) as mock,
+    ):
+        database = CloudDatabase()
+        mock.add_cloud_database(cloud_database=database)
+        commands = [
+            str(object=new_file),
+            "--client-access-key",
+            database.client_access_key,
+            "--client-secret-key",
+            database.client_secret_key,
+            "--read-timeout-seconds",
+            "60",
+        ]
+
+        result = runner.invoke(
+            cli=vuforia_cloud_reco,
+            args=commands,
+            catch_exceptions=False,
+            color=True,
+        )
+        assert result.exit_code == 0
 
 
 def test_version() -> None:
@@ -383,406 +379,403 @@ def test_version() -> None:
     assert result.stdout.startswith("vuforia-cloud-reco, version ")
 
 
-class TestMaxNumResults:
-    """Tests for the ``--max-num-results`` option."""
-
-    @staticmethod
-    def test_default(
-        *,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-        mock_database: CloudDatabase,
-    ) -> None:
-        """By default the maximum number of results is 1."""
-        runner = CliRunner()
-        target_id = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        target_id_2 = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        vws_client.wait_for_target_processed(target_id=target_id)
-        vws_client.wait_for_target_processed(target_id=target_id_2)
-
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
-        commands = [
-            str(object=new_file),
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vuforia_cloud_reco,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        assert result.exit_code == 0
-        result_data = yaml.safe_load(stream=result.stdout)
-        assert len(result_data) == 1
-
-    @staticmethod
-    def test_custom(
-        *,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-        mock_database: CloudDatabase,
-    ) -> None:
-        """It is possible to set a custom ``--max-num-results``."""
-        runner = CliRunner()
-        target_id = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        target_id_2 = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        target_id_3 = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        vws_client.wait_for_target_processed(target_id=target_id)
-        vws_client.wait_for_target_processed(target_id=target_id_2)
-        vws_client.wait_for_target_processed(target_id=target_id_3)
-
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
-        max_num_results = 2
-        commands = [
-            str(object=new_file),
-            "--max-num-results",
-            str(object=max_num_results),
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vuforia_cloud_reco,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        assert result.exit_code == 0
-        result_data = yaml.safe_load(stream=result.stdout)
-        assert len(result_data) == max_num_results
-
-    @staticmethod
-    def test_out_of_range(
-        *,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-        mock_database: CloudDatabase,
-    ) -> None:
-        """``--max-num-results`` must be between 1 and 50."""
-        runner = CliRunner()
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
-        commands = [
-            str(object=new_file),
-            "--max-num-results",
-            str(object=0),
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vuforia_cloud_reco,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        expected_result_code = 2
-        assert result.exit_code == expected_result_code
-        expected_stderr_substring = (
-            "Error: Invalid value for '--max-num-results': 0 is not in the "
-            "range 1<=x<=50."
-        )
-        assert expected_stderr_substring in result.stderr
+# Tests for the ``--max-num-results`` option.
 
 
-class TestIncludeTargetData:
-    """Tests for the ``--include-target-data`` option."""
+def test_max_num_results_default(
+    *,
+    vws_client: VWS,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+    mock_database: CloudDatabase,
+) -> None:
+    """By default the maximum number of results is 1."""
+    runner = CliRunner()
+    target_id = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    target_id_2 = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    vws_client.wait_for_target_processed(target_id=target_id)
+    vws_client.wait_for_target_processed(target_id=target_id_2)
 
-    @staticmethod
-    def test_default(
-        *,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-        mock_database: CloudDatabase,
-    ) -> None:
-        """By default, target data is only returned in the top match."""
-        runner = CliRunner()
-        target_id = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        target_id_2 = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        vws_client.wait_for_target_processed(target_id=target_id)
-        vws_client.wait_for_target_processed(target_id=target_id_2)
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
-        commands = [
-            str(object=new_file),
-            "--max-num-results",
-            str(object=2),
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vuforia_cloud_reco,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        assert result.exit_code == 0
-        matches = yaml.safe_load(stream=result.stdout)
-        top_match, second_match = matches
-        assert top_match["target_data"] is not None
-        assert second_match["target_data"] is None
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+    commands = [
+        str(object=new_file),
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        cli=vuforia_cloud_reco,
+        args=commands,
+        catch_exceptions=False,
+        color=True,
+    )
+    assert result.exit_code == 0
+    result_data = yaml.safe_load(stream=result.stdout)
+    assert len(result_data) == 1
 
-    @staticmethod
-    def test_top(
-        *,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-        mock_database: CloudDatabase,
-    ) -> None:
-        """
-        When 'top' is given, target data is only returned in the top
-        match.
-        """
-        runner = CliRunner()
-        target_id = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        target_id_2 = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        vws_client.wait_for_target_processed(target_id=target_id)
-        vws_client.wait_for_target_processed(target_id=target_id_2)
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
-        commands = [
-            str(object=new_file),
-            "--max-num-results",
-            str(object=2),
-            "--include-target-data",
-            "top",
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vuforia_cloud_reco,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        assert result.exit_code == 0
-        matches = yaml.safe_load(stream=result.stdout)
-        top_match, second_match = matches
-        assert top_match["target_data"] is not None
-        assert second_match["target_data"] is None
 
-    @staticmethod
-    def test_none(
-        *,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-        mock_database: CloudDatabase,
-    ) -> None:
-        """
-        When 'none' is given, target data is not returned in any
-        match.
-        """
-        runner = CliRunner()
-        target_id = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        target_id_2 = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        vws_client.wait_for_target_processed(target_id=target_id)
-        vws_client.wait_for_target_processed(target_id=target_id_2)
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
-        commands = [
-            str(object=new_file),
-            "--max-num-results",
-            str(object=2),
-            "--include-target-data",
-            "none",
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vuforia_cloud_reco,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        assert result.exit_code == 0
-        matches = yaml.safe_load(stream=result.stdout)
-        top_match, second_match = matches
-        assert top_match["target_data"] is None
-        assert second_match["target_data"] is None
+def test_custom(
+    *,
+    vws_client: VWS,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+    mock_database: CloudDatabase,
+) -> None:
+    """It is possible to set a custom ``--max-num-results``."""
+    runner = CliRunner()
+    target_id = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    target_id_2 = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    target_id_3 = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    vws_client.wait_for_target_processed(target_id=target_id)
+    vws_client.wait_for_target_processed(target_id=target_id_2)
+    vws_client.wait_for_target_processed(target_id=target_id_3)
 
-    @staticmethod
-    def test_all(
-        *,
-        vws_client: VWS,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-        mock_database: CloudDatabase,
-    ) -> None:
-        """When 'all' is given, target data is returned in all matches."""
-        runner = CliRunner()
-        target_id = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        target_id_2 = vws_client.add_target(
-            name=uuid.uuid4().hex,
-            width=1,
-            image=high_quality_image,
-            active_flag=True,
-            application_metadata=None,
-        )
-        vws_client.wait_for_target_processed(target_id=target_id)
-        vws_client.wait_for_target_processed(target_id=target_id_2)
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+    max_num_results = 2
+    commands = [
+        str(object=new_file),
+        "--max-num-results",
+        str(object=max_num_results),
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        cli=vuforia_cloud_reco,
+        args=commands,
+        catch_exceptions=False,
+        color=True,
+    )
+    assert result.exit_code == 0
+    result_data = yaml.safe_load(stream=result.stdout)
+    assert len(result_data) == max_num_results
 
-        commands = [
-            str(object=new_file),
-            "--max-num-results",
-            str(object=2),
-            "--include-target-data",
-            "all",
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vuforia_cloud_reco,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        assert result.exit_code == 0
-        matches = yaml.safe_load(stream=result.stdout)
-        top_match, second_match = matches
-        assert top_match["target_data"] is not None
-        assert second_match["target_data"] is not None
 
-    @staticmethod
-    def test_other(
-        *,
-        high_quality_image: io.BytesIO,
-        tmp_path: Path,
-        mock_database: CloudDatabase,
-    ) -> None:
-        """
-        When a string other than 'top', 'all', or 'none' is given, an
-        error is
-        shown.
-        """
-        runner = CliRunner()
-        new_file = tmp_path / uuid.uuid4().hex
-        image_data = high_quality_image.getvalue()
-        _ = new_file.write_bytes(data=image_data)
-        commands = [
-            str(object=new_file),
-            "--max-num-results",
-            str(object=2),
-            "--include-target-data",
-            "other",
-            "--client-access-key",
-            mock_database.client_access_key,
-            "--client-secret-key",
-            mock_database.client_secret_key,
-        ]
-        result = runner.invoke(
-            cli=vuforia_cloud_reco,
-            args=commands,
-            catch_exceptions=False,
-            color=True,
-        )
-        expected_result_code = 2
-        assert result.exit_code == expected_result_code
-        expected_stderr = (
-            "'--include-target-data': 'other' is not one of 'top', 'none', "
-            "'all'."
-        )
-        assert expected_stderr in result.stderr
+def test_out_of_range(
+    *,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+    mock_database: CloudDatabase,
+) -> None:
+    """``--max-num-results`` must be between 1 and 50."""
+    runner = CliRunner()
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+    commands = [
+        str(object=new_file),
+        "--max-num-results",
+        str(object=0),
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        cli=vuforia_cloud_reco,
+        args=commands,
+        catch_exceptions=False,
+        color=True,
+    )
+    expected_result_code = 2
+    assert result.exit_code == expected_result_code
+    expected_stderr_substring = (
+        "Error: Invalid value for '--max-num-results': 0 is not in the "
+        "range 1<=x<=50."
+    )
+    assert expected_stderr_substring in result.stderr
+
+
+# Tests for the ``--include-target-data`` option.
+
+
+def test_include_target_data_default(
+    *,
+    vws_client: VWS,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+    mock_database: CloudDatabase,
+) -> None:
+    """By default, target data is only returned in the top match."""
+    runner = CliRunner()
+    target_id = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    target_id_2 = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    vws_client.wait_for_target_processed(target_id=target_id)
+    vws_client.wait_for_target_processed(target_id=target_id_2)
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+    commands = [
+        str(object=new_file),
+        "--max-num-results",
+        str(object=2),
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        cli=vuforia_cloud_reco,
+        args=commands,
+        catch_exceptions=False,
+        color=True,
+    )
+    assert result.exit_code == 0
+    matches = yaml.safe_load(stream=result.stdout)
+    top_match, second_match = matches
+    assert top_match["target_data"] is not None
+    assert second_match["target_data"] is None
+
+
+def test_top(
+    *,
+    vws_client: VWS,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+    mock_database: CloudDatabase,
+) -> None:
+    """
+    When 'top' is given, target data is only returned in the top
+    match.
+    """
+    runner = CliRunner()
+    target_id = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    target_id_2 = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    vws_client.wait_for_target_processed(target_id=target_id)
+    vws_client.wait_for_target_processed(target_id=target_id_2)
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+    commands = [
+        str(object=new_file),
+        "--max-num-results",
+        str(object=2),
+        "--include-target-data",
+        "top",
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        cli=vuforia_cloud_reco,
+        args=commands,
+        catch_exceptions=False,
+        color=True,
+    )
+    assert result.exit_code == 0
+    matches = yaml.safe_load(stream=result.stdout)
+    top_match, second_match = matches
+    assert top_match["target_data"] is not None
+    assert second_match["target_data"] is None
+
+
+def test_none(
+    *,
+    vws_client: VWS,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+    mock_database: CloudDatabase,
+) -> None:
+    """
+    When 'none' is given, target data is not returned in any
+    match.
+    """
+    runner = CliRunner()
+    target_id = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    target_id_2 = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    vws_client.wait_for_target_processed(target_id=target_id)
+    vws_client.wait_for_target_processed(target_id=target_id_2)
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+    commands = [
+        str(object=new_file),
+        "--max-num-results",
+        str(object=2),
+        "--include-target-data",
+        "none",
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        cli=vuforia_cloud_reco,
+        args=commands,
+        catch_exceptions=False,
+        color=True,
+    )
+    assert result.exit_code == 0
+    matches = yaml.safe_load(stream=result.stdout)
+    top_match, second_match = matches
+    assert top_match["target_data"] is None
+    assert second_match["target_data"] is None
+
+
+def test_all(
+    *,
+    vws_client: VWS,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+    mock_database: CloudDatabase,
+) -> None:
+    """When 'all' is given, target data is returned in all matches."""
+    runner = CliRunner()
+    target_id = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    target_id_2 = vws_client.add_target(
+        name=uuid.uuid4().hex,
+        width=1,
+        image=high_quality_image,
+        active_flag=True,
+        application_metadata=None,
+    )
+    vws_client.wait_for_target_processed(target_id=target_id)
+    vws_client.wait_for_target_processed(target_id=target_id_2)
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+
+    commands = [
+        str(object=new_file),
+        "--max-num-results",
+        str(object=2),
+        "--include-target-data",
+        "all",
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        cli=vuforia_cloud_reco,
+        args=commands,
+        catch_exceptions=False,
+        color=True,
+    )
+    assert result.exit_code == 0
+    matches = yaml.safe_load(stream=result.stdout)
+    top_match, second_match = matches
+    assert top_match["target_data"] is not None
+    assert second_match["target_data"] is not None
+
+
+def test_other(
+    *,
+    high_quality_image: io.BytesIO,
+    tmp_path: Path,
+    mock_database: CloudDatabase,
+) -> None:
+    """
+    When a string other than 'top', 'all', or 'none' is given, an
+    error is
+    shown.
+    """
+    runner = CliRunner()
+    new_file = tmp_path / uuid.uuid4().hex
+    image_data = high_quality_image.getvalue()
+    _ = new_file.write_bytes(data=image_data)
+    commands = [
+        str(object=new_file),
+        "--max-num-results",
+        str(object=2),
+        "--include-target-data",
+        "other",
+        "--client-access-key",
+        mock_database.client_access_key,
+        "--client-secret-key",
+        mock_database.client_secret_key,
+    ]
+    result = runner.invoke(
+        cli=vuforia_cloud_reco,
+        args=commands,
+        catch_exceptions=False,
+        color=True,
+    )
+    expected_result_code = 2
+    assert result.exit_code == expected_result_code
+    expected_stderr = (
+        "'--include-target-data': 'other' is not one of 'top', 'none', 'all'."
+    )
+    assert expected_stderr in result.stderr
 
 
 def test_base_vwq_url(
