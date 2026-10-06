@@ -163,7 +163,7 @@ lint.per-file-ignores."doccmd_*.py" = [
     # Allow asserts in docs.
     "S101",
 ]
-lint.per-file-ignores."tests/test_*.py" = [
+lint.per-file-ignores."tests/**/test_*.py" = [
     # Do not require tests to have a one-line summary.
     "D205",
 ]

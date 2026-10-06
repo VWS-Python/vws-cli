@@ -15,9 +15,6 @@ from vws_cli import vumark as vumark_module
 generate_vumark = vumark_module.generate_vumark
 
 
-# Tests for ``vumark``.
-
-
 @pytest.mark.parametrize(
     argnames=("format_name", "expected_prefix"),
     argvalues=[
