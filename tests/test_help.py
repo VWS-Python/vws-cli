@@ -8,14 +8,10 @@ from vws_cli import vws_group
 from vws_cli.query import vuforia_cloud_reco
 from vws_cli.vumark import generate_vumark
 
-_SUBCOMMANDS = [[item] for item in vws_group.commands]
-_BASE_COMMAND: list[list[str]] = [[]]
-_COMMANDS = _BASE_COMMAND + _SUBCOMMANDS
-
 
 @pytest.mark.parametrize(
     argnames="command",
-    argvalues=_COMMANDS,
+    argvalues=[list[str]()] + [[item] for item in vws_group.commands],
     ids=str,
 )
 def test_vws_command_help(
