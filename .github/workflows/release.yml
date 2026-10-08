@@ -52,21 +52,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # towncrier writes the rendered notes to stdout (informational
-      # chatter goes to stderr), so this is the curated release body for
-      # this version, not github-tag-action's commit-derived changelog.
-      - name: Generate the GitHub release notes
+      - name: Assemble native Markdown release notes
         env:
           RELEASE: ${{ steps.calver.outputs.release }}
-        run: uv run --group=release towncrier build --draft --version "$RELEASE" >
-          release-notes.md
-
-      # Assemble the same fragments into CHANGELOG.rst under a new
-      # ``$RELEASE`` section and delete the consumed fragment files.
-      - name: Update the changelog
-        env:
-          RELEASE: ${{ steps.calver.outputs.release }}
-        run: uv run --group=release towncrier build --yes --version "$RELEASE"
+        run: |
+          uv run --group=release towncrier build --yes --version "$RELEASE"
+          cp "docs/source/changelog/$RELEASE.md" release-notes.md
 
       - name: Update VERSION file for Nix flake
         env:
@@ -78,7 +69,7 @@ jobs:
         id: commit
         with:
           commit_message: Bump CHANGELOG and VERSION
-          file_pattern: CHANGELOG.rst newsfragments VERSION
+          file_pattern: CHANGELOG.md docs/source/changelog newsfragments VERSION
           # Error if there are no changes.
           skip_dirty_check: true
 
