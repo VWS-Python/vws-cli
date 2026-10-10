@@ -31,7 +31,7 @@ dynamic = [
     "version",
 ]
 dependencies = [
-    "beartype==0.23.0rc2",
+    "beartype==0.23.0",
     "click==8.5.0",
     "pyyaml==6.0.3",
     "vws-python==2026.9.7",
@@ -418,9 +418,7 @@ analysis.strict-equality-semantics = true
 analysis.strict-generic-narrowing = true
 
 [tool.pytest]
-# Source functions already use @beartype. Enable beartype_packages for
-# vws_cli once the import hook no longer adds false missing branches
-# to the 100% coverage gate: https://github.com/beartype/beartype/issues/706
+beartype_packages = [ "vws_cli" ]
 beartype_test_fixtures = true
 beartype_tests = true
 log_cli = true
