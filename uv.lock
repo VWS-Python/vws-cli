@@ -2369,7 +2369,7 @@ dev = [
     { name = "types-requests", specifier = "==2.33.0.20261006" },
     { name = "vale", specifier = "==3.22.0.0" },
     { name = "vulture", specifier = "==2.16" },
-    { name = "vws-python-mock", specifier = "==2026.9.12" },
+    { name = "vws-python-mock", specifier = "==2026.10.9" },
     { name = "vws-test-fixtures", specifier = "==2026.10.8" },
     { name = "yamlfix", specifier = "==1.19.1" },
     { name = "zizmor", specifier = "==1.30.1" },
@@ -2399,7 +2399,7 @@ wheels = [
 
 [[package]]
 name = "vws-python-mock"
-version = "2026.9.12"
+version = "2026.10.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "beartype" },
@@ -2420,9 +2420,9 @@ dependencies = [
     { name = "vws-auth-tools" },
     { name = "werkzeug" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/52/63/dbabcf9760a7f3e0534bdde76414106beb962ddd4403e5fcc886bd8a81af/vws_python_mock-2026.9.12.tar.gz", hash = "sha256:3a4b6b79cf3eb296f5e1b2a06f33890066f2e472e1d7b7d43738f5b5ad894588", size = 410521, upload-time = "2026-09-12T00:35:31.526Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a6/9d/7f812d0c7420c21e4ec88a3435ee46e2b465426b41273c90d8191362093d/vws_python_mock-2026.10.9.tar.gz", hash = "sha256:3749c711ea2f254aa17ca1bd69759fb6512edc9e3ed6617ecfac165354998859", size = 423051, upload-time = "2026-10-09T16:14:19.726Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f5/a7/9fe3e38fb070c02200c0b86a37f426404fd5cd861112da1055f1c8de7fa2/vws_python_mock-2026.9.12-py3-none-any.whl", hash = "sha256:f3f4e2ff7d8837a43c7dc7b6e48bca8453736f0bf29848b1cc6e5624655e9279", size = 125115, upload-time = "2026-09-12T00:35:29.973Z" },
+    { url = "https://files.pythonhosted.org/packages/e9/e9/01a4ba2d6e88a2063bd19f36b7fe377b737c3e2e24ead5a1a5478f39117c/vws_python_mock-2026.10.9-py3-none-any.whl", hash = "sha256:47fe4cc411b8af37518705d810cf798f40cfedec0a85ad40a69c220eb591c221", size = 123053, upload-time = "2026-10-09T16:14:18.088Z" },
 ]
 
 [[package]]
