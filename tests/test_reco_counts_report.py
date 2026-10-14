@@ -1,6 +1,6 @@
 """Tests for the ``get-database-reco-counts-report`` command."""
 
-import datetime
+import datetime as dt
 import uuid
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -22,10 +22,10 @@ _USAGE_ERROR_EXIT_CODE = 2
 
 def _month_string(*, months_ago: int) -> str:
     """Return a ``YYYY-mm`` string for a month relative to this month."""
-    now = datetime.datetime.now(tz=ZoneInfo(key="UTC"))
+    now = dt.datetime.now(tz=ZoneInfo(key="UTC"))
     first_of_month = now.replace(day=1)
     for _ in range(months_ago):
-        first_of_month = first_of_month.replace(day=1) - datetime.timedelta(
+        first_of_month = first_of_month.replace(day=1) - dt.timedelta(
             days=1,
         )
     return first_of_month.strftime(format="%Y-%m")
