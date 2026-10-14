@@ -35,7 +35,7 @@ dependencies = [
     "beartype==0.23.0",
     "click==8.5.0",
     "pyyaml==6.0.3",
-    "vws-python==2026.9.7",
+    "vws-python==2026.10.9",
 ]
 urls.Documentation = "https://vws-python.github.io/vws-cli/"
 urls.Source = "https://github.com/VWS-Python/vws-cli"
