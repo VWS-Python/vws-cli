@@ -1,5 +1,5 @@
 version = 1
-revision = 5
+revision = 3
 requires-python = ">=3.14"
 resolution-markers = [
     "python_full_version >= '3.15' and sys_platform != 'darwin'",
@@ -2368,7 +2368,7 @@ dev = [
     { name = "vale", specifier = "==3.22.0.0" },
     { name = "vulture", specifier = "==2.16" },
     { name = "vws-python-mock", specifier = "==2026.9.12" },
-    { name = "vws-test-fixtures", specifier = "==2026.8.26" },
+    { name = "vws-test-fixtures", specifier = "==2026.10.8" },
     { name = "yamlfix", specifier = "==1.19.1" },
     { name = "zizmor", specifier = "==1.30.1" },
 ]
@@ -2425,15 +2425,15 @@ wheels = [
 
 [[package]]
 name = "vws-test-fixtures"
-version = "2026.8.26"
+version = "2026.10.8"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pillow" },
     { name = "pytest" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/2f/75/d6aa184ea27b9c941d83a20fc48d97a16315306870b84ef0bc253b7e19b0/vws_test_fixtures-2026.8.26.tar.gz", hash = "sha256:2d3528f89a14f65d701257df93b08657b597f8db94d2175da8b6cd041b1defd9", size = 73785, upload-time = "2026-08-26T14:19:48.632Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/8b/a9/da97ec4112b059fbfe495c0a7711dedf6fd4ee3afd3db7ff21ce22a87706/vws_test_fixtures-2026.10.8.tar.gz", hash = "sha256:ed54a1e1e7f07a073ada72f13494c8c884196aacc5213cfbc6a7c26206dc9239", size = 74610, upload-time = "2026-10-08T03:28:28.271Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/00/9c/d7632977c082cec17db137174a7df5faf6982f430feae0511d2ca4988814/vws_test_fixtures-2026.8.26-py3-none-any.whl", hash = "sha256:b3261778ead7fd82332858bdc74c678c7c508134efc0bcf2820dd16d0d2eaa3b", size = 52395, upload-time = "2026-08-26T14:19:47.225Z" },
+    { url = "https://files.pythonhosted.org/packages/4e/85/68f98e4bdf0525388b1625ce4da5c2be89601dfd3a58101947f69e9eedeb/vws_test_fixtures-2026.10.8-py3-none-any.whl", hash = "sha256:efd2e6ecd4353e9bf50ba7bce2c46e44414f7a5196ca7d70769b7e7feb7ad899", size = 51949, upload-time = "2026-10-08T03:28:26.946Z" },
 ]
 
 [[package]]
