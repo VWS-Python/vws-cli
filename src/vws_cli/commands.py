@@ -3,7 +3,7 @@
 import calendar
 import contextlib
 import dataclasses
-import datetime
+import datetime as dt
 import io
 import sys
 from collections.abc import Generator
@@ -509,7 +509,7 @@ _REPORT_TIMEOUT_SECONDS_HELP = (
 @beartype
 def _default_month() -> str:
     """Return the current month, in the form which ``--month`` takes."""
-    now = datetime.datetime.now(tz=ZoneInfo(key="UTC"))
+    now = dt.datetime.now(tz=ZoneInfo(key="UTC"))
     return now.strftime(format=_MONTH_FORMAT)
 
 
@@ -518,13 +518,13 @@ def _validate_month(
     ctx: click.Context,
     param: click.Parameter,
     value: str,
-) -> datetime.date:
+) -> dt.date:
     """Turn a ``YYYY-mm`` string into the first day of that month."""
     # These are given by ``click``, and we do not use them.
     del ctx
     del param
     try:
-        parsed = datetime.date.fromisoformat(f"{value}-01")
+        parsed = dt.date.fromisoformat(f"{value}-01")
     except ValueError as exc:
         message = f'"{value}" is not a month in the YYYY-mm form.'
         raise click.BadParameter(message=message) from exc
@@ -594,7 +594,7 @@ def get_database_reco_counts_report(
     server_access_key: str,
     server_secret_key: str,
     database_id: str,
-    month: datetime.date,
+    month: dt.date,
     output_file_path: Path | None,
     no_wait: bool,
     seconds_between_requests: float,

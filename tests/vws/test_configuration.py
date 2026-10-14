@@ -1,6 +1,6 @@
 """Tests for `vws` configuration commands."""
 
-import datetime
+import datetime as dt
 import io
 import uuid
 from pathlib import Path
@@ -39,7 +39,7 @@ def test_default_timeout(
             response_delay_seconds=response_delay_seconds,
             sleep_fn=lambda seconds: (
                 frozen_datetime.tick(
-                    delta=datetime.timedelta(seconds=seconds),
+                    delta=dt.timedelta(seconds=seconds),
                 ),
                 None,
             )[1],
@@ -97,7 +97,7 @@ def test_custom_timeout(
             response_delay_seconds=5,
             sleep_fn=lambda seconds: (
                 frozen_datetime.tick(
-                    delta=datetime.timedelta(seconds=seconds),
+                    delta=dt.timedelta(seconds=seconds),
                 ),
                 None,
             )[1],
@@ -148,7 +148,7 @@ def test_custom_timeout_no_error(
             response_delay_seconds=5,
             sleep_fn=lambda seconds: (
                 frozen_datetime.tick(
-                    delta=datetime.timedelta(seconds=seconds),
+                    delta=dt.timedelta(seconds=seconds),
                 ),
                 None,
             )[1],
