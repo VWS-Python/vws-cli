@@ -2603,7 +2603,6 @@ dev = [
     { name = "vale" },
     { name = "vulture" },
     { name = "vws-python-mock" },
-    { name = "vws-test-fixtures" },
     { name = "yamlfix" },
     { name = "zizmor" },
 ]
@@ -2670,7 +2669,6 @@ dev = [
     { name = "vale", specifier = "==3.25.1.0" },
     { name = "vulture", specifier = "==2.16" },
     { name = "vws-python-mock", specifier = "==2026.10.13.1" },
-    { name = "vws-test-fixtures", specifier = "==2026.10.8" },
     { name = "yamlfix", specifier = "==1.19.1" },
     { name = "zizmor", specifier = "==1.31.1" },
 ]
@@ -2723,19 +2721,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/8e/d4/870f77aa11eb69d2cb765619d5bcd72dad2d1b1eb9337c0048f96229b6b3/vws_python_mock-2026.10.13.1.tar.gz", hash = "sha256:c5947e5db43ed309c8e16236280cc2869ff7a372bac9158ec166d90333ca8597", size = 429108, upload-time = "2026-10-13T08:12:54.234Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/9d/4e/8c322762652741546567859ea70d4bf3260eaf97b5a3be42fc0f580f5708/vws_python_mock-2026.10.13.1-py3-none-any.whl", hash = "sha256:93acbb2076be181714cd1cc983da2997369446f811bd06bb8db9a17bd176a4fe", size = 123160, upload-time = "2026-10-13T08:12:52.641Z" },
-]
-
-[[package]]
-name = "vws-test-fixtures"
-version = "2026.10.8"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "pillow" },
-    { name = "pytest" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/8b/a9/da97ec4112b059fbfe495c0a7711dedf6fd4ee3afd3db7ff21ce22a87706/vws_test_fixtures-2026.10.8.tar.gz", hash = "sha256:ed54a1e1e7f07a073ada72f13494c8c884196aacc5213cfbc6a7c26206dc9239", size = 74610, upload-time = "2026-10-08T03:28:28.271Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/4e/85/68f98e4bdf0525388b1625ce4da5c2be89601dfd3a58101947f69e9eedeb/vws_test_fixtures-2026.10.8-py3-none-any.whl", hash = "sha256:efd2e6ecd4353e9bf50ba7bce2c46e44414f7a5196ca7d70769b7e7feb7ad899", size = 51949, upload-time = "2026-10-08T03:28:26.946Z" },
 ]
 
 [[package]]

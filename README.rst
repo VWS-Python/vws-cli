@@ -63,12 +63,6 @@ With Docker
 
    $ docker run --rm "ghcr.io/vws-python/vws-cli" --help
 
-To use ``vuforia-cloud-reco``:
-
-.. code-block:: console
-
-   $ docker run --rm --entrypoint vuforia-cloud-reco "ghcr.io/vws-python/vws-cli" --help
-
 To use ``vumark``:
 
 .. code-block:: console
@@ -83,7 +77,6 @@ Requires `winget`_.
 .. code-block:: console
 
    $ winget install --id VWSPython.vws-cli --source winget --exact
-   $ winget install --id VWSPython.vuforia-cloud-reco --source winget --exact
 
 .. _winget: https://docs.microsoft.com/windows/package-manager/winget/
 
@@ -101,7 +94,6 @@ Download the Windows executables from the `latest release`_ and place them in a 
 The filenames are:
 
 * ``vws-windows.exe``
-* ``vuforia-cloud-reco-windows.exe``
 * ``vumark-windows.exe``
 
 .. _latest release: https://github.com/VWS-Python/vws-cli/releases/latest
@@ -114,27 +106,10 @@ See the `full documentation`_ for details on how to install pre-built macOS bina
 Usage example
 -------------
 
-.. skip doccmd[shellcheck]: next
-
 .. code-block:: console
 
-   $ vws add-target \
-       --server-access-key "$SERVER_ACCESS_KEY" \
-       --server-secret-key "$SERVER_SECRET_KEY" \
-       --name my_image_name \
-       --width 2 \
-       --image ~/Documents/my_image.png \
-       --application-metadata "$(echo 'my_metadata' | base64)" \
-       --active-flag true
-   03b99df0-78cf-4b01-b929-f1860d4f8ed1
    $ vws --help
-   ...
-   $ vuforia-cloud-reco my_image.jpg \
-       --max-num-results 5 \
-       --include-target-data none
-   - target_id: b60f60121d37418eb1de123c381b2af9
-   - target_id: e3a6e1a216ad4df3aaae1f6dd309c800
-   $
+   $ vumark --help
 
 Full documentation
 ------------------

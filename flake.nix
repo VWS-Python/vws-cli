@@ -102,10 +102,6 @@
           type = "app";
           program = "${self.packages.${system}.default}/bin/vws";
         };
-        vuforia-cloud-reco = {
-          type = "app";
-          program = "${self.packages.${system}.default}/bin/vuforia-cloud-reco";
-        };
       });
 
       devShells = forAllSystems (

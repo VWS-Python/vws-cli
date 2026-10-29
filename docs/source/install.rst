@@ -54,13 +54,6 @@ With Docker
 
    $ docker run --rm "|docker-image|" --help
 
-To use ``vuforia-cloud-reco``:
-
-.. code-block:: console
-   :substitutions:
-
-   $ docker run --rm --entrypoint vuforia-cloud-reco "|docker-image|" --help
-
 To use ``vumark``:
 
 .. code-block:: console
@@ -76,7 +69,6 @@ Requires winget_.
 .. code-block:: console
 
    $ winget install --id VWSPython.vws-cli --source winget --exact
-   $ winget install --id VWSPython.vuforia-cloud-reco --source winget --exact
 
 .. _winget: https://docs.microsoft.com/windows/package-manager/winget/
 
@@ -88,8 +80,6 @@ Pre-built Linux (x86) binaries
 
    $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vws-linux" -o /usr/local/bin/vws &&
        chmod +x /usr/local/bin/vws
-   $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vuforia-cloud-reco-linux" -o /usr/local/bin/vuforia-cloud-reco &&
-       chmod +x /usr/local/bin/vuforia-cloud-reco
    $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vumark-linux" -o /usr/local/bin/vumark &&
        chmod +x /usr/local/bin/vumark
 
@@ -100,7 +90,6 @@ Download the Windows executables from the `latest release`_ and place them in a 
 The filenames are:
 
 * ``vws-windows.exe``
-* ``vuforia-cloud-reco-windows.exe``
 * ``vumark-windows.exe``
 
 .. _latest release: https://github.com/VWS-Python/vws-cli/releases/latest
@@ -113,8 +102,6 @@ Pre-built macOS (ARM) binaries
 
    $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vws-macos" -o /usr/local/bin/vws &&
        chmod +x /usr/local/bin/vws
-   $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vuforia-cloud-reco-macos" -o /usr/local/bin/vuforia-cloud-reco &&
-       chmod +x /usr/local/bin/vuforia-cloud-reco
    $ curl --fail -L "https://github.com/|github-owner|/|github-repository|/releases/download/|release|/vumark-macos" -o /usr/local/bin/vumark &&
        chmod +x /usr/local/bin/vumark
 

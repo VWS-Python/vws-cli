@@ -1,10 +1,6 @@
 """``click`` options regarding targets."""
 
-from enum import Enum, unique
-from pathlib import Path
-
 import click
-from beartype import beartype
 
 from vws_cli.options._types import ClickOptionDecorator
 
@@ -13,83 +9,4 @@ target_id_option: ClickOptionDecorator = click.option(
     type=str,
     help="The ID of a target in the Vuforia database.",
     required=True,
-)
-
-
-@beartype
-def target_name_option(*, required: bool) -> ClickOptionDecorator:
-    """An option decorator for choosing a target name."""
-    return click.option(
-        "--name",
-        type=str,
-        help="The name of the target in the Vuforia database.",
-        required=required,
-    )
-
-
-@beartype
-def target_width_option(*, required: bool) -> ClickOptionDecorator:
-    """An option decorator for choosing a target width."""
-    option: ClickOptionDecorator = click.option(
-        "--width",
-        type=float,
-        help="The width of the target in the Vuforia database.",
-        required=required,
-    )
-    return option
-
-
-@beartype
-def target_image_option(*, required: bool) -> ClickOptionDecorator:
-    """An option decorator for choosing a target image."""
-    return click.option(
-        "--image",
-        "image_file_path",
-        type=click.Path(
-            exists=True,
-            file_okay=True,
-            dir_okay=False,
-            path_type=Path,
-        ),
-        help="The path to an image to upload and set as the target image.",
-        required=required,
-    )
-
-
-@unique
-class ActiveFlagChoice(Enum):
-    """Choices for active flag."""
-
-    TRUE = "true"
-    FALSE = "false"
-
-
-@beartype
-def active_flag_option(
-    *,
-    allow_none: bool,
-) -> ClickOptionDecorator:
-    """An option decorator for setting a target's active flag."""
-    if allow_none:
-        default = None
-        show_default = False
-    else:
-        default = ActiveFlagChoice.TRUE.value
-        show_default = True
-
-    return click.option(
-        "--active-flag",
-        "active_flag_choice",
-        help="Whether or not the target is active for query.",
-        type=click.Choice(choices=ActiveFlagChoice, case_sensitive=False),
-        default=default,
-        show_default=show_default,
-    )
-
-
-application_metadata_option: ClickOptionDecorator = click.option(
-    "--application-metadata",
-    type=str,
-    required=False,
-    help="The base64 encoded application metadata associated with the target.",
 )

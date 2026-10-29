@@ -7,24 +7,6 @@ from beartype import beartype
 
 
 @beartype
-def database_id_option[**P, R](
-    command: Callable[P, R],
-) -> Callable[P, R]:
-    """An option decorator for the Vuforia database ID."""
-    return click.option(
-        "--database-id",
-        type=str,
-        help=(
-            "The ID of the Vuforia database which the given server keys "
-            "belong to. This is shown in the Vuforia target manager."
-        ),
-        required=True,
-        envvar="VUFORIA_DATABASE_ID",
-        show_envvar=True,
-    )(command)
-
-
-@beartype
 def base_vws_url_option[**P, R](
     command: Callable[P, R],
 ) -> Callable[P, R]:

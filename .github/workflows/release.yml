@@ -190,8 +190,6 @@ jobs:
     strategy:
       matrix:
         binary:
-          - name: vuforia-cloud-reco-linux
-            spec: bin/vuforia-cloud-reco.py
           - name: vws-linux
             spec: bin/vuforia-web-services.py
           - name: vumark-linux
@@ -343,17 +341,6 @@ jobs:
         shell: bash
         run: echo "vws-cli==$NEW_TAG" > requirements.txt
 
-      - name: Create Windows binary for Vuforia Cloud Reco
-        uses: sayyid5416/pyinstaller@v1
-        with:
-          python_ver: '3.14'
-          pyinstaller_ver: ==6.22.1
-          spec: bin/vuforia-cloud-reco.py
-          requirements: requirements.txt
-          options: --onefile, --name "vuforia-cloud-reco-windows"
-          upload_exe_with_name: vuforia-cloud-reco-windows
-          clean_checkout: false
-
       - name: Create Windows binary for Vuforia Web Services
         uses: sayyid5416/pyinstaller@v1
         with:
@@ -383,7 +370,6 @@ jobs:
         shell: bash
         run: |-
           gh release upload "$NEW_TAG" dist/vws-windows.exe --clobber
-          gh release upload "$NEW_TAG" dist/vuforia-cloud-reco-windows.exe --clobber
           gh release upload "$NEW_TAG" dist/vumark-windows.exe --clobber
 
   build-macos:
@@ -422,17 +408,6 @@ jobs:
         env:
           NEW_TAG: ${{ needs.build.outputs.new_tag }}
         run: echo "vws-cli==$NEW_TAG" > requirements.txt
-
-      - name: Create macOS binary for Vuforia Cloud Reco
-        uses: sayyid5416/pyinstaller@v1
-        with:
-          python_ver: '3.14'
-          pyinstaller_ver: ==6.22.1
-          spec: bin/vuforia-cloud-reco.py
-          requirements: requirements.txt
-          options: --onefile, --name "vuforia-cloud-reco-macos"
-          upload_exe_with_name: vuforia-cloud-reco-macos
-          clean_checkout: false
 
       - name: Create macOS binary for Vuforia Web Services
         uses: sayyid5416/pyinstaller@v1
@@ -487,7 +462,7 @@ jobs:
           # prerequisites for notarization.  The hardened runtime needs the
           # entitlements file to leave a ``--onefile`` binary runnable; see
           # the comments in that file.
-          for binary in vws-macos vuforia-cloud-reco-macos vumark-macos; do
+          for binary in vws-macos vumark-macos; do
               codesign \
                   --force \
                   --timestamp \
@@ -507,7 +482,6 @@ jobs:
       - name: Check the signed binaries still run
         run: |
           dist/vws-macos --version
-          dist/vuforia-cloud-reco-macos --version
           dist/vumark-macos --version
 
       # A notarization ticket cannot be stapled to a bare Mach-O
@@ -558,7 +532,7 @@ jobs:
           max_attempts: 10
           retry_wait_seconds: 30
           command: |
-            for binary in vws-macos vuforia-cloud-reco-macos vumark-macos; do
+            for binary in vws-macos vumark-macos; do
                 codesign -vvvv -R="notarized" --check-notarization "dist/${binary}"
             done
 
@@ -568,7 +542,6 @@ jobs:
           NEW_TAG: ${{ needs.build.outputs.new_tag }}
         run: |-
           gh release upload "$NEW_TAG" dist/vws-macos --clobber
-          gh release upload "$NEW_TAG" dist/vuforia-cloud-reco-macos --clobber
           gh release upload "$NEW_TAG" dist/vumark-macos --clobber
 
   publish-to-winget:
@@ -586,14 +559,6 @@ jobs:
           version: ${{ needs.build.outputs.new_tag }}
           release-tag: ${{ needs.build.outputs.new_tag }}
           installers-regex: ^vws-windows\.exe$
-          token: ${{ secrets.WINGET_TOKEN }}
-
-      - uses: vedantmgoyal9/winget-releaser@v2
-        with:
-          identifier: VWSPython.vuforia-cloud-reco
-          version: ${{ needs.build.outputs.new_tag }}
-          release-tag: ${{ needs.build.outputs.new_tag }}
-          installers-regex: ^vuforia-cloud-reco-windows\.exe$
           token: ${{ secrets.WINGET_TOKEN }}
 
       - uses: vedantmgoyal9/winget-releaser@v2

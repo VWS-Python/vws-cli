@@ -7,7 +7,7 @@ import click
 import pytest
 from click.testing import CliRunner
 from mock_vws import MockVWS
-from mock_vws.database import CloudDatabase, VuMarkDatabase
+from mock_vws.database import VuMarkDatabase
 from mock_vws.target import VuMarkTarget
 
 from vws_cli import vumark as vumark_module
@@ -227,7 +227,7 @@ def test_authentication_failure(
 
 @pytest.mark.parametrize(argnames="invalid_format", argvalues=["bmp", "gif"])
 def test_invalid_format(
-    mock_database: CloudDatabase,
+    vumark_database: VuMarkDatabase,
     tmp_path: Path,
     invalid_format: str,
 ) -> None:
@@ -244,9 +244,9 @@ def test_invalid_format(
         "--output",
         str(object=output_file),
         "--server-access-key",
-        mock_database.server_access_key,
+        vumark_database.server_access_key,
         "--server-secret-key",
-        mock_database.server_secret_key,
+        vumark_database.server_secret_key,
     ]
     result = runner.invoke(
         cli=generate_vumark,
