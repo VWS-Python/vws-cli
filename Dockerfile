@@ -12,5 +12,5 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 # Install the package from PyPI with pinned version
 RUN uv pip install --system --no-cache "vws-cli==${VWS_CLI_VERSION}"
 
-# Set up entrypoint - users can override with vuforia-cloud-reco
+# Set up entrypoint - users can override with vumark
 ENTRYPOINT ["vws"]

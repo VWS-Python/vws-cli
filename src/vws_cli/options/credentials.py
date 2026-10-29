@@ -40,39 +40,3 @@ def server_secret_key_option[**P, R](
         envvar="VUFORIA_SERVER_SECRET_KEY",
         show_envvar=True,
     )(command)
-
-
-@beartype
-def client_access_key_option[**P, R](
-    command: Callable[P, R],
-) -> Callable[P, R]:
-    """An option decorator for the Vuforia client access key."""
-    return click.option(
-        "--client-access-key",
-        type=str,
-        help=(
-            "A Vuforia client access key to use to access the Vuforia "
-            "Cloud Recognition API."
-        ),
-        required=True,
-        envvar="VUFORIA_CLIENT_ACCESS_KEY",
-        show_envvar=True,
-    )(command)
-
-
-@beartype
-def client_secret_key_option[**P, R](
-    command: Callable[P, R],
-) -> Callable[P, R]:
-    """An option decorator for the Vuforia client secret key."""
-    return click.option(
-        "--client-secret-key",
-        type=str,
-        help=(
-            "A Vuforia client secret key to use to access the Vuforia "
-            "Cloud Recognition API."
-        ),
-        required=True,
-        envvar="VUFORIA_CLIENT_SECRET_KEY",
-        show_envvar=True,
-    )(command)
