@@ -91,7 +91,7 @@ dev = [
     "sphinxcontrib-towncrier==0.5.0a0",
     "strict-kwargs==2026.10.9",
     "towncrier==26.9.0",
-    "ty==0.0.91",
+    "ty==0.0.92",
     "types-pyyaml==6.0.12.20260906",
     "types-requests==2.33.0.20261006",
     "vale==3.25.1.0",
