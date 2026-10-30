@@ -3,6 +3,12 @@
 vws-cli
 =======
 
+.. important::
+
+   This project is archived because PTC is retiring the Vuforia Engine Cloud Image Recognition service on May 2, 2027.
+   Existing customers can continue using the service until that date.
+   After that date, Cloud Image Recognition databases and associated services will no longer be available.
+
 A CLI for `Vuforia Web Services`_.
 
 .. _Vuforia Web Services: https://developer.vuforia.com/library/web-api/cloud-targets-web-services-api
